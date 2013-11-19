@@ -17,7 +17,7 @@ public class Mainframe extends javax.swing.JFrame {
         initComponents();
         
         tabPane.add("Kundehåndtering", new CustomerHandlingPanel());
-        tabPane.add("Projekthåndtering", new TaskHandlingPanel());
+        tabPane.add("Projekthåndtering", new CreateTaskPanel());
         
     }
 

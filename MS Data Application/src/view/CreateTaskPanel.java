@@ -8,12 +8,12 @@ package view;
  *
  * @author Nikolaj Nielsen
  */
-public class TaskHandlingPanel extends javax.swing.JPanel {
+public class CreateTaskPanel extends javax.swing.JPanel {
 
     /**
-     * Creates new form TaskHandlingPanel
+     * Creates new form CreateTaskPanel
      */
-    public TaskHandlingPanel() {
+    public CreateTaskPanel() {
         initComponents();
     }
 
