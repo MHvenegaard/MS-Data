@@ -10,8 +10,17 @@ package model;
  */
 public class Customer {
 
+    private String companyName;
+    
     public Customer(String companyName) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        this.companyName = companyName;
     }
+
+    @Override
+    public String toString() {
+        return "Customer{" + "companyName=" + companyName + '}';
+    }
+    
+    
     
 }

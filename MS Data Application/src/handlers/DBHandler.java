@@ -114,7 +114,7 @@ public class DBHandler {
      * Object[0] is the Connection object
      * Object[1] is the Statement object
      */
-    private Statement initiateSystemDBConn() throws SQLException, IOException {
+    private Object[] initiateSystemDBConn() throws SQLException, IOException {
         Properties prop = new Properties();
 
 
@@ -131,8 +131,13 @@ public class DBHandler {
 
         Connection conn = DriverManager.getConnection(connectString, dbuser, dbpassword);
         Statement stmt = conn.createStatement();
+        
+        
+        Object[] objects = new Object[2];
+        objects[0] = stmt;
+        objects[1] = conn;
 
-        return stmt;
+        return objects;
     }
     
     /*
@@ -144,14 +149,31 @@ public class DBHandler {
     public ArrayList<Customer> retriveCustomers(String query) throws SQLException, IOException {
         
         ArrayList<Customer> CustomerList = new ArrayList<>();
+
+        Statement stmt = (Statement) initiateSystemDBConn()[0];
         
-        ResultSet rs = initiateSystemDBConn().executeQuery(query);
+        ResultSet rs = stmt.executeQuery(query);
         while (rs.next()) {
             String companyName = rs.getString("CompanyName");
             Customer customer = new Customer(companyName);
             CustomerList.add(customer);
         }
         return CustomerList;
+    }
+    
+      public void storedProcedureTest() throws SQLException, IOException{
+        
+         Connection conn = (Connection)initiateSystemDBConn()[1];
+         //conn.prepareCall("{call getAllCustomerNames()}");
+         
+         CallableStatement cs = null;
+         cs = conn.prepareCall("{call getAllCustomerNames}");
+         ResultSet rs = cs.executeQuery();
+         
+         while(rs.next()){
+             String compName = rs.getString("CompanyName");
+             System.out.println("CompanyName kald via StoredProcedurs: " + compName);
+         }
     }
     
 }

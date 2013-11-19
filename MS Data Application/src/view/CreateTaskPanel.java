@@ -9,6 +9,8 @@ import handlers.DBHandler;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Customer;
 
 /**
@@ -21,24 +23,30 @@ public class CreateTaskPanel extends javax.swing.JPanel {
      * Creates new form CreateTaskPanel
      */
     
-    DBHandler dbhandler = new DBHandler();
+    DBHandler dbh = new DBHandler();
+    
     
     public CreateTaskPanel(DBHandler dbh) throws ClassNotFoundException, SQLException, IOException {
         initComponents();
         
-        fillCustomerCombo();
-        
+       // fillCustomerCombo();
+        this.dbh = dbh;
+        dbh.storedProcedureTest();
         
     }
 
+  
+    
      private void fillCustomerCombo() throws SQLException, IOException {
-        String SQL = "SELECT * FROM Customer";
+        String SQL = "SELECT * FROM new_view";
+        
         ComboBoxCustomer.setSelectedIndex(-1);
         ComboBoxCustomer.removeAllItems();
       
         ComboBoxCustomer.addItem("Vælg kunde");
-        ArrayList<Customer> employees = dbhandler.retriveCustomers(SQL);
+        ArrayList<Customer> employees = dbh.retriveCustomers(SQL);
         for (int i = 0; i < employees.size(); i++) {
+            System.out.println(employees.get(i).toString());
             ComboBoxCustomer.addItem(employees.get(i));
         }
         ComboBoxCustomer.setSelectedIndex(0);
@@ -92,6 +100,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
         jButton1 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jList2 = new javax.swing.JList();
+        jButton9 = new javax.swing.JButton();
 
         jLabel1.setText("Projekt navn");
 
@@ -161,6 +170,13 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
         jScrollPane2.setViewportView(jList2);
 
+        jButton9.setText("TEST");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -195,11 +211,13 @@ public class CreateTaskPanel extends javax.swing.JPanel {
                                     .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(98, 98, 98)
-                                        .addComponent(jButton4))
-                                    .addGroup(layout.createSequentialGroup()
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel9))))
+                                        .addComponent(jLabel9))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(98, 98, 98)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jButton9)
+                                            .addComponent(jButton4)))))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(146, 146, 146)
                                 .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -253,7 +271,8 @@ public class CreateTaskPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel13))
+                    .addComponent(jLabel13)
+                    .addComponent(jButton9))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -318,7 +337,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
                         .addComponent(jButton5)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton3)
-                .addContainerGap(270, Short.MAX_VALUE))
+                .addContainerGap(267, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -330,6 +349,18 @@ public class CreateTaskPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton5ActionPerformed
 
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        try {
+            dbh.storedProcedureTest();
+        } catch (SQLException ex) {
+            Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+    }//GEN-LAST:event_jButton9ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox ComboBoxCustomer;
     private javax.swing.JButton jButton1;
@@ -340,6 +371,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBox2;
     private javax.swing.JComboBox jComboBox4;
