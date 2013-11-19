@@ -4,6 +4,8 @@
  */
 package view;
 
+import handlers.DBHandler;
+
 /**
  *
  * @author Nikolaj Nielsen
@@ -13,7 +15,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
     /**
      * Creates new form CreateTaskPanel
      */
-    public CreateTaskPanel() {
+    public CreateTaskPanel(DBHandler dbh) {
         initComponents();
     }
 
@@ -104,6 +106,8 @@ public class CreateTaskPanel extends javax.swing.JPanel {
         jLabel2.setText("Type");
 
         jButton8.setText("Slet dokument");
+
+        jComboBox5.setToolTipText("");
 
         jLabel10.setText("Prioritet");
 
