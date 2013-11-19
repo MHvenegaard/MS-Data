@@ -4,17 +4,34 @@
  */
 package view;
 
+import handlers.DBHandler;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Marc
  */
 public class Mainframe extends javax.swing.JFrame {
 
+    
+    private DBHandler dbh;
+    
+    
     /**
      * Creates new form Mainframe
      */
     public Mainframe() {
         initComponents();
+        
+        try {
+            dbh = new DBHandler();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Mainframe.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Mainframe.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         tabPane.add("Kundehåndtering", new CustomerHandlingPanel());
         tabPane.add("Projekthåndtering", new CreateTaskPanel());
