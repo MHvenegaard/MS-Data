@@ -18,9 +18,7 @@ public class DBHandler {
 
 
     }
-    
-
-    
+   
 
 /*******************************************************************************
 * NÅR DER SKAL OPRETTES ET NYT DB KALD GØR FØLGENDE:    
