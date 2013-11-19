@@ -141,7 +141,7 @@ public class DBHandler {
      *
      */
     
-    private ArrayList<Customer> retriveCustomers(String query) throws SQLException, IOException {
+    public ArrayList<Customer> retriveCustomers(String query) throws SQLException, IOException {
         
         ArrayList<Customer> CustomerList = new ArrayList<>();
         
