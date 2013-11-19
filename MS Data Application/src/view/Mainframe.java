@@ -5,6 +5,7 @@
 package view;
 
 import handlers.DBHandler;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,7 +23,7 @@ public class Mainframe extends javax.swing.JFrame {
     /**
      * Creates new form Mainframe
      */
-    public Mainframe() {
+    public Mainframe() throws ClassNotFoundException, SQLException, IOException {
         initComponents();
         
         try {
@@ -106,7 +107,15 @@ public class Mainframe extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Mainframe().setVisible(true);
+                try {
+                    new Mainframe().setVisible(true);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(Mainframe.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Mainframe.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(Mainframe.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

@@ -23,17 +23,17 @@ public class CreateTaskPanel extends javax.swing.JPanel {
     
     DBHandler dbhandler = new DBHandler();
     
-    public CreateTaskPanel(DBHandler dbh) throws ClassNotFoundException, SQLException {
+    public CreateTaskPanel(DBHandler dbh) throws ClassNotFoundException, SQLException, IOException {
         initComponents();
         
-        
+        fillCustomerCombo();
         
         
     }
 
-     private void fillEmployeeCombo() throws SQLException, IOException {
+     private void fillCustomerCombo() throws SQLException, IOException {
         String SQL = "SELECT * FROM Customer";
-         ComboBoxCustomer.setSelectedIndex(-1);
+        ComboBoxCustomer.setSelectedIndex(-1);
         ComboBoxCustomer.removeAllItems();
       
         ComboBoxCustomer.addItem("Vælg kunde");
