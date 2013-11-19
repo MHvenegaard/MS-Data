@@ -17,6 +17,9 @@ public class CreateTaskPanel extends javax.swing.JPanel {
      */
     public CreateTaskPanel(DBHandler dbh) {
         initComponents();
+        
+        
+        
     }
 
     /**

@@ -9,5 +9,9 @@ package model;
  * @author Marc
  */
 public class Customer {
+
+    public Customer(String companyName) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
     
 }

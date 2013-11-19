@@ -3,7 +3,9 @@ package handlers;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Properties;
+import model.Customer;
 
 /**
  *
@@ -112,7 +114,7 @@ public class DBHandler {
      * Object[0] is the Connection object
      * Object[1] is the Statement object
      */
-    private Object[] initiateSystemDBConn() throws SQLException, IOException {
+    private Statement initiateSystemDBConn() throws SQLException, IOException {
         Properties prop = new Properties();
 
 
@@ -131,10 +133,25 @@ public class DBHandler {
         Connection conn = DriverManager.getConnection("connectString", "dbuser", "dbpassword");
         Statement stmt = conn.createStatement();
 
-        Object[] returnObjects = new Object[2];
-        returnObjects[0] = conn;
-        returnObjects[1] = stmt;
-
-        return returnObjects;
+        return stmt;
     }
+    /*
+     * 
+     * 
+     *
+     */
+    
+    private ArrayList<Customer> retriveCustomers(String query) throws SQLException, IOException {
+        
+        ArrayList<Customer> CustomerList = new ArrayList<>();
+        
+        ResultSet rs = initiateSystemDBConn().executeQuery(query);
+        while (rs.next()) {
+            String companyName = rs.getString("CompanyName");
+            Customer customer = new Customer(companyName);
+            CustomerList.add(customer);
+        }
+        return CustomerList;
+    }
+    
 }
