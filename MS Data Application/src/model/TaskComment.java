@@ -4,10 +4,16 @@
  */
 package model;
 
+import java.util.Date;
+
 /**
  *
  * @author Marc
  */
 public class TaskComment {
+    
+private int taskCommentID;
+private Date datetime;
+private String comment;
     
 }
