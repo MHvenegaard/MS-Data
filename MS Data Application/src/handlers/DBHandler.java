@@ -2,6 +2,7 @@ package handlers;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Properties;
@@ -57,8 +58,8 @@ public class DBHandler {
 
 
         //load a properties file
-        prop.load(new FileInputStream("config.properties"));
-
+        prop.load(DBHandler.class.getResourceAsStream("/ressources/config.properties"));
+        
         //get the property value and print it out
         String database = prop.getProperty("customer_db_databasename");
         String dbuser = prop.getProperty("customer_db_username");
@@ -68,7 +69,7 @@ public class DBHandler {
         String connectString = "jdbc:mysql://" + ip + ":" + port + "/" + database;
 
 
-        Connection conn = DriverManager.getConnection("connectString", "dbuser", "dbpassword");
+        Connection conn = DriverManager.getConnection(connectString, dbuser, dbpassword);
         Statement stmt = conn.createStatement();
 
         Object[] returnObjects = new Object[2];
@@ -86,10 +87,9 @@ public class DBHandler {
     private Object[] initiateEmployeeDBConn() throws SQLException, IOException {
         Properties prop = new Properties();
 
-
         //load a properties file
-        prop.load(new FileInputStream("config.properties"));
-
+        prop.load(DBHandler.class.getResourceAsStream("/ressources/config.properties"));
+        
         //get the property value and print it out
         String database = prop.getProperty("employee_db_databasename");
         String dbuser = prop.getProperty("employee_db_username");
@@ -99,7 +99,7 @@ public class DBHandler {
         String connectString = "jdbc:mysql://" + ip + ":" + port + "/" + database;
 
 
-        Connection conn = DriverManager.getConnection("connectString", "dbuser", "dbpassword");
+        Connection conn = DriverManager.getConnection(connectString, dbuser, dbpassword);
         Statement stmt = conn.createStatement();
 
         Object[] returnObjects = new Object[2];
@@ -119,8 +119,8 @@ public class DBHandler {
 
 
         //load a properties file
-        prop.load(new FileInputStream("config.properties"));
-
+        prop.load(DBHandler.class.getResourceAsStream("/ressources/config.properties"));
+        
         //get the property value and print it out
         String database = prop.getProperty("system_db_databasename");
         String dbuser = prop.getProperty("system_db_username");
@@ -129,12 +129,12 @@ public class DBHandler {
         String port = prop.getProperty("system_db_port");
         String connectString = "jdbc:mysql://" + ip + ":" + port + "/" + database;
 
-
-        Connection conn = DriverManager.getConnection("connectString", "dbuser", "dbpassword");
+        Connection conn = DriverManager.getConnection(connectString, dbuser, dbpassword);
         Statement stmt = conn.createStatement();
 
         return stmt;
     }
+    
     /*
      * 
      * 
