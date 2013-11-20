@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import model.Customer;
 import model.Statuss;
 import model.Type;
@@ -36,6 +37,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
        fillTypeCombo();
        fillUserCombo();
        fillStatusCombo();
+       fillUserList();
         this.dbh = dbh;
         //dbh.storedProcedureTest();
         
@@ -98,6 +100,19 @@ public class CreateTaskPanel extends javax.swing.JPanel {
         ComboBoxStatus.setSelectedIndex(0);
     } 
      
+    private void fillUserList() throws SQLException, IOException{
+        
+        DefaultListModel model = new DefaultListModel(); 
+        
+        ArrayList<User> userList = dbh.SPgetUsers();
+        for (int i = 0; i < userList.size(); i++) {
+            ListUsers.setModel(model);
+            model.addElement(userList.get(i));
+        }
+        
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -140,13 +155,14 @@ public class CreateTaskPanel extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
+        ListUsers = new javax.swing.JList();
         jButton3 = new javax.swing.JButton();
         ComboBoxUser = new javax.swing.JComboBox();
         jButton1 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList();
+        ListUsersOnTask = new javax.swing.JList();
         jButton9 = new javax.swing.JButton();
+        list1 = new java.awt.List();
 
         jLabel1.setText("Projekt navn");
 
@@ -206,7 +222,12 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
         jLabel6.setText("Forventet start");
 
-        jScrollPane1.setViewportView(jList1);
+        ListUsers.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "listModel" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane1.setViewportView(ListUsers);
 
         jButton3.setText("Gem valgte medarbejdere");
 
@@ -217,7 +238,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
             }
         });
 
-        jScrollPane2.setViewportView(jList2);
+        jScrollPane2.setViewportView(ListUsersOnTask);
 
         jButton9.setText("TEST");
         jButton9.addActionListener(new java.awt.event.ActionListener() {
@@ -302,8 +323,13 @@ public class CreateTaskPanel extends javax.swing.JPanel {
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(240, 240, 240))
             .addGroup(layout.createSequentialGroup()
-                .addGap(102, 102, 102)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(102, 102, 102)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(450, 450, 450)
+                        .addComponent(list1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -383,7 +409,9 @@ public class CreateTaskPanel extends javax.swing.JPanel {
                         .addComponent(jButton5)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton3)
-                .addContainerGap(264, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(list1, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(130, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -413,6 +441,8 @@ public class CreateTaskPanel extends javax.swing.JPanel {
     private javax.swing.JComboBox ComboBoxStatus;
     private javax.swing.JComboBox ComboBoxType;
     private javax.swing.JComboBox ComboBoxUser;
+    private javax.swing.JList ListUsers;
+    private javax.swing.JList ListUsersOnTask;
     private javax.swing.JTextArea TextAreaBeskrivelse;
     private javax.swing.JTextField TextFieldEstimatedFinish;
     private javax.swing.JTextField TextFieldEstimatedStart;
@@ -442,11 +472,10 @@ public class CreateTaskPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JList jList1;
-    private javax.swing.JList jList2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextField jTextField5;
+    private java.awt.List list1;
     // End of variables declaration//GEN-END:variables
 }

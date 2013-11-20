@@ -179,7 +179,7 @@ public class DBHandler {
             typeName = rs.getString("Name");
             Type type = new Type(typeName);
             typeList.add(type);
-            //System.out.println("CompanyName kald via StoredProcedurs: " + compName);
+          
         }
         return typeList;
     }
@@ -198,7 +198,7 @@ public class DBHandler {
             userName = rs.getString("shortName");
             User user = new User(userName);
             userList.add(user);
-            //System.out.println("CompanyName kald via StoredProcedurs: " + compName);
+        
         }
         return userList;
     }
@@ -217,7 +217,7 @@ public class DBHandler {
             statusName = rs.getString("statusName");
             Statuss status = new Statuss(statusName);
             statusList.add(status);
-            //System.out.println("CompanyName kald via StoredProcedurs: " + compName);
+          
         }
         return statusList;
     }
