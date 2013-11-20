@@ -215,4 +215,20 @@ public class DBHandler {
         return userList;
     }
 
+    public void createTask(String startDate, int estimatedTime, String description, String status, int prio) throws SQLException, IOException{
+        Connection conn = (Connection) initiateCustomerDBConn()[0];
+        
+        CallableStatement cs = null;
+        cs = conn.prepareCall("{call createTask(?,?,?,?,?,?)}");
+        cs.setString(1, null);
+        cs.setString(2, startDate);
+        cs.setInt(3, estimatedTime);
+        cs.setString(4, description);
+        cs.setString(5, status);
+        
+        cs.setInt(6, prio);
+        
+        cs.execute();
+    }
+    
 }
