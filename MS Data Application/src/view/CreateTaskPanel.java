@@ -107,7 +107,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
         ComboBoxStatus = new javax.swing.JComboBox();
         jButton6 = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        TextAreaBeskrivelse = new javax.swing.JTextArea();
         jTextField5 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jButton8 = new javax.swing.JButton();
@@ -164,10 +164,10 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
         jButton6.setText("Gem kunde");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jTextArea1.setText("Memo122\n");
-        jScrollPane3.setViewportView(jTextArea1);
+        TextAreaBeskrivelse.setColumns(20);
+        TextAreaBeskrivelse.setRows(5);
+        TextAreaBeskrivelse.setText("Memo122\n");
+        jScrollPane3.setViewportView(TextAreaBeskrivelse);
 
         jLabel2.setText("Type");
 
@@ -242,15 +242,12 @@ public class CreateTaskPanel extends javax.swing.JPanel {
                                     .addComponent(ComboBoxPriority, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(ComboBoxType, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(TextFieldOpgaveNavn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel9)
+                                .addGap(70, 70, 70)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel9))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(98, 98, 98)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jButton9)
-                                            .addComponent(jButton4)))))
+                                    .addComponent(jButton9)
+                                    .addComponent(jButton4)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(146, 146, 146)
                                 .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -321,8 +318,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel5)
-                                    .addComponent(ComboBoxUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton4))
+                                    .addComponent(ComboBoxUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel6)
@@ -336,7 +332,8 @@ public class CreateTaskPanel extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
                             .addComponent(jLabel9)
-                            .addComponent(TextFieldEstimatedTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(TextFieldEstimatedTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton4))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel10)
@@ -370,7 +367,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
                         .addComponent(jButton5)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton3)
-                .addContainerGap(267, Short.MAX_VALUE))
+                .addContainerGap(264, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -384,7 +381,8 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         try {
-            dbh.createTask(null, Integer.parseInt(TextFieldEstimatedTime.getText()), TextFieldOpgaveNavn.getText(), ComboBoxStatus.getSelectedItem().toString(), Integer.parseInt(ComboBoxPriority.getSelectedItem().toString()));
+            //dbh.createTask(null, Integer.parseInt(TextFieldEstimatedTime.getText()), TextFieldOpgaveNavn.getText(), ComboBoxStatus.getSelectedItem().toString(), Integer.parseInt(ComboBoxPriority.getSelectedItem().toString()));
+            dbh.createTask(Integer.parseInt(TextFieldEstimatedTime.getText()), TextAreaBeskrivelse.getText(), ComboBoxStatus.getSelectedItem().toString(),Integer.parseInt(ComboBoxPriority.getSelectedItem().toString()) , TextFieldOpgaveNavn.getText(), null, null);
         } catch (SQLException ex) {
             Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -399,6 +397,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
     private javax.swing.JComboBox ComboBoxStatus;
     private javax.swing.JComboBox ComboBoxType;
     private javax.swing.JComboBox ComboBoxUser;
+    private javax.swing.JTextArea TextAreaBeskrivelse;
     private javax.swing.JTextField TextFieldEstimatedFinish;
     private javax.swing.JTextField TextFieldEstimatedStart;
     private javax.swing.JTextField TextFieldEstimatedTime;
@@ -432,7 +431,6 @@ public class CreateTaskPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField5;
     // End of variables declaration//GEN-END:variables
 }
