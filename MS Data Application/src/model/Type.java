@@ -9,5 +9,16 @@ package model;
  * @author Marc
  */
 public class Type {
+
+    private String typeName;
+    
+    public Type(String typeName) {
+       this.typeName = typeName;
+    }
+
+    @Override
+    public String toString() {
+        return typeName;
+    }
     
 }

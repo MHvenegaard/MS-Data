@@ -7,6 +7,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Properties;
 import model.Customer;
+import model.Type;
+import model.User;
 
 /**
  *
@@ -19,47 +21,43 @@ public class DBHandler {
         //Driveren loades - kræver at MySQL JDBC Driver er tilføjet under Libraries
         Class.forName("com.mysql.jdbc.Driver");
 
-
     }
-   
 
-/*******************************************************************************
-* NÅR DER SKAL OPRETTES ET NYT DB KALD GØR FØLGENDE:    
-* Opret nyt metodekald
-* Kald initiate DB Conn metoden til den DB der skal benyttes
-* Der returneres et array med et Connection og Statement object
-* Lav nu et standard SQL kald og benyt Statement objektet til at udføre denne med.
-* Benyt et eventuelt result sæt
-* Do stuff
-* Luk det eventuelle RS
-* kald stmt.close(); på Statement objektet
-* kald conn.close(); på Connection objektet
-* returner eventuelt objekt/data/whatever metoden nu skulle gøre
-********************************************************************************
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    /*
-     * @return Object[] returns an object array containing a created Connection- and Statement object for the Customer database.
-     * Object[0] is the Connection object
-     * Object[1] is the Statement object
+    /**
+     * *****************************************************************************
+     * NÅR DER SKAL OPRETTES ET NYT DB KALD GØR FØLGENDE: Opret nyt metodekald
+     * Kald initiate DB Conn metoden til den DB der skal benyttes Der returneres
+     * et array med et Connection og Statement object Lav nu et standard SQL
+     * kald og benyt Statement objektet til at udføre denne med. Benyt et
+     * eventuelt result sæt Do stuff Luk det eventuelle RS kald stmt.close(); på
+     * Statement objektet kald conn.close(); på Connection objektet returner
+     * eventuelt objekt/data/whatever metoden nu skulle gøre
+     * *******************************************************************************
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     * /
+     *
+     *
+     * @return Object[] returns an object array containing a created Connection-
+     * and Statement object for the Customer database. Object[0] is the
+     * Connection object Object[1] is the Statement object
      */
     private Object[] initiateCustomerDBConn() throws SQLException, IOException {
         Properties prop = new Properties();
 
-
         //load a properties file
         prop.load(DBHandler.class.getResourceAsStream("/ressources/config.properties"));
-        
+
         //get the property value and print it out
         String database = prop.getProperty("customer_db_databasename");
         String dbuser = prop.getProperty("customer_db_username");
@@ -67,7 +65,6 @@ public class DBHandler {
         String ip = prop.getProperty("customer_db_ip");
         String port = prop.getProperty("customer_db_port");
         String connectString = "jdbc:mysql://" + ip + ":" + port + "/" + database;
-
 
         Connection conn = DriverManager.getConnection(connectString, dbuser, dbpassword);
         Statement stmt = conn.createStatement();
@@ -89,7 +86,7 @@ public class DBHandler {
 
         //load a properties file
         prop.load(DBHandler.class.getResourceAsStream("/ressources/config.properties"));
-        
+
         //get the property value and print it out
         String database = prop.getProperty("employee_db_databasename");
         String dbuser = prop.getProperty("employee_db_username");
@@ -97,7 +94,6 @@ public class DBHandler {
         String ip = prop.getProperty("employee_db_ip");
         String port = prop.getProperty("employee_db_port");
         String connectString = "jdbc:mysql://" + ip + ":" + port + "/" + database;
-
 
         Connection conn = DriverManager.getConnection(connectString, dbuser, dbpassword);
         Statement stmt = conn.createStatement();
@@ -117,10 +113,9 @@ public class DBHandler {
     private Object[] initiateSystemDBConn() throws SQLException, IOException {
         Properties prop = new Properties();
 
-
         //load a properties file
         prop.load(DBHandler.class.getResourceAsStream("/ressources/config.properties"));
-        
+
         //get the property value and print it out
         String database = prop.getProperty("system_db_databasename");
         String dbuser = prop.getProperty("system_db_username");
@@ -131,49 +126,93 @@ public class DBHandler {
 
         Connection conn = DriverManager.getConnection(connectString, dbuser, dbpassword);
         Statement stmt = conn.createStatement();
-        
-        
+
         Object[] objects = new Object[2];
-        objects[0] = stmt;
-        objects[1] = conn;
+        objects[0] = conn;
+        objects[1] = stmt;
 
         return objects;
     }
-    
+
     /*
      * 
      * 
      *
      */
-    
     public ArrayList<Customer> retriveCustomers(String query) throws SQLException, IOException {
-        
-        ArrayList<Customer> CustomerList = new ArrayList<>();
 
-        Statement stmt = (Statement) initiateSystemDBConn()[0];
-        
+        ArrayList<Customer> customerList = new ArrayList<>();
+
+        Statement stmt = (Statement) initiateSystemDBConn()[1];
+
         ResultSet rs = stmt.executeQuery(query);
         while (rs.next()) {
             String companyName = rs.getString("CompanyName");
             Customer customer = new Customer(companyName);
-            CustomerList.add(customer);
+            customerList.add(customer);
         }
-        return CustomerList;
+        return customerList;
+    }
+
+    public ArrayList<Customer> SPgetCustomers() throws SQLException, IOException {
+        String compName = null;
+        Connection conn = (Connection) initiateCustomerDBConn()[0];
+
+        ArrayList<Customer> customerList = new ArrayList<>();
+
+        CallableStatement cs = null;
+        cs = conn.prepareCall("{call getAllCustomerNames}");
+        ResultSet rs = cs.executeQuery();
+
+        while (rs.next()) {
+            compName = rs.getString("CompanyName");
+            Customer customer = new Customer(compName);
+            customerList.add(customer);
+            //System.out.println("CompanyName kald via StoredProcedurs: " + compName);
+        }
+        return customerList;
+    }
+
+    /*
+    *Kalder Stored Procedure getTypes
+    Der henter navnene på alle typer ud og sætter dem ind i en ArrayList
+    */
+    public ArrayList<Type> SPgetTypes() throws SQLException, IOException {
+        String typeName = null;
+        Connection conn = (Connection) initiateCustomerDBConn()[0];
+
+        ArrayList<Type> typeList = new ArrayList<>();
+
+        CallableStatement cs = null;
+        cs = conn.prepareCall("{call getTypes}");
+        ResultSet rs = cs.executeQuery();
+
+        while (rs.next()) {
+            typeName = rs.getString("Name");
+            Type type = new Type(typeName);
+            typeList.add(type);
+            //System.out.println("CompanyName kald via StoredProcedurs: " + compName);
+        }
+        return typeList;
     }
     
-      public void storedProcedureTest() throws SQLException, IOException{
-        
-         Connection conn = (Connection)initiateSystemDBConn()[1];
-         //conn.prepareCall("{call getAllCustomerNames()}");
-         
-         CallableStatement cs = null;
-         cs = conn.prepareCall("{call getAllCustomerNames}");
-         ResultSet rs = cs.executeQuery();
-         
-         while(rs.next()){
-             String compName = rs.getString("CompanyName");
-             System.out.println("CompanyName kald via StoredProcedurs: " + compName);
-         }
+    public ArrayList<User> SPgetUsers() throws SQLException, IOException {
+        String userName = null;
+        Connection conn = (Connection) initiateCustomerDBConn()[0];
+
+        ArrayList<User> userList = new ArrayList<>();
+
+        CallableStatement cs = null;
+        cs = conn.prepareCall("{call getUserShortName}");
+        ResultSet rs = cs.executeQuery();
+
+        while (rs.next()) {
+            userName = rs.getString("shortName");
+            User user = new User(userName);
+            userList.add(user);
+            //System.out.println("CompanyName kald via StoredProcedurs: " + compName);
+        }
+        return userList;
     }
-    
+
 }
