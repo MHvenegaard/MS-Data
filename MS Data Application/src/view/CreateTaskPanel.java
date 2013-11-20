@@ -162,7 +162,6 @@ public class CreateTaskPanel extends javax.swing.JPanel {
         jScrollPane2 = new javax.swing.JScrollPane();
         ListUsersOnTask = new javax.swing.JList();
         jButton9 = new javax.swing.JButton();
-        list1 = new java.awt.List();
 
         jLabel1.setText("Projekt navn");
 
@@ -222,11 +221,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
         jLabel6.setText("Forventet start");
 
-        ListUsers.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "listModel" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
+        ListUsers.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(ListUsers);
 
         jButton3.setText("Gem valgte medarbejdere");
@@ -323,13 +318,8 @@ public class CreateTaskPanel extends javax.swing.JPanel {
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(240, 240, 240))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(102, 102, 102)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(450, 450, 450)
-                        .addComponent(list1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(102, 102, 102)
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -409,14 +399,26 @@ public class CreateTaskPanel extends javax.swing.JPanel {
                         .addComponent(jButton5)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(list1, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(130, Short.MAX_VALUE))
+                .addContainerGap(264, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+  /*
+        HADER FUCKING LISTER!!
+        */      
+        DefaultListModel model = (DefaultListModel) ListUsers.getModel();
+        //DefaultListModel model = new DefaultListModel();
+        ListUsers.setModel(model);
+        
+        //int index = ListUsers.getSelectedIndex();
+        System.out.println(ListUsers.getSelectedIndex()+"");
+        model.remove(ListUsers.getSelectedIndex());
+        
+//       ListUsers.setModel(model);
+//        model.remove(index);
+        
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -476,6 +478,5 @@ public class CreateTaskPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextField jTextField5;
-    private java.awt.List list1;
     // End of variables declaration//GEN-END:variables
 }
