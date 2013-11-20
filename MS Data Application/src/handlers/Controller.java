@@ -18,7 +18,7 @@ public class Controller {
     public static User currentUser;
     public static DBHandler dbHandler;
 
-    public Controller() throws ClassNotFoundException, SQLException {
+    public Controller() throws ClassNotFoundException {
         currentUser = null;
         dbHandler = new DBHandler();
     }

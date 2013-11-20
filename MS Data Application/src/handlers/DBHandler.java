@@ -16,7 +16,7 @@ import model.User;
  */
 public class DBHandler {
 
-    public DBHandler() throws ClassNotFoundException, SQLException {
+    public DBHandler() throws ClassNotFoundException {
 
         //Driveren loades - kræver at MySQL JDBC Driver er tilføjet under Libraries
         Class.forName("com.mysql.jdbc.Driver");
@@ -32,27 +32,13 @@ public class DBHandler {
      * eventuelt result sæt Do stuff Luk det eventuelle RS kald stmt.close(); på
      * Statement objektet kald conn.close(); på Connection objektet returner
      * eventuelt objekt/data/whatever metoden nu skulle gøre
-     * *******************************************************************************
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     * /
-     *
-     *
-     * @return Object[] returns an object array containing a created Connection-
+     * *********************************************************************** * /
+     
+     /* @return Object[] returns an object array containing a created Connection-
      * and Statement object for the Customer database. Object[0] is the
      * Connection object Object[1] is the Statement object
      */
-    public  Object[] initiateCustomerDBConn() throws SQLException, IOException {
+    public  Object[] initiateCustomerDBConn() throws IOException, SQLException {
         Properties prop = new Properties();
 
         //load a properties file

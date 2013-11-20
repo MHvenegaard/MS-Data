@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.Socket;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -93,47 +94,79 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLoginActionPerformed
-        Controller controller = new Controller();
-        
-        
+
         // Initialiserer forbindelsestjek
-        labelStatus.setText("Initialiserer system");
+        setMessage("Initialiserer system");
         progressBar.setValue(0);
 
+        Controller controller = null;
+        try {
+            controller = new Controller();
+        } catch (ClassNotFoundException ex) {
+            setWarningMessage("MySQL Driveren kunne ikke indlæses");
+        }
+
         // Kontroller internet forbindelse
-        labelStatus.setText("Kontrollerer internetforbindelse");
+        setMessage("Kontrollerer internetforbindelse");
         progressBar.setValue(1);
         try {
             controller.checkInternet();
         } catch (IOException ex) {
-            labelStatus.setBackground(Color.red);
-            labelStatus.setText("Der kunne ikke oprettes forbindelse til Internettet");
+            setWarningMessage("Der kunne ikke oprettes forbindelse til Internettet");
         }
 
         // Kontroller database forbindelse
-        labelStatus.setText("Kontrollerer databaseforbindelse");
+        setMessage("Kontrollerer databaseforbindelse");
         progressBar.setValue(2);
-        //Controller.dbHandler
+        try {
+            Controller.dbHandler.initiateSystemDBConn();
+        } catch (SQLException ex) {
+            setWarningMessage("Der kunne ikke oprettes forbindelse til databasen");
+        } catch (IOException ex) {
+            setWarningMessage("Der kunne ikke oprettes forbindelse til databasen");
+        }
 
         // Kontroller kundedatabase forbindelse
-        labelStatus.setText("Kontrollerer CRM forbindelse");
+        setMessage("Kontrollerer CRM forbindelse");
         progressBar.setValue(3);
+        try {
+            Controller.dbHandler.initiateCustomerDBConn();
+        } catch (IOException ex) {
+            setWarningMessage("Der kunne ikke oprettes forbindelse til CRM databasen");
+        } catch (SQLException ex) {
+            setWarningMessage("Der kunne ikke oprettes forbindelse til CRM databasen");
+        }
 
         // kontroller ansattedatabase forbindelse
-        labelStatus.setText("Kontrollerer ERP forbindelse");
+        setMessage("Kontrollerer ERP forbindelse");
         progressBar.setValue(4);
+        try {
+            Controller.dbHandler.initiateEmployeeDBConn();
+        } catch (SQLException ex) {
+            setWarningMessage("Der kunne ikke oprettes forbindelse til ERP databasen");
+        } catch (IOException ex) {
+            setWarningMessage("Der kunne ikke oprettes forbindelse til ERP databasen");
+        }
 
         // kontrollerer loginoplysninger
-        labelStatus.setText("Validerer loginoplysninger");
+        setMessage("Validerer loginoplysninger");
         progressBar.setValue(5);
 
 
 
 
-        labelStatus.setText("Success");
+        setMessage("Success");
     }//GEN-LAST:event_buttonLoginActionPerformed
 
-    
+    private void setWarningMessage(String msg) {
+        labelStatus.setBackground(Color.RED);
+        labelStatus.setText(msg);
+    }
+
+    private void setMessage(String msg) {
+        labelStatus.setBackground(Color.BLACK);
+        labelStatus.setText(msg);
+    }
 
     /**
      * @param args the command line arguments
