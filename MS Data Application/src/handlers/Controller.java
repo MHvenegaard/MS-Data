@@ -26,9 +26,8 @@ public class Controller {
     public void checkInternet() throws IOException {
 
         Socket socket = null;
-        boolean reachable = false;
 
-        socket = new Socket("http://www.google.dk/", 80);
+        socket = new Socket("173.194.70.94", 80);
 
         if (socket != null) {
             socket.close();

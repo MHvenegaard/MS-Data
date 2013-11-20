@@ -4,7 +4,7 @@
  */
 package view;
 
-import handlers.DBHandler;
+import handlers.*;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -18,7 +18,7 @@ public class Mainframe extends javax.swing.JFrame {
 
     
     private DBHandler dbh;
-    
+    private Controller controller;
     
     /**
      * Creates new form Mainframe
@@ -29,8 +29,6 @@ public class Mainframe extends javax.swing.JFrame {
         try {
             dbh = new DBHandler();
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Mainframe.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
             Logger.getLogger(Mainframe.class.getName()).log(Level.SEVERE, null, ex);
         }
         
