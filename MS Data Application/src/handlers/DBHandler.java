@@ -52,7 +52,7 @@ public class DBHandler {
      * and Statement object for the Customer database. Object[0] is the
      * Connection object Object[1] is the Statement object
      */
-    private Object[] initiateCustomerDBConn() throws SQLException, IOException {
+    public  Object[] initiateCustomerDBConn() throws SQLException, IOException {
         Properties prop = new Properties();
 
         //load a properties file
@@ -81,7 +81,7 @@ public class DBHandler {
      * Object[0] is the Connection object
      * Object[1] is the Statement object
      */
-    private Object[] initiateEmployeeDBConn() throws SQLException, IOException {
+    public Object[] initiateEmployeeDBConn() throws SQLException, IOException {
         Properties prop = new Properties();
 
         //load a properties file
@@ -110,7 +110,7 @@ public class DBHandler {
      * Object[0] is the Connection object
      * Object[1] is the Statement object
      */
-    private Object[] initiateSystemDBConn() throws SQLException, IOException {
+    public Object[] initiateSystemDBConn() throws SQLException, IOException {
         Properties prop = new Properties();
 
         //load a properties file

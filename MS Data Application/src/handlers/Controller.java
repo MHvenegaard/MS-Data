@@ -4,6 +4,8 @@
  */
 package handlers;
 
+import java.io.IOException;
+import java.net.Socket;
 import java.sql.SQLException;
 import model.*;
 
@@ -13,17 +15,31 @@ import model.*;
  */
 public class Controller {
 
-public static User currentUser;
-public static DBHandler dbHandler;
+    public static User currentUser;
+    public static DBHandler dbHandler;
 
-    public Controller(User currentUser) throws ClassNotFoundException, SQLException {
-        this.currentUser = currentUser;
+    public Controller() throws ClassNotFoundException, SQLException {
+        currentUser = null;
         dbHandler = new DBHandler();
     }
-    
 
-    
-    
-    
-    
+    public void checkInternet() throws IOException {
+
+        Socket socket = null;
+        boolean reachable = false;
+
+        socket = new Socket("http://www.google.dk/", 80);
+
+        if (socket != null) {
+            socket.close();
+        }
+    }
+
+    public void setUser(User user) {
+        currentUser = user;
+    }
+
+    public DBHandler getDBHandler() {
+        return dbHandler;
+    }
 }
