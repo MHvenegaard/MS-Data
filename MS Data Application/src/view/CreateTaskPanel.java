@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Customer;
+import model.Statuss;
 import model.Type;
 import model.User;
 
@@ -34,6 +35,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
        fillCustomerCombo();
        fillTypeCombo();
        fillUserCombo();
+       fillStatusCombo();
         this.dbh = dbh;
         //dbh.storedProcedureTest();
         
@@ -80,6 +82,20 @@ public class CreateTaskPanel extends javax.swing.JPanel {
             ComboBoxUser.addItem(userList.get(i));
         }
         ComboBoxUser.setSelectedIndex(0);
+    } 
+    
+    private void fillStatusCombo() throws SQLException, IOException {
+            
+        ComboBoxStatus.setSelectedIndex(-1);
+        ComboBoxStatus.removeAllItems();
+        ComboBoxStatus.addItem("Vælg status");
+        
+        ArrayList<Statuss> statusList = dbh.SPgetStatus();
+        for (int i = 0; i < statusList.size(); i++) {
+            System.out.println(statusList.get(i).toString());
+            ComboBoxStatus.addItem(statusList.get(i));
+        }
+        ComboBoxStatus.setSelectedIndex(0);
     } 
      
     /**
@@ -382,7 +398,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         try {
             //dbh.createTask(null, Integer.parseInt(TextFieldEstimatedTime.getText()), TextFieldOpgaveNavn.getText(), ComboBoxStatus.getSelectedItem().toString(), Integer.parseInt(ComboBoxPriority.getSelectedItem().toString()));
-            dbh.createTask(Integer.parseInt(TextFieldEstimatedTime.getText()), TextAreaBeskrivelse.getText(), ComboBoxStatus.getSelectedItem().toString(),Integer.parseInt(ComboBoxPriority.getSelectedItem().toString()) , TextFieldOpgaveNavn.getText(), null, null);
+            dbh.createTask(Integer.parseInt(TextFieldEstimatedTime.getText()), TextAreaBeskrivelse.getText(), ComboBoxStatus.getSelectedItem().toString(),Integer.parseInt(ComboBoxPriority.getSelectedItem().toString()) , TextFieldOpgaveNavn.getText(), null, null,ComboBoxType.getSelectedItem().toString(),ComboBoxCustomer.getSelectedItem().toString(),ComboBoxUser.getSelectedItem().toString());
         } catch (SQLException ex) {
             Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {

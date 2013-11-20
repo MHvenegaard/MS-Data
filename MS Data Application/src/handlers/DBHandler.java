@@ -6,7 +6,9 @@ import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Properties;
+import javax.net.ssl.SSLEngineResult.Status;
 import model.Customer;
+import model.Statuss;
 import model.Type;
 import model.User;
 
@@ -200,12 +202,33 @@ public class DBHandler {
         }
         return userList;
     }
+    
+      public ArrayList<Statuss> SPgetStatus() throws SQLException, IOException {
+        String statusName = null;
+        Connection conn = (Connection) initiateCustomerDBConn()[0];
 
-    public void createTask(int estimatedTime, String description, String status, int prio,String taskName,String startDate, String endDate) throws SQLException, IOException{
+        ArrayList<Statuss> statusList = new ArrayList<>();
+
+        CallableStatement cs = null;
+        cs = conn.prepareCall("{call getStatus}");
+        ResultSet rs = cs.executeQuery();
+
+        while (rs.next()) {
+            statusName = rs.getString("statusName");
+            Statuss status = new Statuss(statusName);
+            statusList.add(status);
+            //System.out.println("CompanyName kald via StoredProcedurs: " + compName);
+        }
+        return statusList;
+    }
+    
+    
+
+    public void createTask(int estimatedTime, String description, String status, int prio,String taskName,String startDate, String endDate,String type, String customer, String user) throws SQLException, IOException{
         Connection conn = (Connection) initiateCustomerDBConn()[0];
         
         CallableStatement cs = null;
-        cs = conn.prepareCall("{call createTask(?,?,?,?,?,?,?,?)}");
+        cs = conn.prepareCall("{call createTask(?,?,?,?,?,?,?,?,?,?,?)}");
         cs.setString(1, null);
         cs.setInt(2, estimatedTime);
         cs.setString(3, description);
@@ -214,6 +237,9 @@ public class DBHandler {
         cs.setString(6, taskName);
         cs.setString(7, startDate);
         cs.setString(8, endDate);
+        cs.setString(9, type);
+        cs.setString(10, customer);
+        cs.setString(11, user);
         cs.execute();
     }
     
