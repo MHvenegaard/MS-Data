@@ -6,12 +6,14 @@ package view;
 
 import static handlers.Controller.dbHandler;
 import handlers.DBHandler;
+import java.awt.Dialog;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import model.Customer;
 import model.Statuss;
 import model.Type;
@@ -26,30 +28,27 @@ public class CreateTaskPanel extends javax.swing.JPanel {
     /**
      * Creates new form CreateTaskPanel
      */
-    
     DBHandler dbh = new DBHandler();
-    
-    
+
     public CreateTaskPanel(DBHandler dbh) throws ClassNotFoundException, SQLException, IOException {
         initComponents();
-        
-       fillCustomerCombo();
-       fillTypeCombo();
-       fillUserCombo();
-       fillStatusCombo();
-       fillUserList();
+
+        //fillCustomerCombo();
+        //fillTypeCombo();
+        //fillUserCombo();
+        //fillStatusCombo();
+        fillUserList();
         this.dbh = dbh;
         //dbh.storedProcedureTest();
-        
+
     }
 
-     
-     private void fillCustomerCombo() throws SQLException, IOException {
-            
+    private void fillCustomerCombo() throws SQLException, IOException {
+
         ComboBoxCustomer.setSelectedIndex(-1);
         ComboBoxCustomer.removeAllItems();
         ComboBoxCustomer.addItem("Vælg kunde");
-        
+
         ArrayList<Customer> customers = dbh.SPgetCustomers();
         for (int i = 0; i < customers.size(); i++) {
             System.out.println(customers.get(i).toString());
@@ -57,13 +56,13 @@ public class CreateTaskPanel extends javax.swing.JPanel {
         }
         ComboBoxCustomer.setSelectedIndex(0);
     }
-     
-     private void fillTypeCombo() throws SQLException, IOException {
-            
+
+    private void fillTypeCombo() throws SQLException, IOException {
+
         ComboBoxType.setSelectedIndex(-1);
         ComboBoxType.removeAllItems();
         ComboBoxType.addItem("Vælg type");
-        
+
         ArrayList<Type> typesList = dbh.SPgetTypes();
         for (int i = 0; i < typesList.size(); i++) {
             System.out.println(typesList.get(i).toString());
@@ -71,48 +70,51 @@ public class CreateTaskPanel extends javax.swing.JPanel {
         }
         ComboBoxType.setSelectedIndex(0);
     }
-    
+
     private void fillUserCombo() throws SQLException, IOException {
-            
+
         ComboBoxUser.setSelectedIndex(-1);
         ComboBoxUser.removeAllItems();
         ComboBoxUser.addItem("Vælg projektleder");
-        
+
         ArrayList<User> userList = dbh.SPgetUsers();
         for (int i = 0; i < userList.size(); i++) {
             System.out.println(userList.get(i).toString());
             ComboBoxUser.addItem(userList.get(i));
         }
         ComboBoxUser.setSelectedIndex(0);
-    } 
-    
+    }
+
     private void fillStatusCombo() throws SQLException, IOException {
-            
+
         ComboBoxStatus.setSelectedIndex(-1);
         ComboBoxStatus.removeAllItems();
         ComboBoxStatus.addItem("Vælg status");
-        
+
         ArrayList<Statuss> statusList = dbh.SPgetStatus();
         for (int i = 0; i < statusList.size(); i++) {
             System.out.println(statusList.get(i).toString());
             ComboBoxStatus.addItem(statusList.get(i));
         }
         ComboBoxStatus.setSelectedIndex(0);
-    } 
-     
-    private void fillUserList() throws SQLException, IOException{
-        
-        DefaultListModel model = new DefaultListModel(); 
-        
+    }
+
+    private void fillUserList() throws SQLException, IOException {
+        //Flyt dette
+        DefaultListModel modelOnTask = new DefaultListModel();
+        ListUsersOnTask.setModel(modelOnTask);
+
+        DefaultListModel model = new DefaultListModel();
+
+        ListUsers.setModel(model);
         ArrayList<User> userList = dbh.SPgetUsers();
+
         for (int i = 0; i < userList.size(); i++) {
-            ListUsers.setModel(model);
             model.addElement(userList.get(i));
         }
-        
+
     }
-    
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -130,7 +132,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
         ComboBoxCustomer = new javax.swing.JComboBox();
         jLabel7 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        ButtonRemoveUser = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -158,7 +160,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
         ListUsers = new javax.swing.JList();
         jButton3 = new javax.swing.JButton();
         ComboBoxUser = new javax.swing.JComboBox();
-        jButton1 = new javax.swing.JButton();
+        ButtonAddUser = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         ListUsersOnTask = new javax.swing.JList();
         jButton9 = new javax.swing.JButton();
@@ -180,7 +182,12 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
         jLabel4.setText("Kunde");
 
-        jButton2.setText("Fjern medarbejder");
+        ButtonRemoveUser.setText("Fjern medarbejder");
+        ButtonRemoveUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonRemoveUserActionPerformed(evt);
+            }
+        });
 
         jLabel13.setText("Beskrivelse af projekt");
 
@@ -221,15 +228,17 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
         jLabel6.setText("Forventet start");
 
-        ListUsers.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        ListUsers.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        ListUsers.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        ListUsers.setFocusTraversalPolicyProvider(true);
         jScrollPane1.setViewportView(ListUsers);
 
         jButton3.setText("Gem valgte medarbejdere");
 
-        jButton1.setText("Tilføj medarbejder");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        ButtonAddUser.setText("Tilføj medarbejder");
+        ButtonAddUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                ButtonAddUserActionPerformed(evt);
             }
         });
 
@@ -287,8 +296,8 @@ public class CreateTaskPanel extends javax.swing.JPanel {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE))
+                            .addComponent(ButtonAddUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(ButtonRemoveUser, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 0, Short.MAX_VALUE)
@@ -383,9 +392,9 @@ public class CreateTaskPanel extends javax.swing.JPanel {
                             .addComponent(jScrollPane1)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(31, 31, 31)
-                                .addComponent(jButton1)
+                                .addComponent(ButtonAddUser)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton2))
+                                .addComponent(ButtonRemoveUser))
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(15, 15, 15)
@@ -403,23 +412,23 @@ public class CreateTaskPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-  /*
-        HADER FUCKING LISTER!!
-        */      
+    private void ButtonAddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonAddUserActionPerformed
+
+        int index = ListUsers.getSelectedIndex();
+
         DefaultListModel model = (DefaultListModel) ListUsers.getModel();
-        //DefaultListModel model = new DefaultListModel();
-        ListUsers.setModel(model);
-        
-        //int index = ListUsers.getSelectedIndex();
-        System.out.println(ListUsers.getSelectedIndex()+"");
-        model.remove(ListUsers.getSelectedIndex());
-        
-//       ListUsers.setModel(model);
-//        model.remove(index);
-        
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
+        DefaultListModel modelOnTask = (DefaultListModel) ListUsersOnTask.getModel();
+
+        if (index != -1) {
+            modelOnTask.addElement(ListUsers.getSelectedValue());
+            model.removeElement(ListUsers.getSelectedValue());
+        } else {
+            JOptionPane.showMessageDialog(this, "Der ikke valgt nogen medarbejder", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
+
+        }
+
+
+    }//GEN-LAST:event_ButtonAddUserActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
@@ -428,16 +437,36 @@ public class CreateTaskPanel extends javax.swing.JPanel {
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         try {
             //dbh.createTask(null, Integer.parseInt(TextFieldEstimatedTime.getText()), TextFieldOpgaveNavn.getText(), ComboBoxStatus.getSelectedItem().toString(), Integer.parseInt(ComboBoxPriority.getSelectedItem().toString()));
-            dbh.createTask(Integer.parseInt(TextFieldEstimatedTime.getText()), TextAreaBeskrivelse.getText(), ComboBoxStatus.getSelectedItem().toString(),Integer.parseInt(ComboBoxPriority.getSelectedItem().toString()) , TextFieldOpgaveNavn.getText(), null, null,ComboBoxType.getSelectedItem().toString(),ComboBoxCustomer.getSelectedItem().toString(),ComboBoxUser.getSelectedItem().toString());
+            dbh.createTask(Integer.parseInt(TextFieldEstimatedTime.getText()), TextAreaBeskrivelse.getText(), ComboBoxStatus.getSelectedItem().toString(), Integer.parseInt(ComboBoxPriority.getSelectedItem().toString()), TextFieldOpgaveNavn.getText(), null, null, ComboBoxType.getSelectedItem().toString(), ComboBoxCustomer.getSelectedItem().toString(), ComboBoxUser.getSelectedItem().toString());
         } catch (SQLException ex) {
             Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }//GEN-LAST:event_jButton9ActionPerformed
 
+    private void ButtonRemoveUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonRemoveUserActionPerformed
+
+        int index = ListUsers.getSelectedIndex();
+
+        DefaultListModel model = (DefaultListModel) ListUsers.getModel();
+        DefaultListModel modelOnTask = (DefaultListModel) ListUsersOnTask.getModel();
+
+        if (index != -1) {
+            model.addElement(ListUsersOnTask.getSelectedValue());
+            modelOnTask.removeElement(ListUsersOnTask.getSelectedValue());
+        } else {
+            JOptionPane.showMessageDialog(this, "Der ikke valgt nogen medarbejder", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
+
+        }
+
+
+    }//GEN-LAST:event_ButtonRemoveUserActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ButtonAddUser;
+    private javax.swing.JButton ButtonRemoveUser;
     private javax.swing.JComboBox ComboBoxCustomer;
     private javax.swing.JComboBox ComboBoxPriority;
     private javax.swing.JComboBox ComboBoxStatus;
@@ -450,8 +479,6 @@ public class CreateTaskPanel extends javax.swing.JPanel {
     private javax.swing.JTextField TextFieldEstimatedStart;
     private javax.swing.JTextField TextFieldEstimatedTime;
     private javax.swing.JTextField TextFieldOpgaveNavn;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
