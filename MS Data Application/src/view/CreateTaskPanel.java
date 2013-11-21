@@ -448,7 +448,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
     private void ButtonRemoveUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonRemoveUserActionPerformed
 
-        int index = ListUsers.getSelectedIndex();
+        int index = ListUsersOnTask.getSelectedIndex();
 
         DefaultListModel model = (DefaultListModel) ListUsers.getModel();
         DefaultListModel modelOnTask = (DefaultListModel) ListUsersOnTask.getModel();

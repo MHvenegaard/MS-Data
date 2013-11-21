@@ -9,6 +9,7 @@ import java.util.Properties;
 import javax.net.ssl.SSLEngineResult.Status;
 import model.Customer;
 import model.Statuss;
+import model.Task;
 import model.Type;
 import model.User;
 
@@ -34,13 +35,16 @@ public class DBHandler {
      * eventuelt result sæt Do stuff Luk det eventuelle RS kald stmt.close(); på
      * Statement objektet kald conn.close(); på Connection objektet returner
      * eventuelt objekt/data/whatever metoden nu skulle gøre
-     * *********************************************************************** * /
-     
-     /* @return Object[] returns an object array containing a created Connection-
+     * *********************************************************************** *
+     * /
+     *
+     * /
+     *
+     * @return Object[] returns an object array containing a created Connection-
      * and Statement object for the Customer database. Object[0] is the
      * Connection object Object[1] is the Statement object
      */
-    public  Object[] initiateCustomerDBConn() throws IOException, SQLException {
+    public Object[] initiateCustomerDBConn() throws IOException, SQLException {
         Properties prop = new Properties();
 
         //load a properties file
@@ -162,9 +166,9 @@ public class DBHandler {
     }
 
     /*
-    *Kalder Stored Procedure getTypes
-    Der henter navnene på alle typer ud og sætter dem ind i en ArrayList
-    */
+     *Kalder Stored Procedure getTypes
+     Der henter navnene på alle typer ud og sætter dem ind i en ArrayList
+     */
     public ArrayList<Type> SPgetTypes() throws SQLException, IOException {
         String typeName = null;
         Connection conn = (Connection) initiateCustomerDBConn()[0];
@@ -179,11 +183,11 @@ public class DBHandler {
             typeName = rs.getString("Name");
             Type type = new Type(typeName);
             typeList.add(type);
-          
+
         }
         return typeList;
     }
-    
+
     public ArrayList<User> SPgetUsers() throws SQLException, IOException {
         String userName = null;
         Connection conn = (Connection) initiateCustomerDBConn()[0];
@@ -198,12 +202,12 @@ public class DBHandler {
             userName = rs.getString("shortName");
             User user = new User(userName);
             userList.add(user);
-        
+
         }
         return userList;
     }
-    
-      public ArrayList<Statuss> SPgetStatus() throws SQLException, IOException {
+
+    public ArrayList<Statuss> SPgetStatus() throws SQLException, IOException {
         String statusName = null;
         Connection conn = (Connection) initiateCustomerDBConn()[0];
 
@@ -217,16 +221,33 @@ public class DBHandler {
             statusName = rs.getString("statusName");
             Statuss status = new Statuss(statusName);
             statusList.add(status);
-          
+
         }
         return statusList;
     }
-    
-    
 
-    public void createTask(int estimatedTime, String description, String status, int prio,String taskName,String startDate, String endDate,String type, String customer, String user) throws SQLException, IOException{
+    public Task SPgetTask(int taskID) throws IOException, SQLException {
+        String statusName = null;
+        //Lav strings til alle colums
         Connection conn = (Connection) initiateCustomerDBConn()[0];
-        
+
+        CallableStatement cs = null;
+        cs = conn.prepareCall("{call getUserOnTask}");
+        ResultSet rs = cs.executeQuery();
+
+        while (rs.next()) {
+            statusName = rs.getString("TaskID");
+            Statuss status = new Statuss(statusName);
+            statusList.add(status);
+
+        }
+
+        return null;
+    }
+
+    public void createTask(int estimatedTime, String description, String status, int prio, String taskName, String startDate, String endDate, String type, String customer, String user) throws SQLException, IOException {
+        Connection conn = (Connection) initiateCustomerDBConn()[0];
+
         CallableStatement cs = null;
         cs = conn.prepareCall("{call createTask(?,?,?,?,?,?,?,?,?,?,?)}");
         cs.setString(1, null);
@@ -242,5 +263,4 @@ public class DBHandler {
         cs.setString(11, user);
         cs.execute();
     }
-    
 }
