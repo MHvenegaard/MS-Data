@@ -46,11 +46,11 @@ public class Login extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        textFieldUserName.setText("Brugernavn");
+        textFieldUserName.setText("adm");
 
-        passwordFieldPassword.setText("password");
+        passwordFieldPassword.setText("admin");
 
-        progressBar.setMaximum(6);
+        progressBar.setMaximum(4);
 
         buttonLogin.setText("Login");
         buttonLogin.addActionListener(new java.awt.event.ActionListener() {
@@ -115,8 +115,8 @@ public class Login extends javax.swing.JFrame {
                 Controller controller = null;
 
                 try {
-                    controller = new Controller();
                     setMessage("Initialiserer system");
+                    controller = new Controller();
                     progressBar.setValue(loginStatus);
 
                 } catch (ClassNotFoundException ex) {
@@ -126,9 +126,10 @@ public class Login extends javax.swing.JFrame {
                 // Kontroller internet forbindelse
                 try {
                     loginStatus = 1;
+                    setMessage("Kontrollerer internetforbindelse");
                     controller.checkInternet();
 
-                    setMessage("Kontrollerer internetforbindelse");
+
                     progressBar.setValue(loginStatus);
 
                 } catch (IOException ex) {
@@ -138,45 +139,17 @@ public class Login extends javax.swing.JFrame {
                 // Kontroller database forbindelse
                 try {
                     loginStatus = 2;
-                    Controller.dbHandler.initiateSystemDBConn();
-
                     setMessage("Kontrollerer databaseforbindelse");
+                    Controller.dbHandler.initiateSystemDBConn();
                     progressBar.setValue(loginStatus);
+
                 } catch (SQLException ex) {
                     setWarningMessage("Der kunne ikke oprettes forbindelse til databasen");
                 } catch (IOException ex) {
                     setWarningMessage("Der kunne ikke oprettes forbindelse til databasen");
                 }
 
-                /*
-                 // Kontroller kundedatabase forbindelse
-                 try {
-                 loginStatus = 3;
-                 Controller.dbHandler.initiateCustomerDBConn();
-                    
-                 setMessage("Kontrollerer CRM forbindelse");
-                 progressBar.setValue(loginStatus);
-                 } catch (IOException ex) {
-                 setWarningMessage("Der kunne ikke oprettes forbindelse til CRM databasen");
-                 } catch (SQLException ex) {
-                 setWarningMessage("Der kunne ikke oprettes forbindelse til CRM databasen");
-                 }
-                 */
-                /*
-                 // kontroller ansattedatabase forbindelse
-                 try {
-                 loginStatus = 4;
-                 Controller.dbHandler.initiateEmployeeDBConn();
-                    
-                 setMessage("Kontrollerer ERP forbindelse");
-                 progressBar.setValue(loginStatus);
-                 } catch (SQLException ex) {
-                 setWarningMessage("Der kunne ikke oprettes forbindelse til ERP databasen");
-                 } catch (IOException ex) {
-                 setWarningMessage("Der kunne ikke oprettes forbindelse til ERP databasen");
-                 }
-                 * */
-
+                System.out.println("1");
                 //
                 // INSERT VERSION TEST HERE
                 // RUN THROUGH ALL SP's AND CHECK THEY'VE GOT THE CORRECT VERSION NUMBER
@@ -185,31 +158,41 @@ public class Login extends javax.swing.JFrame {
                 try {
                     // kontrollerer loginoplysninger
                     // DO STUFF
+                    loginStatus = 3;
+                    setMessage("Validerer loginoplysninger");
+                    
+
+
+                    System.out.println("2");
                     ArrayList<User> users = Controller.dbHandler.SPgetUsers();
-
+                    System.out.println("3");
                     String username = textFieldUserName.getText();
-
+                    System.out.println("4");
                     char[] pw = passwordFieldPassword.getPassword();
                     String enteredPassword = new String(pw);
-
+                    System.out.println("5");
                     boolean userFound = false;
                     boolean passwordMatch = false;
-
+                    System.out.println("6");
                     int counter = 0;
                     while (!userFound && counter < users.size()) {
                         if (users.get(counter).equals(username)) {
                             userFound = true;
-                            if (users.get(counter).getPassword.equals(enteredPassword)) {
+                            String pass = users.get(counter).getPassword();
+                            if (pass.equals(enteredPassword)) {
                                 passwordMatch = true;
                             }
                         }
                     }
                     if (userFound && passwordMatch) {
+                        progressBar.setValue(loginStatus);
                         // Login
                     } else if (!userFound) {
                         // User doesnt exist
+                        setWarningMessage("Brugernavnet kan ikke genkendes");
                     } else {
                         // Password doesnt match
+                        setWarningMessage("Passwordet matcher ikke brugernavnet");
                     }
 
                 } catch (SQLException ex) {
@@ -217,13 +200,10 @@ public class Login extends javax.swing.JFrame {
                 } catch (IOException ex) {
                     Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
-                loginStatus = 5;
 
-                setMessage(
-                        "Validerer loginoplysninger");
+
+                loginStatus = 4;
                 progressBar.setValue(loginStatus);
-                loginStatus = 6;
                 /*        
                  setMessage("Success");
                  Mainframe mf = null;
@@ -246,6 +226,10 @@ public class Login extends javax.swing.JFrame {
 
         updateProgressView();
     }//GEN-LAST:event_buttonLoginActionPerformed
+
+    private void login() {
+    }
+
     private void updateProgressView() {
         switch (loginStatus) {
             case 0:
@@ -270,6 +254,7 @@ public class Login extends javax.swing.JFrame {
     }
 
     private void setWarningMessage(String msg) {
+        progressBar.setBackground(Color.RED);
         labelStatus.setBackground(Color.RED);
         labelStatus.setText(msg);
     }
@@ -283,42 +268,18 @@ public class Login extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
+
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 }
             }
         } catch (ClassNotFoundException ex) {
