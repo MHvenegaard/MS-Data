@@ -7,6 +7,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Properties;
 import javax.net.ssl.SSLEngineResult.Status;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
 import model.Customer;
 import model.Statuss;
 import model.Task;
@@ -277,24 +279,20 @@ public class DBHandler {
 
         while (rs.next()) {
             estimatedtime = rs.getInt("EstimatedTime");
-            
+
             status = rs.getString("Status");
             Statuss s = new Statuss(status);
-           
+
             priority = rs.getInt("Priority");
-           
+
             type = rs.getString("Type");
             Type t = new Type(type);
-            
-            description = rs.getString("Description");
-       
 
+            description = rs.getString("Description");
 
             Task task = new Task(estimatedtime, s, priority, t, description, null);
             tasks.add(task);
-         }
-
-
+        }
         return tasks;
     }
 
@@ -315,5 +313,34 @@ public class DBHandler {
         cs.setString(10, customer);
         cs.setString(11, user);
         cs.execute();
+    }
+
+    public void addUserToTask(JList list) throws SQLException, IOException {
+        ArrayList<User> userList = new ArrayList<>();
+        
+        Connection conn = (Connection) initiateSystemDBConn()[0];
+        CallableStatement cs = null;
+
+        DefaultListModel modelOnTask = (DefaultListModel) list.getModel();
+        
+        for (int i = 0; i < userList.size(); i++) {
+            userList.add((User)modelOnTask.getElementAt(i));
+        }
+        
+        //Original 
+//        for (int i = 0; i < userList.size(); i++) {
+//            cs = conn.prepareCall("{call addUserToTask(?)}");
+//            cs.setString(1, userList.get(i).getUserName());
+//            cs.execute();
+//        }
+        //Test
+        for (int i = 0; i < modelOnTask.getSize(); i++) {
+            cs = conn.prepareCall("{call addUserToTask(?)}");
+            cs.setString(1, modelOnTask.getElementAt(i).toString());
+            
+            cs.execute();
+        }
+
+
     }
 }
