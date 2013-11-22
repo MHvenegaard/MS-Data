@@ -16,11 +16,15 @@ public class Task {
     private int estimatedtime;
     private int status;
     private int priority;
-    private String type;
+    private Type type;
     private String description;
     private Date datetime;
+    private Date startDate;
+    private Date endDate;
+    private Customer customer;
+    private User user;
 
-    public Task(int estimatedtime, int status, int priority, String type, String description, Date datetime) {
+    public Task(int estimatedtime, int status, int priority, Type type, String description, Date datetime) {
         this.estimatedtime = estimatedtime;
         this.status = status;
         this.priority = priority;
@@ -61,11 +65,11 @@ public class Task {
         this.priority = priority;
     }
 
-    public String getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(Type type) {
         this.type = type;
     }
 

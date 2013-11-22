@@ -10,7 +10,9 @@ package model;
  */
 public class Type {
 
+    private int typeID;
     private String typeName;
+    private String description;
     
     public Type(String typeName) {
        this.typeName = typeName;
@@ -20,5 +22,31 @@ public class Type {
     public String toString() {
         return typeName;
     }
+
+    public int getTypeID() {
+        return typeID;
+    }
+
+    public void setTypeID(int typeID) {
+        this.typeID = typeID;
+    }
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
+    
     
 }
