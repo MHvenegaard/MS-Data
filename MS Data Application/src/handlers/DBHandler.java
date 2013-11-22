@@ -148,7 +148,7 @@ public class DBHandler {
 
     public ArrayList<Customer> SPgetCustomers() throws SQLException, IOException {
         String compName = null;
-        Connection conn = (Connection) initiateCustomerDBConn()[0];
+        Connection conn = (Connection) initiateSystemDBConn()[0];
 
         ArrayList<Customer> customerList = new ArrayList<>();
 
@@ -171,7 +171,7 @@ public class DBHandler {
      */
     public ArrayList<Type> SPgetTypes() throws SQLException, IOException {
         String typeName = null;
-        Connection conn = (Connection) initiateCustomerDBConn()[0];
+        Connection conn = (Connection) initiateSystemDBConn()[0];
 
         ArrayList<Type> typeList = new ArrayList<>();
 
@@ -195,7 +195,7 @@ public class DBHandler {
         String lastName = null;
         int accessLevel;
         
-        Connection conn = (Connection) initiateCustomerDBConn()[0];
+        Connection conn = (Connection) initiateSystemDBConn()[0];
 
         ArrayList<User> userList = new ArrayList<>();
 
@@ -205,20 +205,19 @@ public class DBHandler {
 
         while (rs.next()) {
             userName = rs.getString("shortName");
+            firstName = rs.getString("userFirstName");
+            lastName = rs.getString("userLastName");
             password = rs.getString("password");
-            firstName = rs.getString("firstName");
-            lastName = rs.getString("lastName");
             accessLevel = rs.getInt("accessLevel");
             User user = new User(userName, firstName, lastName, password,accessLevel);
             userList.add(user);
-
         }
         return userList;
     }
 
     public ArrayList<Statuss> SPgetStatus() throws SQLException, IOException {
         String statusName = null;
-        Connection conn = (Connection) initiateCustomerDBConn()[0];
+        Connection conn = (Connection) initiateSystemDBConn()[0];
 
         ArrayList<Statuss> statusList = new ArrayList<>();
 
@@ -243,7 +242,7 @@ public class DBHandler {
         Type type = null;
         String description = null;
 
-        Connection conn = (Connection) initiateCustomerDBConn()[0];
+        Connection conn = (Connection) initiateSystemDBConn()[0];
 
         CallableStatement cs = null;
         cs = conn.prepareCall("{call getTask}");
@@ -292,7 +291,7 @@ public class DBHandler {
     }
 
     public void createTask(int estimatedTime, String description, String status, int prio, String taskName, String startDate, String endDate, String type, String customer, String user) throws SQLException, IOException {
-        Connection conn = (Connection) initiateCustomerDBConn()[0];
+        Connection conn = (Connection) initiateSystemDBConn()[0];
 
         CallableStatement cs = null;
         cs = conn.prepareCall("{call createTask(?,?,?,?,?,?,?,?,?,?,?)}");

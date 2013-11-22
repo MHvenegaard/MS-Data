@@ -123,6 +123,7 @@ public class Login extends javax.swing.JFrame {
                     setWarningMessage("MySQL Driveren kunne ikke indlæses");
                 }
 
+                
                 // Kontroller internet forbindelse
                 try {
                     loginStatus = 1;
@@ -149,8 +150,6 @@ public class Login extends javax.swing.JFrame {
                     setWarningMessage("Der kunne ikke oprettes forbindelse til databasen");
                 }
 
-                System.out.println("1");
-                //
                 // INSERT VERSION TEST HERE
                 // RUN THROUGH ALL SP's AND CHECK THEY'VE GOT THE CORRECT VERSION NUMBER
 
@@ -163,26 +162,23 @@ public class Login extends javax.swing.JFrame {
                     
 
 
-                    System.out.println("2");
                     ArrayList<User> users = Controller.dbHandler.SPgetUsers();
-                    System.out.println("3");
                     String username = textFieldUserName.getText();
-                    System.out.println("4");
                     char[] pw = passwordFieldPassword.getPassword();
                     String enteredPassword = new String(pw);
-                    System.out.println("5");
                     boolean userFound = false;
                     boolean passwordMatch = false;
-                    System.out.println("6");
                     int counter = 0;
                     while (!userFound && counter < users.size()) {
-                        if (users.get(counter).equals(username)) {
+                        System.out.println(users.get(counter).getUserName() + " - " + users.get(counter).getPassword());
+                        if (users.get(counter).getUserName().equals(username)) {
                             userFound = true;
                             String pass = users.get(counter).getPassword();
                             if (pass.equals(enteredPassword)) {
                                 passwordMatch = true;
                             }
                         }
+                        counter++;
                     }
                     if (userFound && passwordMatch) {
                         progressBar.setValue(loginStatus);
