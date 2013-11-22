@@ -255,7 +255,7 @@ public class DBHandler {
         public Task SPgetTasks() throws IOException, SQLException {
         
         int estimatedtime = 0;
-        int status = 0;
+        Statuss status = null;
         int priority = 0;
         Type type = null;
         String description = null;
@@ -268,7 +268,7 @@ public class DBHandler {
 
         while (rs.next()) {
             estimatedtime = rs.getInt("EstimatedTime"); 
-            status = rs.getInt("Status");
+            status =(Statuss) rs.getObject("Status");
             priority = rs.getInt("Priority");
             type = (Type) rs.getObject("Type");
             description = rs.getString("Description");
