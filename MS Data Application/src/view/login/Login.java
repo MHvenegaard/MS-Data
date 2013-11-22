@@ -7,8 +7,10 @@ import java.net.HttpURLConnection;
 import java.net.Socket;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.User;
 import view.Mainframe;
 
 /**
@@ -36,7 +38,7 @@ public class Login extends javax.swing.JFrame {
     private void initComponents() {
 
         textFieldUserName = new javax.swing.JTextField();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        passwordFieldPassword = new javax.swing.JPasswordField();
         progressBar = new javax.swing.JProgressBar();
         buttonLogin = new javax.swing.JButton();
         logo = new javax.swing.JLabel();
@@ -46,7 +48,7 @@ public class Login extends javax.swing.JFrame {
 
         textFieldUserName.setText("Brugernavn");
 
-        jPasswordField1.setText("password");
+        passwordFieldPassword.setText("password");
 
         progressBar.setMaximum(6);
 
@@ -73,7 +75,7 @@ public class Login extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(logo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(textFieldUserName, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPasswordField1))
+                    .addComponent(passwordFieldPassword))
                 .addContainerGap(124, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
@@ -88,7 +90,7 @@ public class Login extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
                 .addComponent(textFieldUserName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(passwordFieldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
                 .addComponent(buttonLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -108,7 +110,7 @@ public class Login extends javax.swing.JFrame {
             public void run() {
 
                 boolean run = true;
-                
+
                 // Initialiserer forbindelsestjek
                 Controller controller = null;
 
@@ -137,7 +139,7 @@ public class Login extends javax.swing.JFrame {
                 try {
                     loginStatus = 2;
                     Controller.dbHandler.initiateSystemDBConn();
-                    
+
                     setMessage("Kontrollerer databaseforbindelse");
                     progressBar.setValue(loginStatus);
                 } catch (SQLException ex) {
@@ -146,41 +148,81 @@ public class Login extends javax.swing.JFrame {
                     setWarningMessage("Der kunne ikke oprettes forbindelse til databasen");
                 }
 
-                // Kontroller kundedatabase forbindelse
-                try {
-                    loginStatus = 3;
-                    Controller.dbHandler.initiateCustomerDBConn();
+                /*
+                 // Kontroller kundedatabase forbindelse
+                 try {
+                 loginStatus = 3;
+                 Controller.dbHandler.initiateCustomerDBConn();
                     
-                    setMessage("Kontrollerer CRM forbindelse");
-                    progressBar.setValue(loginStatus);
-                } catch (IOException ex) {
-                    setWarningMessage("Der kunne ikke oprettes forbindelse til CRM databasen");
-                } catch (SQLException ex) {
-                    setWarningMessage("Der kunne ikke oprettes forbindelse til CRM databasen");
-                }
-
-                // kontroller ansattedatabase forbindelse
-                try {
-                    loginStatus = 4;
-                    Controller.dbHandler.initiateEmployeeDBConn();
+                 setMessage("Kontrollerer CRM forbindelse");
+                 progressBar.setValue(loginStatus);
+                 } catch (IOException ex) {
+                 setWarningMessage("Der kunne ikke oprettes forbindelse til CRM databasen");
+                 } catch (SQLException ex) {
+                 setWarningMessage("Der kunne ikke oprettes forbindelse til CRM databasen");
+                 }
+                 */
+                /*
+                 // kontroller ansattedatabase forbindelse
+                 try {
+                 loginStatus = 4;
+                 Controller.dbHandler.initiateEmployeeDBConn();
                     
-                    setMessage("Kontrollerer ERP forbindelse");
-                    progressBar.setValue(loginStatus);
-                } catch (SQLException ex) {
-                    setWarningMessage("Der kunne ikke oprettes forbindelse til ERP databasen");
-                } catch (IOException ex) {
-                    setWarningMessage("Der kunne ikke oprettes forbindelse til ERP databasen");
-                }
+                 setMessage("Kontrollerer ERP forbindelse");
+                 progressBar.setValue(loginStatus);
+                 } catch (SQLException ex) {
+                 setWarningMessage("Der kunne ikke oprettes forbindelse til ERP databasen");
+                 } catch (IOException ex) {
+                 setWarningMessage("Der kunne ikke oprettes forbindelse til ERP databasen");
+                 }
+                 * */
 
-                // kontrollerer loginoplysninger
-                // DO STUFF
+                //
+                // INSERT VERSION TEST HERE
+                // RUN THROUGH ALL SP's AND CHECK THEY'VE GOT THE CORRECT VERSION NUMBER
+
+
+                try {
+                    // kontrollerer loginoplysninger
+                    // DO STUFF
+                    ArrayList<User> users = Controller.dbHandler.SPgetUsers();
+
+                    String username = textFieldUserName.getText();
+
+                    char[] pw = passwordFieldPassword.getPassword();
+                    String enteredPassword = new String(pw);
+
+                    boolean userFound = false;
+                    boolean passwordMatch = false;
+
+                    int counter = 0;
+                    while (!userFound && counter < users.size()) {
+                        if (users.get(counter).equals(username)) {
+                            userFound = true;
+                            if (users.get(counter).getPassword.equals(enteredPassword)) {
+                                passwordMatch = true;
+                            }
+                        }
+                    }
+                    if (userFound && passwordMatch) {
+                        // Login
+                    } else if (!userFound) {
+                        // User doesnt exist
+                    } else {
+                        // Password doesnt match
+                    }
+
+                } catch (SQLException ex) {
+                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
                 loginStatus = 5;
-                setMessage("Validerer loginoplysninger");
-                progressBar.setValue(loginStatus);
 
-                
-                
-                
+                setMessage(
+                        "Validerer loginoplysninger");
+                progressBar.setValue(loginStatus);
                 loginStatus = 6;
                 /*        
                  setMessage("Success");
@@ -198,19 +240,12 @@ public class Login extends javax.swing.JFrame {
        
                  mf.setVisible(true);
                  */
-
-
             }
         });
         t.start();
 
-
         updateProgressView();
-
-
-
     }//GEN-LAST:event_buttonLoginActionPerformed
-
     private void updateProgressView() {
         switch (loginStatus) {
             case 0:
@@ -276,6 +311,14 @@ public class Login extends javax.swing.JFrame {
 
 
 
+
+
+
+
+
+
+
+
                 }
             }
         } catch (ClassNotFoundException ex) {
@@ -302,9 +345,9 @@ public class Login extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonLogin;
-    private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JLabel labelStatus;
     private javax.swing.JLabel logo;
+    private javax.swing.JPasswordField passwordFieldPassword;
     private javax.swing.JProgressBar progressBar;
     private javax.swing.JTextField textFieldUserName;
     // End of variables declaration//GEN-END:variables

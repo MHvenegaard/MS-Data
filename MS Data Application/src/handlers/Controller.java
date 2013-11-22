@@ -15,6 +15,7 @@ import model.*;
  */
 public class Controller {
 
+    public final static int VERSION_NUMBER = 1;
     public static User currentUser;
     public static DBHandler dbHandler;
 

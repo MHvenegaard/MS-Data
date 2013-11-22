@@ -34,7 +34,7 @@
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="logo" max="32767" attributes="0"/>
                   <Component id="textFieldUserName" alignment="1" max="32767" attributes="0"/>
-                  <Component id="jPasswordField1" alignment="0" max="32767" attributes="0"/>
+                  <Component id="passwordFieldPassword" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace pref="124" max="32767" attributes="0"/>
           </Group>
@@ -53,7 +53,7 @@
               <EmptySpace pref="49" max="32767" attributes="0"/>
               <Component id="textFieldUserName" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="jPasswordField1" min="-2" max="-2" attributes="0"/>
+              <Component id="passwordFieldPassword" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
               <Component id="buttonLogin" min="-2" pref="48" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -70,7 +70,7 @@
         <Property name="text" type="java.lang.String" value="Brugernavn"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JPasswordField" name="jPasswordField1">
+    <Component class="javax.swing.JPasswordField" name="passwordFieldPassword">
       <Properties>
         <Property name="text" type="java.lang.String" value="password"/>
       </Properties>
