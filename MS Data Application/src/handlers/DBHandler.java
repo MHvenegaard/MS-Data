@@ -229,9 +229,35 @@ public class DBHandler {
     public Task SPgetTask(int taskID) throws IOException, SQLException {
         
         int estimatedtime = 0;
+        Statuss status = null;
+        int priority = 0;
+        Type type = null;
+        String description = null;
+
+        Connection conn = (Connection) initiateCustomerDBConn()[0];
+
+        CallableStatement cs = null;
+        cs = conn.prepareCall("{call getTask}");
+        ResultSet rs = cs.executeQuery();
+
+        while (rs.next()) {
+            estimatedtime = rs.getInt("EstimatedTime"); 
+            status = (Statuss) rs.getObject("Status");
+            priority = rs.getInt("Priority");
+            type = (Type) rs.getObject("Type");
+            description = rs.getString("Description");
+            
+        }
+        Task task = new Task(estimatedtime, status, priority, type, description, null);
+        return task;
+    }
+
+        public Task SPgetTasks() throws IOException, SQLException {
+        
+        int estimatedtime = 0;
         int status = 0;
         int priority = 0;
-        String type = null;
+        Type type = null;
         String description = null;
 
         Connection conn = (Connection) initiateCustomerDBConn()[0];
@@ -244,14 +270,14 @@ public class DBHandler {
             estimatedtime = rs.getInt("EstimatedTime"); 
             status = rs.getInt("Status");
             priority = rs.getInt("Priority");
-            type = rs.getString("Type");
+            type = (Type) rs.getObject("Type");
             description = rs.getString("Description");
             
         }
         Task task = new Task(estimatedtime, status, priority, type, description, null);
         return task;
     }
-
+        
     public void createTask(int estimatedTime, String description, String status, int prio, String taskName, String startDate, String endDate, String type, String customer, String user) throws SQLException, IOException {
         Connection conn = (Connection) initiateCustomerDBConn()[0];
 
