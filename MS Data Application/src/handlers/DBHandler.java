@@ -227,22 +227,29 @@ public class DBHandler {
     }
 
     public Task SPgetTask(int taskID) throws IOException, SQLException {
-        String statusName = null;
-        //Lav strings til alle colums
+        
+        int estimatedtime = 0;
+        int status = 0;
+        int priority = 0;
+        String type = null;
+        String description = null;
+
         Connection conn = (Connection) initiateCustomerDBConn()[0];
 
         CallableStatement cs = null;
-        cs = conn.prepareCall("{call getUserOnTask}");
+        cs = conn.prepareCall("{call getTask}");
         ResultSet rs = cs.executeQuery();
 
         while (rs.next()) {
-            statusName = rs.getString("TaskID");
-            Statuss status = new Statuss(statusName);
-            statusList.add(status);
-
+            estimatedtime = rs.getInt("EstimatedTime"); 
+            status = rs.getInt("Status");
+            priority = rs.getInt("Priority");
+            type = rs.getString("Type");
+            description = rs.getString("Description");
+            
         }
-
-        return null;
+        Task task = new Task(estimatedtime, status, priority, type, description, null);
+        return task;
     }
 
     public void createTask(int estimatedTime, String description, String status, int prio, String taskName, String startDate, String endDate, String type, String customer, String user) throws SQLException, IOException {
