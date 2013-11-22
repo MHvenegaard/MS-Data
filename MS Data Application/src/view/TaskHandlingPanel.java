@@ -7,6 +7,10 @@ package view;
 import handlers.DBHandler;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.swing.DefaultListModel;
+import model.Task;
+import model.User;
 
 /**
  *
@@ -18,8 +22,8 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
      * Creates new form TaskHandlingPanel
      */
     DBHandler dbh = new DBHandler();
-    
-    public TaskHandlingPanel(DBHandler dbh) throws ClassNotFoundException, SQLException, IOException{
+
+    public TaskHandlingPanel(DBHandler dbh) throws ClassNotFoundException, SQLException, IOException {
         initComponents();
         this.dbh = dbh;
         fillListTasks();
@@ -250,11 +254,10 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_ButtonAddUserActionPerformed
 
     private void ListTasksMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ListTasksMouseClicked
-        
-        
+
+
         TextFieldProjectName.setText("YOLOBITCHES");
     }//GEN-LAST:event_ListTasksMouseClicked
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonAddUser;
     private javax.swing.JButton ButtonEditTask;
@@ -289,7 +292,15 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane3;
     // End of variables declaration//GEN-END:variables
 
-    private void fillListTasks() {
-        
+    private void fillListTasks() throws IOException, SQLException {
+        DefaultListModel model = new DefaultListModel();
+        ListTasks.setModel(model);
+
+        ArrayList<Task> Tasks = dbh.SPgetTasks();
+
+        for (int i = 0; i < Tasks.size(); i++) {
+            model.addElement(Tasks.get(i));
+
+        }
     }
 }
