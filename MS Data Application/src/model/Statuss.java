@@ -20,6 +20,13 @@ public class Statuss {
         this.statussName = statussName;
     }
 
+    public Statuss(int statusID, String statussName, String description) {
+        this.statusID = statusID;
+        this.statussName = statussName;
+        this.description = description;
+    }
+    
+    
     @Override
     public String toString() {
         return statussName;

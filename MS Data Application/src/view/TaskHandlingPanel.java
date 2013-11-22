@@ -299,7 +299,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         ArrayList<Task> Tasks = dbh.SPgetTasks();
 
         for (int i = 0; i < Tasks.size(); i++) {
-            model.addElement(Tasks.get(i));
+            model.addElement(Tasks.get(i).toString());
 
         }
     }
