@@ -14,7 +14,7 @@ public class Task {
     
     private int taskID;
     private int estimatedtime;
-    private int status;
+    private Statuss status;
     private int priority;
     private Type type;
     private String description;
@@ -24,7 +24,7 @@ public class Task {
     private Customer customer;
     private User user;
 
-    public Task(int estimatedtime, int status, int priority, Type type, String description, Date datetime) {
+    public Task(int estimatedtime, Statuss status, int priority, Type type, String description, Date datetime) {
         this.estimatedtime = estimatedtime;
         this.status = status;
         this.priority = priority;
@@ -49,11 +49,11 @@ public class Task {
         this.estimatedtime = estimatedtime;
     }
 
-    public int getStatus() {
+    public Statuss getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(int Statuss) {
         this.status = status;
     }
 
