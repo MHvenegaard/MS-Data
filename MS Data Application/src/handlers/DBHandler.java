@@ -190,6 +190,11 @@ public class DBHandler {
 
     public ArrayList<User> SPgetUsers() throws SQLException, IOException {
         String userName = null;
+        String password = null;
+        String firstName = null;
+        String lastName = null;
+        int accessLevel;
+        
         Connection conn = (Connection) initiateCustomerDBConn()[0];
 
         ArrayList<User> userList = new ArrayList<>();
@@ -200,7 +205,11 @@ public class DBHandler {
 
         while (rs.next()) {
             userName = rs.getString("shortName");
-            User user = new User(userName);
+            password = rs.getString("password");
+            firstName = rs.getString("firstName");
+            lastName = rs.getString("lastName");
+            accessLevel = rs.getInt("accessLevel");
+            User user = new User(userName, firstName, lastName, password,accessLevel);
             userList.add(user);
 
         }

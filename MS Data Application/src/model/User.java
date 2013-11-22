@@ -11,12 +11,20 @@ public class User {
     private String lastName;
     private String password;
     private int accessLevel;
-    
+
     public User(String userName) {
-        
         this.userName = userName;
-        
     }
+
+    public User(String userName, String firstName, String lastName, String password, int accessLevel) {
+        this.userName = userName;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.accessLevel = accessLevel;
+    }
+    
+    
 
     @Override
     public String toString() {
@@ -62,6 +70,4 @@ public class User {
     public void setAccessLevel(int accessLevel) {
         this.accessLevel = accessLevel;
     }
-    
-    
 }
