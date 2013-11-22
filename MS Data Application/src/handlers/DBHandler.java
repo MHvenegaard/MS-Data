@@ -217,7 +217,7 @@ public class DBHandler {
 
     public ArrayList<Statuss> SPgetStatus() throws SQLException, IOException {
         String statusName = null;
-        Connection conn = (Connection) initiateCustomerDBConn()[0];
+        Connection conn = (Connection) initiateSystemDBConn()[0];
 
         ArrayList<Statuss> statusList = new ArrayList<>();
 
@@ -242,7 +242,7 @@ public class DBHandler {
         Type type = null;
         String description = null;
 
-        Connection conn = (Connection) initiateCustomerDBConn()[0];
+        Connection conn = (Connection) initiateSystemDBConn()[0];
 
         CallableStatement cs = null;
         cs = conn.prepareCall("{call getTask}");
@@ -269,7 +269,7 @@ public class DBHandler {
         Type type = null;
         String description = null;
 
-        Connection conn = (Connection) initiateCustomerDBConn()[0];
+        Connection conn = (Connection) initiateSystemDBConn()[0];
 
         CallableStatement cs = conn.prepareCall("{call getAllTasks}");
         ResultSet rs = cs.executeQuery();
@@ -291,7 +291,7 @@ public class DBHandler {
     }
 
     public void createTask(int estimatedTime, String description, String status, int prio, String taskName, String startDate, String endDate, String type, String customer, String user) throws SQLException, IOException {
-        Connection conn = (Connection) initiateCustomerDBConn()[0];
+        Connection conn = (Connection) initiateSystemDBConn()[0];
 
         CallableStatement cs = null;
         cs = conn.prepareCall("{call createTask(?,?,?,?,?,?,?,?,?,?,?)}");
