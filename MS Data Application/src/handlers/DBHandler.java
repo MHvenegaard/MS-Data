@@ -270,7 +270,7 @@ public class DBHandler {
         Type type = null;
         String description = null;
 
-        Connection conn = (Connection) initiateCustomerDBConn()[0];
+        Connection conn = (Connection) initiateSystemDBConn()[0];
 
         CallableStatement cs = conn.prepareCall("{call getAllTasks}");
         ResultSet rs = cs.executeQuery();
