@@ -194,7 +194,7 @@ public class DBHandler {
         String firstName = null;
         String lastName = null;
         int accessLevel;
-        
+
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
         ArrayList<User> userList = new ArrayList<>();
@@ -209,7 +209,7 @@ public class DBHandler {
             lastName = rs.getString("userLastName");
             password = rs.getString("password");
             accessLevel = rs.getInt("accessLevel");
-            User user = new User(userName, firstName, lastName, password,accessLevel);
+            User user = new User(userName, firstName, lastName, password, accessLevel);
             userList.add(user);
         }
         return userList;
@@ -264,9 +264,9 @@ public class DBHandler {
 
         ArrayList<Task> tasks = new ArrayList<>();
         int estimatedtime = 0;
-        Statuss status = null;
+        String status = null;
         int priority = 0;
-        Type type = null;
+        String type = null;
         String description = null;
 
         Connection conn = (Connection) initiateSystemDBConn()[0];
@@ -277,14 +277,22 @@ public class DBHandler {
 
         while (rs.next()) {
             estimatedtime = rs.getInt("EstimatedTime");
-            status = (Statuss) rs.getObject("Status");
-            priority = rs.getInt("Priority");
-            type = (Type) rs.getObject("Type");
-            description = rs.getString("Description");
             
-            Task task = new Task(estimatedtime, status, priority, type, description, null);
+            status = rs.getString("Status");
+            Statuss s = new Statuss(status);
+           
+            priority = rs.getInt("Priority");
+           
+            type = rs.getString("Type");
+            Type t = new Type(type);
+            
+            description = rs.getString("Description");
+       
+
+
+            Task task = new Task(estimatedtime, s, priority, t, description, null);
             tasks.add(task);
-        }
+         }
 
 
         return tasks;

@@ -23,6 +23,7 @@ public class Task {
     private Date endDate;
     private Customer customer;
     private User user;
+    private String taskName;
 
     public Task(int estimatedtime, Statuss status, int priority, Type type, String description, Date datetime) {
         this.estimatedtime = estimatedtime;
@@ -33,6 +34,13 @@ public class Task {
         this.datetime = datetime;
     }
 
+    @Override
+    public String toString() {
+        return "Task{" + "status=" + status + ", priority=" + priority + ", type=" + type + ", customer=" + customer + ", taskName=" + taskName + '}';
+    }
+
+    
+    
     public int getTaskID() {
         return taskID;
     }
