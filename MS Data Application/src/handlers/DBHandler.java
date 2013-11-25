@@ -207,7 +207,7 @@ public class DBHandler {
         ResultSet rs = cs.executeQuery();
 
         while (rs.next()) {
-            userID = rs.getInt("idUser"); 
+            userID = rs.getInt("idUser");
             userName = rs.getString("shortName");
             firstName = rs.getString("userFirstName");
             lastName = rs.getString("userLastName");
@@ -240,11 +240,17 @@ public class DBHandler {
 
     public Task SPgetTask(int taskID) throws IOException, SQLException {
 
-        int estimatedtime = 0;
-        Statuss status = null;
         int priority = 0;
-        Type type = null;
+        int estimatedtime = 0;
+        String status = null;
+        String type = null;
         String description = null;
+        String taskName = null;
+        String customer = null;
+        String user = null;
+        Date startDate = null;
+        Date endDate = null;
+        Task task = null;
 
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
@@ -253,33 +259,7 @@ public class DBHandler {
         ResultSet rs = cs.executeQuery();
 
         while (rs.next()) {
-            estimatedtime = rs.getInt("EstimatedTime");
-            status = (Statuss) rs.getObject("Status");
-            priority = rs.getInt("Priority");
-            type = (Type) rs.getObject("Type");
-            description = rs.getString("Description");
 
-        }
-        Task task = new Task(estimatedtime, status, priority, type, description, null,null);
-        return task;
-    }
-
-    public ArrayList<Task> SPgetTasks() throws IOException, SQLException {
-
-        ArrayList<Task> tasks = new ArrayList<>();
-        int estimatedtime = 0;
-        String status = null;
-        int priority = 0;
-        String type = null;
-        String description = null;
-
-        Connection conn = (Connection) initiateSystemDBConn()[0];
-
-        CallableStatement cs = conn.prepareCall("{call getAllTasks}");
-        ResultSet rs = cs.executeQuery();
-
-
-        while (rs.next()) {
             estimatedtime = rs.getInt("EstimatedTime");
 
             status = rs.getString("Status");
@@ -292,7 +272,71 @@ public class DBHandler {
 
             description = rs.getString("Description");
 
-            Task task = new Task(estimatedtime, s, priority, t, description, null,null);
+            taskName = rs.getString("TaskName");
+            startDate = rs.getDate("StartDate");
+            endDate = rs.getDate("EndDate");
+
+            customer = rs.getString("Customer");
+            Customer c = new Customer(customer);
+
+            user = rs.getString("User");
+            User u = new User(user);
+
+            task = new Task(taskID, estimatedtime, s, priority, t, description, startDate, endDate, c, u, taskName);
+
+        }
+        return task;
+    }
+
+    public ArrayList<Task> SPgetTasks() throws IOException, SQLException {
+
+        ArrayList<Task> tasks = new ArrayList<>();
+        int taskID = 0;
+        int estimatedtime = 0;
+        int priority = 0;
+        String status = null;
+        String type = null;
+        String description = null;
+        String taskName = null;
+        Date startDate = null;
+        Date endDate = null;
+        String customer = null;
+        String user = null;
+
+
+
+        Connection conn = (Connection) initiateSystemDBConn()[0];
+
+        CallableStatement cs = conn.prepareCall("{call getAllTasks}");
+        ResultSet rs = cs.executeQuery();
+
+
+        while (rs.next()) {
+
+            taskID = rs.getInt("TaskID");
+            estimatedtime = rs.getInt("EstimatedTime");
+
+            status = rs.getString("Status");
+            Statuss s = new Statuss(status);
+
+            priority = rs.getInt("Priority");
+
+            type = rs.getString("Type");
+            Type t = new Type(type);
+
+            description = rs.getString("Description");
+
+            taskName = rs.getString("TaskName");
+            startDate = rs.getDate("StartDate");
+            endDate = rs.getDate("EndDate");
+
+            customer = rs.getString("Customer");
+            Customer c = new Customer(customer);
+
+            user = rs.getString("User");
+            User u = new User(user);
+
+            Task task = new Task(taskID, estimatedtime, s, priority, t, description, startDate, endDate, c, u, taskName);
             tasks.add(task);
         }
         return tasks;
@@ -319,17 +363,17 @@ public class DBHandler {
 
     public void addUserToTask(JList list) throws SQLException, IOException {
         ArrayList<User> userList = new ArrayList<>();
-        
+
         Connection conn = (Connection) initiateSystemDBConn()[0];
         CallableStatement cs = null;
 
         DefaultListModel modelOnTask = (DefaultListModel) list.getModel();
-        
+
         for (int i = 0; i < modelOnTask.getSize(); i++) {
-            userList.add((User)modelOnTask.getElementAt(i));
-            System.out.println("Henter bruge element: "+(User)modelOnTask.getElementAt(i));
+            userList.add((User) modelOnTask.getElementAt(i));
+            System.out.println("Henter bruge element: " + (User) modelOnTask.getElementAt(i));
         }
-        
+
         //Original 
 //        for (int i = 0; i < userList.size(); i++) {
 //            cs = conn.prepareCall("{call addUserToTask(?)}");
@@ -347,11 +391,13 @@ public class DBHandler {
 //        }
 
         for (int i = 0; i < userList.size(); i++) {
-            cs =  conn.prepareCall("{call addUserToTask(?)}");
+            cs = conn.prepareCall("{call addUserToTask(?)}");
             cs.setInt(1, userList.get(i).getUserID());
             System.out.println("Henter bruger id: " + userList.get(i).getUserID());
-           cs.execute();
-           }
+            cs.execute();
+        }
+
+
 
     }
 }
