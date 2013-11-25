@@ -260,7 +260,7 @@ public class DBHandler {
             description = rs.getString("Description");
 
         }
-        Task task = new Task(estimatedtime, status, priority, type, description, null);
+        Task task = new Task(estimatedtime, status, priority, type, description, null,null);
         return task;
     }
 
@@ -292,7 +292,7 @@ public class DBHandler {
 
             description = rs.getString("Description");
 
-            Task task = new Task(estimatedtime, s, priority, t, description, null);
+            Task task = new Task(estimatedtime, s, priority, t, description, null,null);
             tasks.add(task);
         }
         return tasks;

@@ -18,22 +18,39 @@ public class Task {
     private int priority;
     private Type type;
     private String description;
-    private Date datetime;
     private Date startDate;
     private Date endDate;
     private Customer customer;
     private User user;
     private String taskName;
 
-    public Task(int estimatedtime, Statuss status, int priority, Type type, String description, Date datetime) {
+    public Task(int estimatedtime, Statuss status, int priority, Type type, String description, Date startDate, Date endDate) {
         this.estimatedtime = estimatedtime;
         this.status = status;
         this.priority = priority;
         this.type = type;
         this.description = description;
-        this.datetime = datetime;
+        this.startDate = startDate;
+        this.endDate  = endDate;
+        
     }
 
+    public Task(int taskID, int estimatedtime, Statuss status, int priority, Type type, String description, Date startDate, Date endDate, Customer customer, User user, String taskName) {
+        this.taskID = taskID;
+        this.estimatedtime = estimatedtime;
+        this.status = status;
+        this.priority = priority;
+        this.type = type;
+        this.description = description;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.customer = customer;
+        this.user = user;
+        this.taskName = taskName;
+    }
+
+    
+    
     @Override
     public String toString() {
         return "Task{" + "status=" + status + ", priority=" + priority + ", type=" + type + ", customer=" + customer + ", taskName=" + taskName + '}';
@@ -89,13 +106,46 @@ public class Task {
         this.description = description;
     }
 
-    public Date getDatetime() {
-        return datetime;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setDatetime(Date datetime) {
-        this.datetime = datetime;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
-    
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String getTaskName() {
+        return taskName;
+    }
+
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
+    }
+
+
     
 }
