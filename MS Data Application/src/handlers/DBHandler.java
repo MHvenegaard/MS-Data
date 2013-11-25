@@ -191,6 +191,7 @@ public class DBHandler {
     }
 
     public ArrayList<User> SPgetUsers() throws SQLException, IOException {
+        int userID;
         String userName = null;
         String password = null;
         String firstName = null;
@@ -206,12 +207,13 @@ public class DBHandler {
         ResultSet rs = cs.executeQuery();
 
         while (rs.next()) {
+            userID = rs.getInt("idUser"); 
             userName = rs.getString("shortName");
             firstName = rs.getString("userFirstName");
             lastName = rs.getString("userLastName");
             password = rs.getString("password");
             accessLevel = rs.getInt("accessLevel");
-            User user = new User(userName, firstName, lastName, password, accessLevel);
+            User user = new User(userID, userName, firstName, lastName, password, accessLevel);
             userList.add(user);
         }
         return userList;
@@ -323,8 +325,9 @@ public class DBHandler {
 
         DefaultListModel modelOnTask = (DefaultListModel) list.getModel();
         
-        for (int i = 0; i < userList.size(); i++) {
+        for (int i = 0; i < modelOnTask.getSize(); i++) {
             userList.add((User)modelOnTask.getElementAt(i));
+            System.out.println("Henter bruge element: "+(User)modelOnTask.getElementAt(i));
         }
         
         //Original 
@@ -334,13 +337,21 @@ public class DBHandler {
 //            cs.execute();
 //        }
         //Test
-        for (int i = 0; i < modelOnTask.getSize(); i++) {
-            cs = conn.prepareCall("{call addUserToTask(?)}");
-            cs.setString(1, modelOnTask.getElementAt(i).toString());
-            
-            cs.execute();
-        }
+//        for (int i = 0; i < modelOnTask.getSize(); i++) {
+//            cs = conn.prepareCall("{call addUserToTask(?)}");
+//            cs.setString(1, modelOnTask.getElementAt(i).toString());
+//            
+//            System.out.println((User)modelOnTask.getElementAt(i).get);
+//                
+//            cs.execute();
+//        }
 
+        for (int i = 0; i < userList.size(); i++) {
+            cs =  conn.prepareCall("{call addUserToTask(?)}");
+            cs.setInt(1, userList.get(i).getUserID());
+            System.out.println("Henter bruger id: " + userList.get(i).getUserID());
+           cs.execute();
+           }
 
     }
 }

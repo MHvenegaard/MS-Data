@@ -383,6 +383,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         try {
             //dbh.createTask(null, Integer.parseInt(TextFieldEstimatedTime.getText()), TextFieldOpgaveNavn.getText(), ComboBoxStatus.getSelectedItem().toString(), Integer.parseInt(ComboBoxPriority.getSelectedItem().toString()));
+            
             dbh.createTask(Integer.parseInt(TextFieldEstimatedTime.getText()), TextAreaBeskrivelse.getText(), ComboBoxStatus.getSelectedItem().toString(), Integer.parseInt(ComboBoxPriority.getSelectedItem().toString()), TextFieldOpgaveNavn.getText(), null, null, ComboBoxType.getSelectedItem().toString(), ComboBoxCustomer.getSelectedItem().toString(), ComboBoxUser.getSelectedItem().toString());
             dbh.addUserToTask(ListUsersOnTask);
         } catch (SQLException ex) {
