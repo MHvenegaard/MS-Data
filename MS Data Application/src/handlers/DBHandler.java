@@ -251,11 +251,12 @@ public class DBHandler {
         Date startDate = null;
         Date endDate = null;
         Task task = null;
-
+        
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
         CallableStatement cs = null;
         cs = conn.prepareCall("{call getTask}");
+        cs.setInt(1, taskID);
         ResultSet rs = cs.executeQuery();
 
         while (rs.next()) {

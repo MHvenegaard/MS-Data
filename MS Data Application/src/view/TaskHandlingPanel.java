@@ -9,6 +9,8 @@ import java.awt.Color;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.UIManager;
 import model.Customer;
@@ -261,7 +263,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ButtonEditTask)
                     .addComponent(ButtonSaveChanges))
-                .addGap(366, 366, 366))
+                .addGap(391, 391, 391))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -270,8 +272,16 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_ButtonAddUserActionPerformed
 
     private void ListTasksMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ListTasksMouseClicked
-
-
+        System.out.println("Value: "+ListTasks.getSelectedValue());
+        System.out.println("Index: "+(ListTasks.getSelectedIndex()+1));
+        try {
+            fillAllWithSelectedTask(6);
+        } catch (IOException ex) {
+            Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         TextFieldTaskName.setText("YOLOBITCHES");
     }//GEN-LAST:event_ListTasksMouseClicked
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -316,6 +326,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
 
         for (int i = 0; i < Tasks.size(); i++) {
             model.addElement(Tasks.get(i).toString());
+           // model.add(Tasks.get(i).getTaskID(), Tasks.get(i).toString());
         }
     }
 
@@ -325,7 +336,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         task = dbh.SPgetTask(taskID);
 
         TextFieldTaskName.setText(task.getTaskName());
-        ComboBoxCustomer.setSelectedItem(task.getCustomer());
+        ComboBoxCustomer.setSelectedItem(task.getCustomer().getCompanyName());
 
 
     }
