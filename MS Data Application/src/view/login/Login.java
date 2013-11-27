@@ -2,14 +2,13 @@ package view.login;
 
 import handlers.Controller;
 import java.awt.Color;
+import java.awt.Image;
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.Socket;
-import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import model.User;
 import view.Mainframe;
 
@@ -24,7 +23,7 @@ public class Login extends javax.swing.JFrame {
 
         loginStatus = 0;
         initComponents();
-
+        textFieldUserName.setText("brugernavn");
 
     }
 
@@ -37,20 +36,49 @@ public class Login extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel2 = new javax.swing.JLabel();
         textFieldUserName = new javax.swing.JTextField();
         passwordFieldPassword = new javax.swing.JPasswordField();
         progressBar = new javax.swing.JProgressBar();
         buttonLogin = new javax.swing.JButton();
         logo = new javax.swing.JLabel();
         labelStatus = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+
+        jLabel2.setText("Brugernavn:");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("MS Teknik - Login");
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setResizable(false);
 
-        textFieldUserName.setText("adm");
+        textFieldUserName.setText("Brugernavn");
+        textFieldUserName.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                textFieldUserNameFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                textFieldUserNameFocusLost(evt);
+            }
+        });
 
-        passwordFieldPassword.setText("admin");
+        passwordFieldPassword.setText("password");
+        passwordFieldPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passwordFieldPasswordActionPerformed(evt);
+            }
+        });
+        passwordFieldPassword.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                passwordFieldPasswordFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                passwordFieldPasswordFocusLost(evt);
+            }
+        });
 
-        progressBar.setMaximum(4);
+        progressBar.setMaximum(3);
 
         buttonLogin.setText("Login");
         buttonLogin.addActionListener(new java.awt.event.ActionListener() {
@@ -60,6 +88,10 @@ public class Login extends javax.swing.JFrame {
         });
 
         logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ressources/ms-teknik-logo.jpg"))); // NOI18N
+
+        jLabel1.setText("Brugernavn:");
+
+        jLabel3.setText("Password:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -71,16 +103,20 @@ public class Login extends javax.swing.JFrame {
                 .addComponent(buttonLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(138, 138, 138))
             .addGroup(layout.createSequentialGroup()
-                .addGap(126, 126, 126)
+                .addContainerGap()
+                .addComponent(labelStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(56, 56, 56)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(logo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(textFieldUserName, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(passwordFieldPassword))
-                .addContainerGap(124, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(labelStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addContainerGap(128, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -88,9 +124,13 @@ public class Login extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addComponent(logo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
-                .addComponent(textFieldUserName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(textFieldUserName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
                 .addGap(18, 18, 18)
-                .addComponent(passwordFieldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(passwordFieldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
                 .addGap(28, 28, 28)
                 .addComponent(buttonLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -98,6 +138,8 @@ public class Login extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
+
+        getAccessibleContext().setAccessibleDescription("");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -109,12 +151,11 @@ public class Login extends javax.swing.JFrame {
             @Override
             public void run() {
 
-                boolean run = true;
-
-                // Initialiserer forbindelsestjek
                 Controller controller = null;
+                // Initialiserer forbindelsestjek
 
                 try {
+                    loginStatus = 0;
                     setMessage("Initialiserer system");
                     controller = new Controller();
                     progressBar.setValue(loginStatus);
@@ -122,8 +163,6 @@ public class Login extends javax.swing.JFrame {
                 } catch (ClassNotFoundException ex) {
                     setWarningMessage("MySQL Driveren kunne ikke indlæses");
                 }
-
-                
                 // Kontroller internet forbindelse
                 try {
                     loginStatus = 1;
@@ -136,7 +175,6 @@ public class Login extends javax.swing.JFrame {
                 } catch (IOException ex) {
                     setWarningMessage("Der kunne ikke oprettes forbindelse til Internettet");
                 }
-
                 // Kontroller database forbindelse
                 try {
                     loginStatus = 2;
@@ -156,11 +194,8 @@ public class Login extends javax.swing.JFrame {
 
                 try {
                     // kontrollerer loginoplysninger
-                    // DO STUFF
                     loginStatus = 3;
                     setMessage("Validerer loginoplysninger");
-                    
-
 
                     ArrayList<User> users = Controller.dbHandler.SPgetUsers();
                     String username = textFieldUserName.getText();
@@ -176,15 +211,19 @@ public class Login extends javax.swing.JFrame {
                             String pass = users.get(counter).getPassword();
                             if (pass.equals(enteredPassword)) {
                                 passwordMatch = true;
+                                
                             }
                         }
                         counter++;
                     }
                     if (userFound && passwordMatch) {
                         progressBar.setValue(loginStatus);
-                        // Login
+                        setMessage("Success");
+                        login(users.get(counter - 1)); // -1 As it has incremented once and would otherwise create an out of bounds exception
+
                     } else if (!userFound) {
                         // User doesnt exist
+                        
                         setWarningMessage("Brugernavnet kan ikke genkendes");
                     } else {
                         // Password doesnt match
@@ -193,37 +232,60 @@ public class Login extends javax.swing.JFrame {
 
                 } catch (SQLException ex) {
                     Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                    setWarningMessage("");
                 } catch (IOException ex) {
                     Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                    setWarningMessage("");
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                    setWarningMessage("");
                 }
-
-
-                loginStatus = 4;
-                progressBar.setValue(loginStatus);
-                /*        
-                 setMessage("Success");
-                 Mainframe mf = null;
-                 try {
-                 mf = new Mainframe();
-                 } catch (ClassNotFoundException ex) {
-                 Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-                 } catch (SQLException ex) {
-                 Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-                 } catch (IOException ex) {
-                 Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-                 }
-            
-       
-                 mf.setVisible(true);
-                 */
             }
+            
+            
         });
         t.start();
 
         updateProgressView();
     }//GEN-LAST:event_buttonLoginActionPerformed
 
-    private void login() {
+    private void passwordFieldPasswordFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passwordFieldPasswordFocusGained
+        passwordFieldPassword.setText("");
+    }//GEN-LAST:event_passwordFieldPasswordFocusGained
+
+    private void textFieldUserNameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textFieldUserNameFocusGained
+        textFieldUserName.setText("");
+    }//GEN-LAST:event_textFieldUserNameFocusGained
+
+    private void textFieldUserNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textFieldUserNameFocusLost
+        if (textFieldUserName.getText().equals("")) {
+            textFieldUserName.setText("Brugernavn");
+        }
+    }//GEN-LAST:event_textFieldUserNameFocusLost
+
+    private void passwordFieldPasswordFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passwordFieldPasswordFocusLost
+        String pw = new String(passwordFieldPassword.getPassword());
+        if (pw.equals("")) {
+            passwordFieldPassword.setText("password");
+        }
+    }//GEN-LAST:event_passwordFieldPasswordFocusLost
+
+    private void passwordFieldPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldPasswordActionPerformed
+        buttonLoginActionPerformed(evt);
+    }//GEN-LAST:event_passwordFieldPasswordActionPerformed
+
+    private void login(User user) throws IOException, ClassNotFoundException, SQLException {
+
+        // INSERT USER INTO CONTROLLER
+        // INSERT CONTROLLER INTO MAINFRAME
+
+        setMessage("Initialiserer system.. Vent venligst");
+        Mainframe mf = null;
+        mf = new Mainframe();
+        mf.setLocationRelativeTo(null);
+        Image image = ImageIO.read(getClass().getResource("/ressources/ms-teknik-logo.jpg"));
+        mf.setIconImage(image);
+        mf.setVisible(true);
     }
 
     private void updateProgressView() {
@@ -250,13 +312,12 @@ public class Login extends javax.swing.JFrame {
     }
 
     private void setWarningMessage(String msg) {
-        progressBar.setBackground(Color.RED);
-        labelStatus.setBackground(Color.RED);
+        labelStatus.setForeground(Color.RED);
         labelStatus.setText(msg);
     }
 
     private void setMessage(String msg) {
-        labelStatus.setBackground(Color.BLACK);
+        labelStatus.setForeground(Color.BLACK);
         labelStatus.setText(msg);
     }
 
@@ -276,6 +337,7 @@ public class Login extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
@@ -296,12 +358,25 @@ public class Login extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Login().setVisible(true);
+                try {
+                    Login login = new Login();
+                    Image image = ImageIO.read(getClass().getResource("/ressources/ms-teknik-logo.jpg"));
+                    login.setLocationRelativeTo(null);
+                    login.setIconImage(image);
+                    login.setVisible(true);
+
+                } catch (IOException ex) {
+                    Logger.getLogger(Login.class
+                            .getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonLogin;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel labelStatus;
     private javax.swing.JLabel logo;
     private javax.swing.JPasswordField passwordFieldPassword;
