@@ -52,7 +52,6 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
         ArrayList<Customer> customers = dbh.SPgetCustomers();
         for (int i = 0; i < customers.size(); i++) {
-            System.out.println(customers.get(i).toString());
             ComboBoxCustomer.addItem(customers.get(i));
         }
         ComboBoxCustomer.setSelectedIndex(0);
@@ -66,7 +65,6 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
         ArrayList<Type> typesList = dbh.SPgetTypes();
         for (int i = 0; i < typesList.size(); i++) {
-            System.out.println(typesList.get(i).toString());
             ComboBoxType.addItem(typesList.get(i));
         }
         ComboBoxType.setSelectedIndex(0);
@@ -80,7 +78,6 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
         ArrayList<User> userList = dbh.SPgetUsers();
         for (int i = 0; i < userList.size(); i++) {
-            System.out.println(userList.get(i).toString());
             ComboBoxUser.addItem(userList.get(i));
         }
         ComboBoxUser.setSelectedIndex(0);
@@ -94,7 +91,6 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
         ArrayList<Statuss> statusList = dbh.SPgetStatus();
         for (int i = 0; i < statusList.size(); i++) {
-            System.out.println(statusList.get(i).toString());
             ComboBoxStatus.addItem(statusList.get(i));
         }
         ComboBoxStatus.setSelectedIndex(0);

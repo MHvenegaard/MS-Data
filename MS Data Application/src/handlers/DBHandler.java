@@ -221,6 +221,8 @@ public class DBHandler {
 
     public ArrayList<Statuss> SPgetStatus() throws SQLException, IOException {
         String statusName = null;
+        int statusID;
+        String description = null; 
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
         ArrayList<Statuss> statusList = new ArrayList<>();
@@ -231,7 +233,9 @@ public class DBHandler {
 
         while (rs.next()) {
             statusName = rs.getString("statusName");
-            Statuss status = new Statuss(statusName);
+            statusID = rs.getInt("idStatus");
+            description = rs.getString("description");
+            Statuss status = new Statuss(statusID,statusName,description);
             statusList.add(status);
 
         }

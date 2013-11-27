@@ -5,14 +5,12 @@
 package view;
 
 import handlers.DBHandler;
-import java.awt.Color;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
-import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import model.Customer;
 import model.Statuss;
