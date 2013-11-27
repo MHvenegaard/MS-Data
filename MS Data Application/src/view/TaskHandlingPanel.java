@@ -38,8 +38,6 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         fillUserCombo();
         fillUserList();
 
-        fillListTasks();
-        
         fillTableWithTask();
 
 
@@ -82,8 +80,6 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         TextFieldEstimatedStart = new javax.swing.JTextField();
         TextFieldEstimatedFinish = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        ListTasks = new javax.swing.JList();
         ButtonEditTask = new javax.swing.JButton();
         ButtonSaveChanges = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -131,18 +127,6 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
 
         jLabel8.setText("Forventet tidsforbrug");
 
-        ListTasks.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        ListTasks.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ListTasksMouseClicked(evt);
-            }
-        });
-        jScrollPane3.setViewportView(ListTasks);
-
         ButtonEditTask.setText("Rediger opgave ");
 
         ButtonSaveChanges.setText("Gem ændringer");
@@ -169,9 +153,6 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(55, 55, 55)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 519, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -281,29 +262,13 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ButtonEditTask)
                     .addComponent(ButtonSaveChanges))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(88, 88, 88))
+                .addGap(247, 247, 247))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void ButtonAddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonAddUserActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ButtonAddUserActionPerformed
-
-    private void ListTasksMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ListTasksMouseClicked
-        System.out.println("Value: "+ListTasks.getSelectedValue());
-        System.out.println("Index: "+(ListTasks.getSelectedIndex()+1));
-        try {
-            fillAllWithSelectedTask(6);
-        } catch (IOException ex) {
-            Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        TextFieldTaskName.setText("YOLOBITCHES");
-    }//GEN-LAST:event_ListTasksMouseClicked
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
          DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
@@ -322,7 +287,6 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     private javax.swing.JComboBox ComboBoxProjectLeader;
     private javax.swing.JComboBox ComboBoxStatus;
     private javax.swing.JComboBox ComboBoxType;
-    private javax.swing.JList ListTasks;
     private javax.swing.JList ListUsers;
     private javax.swing.JList ListUsersOnTask;
     private javax.swing.JTextField TextFieldEstimatedFinish;
@@ -343,22 +307,9 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
-
-    private void fillListTasks() throws IOException, SQLException {
-        DefaultListModel model = new DefaultListModel();
-        ListTasks.setModel(model);
-
-        ArrayList<Task> Tasks = dbh.SPgetTasks();
-
-        for (int i = 0; i < Tasks.size(); i++) {
-            model.addElement(Tasks.get(i).toString());
-           // model.add(Tasks.get(i).getTaskID(), Tasks.get(i).toString());
-        }
-    }
     
     private void fillTableWithTask() throws IOException, SQLException{
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
@@ -403,7 +354,6 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
 
         ArrayList<Type> typesList = dbh.SPgetTypes();
         for (int i = 0; i < typesList.size(); i++) {
-            System.out.println(typesList.get(i).toString());
             ComboBoxType.addItem(typesList.get(i));
         }
         ComboBoxType.setSelectedIndex(0);
@@ -417,7 +367,6 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
 
         ArrayList<User> userList = dbh.SPgetUsers();
         for (int i = 0; i < userList.size(); i++) {
-            System.out.println(userList.get(i).toString());
             ComboBoxProjectLeader.addItem(userList.get(i));
         }
         ComboBoxProjectLeader.setSelectedIndex(0);
@@ -431,7 +380,6 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
 
         ArrayList<Statuss> statusList = dbh.SPgetStatus();
         for (int i = 0; i < statusList.size(); i++) {
-            System.out.println(statusList.get(i).toString());
             ComboBoxStatus.addItem(statusList.get(i));
         }
         ComboBoxStatus.setSelectedIndex(0);
