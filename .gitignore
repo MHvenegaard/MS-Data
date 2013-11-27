@@ -6,3 +6,4 @@
 *.ear
 /MS Data Application/nbproject/private/
 /MS Data Application/build/
+/MS Data Application/dist/
