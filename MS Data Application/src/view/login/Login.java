@@ -205,7 +205,6 @@ public class Login extends javax.swing.JFrame {
                     boolean passwordMatch = false;
                     int counter = 0;
                     while (!userFound && counter < users.size()) {
-                        System.out.println(users.get(counter).getUserName() + " - " + users.get(counter).getPassword());
                         if (users.get(counter).getUserName().equals(username)) {
                             userFound = true;
                             String pass = users.get(counter).getPassword();
