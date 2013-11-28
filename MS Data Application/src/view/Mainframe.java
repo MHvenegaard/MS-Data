@@ -25,6 +25,8 @@ public class Mainframe extends javax.swing.JFrame {
      * Creates new form Mainframe
      */
     public Mainframe(Controller control) throws ClassNotFoundException, SQLException, IOException {
+        controller = control;
+        
         initComponents();
         
         setTitle();
