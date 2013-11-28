@@ -150,6 +150,7 @@ public class DBHandler {
 
     public ArrayList<Customer> SPgetCustomers() throws SQLException, IOException {
         String compName = null;
+        
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
         ArrayList<Customer> customerList = new ArrayList<>();
@@ -258,8 +259,10 @@ public class DBHandler {
         
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
+        System.out.println("TaskID = " + taskID);
+        
         CallableStatement cs = null;
-        cs = conn.prepareCall("{call getTask}");
+        cs = conn.prepareCall("{call getTask(?)}");
         cs.setInt(1, taskID);
         ResultSet rs = cs.executeQuery();
 

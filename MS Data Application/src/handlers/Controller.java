@@ -6,7 +6,6 @@ package handlers;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.sql.SQLException;
 import model.*;
 
 /**
@@ -18,7 +17,7 @@ public class Controller {
     public final static int VERSION_NUMBER = 1;
     public static User currentUser;
     public static DBHandler dbHandler;
-
+ 
     public Controller() throws ClassNotFoundException {
         currentUser = null;
         dbHandler = new DBHandler();
