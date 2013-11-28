@@ -4,9 +4,7 @@
  */
 package view;
 
-import static handlers.Controller.dbHandler;
-import handlers.DBHandler;
-import java.awt.Dialog;
+import handlers.Controller;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -16,7 +14,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import model.Customer;
 import model.Statuss;
-import model.Task;
 import model.Type;
 import model.User;
 
@@ -29,9 +26,8 @@ public class CreateTaskPanel extends javax.swing.JPanel {
     /**
      * Creates new form CreateTaskPanel
      */
-    DBHandler dbh = new DBHandler();
 
-    public CreateTaskPanel(DBHandler dbh) throws ClassNotFoundException, SQLException, IOException {
+    public CreateTaskPanel() throws ClassNotFoundException, SQLException, IOException {
         initComponents();
 
         fillCustomerCombo();
@@ -39,7 +35,6 @@ public class CreateTaskPanel extends javax.swing.JPanel {
         fillUserCombo();
         fillStatusCombo();
         fillUserList();
-        this.dbh = dbh;
         //dbh.storedProcedureTest();
 
     }
@@ -50,7 +45,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
         ComboBoxCustomer.removeAllItems();
         ComboBoxCustomer.addItem("Vælg kunde");
 
-        ArrayList<Customer> customers = dbh.SPgetCustomers();
+        ArrayList<Customer> customers = Controller.dbHandler.SPgetCustomers();
         for (int i = 0; i < customers.size(); i++) {
             ComboBoxCustomer.addItem(customers.get(i));
         }
@@ -63,7 +58,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
         ComboBoxType.removeAllItems();
         ComboBoxType.addItem("Vælg type");
 
-        ArrayList<Type> typesList = dbh.SPgetTypes();
+        ArrayList<Type> typesList = Controller.dbHandler.SPgetTypes();
         for (int i = 0; i < typesList.size(); i++) {
             ComboBoxType.addItem(typesList.get(i));
         }
@@ -76,7 +71,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
         ComboBoxUser.removeAllItems();
         ComboBoxUser.addItem("Vælg projektleder");
 
-        ArrayList<User> userList = dbh.SPgetUsers();
+        ArrayList<User> userList = Controller.dbHandler.SPgetUsers();
         for (int i = 0; i < userList.size(); i++) {
             ComboBoxUser.addItem(userList.get(i));
         }
@@ -89,7 +84,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
         ComboBoxStatus.removeAllItems();
         ComboBoxStatus.addItem("Vælg status");
 
-        ArrayList<Statuss> statusList = dbh.SPgetStatus();
+        ArrayList<Statuss> statusList = Controller.dbHandler.SPgetStatus();
         for (int i = 0; i < statusList.size(); i++) {
             ComboBoxStatus.addItem(statusList.get(i));
         }
@@ -104,7 +99,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
         DefaultListModel model = new DefaultListModel();
 
         ListUsers.setModel(model);
-        ArrayList<User> userList = dbh.SPgetUsers();
+        ArrayList<User> userList = Controller.dbHandler.SPgetUsers();
 
         for (int i = 0; i < userList.size(); i++) {
             model.addElement(userList.get(i));
@@ -179,8 +174,6 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel11.setText("Ansatte");
-
-        ComboBoxStatus.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "q", "w", "e", "r" }));
 
         TextAreaBeskrivelse.setColumns(20);
         TextAreaBeskrivelse.setRows(5);
@@ -403,11 +396,9 @@ public class CreateTaskPanel extends javax.swing.JPanel {
             
                     
                     
-            dbh.createTask(Integer.parseInt(TextFieldEstimatedTime.getText()), TextAreaBeskrivelse.getText(), ComboBoxStatus.getSelectedItem().toString(), Integer.parseInt(ComboBoxPriority.getSelectedItem().toString()), TextFieldTaskName.getText(), TextFieldEstimatedStart.getText(), TextFieldEstimatedFinish.getText(), ComboBoxType.getSelectedItem().toString(), ComboBoxCustomer.getSelectedItem().toString(), ComboBoxUser.getSelectedItem().toString());
-            dbh.addUserToTask(ListUsersOnTask);
-        } catch (SQLException ex) {
-            Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+            Controller.dbHandler.createTask(Integer.parseInt(TextFieldEstimatedTime.getText()), TextAreaBeskrivelse.getText(), ComboBoxStatus.getSelectedItem().toString(), Integer.parseInt(ComboBoxPriority.getSelectedItem().toString()), TextFieldTaskName.getText(), TextFieldEstimatedStart.getText(), TextFieldEstimatedFinish.getText(), ComboBoxType.getSelectedItem().toString(), ComboBoxCustomer.getSelectedItem().toString(), ComboBoxUser.getSelectedItem().toString());
+            Controller.dbHandler.addUserToTask(ListUsersOnTask);
+        } catch (SQLException | IOException ex) {
             Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
