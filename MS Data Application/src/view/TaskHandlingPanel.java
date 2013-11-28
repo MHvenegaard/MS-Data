@@ -28,12 +28,10 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     /**
      * Creates new form TaskHandlingPanel
      */
-    DBHandler dbh = new DBHandler();
-    Controller controller = new Controller();
 
-    public TaskHandlingPanel(DBHandler dbh) throws ClassNotFoundException, SQLException, IOException {
+    public TaskHandlingPanel() throws ClassNotFoundException, SQLException, IOException {
         initComponents();
-        this.dbh = dbh;
+        
         fillCustomerCombo();
         fillStatusCombo();
         fillTypeCombo();
@@ -346,7 +344,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
 
     private void fillTableWithTask() throws IOException, SQLException {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        ArrayList<Task> tasks = dbh.SPgetTasks();
+        ArrayList<Task> tasks = Controller.dbHandler.SPgetTasks();
 
         for (int i = 0; i < tasks.size(); i++) {
             Object[] data = {tasks.get(i).getTaskID(),
@@ -361,7 +359,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
 
     private void fillAllWithSelectedTask(int taskID) throws IOException, SQLException {
         Task task;
-        task = dbh.SPgetTask(taskID);
+        task = Controller.dbHandler.SPgetTask(taskID);
 
         TextFieldTaskName.setText(task.getTaskName());
         System.out.println(""+task.getCustomer().getCompanyName());
@@ -384,7 +382,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         ComboBoxCustomer.removeAllItems();
         ComboBoxCustomer.addItem("Vælg kunde");
 
-        ArrayList<Customer> customers = dbh.SPgetCustomers();
+        ArrayList<Customer> customers = Controller.dbHandler.SPgetCustomers();
         for (int i = 0; i < customers.size(); i++) {
             System.out.println(customers.get(i).toString());
             ComboBoxCustomer.addItem(customers.get(i));
@@ -398,7 +396,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         ComboBoxType.removeAllItems();
         ComboBoxType.addItem("Vælg type");
 
-        ArrayList<Type> typesList = dbh.SPgetTypes();
+        ArrayList<Type> typesList = Controller.dbHandler.SPgetTypes();
         for (int i = 0; i < typesList.size(); i++) {
             ComboBoxType.addItem(typesList.get(i));
         }
@@ -411,7 +409,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         ComboBoxProjectLeader.removeAllItems();
         ComboBoxProjectLeader.addItem("Vælg projektleder");
 
-        ArrayList<User> userList = dbh.SPgetUsers();
+        ArrayList<User> userList = Controller.dbHandler.SPgetUsers();
         for (int i = 0; i < userList.size(); i++) {
             ComboBoxProjectLeader.addItem(userList.get(i));
         }
@@ -424,7 +422,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         ComboBoxStatus.removeAllItems();
         ComboBoxStatus.addItem("Vælg status");
 
-        ArrayList<Statuss> statusList = dbh.SPgetStatus();
+        ArrayList<Statuss> statusList = Controller.dbHandler.SPgetStatus();
         for (int i = 0; i < statusList.size(); i++) {
             ComboBoxStatus.addItem(statusList.get(i));
         }
@@ -439,7 +437,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         DefaultListModel model = new DefaultListModel();
 
         ListUsers.setModel(model);
-        ArrayList<User> userList = dbh.SPgetUsers();
+        ArrayList<User> userList = Controller.dbHandler.SPgetUsers();
 
         for (int i = 0; i < userList.size(); i++) {
             model.addElement(userList.get(i));
