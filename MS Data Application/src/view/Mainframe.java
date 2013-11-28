@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.User;
 
 /**
  *
@@ -17,24 +18,20 @@ import java.util.logging.Logger;
 public class Mainframe extends javax.swing.JFrame {
 
     
-    private DBHandler dbh;
     private Controller controller;
-    
+            
+
     /**
      * Creates new form Mainframe
      */
-    public Mainframe() throws ClassNotFoundException, SQLException, IOException {
+    public Mainframe(Controller control) throws ClassNotFoundException, SQLException, IOException {
         initComponents();
         
-        try {
-            dbh = new DBHandler();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Mainframe.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        setTitle();
         
         tabPane.add("Kundehåndtering", new CustomerHandlingPanel());
-        tabPane.add("Projektoprettelse", new CreateTaskPanel(dbh));
-        tabPane.add("Projekthåndtering", new TaskHandlingPanel(dbh));
+        tabPane.add("Projektoprettelse", new CreateTaskPanel(controller));
+        tabPane.add("Projekthåndtering", new TaskHandlingPanel(controller));
         
     }
 
@@ -76,7 +73,22 @@ public class Mainframe extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    private void setTitle(){
+        
+        String userName = controller.getUser().getUserName();
+        String accessLevel;
+        if(controller.getUser().getAccessLevel() == 0){
+            accessLevel = "Administrator";
+        }
+        else{
+            accessLevel = "Bruger";
+        }
+        this.setTitle(userName + " - " + accessLevel);
+    }
+    
     /**
+     * 
      * @param args the command line arguments
      */
     public static void main(String args[]) {
@@ -107,7 +119,7 @@ public class Mainframe extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new Mainframe().setVisible(true);
+                    new Mainframe(new Controller(new User(1337, "DummyUser", "Dummy", "User", "admin", 0))).setVisible(true);
                 } catch (ClassNotFoundException ex) {
                     Logger.getLogger(Mainframe.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (SQLException ex) {

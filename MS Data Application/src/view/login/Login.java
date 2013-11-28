@@ -151,23 +151,19 @@ public class Login extends javax.swing.JFrame {
             @Override
             public void run() {
 
-                Controller controller = null;
+                
                 // Initialiserer forbindelsestjek
 
-                try {
                     loginStatus = 0;
                     setMessage("Initialiserer system");
-                    controller = new Controller();
                     progressBar.setValue(loginStatus);
 
-                } catch (ClassNotFoundException ex) {
-                    setWarningMessage("MySQL Driveren kunne ikke indlæses");
-                }
+               
                 // Kontroller internet forbindelse
                 try {
                     loginStatus = 1;
                     setMessage("Kontrollerer internetforbindelse");
-                    controller.checkInternet();
+                    Controller.checkInternet();
 
 
                     progressBar.setValue(loginStatus);
@@ -280,7 +276,8 @@ public class Login extends javax.swing.JFrame {
 
         setMessage("Initialiserer system.. Vent venligst");
         Mainframe mf = null;
-        mf = new Mainframe();
+        Controller control = new Controller(user);
+        mf = new Mainframe(control);
         mf.setLocationRelativeTo(null);
         Image image = ImageIO.read(getClass().getResource("/ressources/ms-teknik-logo.jpg"));
         mf.setIconImage(image);

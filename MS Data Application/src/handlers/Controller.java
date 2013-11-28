@@ -18,12 +18,12 @@ public class Controller {
     public static User currentUser;
     public static DBHandler dbHandler;
  
-    public Controller() throws ClassNotFoundException {
-        currentUser = null;
+    public Controller(User user) throws ClassNotFoundException {
+        currentUser = user;
         dbHandler = new DBHandler();
     }
 
-    public void checkInternet() throws IOException {
+    public static void checkInternet() throws IOException {
 
         Socket socket = null;
 
@@ -37,8 +37,14 @@ public class Controller {
     public void setUser(User user) {
         currentUser = user;
     }
+    
+    public User getUser(){
+        return currentUser;
+    }
 
     public DBHandler getDBHandler() {
         return dbHandler;
     }
+    
+    
 }
