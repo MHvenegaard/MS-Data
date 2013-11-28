@@ -6,6 +6,8 @@ import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.net.ssl.SSLEngineResult.Status;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
@@ -150,7 +152,7 @@ public class DBHandler {
 
     public ArrayList<Customer> SPgetCustomers() throws SQLException, IOException {
         String compName = null;
-        
+
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
         ArrayList<Customer> customerList = new ArrayList<>();
@@ -223,7 +225,7 @@ public class DBHandler {
     public ArrayList<Statuss> SPgetStatus() throws SQLException, IOException {
         String statusName = null;
         int statusID;
-        String description = null; 
+        String description = null;
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
         ArrayList<Statuss> statusList = new ArrayList<>();
@@ -236,7 +238,7 @@ public class DBHandler {
             statusName = rs.getString("statusName");
             statusID = rs.getInt("idStatus");
             description = rs.getString("description");
-            Statuss status = new Statuss(statusID,statusName,description);
+            Statuss status = new Statuss(statusID, statusName, description);
             statusList.add(status);
 
         }
@@ -256,11 +258,9 @@ public class DBHandler {
         Date startDate = null;
         Date endDate = null;
         Task task = null;
-        
+
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
-        System.out.println("TaskID = " + taskID);
-        
         CallableStatement cs = null;
         cs = conn.prepareCall("{call getTask(?)}");
         cs.setInt(1, taskID);
@@ -311,13 +311,10 @@ public class DBHandler {
         String customer = null;
         String user = null;
 
-
-
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
         CallableStatement cs = conn.prepareCall("{call getAllTasks}");
         ResultSet rs = cs.executeQuery();
-
 
         while (rs.next()) {
 
@@ -382,21 +379,6 @@ public class DBHandler {
             System.out.println("Henter bruge element: " + (User) modelOnTask.getElementAt(i));
         }
 
-        //Original 
-//        for (int i = 0; i < userList.size(); i++) {
-//            cs = conn.prepareCall("{call addUserToTask(?)}");
-//            cs.setString(1, userList.get(i).getUserName());
-//            cs.execute();
-//        }
-        //Test
-//        for (int i = 0; i < modelOnTask.getSize(); i++) {
-//            cs = conn.prepareCall("{call addUserToTask(?)}");
-//            cs.setString(1, modelOnTask.getElementAt(i).toString());
-//            
-//            System.out.println((User)modelOnTask.getElementAt(i).get);
-//                
-//            cs.execute();
-//        }
 
         for (int i = 0; i < userList.size(); i++) {
             cs = conn.prepareCall("{call addUserToTask(?)}");
@@ -404,6 +386,29 @@ public class DBHandler {
             System.out.println("Henter bruger id: " + userList.get(i).getUserID());
             cs.execute();
         }
+    }
+
+    public ArrayList<User> SPgetUserOnTask(int taskID) throws SQLException, IOException {
+        int ttaskID;
+        int userID;
+        ArrayList<User> userOnTaskList = new ArrayList<>();
+
+        Connection conn = (Connection) initiateSystemDBConn()[0];
+
+        CallableStatement cs = null;
+        cs = conn.prepareCall("{call getUserOnTask(?)}");
+        cs.setInt(1, taskID);
+        ResultSet rs = cs.executeQuery();
+
+        while (rs.next()) {
+
+            ttaskID = rs.getInt("taskID");
+            userID = rs.getInt("userID");
+
+        }
+        
+return userOnTaskList;
+
 
 
 
