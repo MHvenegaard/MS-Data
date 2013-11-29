@@ -390,8 +390,7 @@ public class DBHandler {
     }
 
     public ArrayList<User> SPgetUserOnTask(int taskID) throws SQLException, IOException {
-        int ttaskID;
-        int userID;
+        String username;
         ArrayList<User> userOnTaskList = new ArrayList<>();
 
         Connection conn = (Connection) initiateSystemDBConn()[0];
@@ -402,16 +401,9 @@ public class DBHandler {
         ResultSet rs = cs.executeQuery();
 
         while (rs.next()) {
-
-            ttaskID = rs.getInt("taskID");
-            userID = rs.getInt("userID");
-
+            username = rs.getString("shortName");
+            userOnTaskList.add(new User(username));
         }
-        
-return userOnTaskList;
-
-
-
-
+        return userOnTaskList;
     }
 }
