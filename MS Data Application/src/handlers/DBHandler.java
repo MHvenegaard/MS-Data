@@ -164,8 +164,7 @@ public class DBHandler {
         while (rs.next()) {
             compName = rs.getString("CompanyName");
             Customer customer = new Customer(compName);
-            customerList.add(customer);
-            //System.out.println("CompanyName kald via StoredProcedurs: " + compName);
+            customerList.add(customer);      
         }
         return customerList;
     }
@@ -376,15 +375,12 @@ public class DBHandler {
 
         for (int i = 0; i < modelOnTask.getSize(); i++) {
             userList.add((User) modelOnTask.getElementAt(i));
-            System.out.println("Henter bruge element: " + (User) modelOnTask.getElementAt(i));
         }
 
 
         for (int i = 0; i < userList.size(); i++) {
             cs = conn.prepareCall("{call addUserToTask(?)}");
             cs.setInt(1, userList.get(i).getUserID());
-            System.out.println("Bruger firstName" + userList.get(i).getFirstName());
-            System.out.println("Henter bruger id: " + userList.get(i).getUserID());
             cs.execute();
         }
     }
