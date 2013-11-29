@@ -206,7 +206,7 @@ public class DBHandler {
         ArrayList<User> userList = new ArrayList<>();
 
         CallableStatement cs = null;
-        cs = conn.prepareCall("{call getUserShortName}");
+        cs = conn.prepareCall("{call getUsers}");
         ResultSet rs = cs.executeQuery();
 
         while (rs.next()) {
@@ -383,6 +383,7 @@ public class DBHandler {
         for (int i = 0; i < userList.size(); i++) {
             cs = conn.prepareCall("{call addUserToTask(?)}");
             cs.setInt(1, userList.get(i).getUserID());
+            System.out.println("Bruger firstName" + userList.get(i).getFirstName());
             System.out.println("Henter bruger id: " + userList.get(i).getUserID());
             cs.execute();
         }
