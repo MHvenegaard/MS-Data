@@ -290,7 +290,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ButtonAddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonAddUserActionPerformed
-       
+
         int index = ListUsers.getSelectedIndex();
 
         DefaultListModel model = (DefaultListModel) ListUsers.getModel();
@@ -303,7 +303,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Der ikke valgt nogen medarbejder", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
 
         }
-        
+
     }//GEN-LAST:event_ButtonAddUserActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
@@ -322,10 +322,13 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        DefaultListModel model = (DefaultListModel) ListUsers.getModel();
+        model.removeElement(ListUsers.getSelectedValue());
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void ButtonRemoveUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonRemoveUserActionPerformed
-         int index = ListUsersOnTask.getSelectedIndex();
+        int index = ListUsersOnTask.getSelectedIndex();
 
         DefaultListModel model = (DefaultListModel) ListUsers.getModel();
         DefaultListModel modelOnTask = (DefaultListModel) ListUsersOnTask.getModel();
@@ -338,7 +341,6 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
 
         }
     }//GEN-LAST:event_ButtonRemoveUserActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonAddUser;
     private javax.swing.JButton ButtonEditTask;
@@ -408,11 +410,13 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         TextFieldEstimatedStart.setText(task.getStartDate().toString());
         TextFieldEstimatedFinish.setText(task.getEndDate().toString());
 
+        modelOnTask.clear();
+        model.clear();
+
         userList = Controller.dbHandler.SPgetUserOnTask(taskID);
         for (int i = 0; i < userList.size(); i++) {
             modelOnTask.addElement(userList.get(i).getUserName());
-            System.out.println(""+userList.get(i).getUserName());
-            model.removeElement(userList.get(i).getUserName());
+            model.removeElement( userList.get(i).getUserName());
         }
     }
 
