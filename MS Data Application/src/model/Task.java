@@ -4,6 +4,7 @@
  */
 package model;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -23,8 +24,9 @@ public class Task {
     private Customer customer;
     private User user;
     private String taskName;
+    private ArrayList<TaskComment> commentList;
 
-    public Task(int estimatedtime, Statuss status, int priority, Type type, String description, Date startDate, Date endDate) {
+    public Task(int estimatedtime, Statuss status, int priority, Type type, String description, Date startDate, Date endDate, ArrayList<TaskComment> commentList) {
         this.estimatedtime = estimatedtime;
         this.status = status;
         this.priority = priority;
@@ -32,6 +34,7 @@ public class Task {
         this.description = description;
         this.startDate = startDate;
         this.endDate  = endDate;
+        this.commentList = commentList;
         
     }
 
@@ -55,9 +58,7 @@ public class Task {
     public String toString() {
         return ""+taskID;
     }
-
-    
-    
+ 
     public int getTaskID() {
         return taskID;
     }
@@ -146,6 +147,12 @@ public class Task {
         this.taskName = taskName;
     }
 
+    public ArrayList<TaskComment> getCommentList() {
+        return commentList;
+    }
 
+    public void setCommentList(ArrayList<TaskComment> commentList) {
+        this.commentList = commentList;
+    }
     
 }
