@@ -244,6 +244,11 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
                 "ID", "TaskName", "Kunde", "Type", "Status", "User"
             }
         ));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
