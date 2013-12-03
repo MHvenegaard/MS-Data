@@ -27,19 +27,6 @@ public class Task{
     private ArrayList<TaskComment> commentList;
     private ArrayList<Task> taskList;
 
-    public Task(int estimatedtime, Statuss status, int priority, Type type, String description, Date startDate, Date endDate) {
-        this.estimatedtime = estimatedtime;
-        this.status = status;
-        this.priority = priority;
-        this.type = type;
-        this.description = description;
-        this.startDate = startDate;
-        this.endDate  = endDate;
-        commentList = new ArrayList<>();
-        taskList = new ArrayList<>();
-        
-    }
-
     public Task(int taskID, int estimatedtime, Statuss status, int priority, Type type, String description, Date startDate, Date endDate, Customer customer, User user, String taskName) {
         this.taskID = taskID;
         this.estimatedtime = estimatedtime;
