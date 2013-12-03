@@ -508,21 +508,6 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
 
     }//GEN-LAST:event_ButtonAddUserActionPerformed
 
-    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        try {
-            fillAllWithSelectedTask((Integer) model.getValueAt(jTable1.getSelectedRow(), 0));
-        } catch (IOException ex) {
-            Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        // System.out.println("column: " + jTable1.getSelectedColumn());
-        System.out.println("Hent værdi: " + model.getValueAt(jTable1.getSelectedRow(), 0));
-
-        // model.getValueAt(jTable1.getSelectedColumn(), 1);
-    }//GEN-LAST:event_jTable1MouseClicked
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         DefaultListModel model = (DefaultListModel) ListUsers.getModel();
         model.removeElement(ListUsers.getSelectedValue());
@@ -551,6 +536,21 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     private void ButtonAddUser1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonAddUser1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ButtonAddUser1ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        try {
+            fillAllWithSelectedTask((Integer) model.getValueAt(jTable1.getSelectedRow(), 0));
+        } catch (IOException ex) {
+            Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        // System.out.println("column: " + jTable1.getSelectedColumn());
+        System.out.println("Hent værdi: " + model.getValueAt(jTable1.getSelectedRow(), 0));
+
+        // model.getValueAt(jTable1.getSelectedColumn(), 1);
+    }//GEN-LAST:event_jTable1MouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonAddUser;
