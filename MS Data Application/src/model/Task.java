@@ -11,7 +11,7 @@ import java.util.Date;
  *
  * @author Marc
  */
-public class Task extends ArrayList<Task>{
+public class Task{
     
     private int taskID;
     private int estimatedtime;
@@ -25,8 +25,9 @@ public class Task extends ArrayList<Task>{
     private User user;
     private String taskName;
     private ArrayList<TaskComment> commentList;
+    private ArrayList<Task> taskList;
 
-    public Task(int estimatedtime, Statuss status, int priority, Type type, String description, Date startDate, Date endDate, ArrayList<TaskComment> commentList) {
+    public Task(int estimatedtime, Statuss status, int priority, Type type, String description, Date startDate, Date endDate) {
         this.estimatedtime = estimatedtime;
         this.status = status;
         this.priority = priority;
@@ -34,7 +35,8 @@ public class Task extends ArrayList<Task>{
         this.description = description;
         this.startDate = startDate;
         this.endDate  = endDate;
-        this.commentList = commentList;
+        commentList = new ArrayList<>();
+        taskList = new ArrayList<>();
         
     }
 
@@ -50,6 +52,8 @@ public class Task extends ArrayList<Task>{
         this.customer = customer;
         this.user = user;
         this.taskName = taskName;
+        commentList = new ArrayList<>();
+        taskList = new ArrayList<>();
     }
 
     
@@ -154,5 +158,13 @@ public class Task extends ArrayList<Task>{
     public void setCommentList(ArrayList<TaskComment> commentList) {
         this.commentList = commentList;
     }
-    
+
+    public ArrayList<Task> getTaskList() {
+        return taskList;
+    }
+
+    public void setTaskList(ArrayList<Task> taskList) {
+        this.taskList = taskList;
+    }
+
 }
