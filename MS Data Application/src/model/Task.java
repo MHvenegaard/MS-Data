@@ -11,7 +11,7 @@ import java.util.Date;
  *
  * @author Marc
  */
-public class Task {
+public class Task extends ArrayList<Task>{
     
     private int taskID;
     private int estimatedtime;

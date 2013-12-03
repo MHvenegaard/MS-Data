@@ -77,14 +77,14 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         jLabel12 = new javax.swing.JLabel();
         ComboBoxType = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
-        TextFieldEstimatedStart = new javax.swing.JTextField();
-        TextFieldEstimatedFinish = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         ButtonEditTask = new javax.swing.JButton();
         ButtonSaveChanges = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jDateChooser2 = new com.toedter.calendar.JDateChooser();
 
         setMinimumSize(new java.awt.Dimension(1280, 775));
         setPreferredSize(new java.awt.Dimension(1280, 775));
@@ -182,24 +182,24 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
                                 .addGap(12, 12, 12)
                                 .addComponent(ButtonEditTask)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(ComboBoxStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(ComboBoxCustomer, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(ComboBoxProjectLeader, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(TextFieldEstimatedStart, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(TextFieldEstimatedFinish, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(TextFieldTime)
                                     .addComponent(ComboBoxPriority, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(ComboBoxType, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(TextFieldTaskName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel9))
-                            .addComponent(ButtonSaveChanges))
+                            .addComponent(ButtonSaveChanges)
+                            .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
+                            .addComponent(jDateChooser2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(47, 47, 47)
+                                .addGap(37, 37, 37)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -214,7 +214,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
                                         .addGap(18, 18, 18)
                                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(197, 197, 197)
+                                .addGap(187, 187, 187)
                                 .addComponent(jButton1))))
                     .addComponent(jScrollPane4))
                 .addContainerGap(561, Short.MAX_VALUE))
@@ -247,13 +247,13 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
                             .addComponent(jLabel5)
                             .addComponent(ComboBoxProjectLeader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
-                            .addComponent(TextFieldEstimatedStart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7)
-                            .addComponent(TextFieldEstimatedFinish, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
@@ -353,11 +353,11 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     private javax.swing.JComboBox ComboBoxType;
     private javax.swing.JList ListUsers;
     private javax.swing.JList ListUsersOnTask;
-    private javax.swing.JTextField TextFieldEstimatedFinish;
-    private javax.swing.JTextField TextFieldEstimatedStart;
     private javax.swing.JTextField TextFieldTaskName;
     private javax.swing.JTextField TextFieldTime;
     private javax.swing.JButton jButton1;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -407,8 +407,8 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         ComboBoxStatus.setSelectedItem(task.getStatus());
         ComboBoxType.setSelectedItem(task.getType());
         TextFieldTime.setText("" + task.getEstimatedtime());
-        TextFieldEstimatedStart.setText(task.getStartDate().toString());
-        TextFieldEstimatedFinish.setText(task.getEndDate().toString());
+        jDateChooser1.setDate(task.getStartDate());
+        jDateChooser2.setDate(task.getEndDate());
 
         modelOnTask.clear();
         model.clear();
