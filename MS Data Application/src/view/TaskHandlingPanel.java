@@ -122,6 +122,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         jTable1 = new javax.swing.JTable();
         ButtonFilter = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
+        ComboboxSorting = new javax.swing.JComboBox();
 
         setMinimumSize(new java.awt.Dimension(1280, 775));
         setPreferredSize(new java.awt.Dimension(1280, 775));
@@ -265,6 +266,8 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
 
         jTextField1.setText("jTextField1");
 
+        ComboboxSorting.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ID", "TaskName", "Kunde", "Type", "Status", "Bruger" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -302,9 +305,9 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
                                     .addComponent(TextFieldTaskName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel9))
-                            .addComponent(ButtonSaveChanges)
                             .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ButtonSaveChanges, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(37, 37, 37)
@@ -374,7 +377,9 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
                                 .addGap(18, 18, 18)
                                 .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))))))
             .addGroup(layout.createSequentialGroup()
-                .addGap(292, 292, 292)
+                .addGap(149, 149, 149)
+                .addComponent(ComboboxSorting, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(ButtonFilter)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -507,7 +512,9 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
                             .addComponent(ButtonEditTask)
                             .addComponent(ButtonSaveChanges))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ComboboxSorting, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(ButtonFilter)
                 .addGap(43, 43, 43))
@@ -576,14 +583,14 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void ButtonFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonFilterActionPerformed
-       
+        
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         
         TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);
         jTable1.setRowSorter(sorter);
         RowFilter<TableModel, Object> rf = null;
         
-        rf = RowFilter.regexFilter(jTextField1.getText(), 0);
+        rf = RowFilter.regexFilter(jTextField1.getText(), ComboboxSorting.getSelectedIndex());
         sorter.setRowFilter(rf);
     }//GEN-LAST:event_ButtonFilterActionPerformed
 
@@ -605,6 +612,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     private javax.swing.JComboBox ComboBoxStatus1;
     private javax.swing.JComboBox ComboBoxType;
     private javax.swing.JComboBox ComboBoxType1;
+    private javax.swing.JComboBox ComboboxSorting;
     private javax.swing.JList ListUsers;
     private javax.swing.JList ListUsers1;
     private javax.swing.JList ListUsersOnTask;
