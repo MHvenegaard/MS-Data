@@ -13,7 +13,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import model.Customer;
 import model.Statuss;
 import model.Task;
@@ -117,6 +120,8 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         jLabel31 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        ButtonFilter = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
 
         setMinimumSize(new java.awt.Dimension(1280, 775));
         setPreferredSize(new java.awt.Dimension(1280, 775));
@@ -251,6 +256,15 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         });
         jScrollPane3.setViewportView(jTable1);
 
+        ButtonFilter.setText("Test Filter");
+        ButtonFilter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonFilterActionPerformed(evt);
+            }
+        });
+
+        jTextField1.setText("jTextField1");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -359,6 +373,12 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
                                     .addComponent(ButtonRemoveUser1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(292, 292, 292)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ButtonFilter)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -486,7 +506,11 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(ButtonEditTask)
                             .addComponent(ButtonSaveChanges))))
-                .addContainerGap(138, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(ButtonFilter)
+                .addGap(43, 43, 43))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -551,10 +575,23 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         // model.getValueAt(jTable1.getSelectedColumn(), 1);
     }//GEN-LAST:event_jTable1MouseClicked
 
+    private void ButtonFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonFilterActionPerformed
+       
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        
+        TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);
+        jTable1.setRowSorter(sorter);
+        RowFilter<TableModel, Object> rf = null;
+        
+        rf = RowFilter.regexFilter(jTextField1.getText(), 0);
+        sorter.setRowFilter(rf);
+    }//GEN-LAST:event_ButtonFilterActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonAddUser;
     private javax.swing.JButton ButtonAddUser1;
     private javax.swing.JButton ButtonEditTask;
+    private javax.swing.JButton ButtonFilter;
     private javax.swing.JButton ButtonRemoveUser;
     private javax.swing.JButton ButtonRemoveUser1;
     private javax.swing.JButton ButtonSaveChanges;
@@ -616,6 +653,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 
     private void fillTableWithTask() throws IOException, SQLException {
