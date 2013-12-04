@@ -17,10 +17,13 @@ public class Controller {
     public final static int VERSION_NUMBER = 1;
     public static User currentUser;
     public static DBHandler dbHandler;
+    public static TableHandler tHandler;
  
     public Controller(User user) throws ClassNotFoundException {
         currentUser = user;
         dbHandler = new DBHandler();
+        tHandler = new TableHandler();
+        
     }
 
     public static void checkInternet() throws IOException {
@@ -46,5 +49,8 @@ public class Controller {
         return dbHandler;
     }
     
+    public TableHandler getTableHandler(){
+        return tHandler;
+    }
     
 }

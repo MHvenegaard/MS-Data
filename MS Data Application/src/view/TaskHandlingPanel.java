@@ -584,14 +584,8 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
 
     private void ButtonFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonFilterActionPerformed
         
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        Controller.tHandler.applyRowFilter(jTable1, jTextField1, ComboBoxType);
         
-        TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);
-        jTable1.setRowSorter(sorter);
-        RowFilter<TableModel, Object> rf = null;
-        
-        rf = RowFilter.regexFilter(jTextField1.getText(), ComboboxSorting.getSelectedIndex());
-        sorter.setRowFilter(rf);
     }//GEN-LAST:event_ButtonFilterActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
