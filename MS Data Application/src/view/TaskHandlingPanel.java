@@ -5,7 +5,6 @@
 package view;
 
 import handlers.Controller;
-import handlers.DBHandler;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,10 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 import model.Customer;
 import model.Statuss;
 import model.Task;
@@ -42,8 +38,6 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         fillUserList();
 
         fillTableWithTask();
-
-
 
     }
 
@@ -524,10 +518,8 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     private void ButtonAddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonAddUserActionPerformed
 
         int index = ListUsers.getSelectedIndex();
-
         DefaultListModel model = (DefaultListModel) ListUsers.getModel();
         DefaultListModel modelOnTask = (DefaultListModel) ListUsersOnTask.getModel();
-
         if (index != -1) {
             modelOnTask.addElement(ListUsers.getSelectedValue());
             model.removeElement(ListUsers.getSelectedValue());
@@ -583,9 +575,9 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void ButtonFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonFilterActionPerformed
-        
+
         Controller.tHandler.applyRowFilter(jTable1, jTextField1, ComboBoxType);
-        
+
     }//GEN-LAST:event_ButtonFilterActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -661,7 +653,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     private void fillTableWithTask() throws IOException, SQLException {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         ArrayList<Task> tasks = Controller.dbHandler.SPgetTasks();
-        
+
         for (int i = 0; i < tasks.size(); i++) {
             Object[] data = {tasks.get(i).getTaskID(),
                 tasks.get(i).getTaskName(),
@@ -670,7 +662,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
                 tasks.get(i).getStatus(),
                 tasks.get(i).getUser()};
             model.addRow(data);
-            
+
         }
     }
 
@@ -697,7 +689,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         userList = Controller.dbHandler.SPgetUserOnTask(taskID);
         for (int i = 0; i < userList.size(); i++) {
             modelOnTask.addElement(userList.get(i).getUserName());
-            model.removeElement( userList.get(i).getUserName());
+            model.removeElement(userList.get(i).getUserName());
         }
     }
 

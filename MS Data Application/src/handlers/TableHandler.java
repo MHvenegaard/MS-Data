@@ -23,11 +23,29 @@ public class TableHandler {
     private JTable table;
 
     public TableHandler() {
-        this.table = table;
+        
     }
-    
-    
-    public void applyRowFilter(JTable table,JTextField field, JComboBox combobox){
+   
+    /**
+    NÅR DER SKAL GØRES BRUG AF APPLYROWFILTER:
+    table sættes til den ønsket tablet der skal filteres.
+    field sættes til textFieldet hvor teksten der skal filteres efter skrives.
+    VIGTIGT - Det er vigtigt at itemsne i comboboxen står i samme rækkefølge som
+    i tabellen dvs. Hvis tabellen indeholder ID, Navn, Efternavn skal comboxens
+    items have samme rækkefølge!
+    ***************************************************************************
+    applyRowFilter henter tabel data ud
+    Opretter derefter en sorter med tabelmodellen
+    Sættes på den kaldte table og laver et RowFilter som bruges til at sorter
+    udfra hvad der står i textField og hvilket index der er valgt i combox
+    */
+    /** @param table The targeted jTable
+    * @param field The jTextField where the text that is going to filtered by
+    * @param combobox It is important that the items in the combo box is in the same order as
+     in the table. If the table contains ID, Name, Surname, then the comboboxs items must
+     be in the same order!
+    */
+        public void applyRowFilter(JTable table,JTextField field, JComboBox combobox){
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         
         TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);
