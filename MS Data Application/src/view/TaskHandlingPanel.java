@@ -7,7 +7,10 @@ package view;
 import handlers.Controller;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -568,7 +571,11 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         modelTable = (DefaultTableModel) jTable1.getModel();
         try {
-            fillAllWithSelectedTask((Integer) modelTable.getValueAt(jTable1.getSelectedRow(), 0));
+            try {
+                fillAllWithSelectedTask((Integer) modelTable.getValueAt(jTable1.getSelectedRow(), 0));
+            } catch (ParseException ex) {
+                Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } catch (IOException ex) {
             Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -672,12 +679,13 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
                 tasks.get(i).getStartDate(),
                 tasks.get(i).getEndDate()};
             modelTable.addRow(data);
-
         }
+          
     }
 
-    private void fillAllWithSelectedTask(int taskID) throws IOException, SQLException {
+    private void fillAllWithSelectedTask(int taskID) throws IOException, SQLException, ParseException {
         Task task;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         modelOnTask = (DefaultListModel) ListUsersOnTask.getModel();
         model = (DefaultListModel) ListUsers.getModel();
         ArrayList<User> userList;
@@ -689,9 +697,10 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         ComboBoxStatus.setSelectedItem(modelTable.getValueAt(jTable1.getSelectedRow(), 4).toString());
         ComboBoxType.setSelectedItem(modelTable.getValueAt(jTable1.getSelectedRow(), 3).toString());
         TextFieldTime.setText(modelTable.getValueAt(jTable1.getSelectedRow(), 6).toString());
-       
-       // jDateChooser1.setDate(task.getStartDate());
-       // jDateChooser2.setDate(task.getEndDate());
+        Date startDate = sdf.parse(modelTable.getValueAt(jTable1.getSelectedRow(), 8).toString());
+        jDateChooser1.setDate(startDate);
+        Date endDate = sdf.parse(modelTable.getValueAt(jTable1.getSelectedRow(), 9).toString());
+       jDateChooser2.setDate(endDate);
 
         modelOnTask.clear();
         model.clear();

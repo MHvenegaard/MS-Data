@@ -320,14 +320,14 @@ public class DBHandler {
             taskID = rs.getInt("TaskID");
             estimatedtime = rs.getInt("EstimatedTime");
 
-            status = rs.getString("Status");
-            Statuss s = new Statuss(status);
-
             priority = rs.getInt("Priority");
 
             type = rs.getString("Type");
             Type t = new Type(type);
 
+            status = rs.getString("Status");
+            Statuss s = new Statuss(status);                   
+            
             description = rs.getString("Description");
 
             taskName = rs.getString("TaskName");
