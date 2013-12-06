@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComboBox;
+import javax.swing.table.DefaultTableModel;
+import model.Task;
 import model.User;
 
 /**
@@ -24,11 +26,13 @@ public class UserHandlingPanel extends javax.swing.JPanel {
     /**
      * Creates new form UserHandlingPanel
      */
+    private ArrayList<User> userList;
+    
     public UserHandlingPanel() throws SQLException, IOException {
         initComponents();
-        
+        userList = Controller.dbHandler.getUserInUserDB();
         fillUserCombo(ComboBoxDeleteUserList);
-        fillUserCombo(ComboBoxUpdateUserList);
+        fillTableWithUser();
     }
 
     private void fillUserCombo(JComboBox combobox) throws SQLException, IOException {
@@ -36,7 +40,6 @@ public class UserHandlingPanel extends javax.swing.JPanel {
         combobox.setSelectedIndex(-1);
         combobox.removeAllItems();
   
-        ArrayList<User> userList = Controller.dbHandler.SPgetUsersFromUserDB();
         for (int i = 0; i < userList.size(); i++) {
             combobox.addItem(userList.get(i));
         }
@@ -79,9 +82,10 @@ public class UserHandlingPanel extends javax.swing.JPanel {
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        ComboBoxUpdateUserList = new javax.swing.JComboBox();
+        ButtonDeleteUser = new javax.swing.JButton();
+        ButtonUpdateUser = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         TextFieldFirstName.setText("jTextField1");
 
@@ -130,7 +134,7 @@ public class UserHandlingPanel extends javax.swing.JPanel {
             }
         });
 
-        ComboBoxAccessLevel2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        ComboBoxAccessLevel2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1" }));
 
         jLabel12.setText("Navn");
 
@@ -143,25 +147,54 @@ public class UserHandlingPanel extends javax.swing.JPanel {
             }
         });
 
-        jButton2.setText("Fjern");
-
-        jButton3.setText("Rediger");
-
-        ComboBoxUpdateUserList.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        ComboBoxUpdateUserList.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ComboBoxUpdateUserListMouseClicked(evt);
+        ButtonDeleteUser.setText("Fjern");
+        ButtonDeleteUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonDeleteUserActionPerformed(evt);
             }
         });
+
+        ButtonUpdateUser.setText("Rediger");
+        ButtonUpdateUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonUpdateUserActionPerformed(evt);
+            }
+        });
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Navn", "Efternavn", "Brugernavn", "Adgangsniveau", "Password"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane1)
+                        .addGap(156, 156, 156))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(38, 38, 38)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
                             .addGroup(layout.createSequentialGroup()
@@ -174,23 +207,20 @@ public class UserHandlingPanel extends javax.swing.JPanel {
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(ComboBoxAccessLevel, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(TextFieldFirstName, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
-                                            .addComponent(TextFieldLastName, javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(TextFieldShortName, javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(TextFieldPassword, javax.swing.GroupLayout.Alignment.LEADING))
-                                        .addGap(195, 195, 195)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel7)
-                                            .addComponent(ComboBoxDeleteUserList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jButton2)))))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(54, 54, 54)
-                        .addComponent(jButton1)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 208, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(TextFieldFirstName)
+                                        .addComponent(TextFieldLastName, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(TextFieldShortName, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(TextFieldPassword, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(16, 16, 16)
+                                .addComponent(jButton1)))
+                        .addGap(73, 73, 73)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addComponent(ComboBoxDeleteUserList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ButtonDeleteUser))
+                        .addGap(97, 97, 97)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8)
                             .addGroup(layout.createSequentialGroup()
@@ -209,42 +239,30 @@ public class UserHandlingPanel extends javax.swing.JPanel {
                                     .addComponent(ComboBoxAccessLevel2, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(61, 61, 61)
-                                .addComponent(jButton3)))
-                        .addGap(166, 166, 166))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(ComboBoxUpdateUserList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(255, 255, 255))))
+                                .addComponent(ButtonUpdateUser)))
+                        .addContainerGap(474, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(TextFieldFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel1)
-                        .addComponent(ComboBoxDeleteUserList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(ComboBoxUpdateUserList, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(7, 7, 7)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(TextFieldLastName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel3))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(TextFieldShortName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel2)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(20, 20, 20)
-                                .addComponent(jButton2)))
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(TextFieldFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(TextFieldLastName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(TextFieldShortName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(TextFieldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -256,7 +274,14 @@ public class UserHandlingPanel extends javax.swing.JPanel {
                         .addGap(26, 26, 26)
                         .addComponent(jButton1))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ComboBoxDeleteUserList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)
+                        .addComponent(ButtonDeleteUser))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addGap(32, 32, 32)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(TextFieldName2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel12))
@@ -277,8 +302,8 @@ public class UserHandlingPanel extends javax.swing.JPanel {
                             .addComponent(ComboBoxAccessLevel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel9))
                         .addGap(18, 18, 18)
-                        .addComponent(jButton3)))
-                .addContainerGap(456, Short.MAX_VALUE))
+                        .addComponent(ButtonUpdateUser)))
+                .addContainerGap(234, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -289,6 +314,7 @@ public class UserHandlingPanel extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             Controller.dbHandler.createUserInUserDB(null, TextFieldFirstName.getText(), TextFieldLastName.getText(), TextFieldShortName.getText(), TextFieldPassword.getText(), Integer.parseInt(ComboBoxAccessLevel.getSelectedItem().toString()));
+            fillTableWithUser();
         } catch (SQLException ex) {
             Logger.getLogger(UserHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -296,17 +322,63 @@ public class UserHandlingPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void ComboBoxUpdateUserListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ComboBoxUpdateUserListMouseClicked
-      
-        
-    }//GEN-LAST:event_ComboBoxUpdateUserListMouseClicked
+      private void fillTableWithUser() throws IOException, SQLException {
+       DefaultTableModel modelTable = (DefaultTableModel) jTable1.getModel();
+       modelTable.setRowCount(0);
+       userList = Controller.dbHandler.getUserInUserDB();
+        for (int i = 0; i < userList.size(); i++) {
+            Object[] data = {userList.get(i).getUserID(),
+                userList.get(i).getFirstName(),
+                userList.get(i).getLastName(),
+                userList.get(i).getUserName(),
+                userList.get(i).getAccessLevel(),
+                userList.get(i).getPassword()};
+            modelTable.addRow(data);
+
+        }
+    }
+    
+    
+    private void ButtonUpdateUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonUpdateUserActionPerformed
+       DefaultTableModel modelTable = (DefaultTableModel) jTable1.getModel();
+        try { 
+            Controller.dbHandler.updateUserInUserDB(TextFieldName2.getText(), TextFieldLastname2.getText(), TextFieldShortname2.getText(),TextFieldPassword2.getText(),Integer.parseInt(modelTable.getValueAt(jTable1.getSelectedRow(), 4).toString()),Integer.parseInt(modelTable.getValueAt(jTable1.getSelectedRow(), 0).toString()));
+            fillTableWithUser();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(UserHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_ButtonUpdateUserActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+       DefaultTableModel modelTable = (DefaultTableModel) jTable1.getModel();
+       TextFieldName2.setText(modelTable.getValueAt(jTable1.getSelectedRow(), 1).toString());
+       TextFieldLastname2.setText(modelTable.getValueAt(jTable1.getSelectedRow(), 2).toString());
+       TextFieldShortname2.setText(modelTable.getValueAt(jTable1.getSelectedRow(), 3).toString());
+       ComboBoxAccessLevel2.setSelectedIndex(Integer.parseInt(modelTable.getValueAt(jTable1.getSelectedRow(), 4).toString()));
+       TextFieldPassword2.setText(modelTable.getValueAt(jTable1.getSelectedRow(), 5).toString());
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void ButtonDeleteUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonDeleteUserActionPerformed
+        DefaultTableModel modelTable = (DefaultTableModel) jTable1.getModel();
+        try {
+            Controller.dbHandler.deleteUserInUserDB(Integer.parseInt(modelTable.getValueAt(jTable1.getSelectedRow(), 0).toString()));
+            fillTableWithUser();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(UserHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_ButtonDeleteUserActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ButtonDeleteUser;
+    private javax.swing.JButton ButtonUpdateUser;
     private javax.swing.JComboBox ComboBoxAccessLevel;
     private javax.swing.JComboBox ComboBoxAccessLevel2;
     private javax.swing.JComboBox ComboBoxDeleteUserList;
-    private javax.swing.JComboBox ComboBoxUpdateUserList;
     private javax.swing.JTextField TextFieldFirstName;
     private javax.swing.JTextField TextFieldLastName;
     private javax.swing.JTextField TextFieldLastname2;
@@ -316,8 +388,6 @@ public class UserHandlingPanel extends javax.swing.JPanel {
     private javax.swing.JTextField TextFieldShortName;
     private javax.swing.JTextField TextFieldShortname2;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -331,5 +401,7 @@ public class UserHandlingPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }

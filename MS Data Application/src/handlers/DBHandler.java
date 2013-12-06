@@ -445,22 +445,21 @@ public class DBHandler {
         cs.execute();
     }
 
-    public User getUserInUserDB(int userID) throws IOException, SQLException {
-
+    public ArrayList<User> getUserInUserDB() throws IOException, SQLException {
+        ArrayList<User> userList = new ArrayList<>();
         int accessLevel = 0;
         int idUser = 0;
         String username = null;
         String firstname = null;
         String lastname = null;
         String password = null;
- 
         User user = null;
 
-        Connection conn = (Connection) initiateSystemDBConn()[0];
+        Connection conn = (Connection) initiateEmployeeDBConn()[0];
 
         CallableStatement cs = null;
-        cs = conn.prepareCall("{call getUser(?)}");
-        cs.setInt(1, userID);
+        cs = conn.prepareCall("{call getAllUsers()}");
+        
         ResultSet rs = cs.executeQuery();
 
         while (rs.next()) {
@@ -473,9 +472,31 @@ public class DBHandler {
             password = rs.getString("password");
 
             user = new User(idUser, username, firstname, lastname, password, accessLevel);
-
+            userList.add(user);
         }
-        return user;
+        return userList;
+    }
+    
+    public void updateUserInUserDB(String userName, String firstName, String lastName, String password, int accessLevel, int userID) throws SQLException, IOException {
+        Connection conn = (Connection) initiateEmployeeDBConn()[0];
+
+        CallableStatement cs = null;
+        cs = conn.prepareCall("{call updateUser(?,?,?,?,?,?)}");
+        cs.setString(1, userName);
+        cs.setString(2, firstName);
+        cs.setString(3, lastName);
+        cs.setString(4, password);
+        cs.setInt(5, accessLevel);
+        cs.setInt(6, userID);
+        cs.execute();
     }
 
+    public void deleteUserInUserDB(int userID) throws SQLException, IOException{
+        Connection conn = (Connection) initiateEmployeeDBConn()[0];
+        CallableStatement cs = null;
+        cs = conn.prepareCall("{call deleteUser(?)}");
+        cs.setInt(1, userID);
+        cs.execute();
+    }
+    
 }
