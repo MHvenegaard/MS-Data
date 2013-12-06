@@ -242,9 +242,17 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "TaskName", "Kunde", "Type", "Status", "User"
+                "ID", "TaskName", "Kunde", "Type", "Status", "User", "Forventet tidsforbrug", "Prioritet", "Start dato", "Slut dato"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTable1MouseClicked(evt);
@@ -269,9 +277,8 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel31)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 675, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -321,7 +328,8 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
                                         .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(192, 192, 192)
-                                .addComponent(jButton1)))))
+                                .addComponent(jButton1))))
+                    .addComponent(jScrollPane3))
                 .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -658,7 +666,11 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
                 tasks.get(i).getCustomer(),
                 tasks.get(i).getType(),
                 tasks.get(i).getStatus(),
-                tasks.get(i).getUser()};
+                tasks.get(i).getUser(),
+                tasks.get(i).getEstimatedtime(),
+                tasks.get(i).getPriority(),
+                tasks.get(i).getStartDate(),
+                tasks.get(i).getEndDate()};
             modelTable.addRow(data);
 
         }
@@ -670,16 +682,16 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         model = (DefaultListModel) ListUsers.getModel();
         ArrayList<User> userList;
         task = Controller.dbHandler.SPgetTask(taskID);
-        TextFieldTaskName.setText(task.getTaskName());
-        System.out.println(task.getCustomer());
-        ComboBoxCustomer.setSelectedItem(task.getCustomer());
-        ComboBoxPriority.setSelectedItem(task.getPriority());
-        ComboBoxProjectLeader.setSelectedItem(task.getUser());
-        ComboBoxStatus.setSelectedItem(task.getStatus());
-        ComboBoxType.setSelectedItem(task.getType());
-        TextFieldTime.setText("" + task.getEstimatedtime());
-        jDateChooser1.setDate(task.getStartDate());
-        jDateChooser2.setDate(task.getEndDate());
+        TextFieldTaskName.setText(modelTable.getValueAt(jTable1.getSelectedRow(), 1).toString());
+        ComboBoxCustomer.setSelectedItem(modelTable.getValueAt(jTable1.getSelectedRow(), 2).toString());
+        ComboBoxPriority.setSelectedItem(modelTable.getValueAt(jTable1.getSelectedRow(), 7).toString());
+        ComboBoxProjectLeader.setSelectedItem(modelTable.getValueAt(jTable1.getSelectedRow(), 5).toString());
+        ComboBoxStatus.setSelectedItem(modelTable.getValueAt(jTable1.getSelectedRow(), 4).toString());
+        ComboBoxType.setSelectedItem(modelTable.getValueAt(jTable1.getSelectedRow(), 3).toString());
+        TextFieldTime.setText(modelTable.getValueAt(jTable1.getSelectedRow(), 6).toString());
+       
+       // jDateChooser1.setDate(task.getStartDate());
+       // jDateChooser2.setDate(task.getEndDate());
 
         modelOnTask.clear();
         model.clear();
