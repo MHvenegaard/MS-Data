@@ -164,7 +164,7 @@ public class DBHandler {
         while (rs.next()) {
             compName = rs.getString("CompanyName");
             Customer customer = new Customer(compName);
-            customerList.add(customer);      
+            customerList.add(customer);
         }
         return customerList;
     }
@@ -377,7 +377,6 @@ public class DBHandler {
             userList.add((User) modelOnTask.getElementAt(i));
         }
 
-
         for (int i = 0; i < userList.size(); i++) {
             cs = conn.prepareCall("{call addUserToTask(?)}");
             cs.setInt(1, userList.get(i).getUserID());
@@ -402,4 +401,81 @@ public class DBHandler {
         }
         return userOnTaskList;
     }
+
+    public ArrayList<User> SPgetUsersFromUserDB() throws SQLException, IOException {
+        int userID;
+        String userName = null;
+        String password = null;
+        String firstName = null;
+        String lastName = null;
+        int accessLevel;
+
+        Connection conn = (Connection) initiateEmployeeDBConn()[0];
+
+        ArrayList<User> userList = new ArrayList<>();
+
+        CallableStatement cs = null;
+        cs = conn.prepareCall("{call getAllUsers}");
+        ResultSet rs = cs.executeQuery();
+
+        while (rs.next()) {
+            userID = rs.getInt("idUser");
+            userName = rs.getString("shortName");
+            firstName = rs.getString("userFirstName");
+            lastName = rs.getString("userLastName");
+            password = rs.getString("password");
+            accessLevel = rs.getInt("accessLevel");
+            User user = new User(userID, userName, firstName, lastName, password, accessLevel);
+            userList.add(user);
+        }
+        return userList;
+    }
+
+    public void createUserInUserDB(String userID, String userName, String firstName, String lastName, String password, int accessLevel) throws SQLException, IOException {
+        Connection conn = (Connection) initiateEmployeeDBConn()[0];
+
+        CallableStatement cs = null;
+        cs = conn.prepareCall("{call createUser(?,?,?,?,?,?)}");
+        cs.setString(1, null);
+        cs.setString(2, userName);
+        cs.setString(3, firstName);
+        cs.setString(4, lastName);
+        cs.setString(5, password);
+        cs.setInt(6, accessLevel);
+        cs.execute();
+    }
+
+    public User getUserInUserDB(int userID) throws IOException, SQLException {
+
+        int accessLevel = 0;
+        int idUser = 0;
+        String username = null;
+        String firstname = null;
+        String lastname = null;
+        String password = null;
+ 
+        User user = null;
+
+        Connection conn = (Connection) initiateSystemDBConn()[0];
+
+        CallableStatement cs = null;
+        cs = conn.prepareCall("{call getUser(?)}");
+        cs.setInt(1, userID);
+        ResultSet rs = cs.executeQuery();
+
+        while (rs.next()) {
+
+            accessLevel = rs.getInt("AccessLevel");
+            idUser = rs.getInt("idUser");
+            username = rs.getString("shortName");
+            firstname = rs.getString("userFirstName");
+            lastname = rs.getString("userLastName");
+            password = rs.getString("password");
+
+            user = new User(idUser, username, firstname, lastname, password, accessLevel);
+
+        }
+        return user;
+    }
+
 }
