@@ -17,7 +17,7 @@ public class Statuss {
     private String description;
 
     public Statuss(String statusName) {
-        this.statussName = statussName;
+        this.statussName = statusName;
     }
 
     public Statuss(int statusID, String statussName, String description) {
