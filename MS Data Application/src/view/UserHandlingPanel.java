@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package view;
 
 import handlers.Controller;
@@ -13,6 +12,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Task;
 import model.User;
@@ -27,7 +27,7 @@ public class UserHandlingPanel extends javax.swing.JPanel {
      * Creates new form UserHandlingPanel
      */
     private ArrayList<User> userList;
-    
+
     public UserHandlingPanel() throws SQLException, IOException {
         initComponents();
         userList = Controller.dbHandler.getUserInUserDB();
@@ -39,15 +39,13 @@ public class UserHandlingPanel extends javax.swing.JPanel {
 
         combobox.setSelectedIndex(-1);
         combobox.removeAllItems();
-  
+
         for (int i = 0; i < userList.size(); i++) {
             combobox.addItem(userList.get(i));
         }
         combobox.setSelectedIndex(0);
     }
-    
-    
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -87,14 +85,6 @@ public class UserHandlingPanel extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
-        TextFieldFirstName.setText("jTextField1");
-
-        TextFieldLastName.setText("jTextField2");
-
-        TextFieldShortName.setText("jTextField3");
-
-        TextFieldPassword.setText("jTextField4");
-
         ComboBoxAccessLevel.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1" }));
 
         jLabel1.setText("Navn");
@@ -121,13 +111,6 @@ public class UserHandlingPanel extends javax.swing.JPanel {
 
         jLabel11.setText("Efternavn");
 
-        TextFieldName2.setText("jTextField1");
-
-        TextFieldLastname2.setText("jTextField2");
-
-        TextFieldShortname2.setText("jTextField3");
-
-        TextFieldPassword2.setText("jTextField4");
         TextFieldPassword2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 TextFieldPassword2ActionPerformed(evt);
@@ -322,10 +305,10 @@ public class UserHandlingPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-      private void fillTableWithUser() throws IOException, SQLException {
-       DefaultTableModel modelTable = (DefaultTableModel) jTable1.getModel();
-       modelTable.setRowCount(0);
-       userList = Controller.dbHandler.getUserInUserDB();
+    private void fillTableWithUser() throws IOException, SQLException {
+        DefaultTableModel modelTable = (DefaultTableModel) jTable1.getModel();
+        modelTable.setRowCount(0);
+        userList = Controller.dbHandler.getUserInUserDB();
         for (int i = 0; i < userList.size(); i++) {
             Object[] data = {userList.get(i).getUserID(),
                 userList.get(i).getFirstName(),
@@ -337,12 +320,11 @@ public class UserHandlingPanel extends javax.swing.JPanel {
 
         }
     }
-    
-    
+
     private void ButtonUpdateUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonUpdateUserActionPerformed
-       DefaultTableModel modelTable = (DefaultTableModel) jTable1.getModel();
-        try { 
-            Controller.dbHandler.updateUserInUserDB(TextFieldName2.getText(), TextFieldLastname2.getText(), TextFieldShortname2.getText(),TextFieldPassword2.getText(),Integer.parseInt(modelTable.getValueAt(jTable1.getSelectedRow(), 4).toString()),Integer.parseInt(modelTable.getValueAt(jTable1.getSelectedRow(), 0).toString()));
+        DefaultTableModel modelTable = (DefaultTableModel) jTable1.getModel();
+        try {
+            Controller.dbHandler.updateUserInUserDB(TextFieldName2.getText(), TextFieldLastname2.getText(), TextFieldShortname2.getText(), TextFieldPassword2.getText(), Integer.parseInt(modelTable.getValueAt(jTable1.getSelectedRow(), 4).toString()), Integer.parseInt(modelTable.getValueAt(jTable1.getSelectedRow(), 0).toString()));
             fillTableWithUser();
         } catch (SQLException ex) {
             Logger.getLogger(UserHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -352,27 +334,30 @@ public class UserHandlingPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_ButtonUpdateUserActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-       DefaultTableModel modelTable = (DefaultTableModel) jTable1.getModel();
-       TextFieldName2.setText(modelTable.getValueAt(jTable1.getSelectedRow(), 1).toString());
-       TextFieldLastname2.setText(modelTable.getValueAt(jTable1.getSelectedRow(), 2).toString());
-       TextFieldShortname2.setText(modelTable.getValueAt(jTable1.getSelectedRow(), 3).toString());
-       ComboBoxAccessLevel2.setSelectedIndex(Integer.parseInt(modelTable.getValueAt(jTable1.getSelectedRow(), 4).toString()));
-       TextFieldPassword2.setText(modelTable.getValueAt(jTable1.getSelectedRow(), 5).toString());
+        DefaultTableModel modelTable = (DefaultTableModel) jTable1.getModel();
+        TextFieldName2.setText(modelTable.getValueAt(jTable1.getSelectedRow(), 1).toString());
+        TextFieldLastname2.setText(modelTable.getValueAt(jTable1.getSelectedRow(), 2).toString());
+        TextFieldShortname2.setText(modelTable.getValueAt(jTable1.getSelectedRow(), 3).toString());
+        ComboBoxAccessLevel2.setSelectedIndex(Integer.parseInt(modelTable.getValueAt(jTable1.getSelectedRow(), 4).toString()));
+        TextFieldPassword2.setText(modelTable.getValueAt(jTable1.getSelectedRow(), 5).toString());
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void ButtonDeleteUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonDeleteUserActionPerformed
         DefaultTableModel modelTable = (DefaultTableModel) jTable1.getModel();
+
         try {
-            Controller.dbHandler.deleteUserInUserDB(Integer.parseInt(modelTable.getValueAt(jTable1.getSelectedRow(), 0).toString()));
-            fillTableWithUser();
+            int dialogButton = JOptionPane.YES_NO_OPTION;
+            int dialogResult = JOptionPane.showConfirmDialog(null, "Sikker på du vil fjerne " + modelTable.getValueAt(jTable1.getSelectedRow(), 3).toString(), "Warning", dialogButton);
+            if (dialogResult == JOptionPane.YES_OPTION) {
+                Controller.dbHandler.deleteUserInUserDB(Integer.parseInt(modelTable.getValueAt(jTable1.getSelectedRow(), 0).toString()));
+                fillTableWithUser();
+            }
         } catch (SQLException ex) {
             Logger.getLogger(UserHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(UserHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_ButtonDeleteUserActionPerformed
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonDeleteUser;
     private javax.swing.JButton ButtonUpdateUser;

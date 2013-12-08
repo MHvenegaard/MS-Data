@@ -540,9 +540,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_ButtonAddUserActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        model = (DefaultListModel) ListUsers.getModel();
-        model.removeElement(ListUsers.getSelectedValue());
-
+         
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void ButtonRemoveUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonRemoveUserActionPerformed
@@ -684,12 +682,10 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     }
 
     private void fillAllWithSelectedTask(int taskID) throws IOException, SQLException, ParseException {
-        Task task;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         modelOnTask = (DefaultListModel) ListUsersOnTask.getModel();
         model = (DefaultListModel) ListUsers.getModel();
         ArrayList<User> userList;
-        task = Controller.dbHandler.SPgetTask(taskID);
         TextFieldTaskName.setText(modelTable.getValueAt(jTable1.getSelectedRow(), 1).toString());
         ComboBoxCustomer.setSelectedItem(modelTable.getValueAt(jTable1.getSelectedRow(), 2).toString());
         ComboBoxPriority.setSelectedItem(modelTable.getValueAt(jTable1.getSelectedRow(), 7).toString());
