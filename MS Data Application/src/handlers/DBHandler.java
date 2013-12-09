@@ -341,26 +341,7 @@ public class DBHandler {
         return tasks;
     }
 
-    public void createTask(int estimatedTime, String description, String status, int prio, String taskName, String startDate, String endDate, String type, String customer, String user) throws SQLException, IOException {
-        Connection conn = (Connection) initiateSystemDBConn()[0];
-
-        CallableStatement cs = null;
-        cs = conn.prepareCall("{call createTask(?,?,?,?,?,?,?,?,?,?,?)}");
-        cs.setString(1, null);
-        cs.setInt(2, estimatedTime);
-        cs.setString(3, description);
-        cs.setString(4, status);
-        cs.setInt(5, prio);
-        cs.setString(6, taskName);
-        cs.setString(7, startDate);
-        cs.setString(8, endDate);
-        cs.setString(9, type);
-        cs.setString(10, customer);
-        cs.setString(11, user);
-        cs.execute();
-    }
-
-    public void createTask2(Task task) throws SQLException, IOException {
+    public void createTask(Task task) throws SQLException, IOException {
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
  
