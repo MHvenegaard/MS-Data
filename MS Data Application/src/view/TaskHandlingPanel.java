@@ -678,7 +678,6 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
                 tasks.get(i).getEndDate()};
             modelTable.addRow(data);
         }
-
     }
 
     private void fillAllWithSelectedTask(int taskID) throws IOException, SQLException, ParseException {
