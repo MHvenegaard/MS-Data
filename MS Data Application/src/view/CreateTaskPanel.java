@@ -382,7 +382,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
                                 .addComponent(ButtonRemoveUser))
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
+                        .addGap(47, 47, 47)
                         .addComponent(jButton9)))
                 .addContainerGap(175, Short.MAX_VALUE))
         );

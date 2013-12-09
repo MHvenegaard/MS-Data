@@ -195,8 +195,6 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
             }
         });
 
-        jTextField1.setText("jTextField1");
-
         ComboboxSorting.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ID", "TaskName", "Kunde", "Type", "Status", "Bruger" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -259,11 +257,11 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
                                 .addComponent(jButton1))))
                     .addComponent(jScrollPane3))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ComboboxSorting, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(ComboboxSorting, 0, 125, Short.MAX_VALUE)
                     .addComponent(ButtonFilter)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(110, 110, 110)
+                    .addComponent(jTextField1))
+                .addGap(141, 141, 141)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel30))
