@@ -1,14 +1,9 @@
 package handlers;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.net.ssl.SSLEngineResult.Status;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import model.Customer;
@@ -326,8 +321,8 @@ public class DBHandler {
             Type t = new Type(type);
 
             status = rs.getString("Status");
-            Statuss s = new Statuss(status);                   
-            
+            Statuss s = new Statuss(status);
+
             description = rs.getString("Description");
 
             taskName = rs.getString("TaskName");
@@ -362,6 +357,30 @@ public class DBHandler {
         cs.setString(9, type);
         cs.setString(10, customer);
         cs.setString(11, user);
+        cs.execute();
+    }
+
+    public void createTask2(Task task) throws SQLException, IOException {
+        Connection conn = (Connection) initiateSystemDBConn()[0];
+
+ 
+        java.sql.Date sqlStartDate = new java.sql.Date(task.getStartDate().getTime());
+      
+        java.sql.Date sqlEndDate = new java.sql.Date(task.getEndDate().getTime());
+
+        CallableStatement cs = null;
+        cs = conn.prepareCall("{call createTask(?,?,?,?,?,?,?,?,?,?,?)}");
+        cs.setString(1, null);
+        cs.setInt(2, task.getEstimatedtime());
+        cs.setString(3, task.getDescription());
+        cs.setString(4, task.getStatus().getStatussName());
+        cs.setInt(5, task.getPriority());
+        cs.setString(6, task.getTaskName());
+        cs.setDate(7, sqlStartDate);
+        cs.setDate(8, sqlEndDate);
+        cs.setString(9, task.getType().getTypeName());
+        cs.setString(10, task.getCustomer().getCompanyName());
+        cs.setString(11, task.getUser().getUserName());
         cs.execute();
     }
 
@@ -459,7 +478,7 @@ public class DBHandler {
 
         CallableStatement cs = null;
         cs = conn.prepareCall("{call getAllUsers()}");
-        
+
         ResultSet rs = cs.executeQuery();
 
         while (rs.next()) {
@@ -476,7 +495,7 @@ public class DBHandler {
         }
         return userList;
     }
-    
+
     public void updateUserInUserDB(String userName, String firstName, String lastName, String password, int accessLevel, int userID) throws SQLException, IOException {
         Connection conn = (Connection) initiateEmployeeDBConn()[0];
 
@@ -491,12 +510,12 @@ public class DBHandler {
         cs.execute();
     }
 
-    public void deleteUserInUserDB(int userID) throws SQLException, IOException{
+    public void deleteUserInUserDB(int userID) throws SQLException, IOException {
         Connection conn = (Connection) initiateEmployeeDBConn()[0];
         CallableStatement cs = null;
         cs = conn.prepareCall("{call deleteUser(?)}");
         cs.setInt(1, userID);
         cs.execute();
     }
-    
+
 }

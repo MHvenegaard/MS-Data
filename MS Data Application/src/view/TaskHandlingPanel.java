@@ -540,7 +540,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_ButtonAddUserActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-         
+        ComboBoxCustomer.setSelectedItem(modelTable.getValueAt(jTable1.getSelectedRow(), 2));
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void ButtonRemoveUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonRemoveUserActionPerformed
@@ -678,7 +678,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
                 tasks.get(i).getEndDate()};
             modelTable.addRow(data);
         }
-          
+
     }
 
     private void fillAllWithSelectedTask(int taskID) throws IOException, SQLException, ParseException {
@@ -687,16 +687,17 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         model = (DefaultListModel) ListUsers.getModel();
         ArrayList<User> userList;
         TextFieldTaskName.setText(modelTable.getValueAt(jTable1.getSelectedRow(), 1).toString());
-        ComboBoxCustomer.setSelectedItem(modelTable.getValueAt(jTable1.getSelectedRow(), 2).toString());
-        ComboBoxPriority.setSelectedItem(modelTable.getValueAt(jTable1.getSelectedRow(), 7).toString());
+        ComboBoxCustomer.setSelectedItem(modelTable.getValueAt(jTable1.getSelectedRow(), 2));
+        ComboBoxPriority.setSelectedItem(modelTable.getValueAt(jTable1.getSelectedRow(), 7));
         ComboBoxProjectLeader.setSelectedItem(modelTable.getValueAt(jTable1.getSelectedRow(), 5).toString());
         ComboBoxStatus.setSelectedItem(modelTable.getValueAt(jTable1.getSelectedRow(), 4).toString());
         ComboBoxType.setSelectedItem(modelTable.getValueAt(jTable1.getSelectedRow(), 3).toString());
         TextFieldTime.setText(modelTable.getValueAt(jTable1.getSelectedRow(), 6).toString());
+        
         Date startDate = sdf.parse(modelTable.getValueAt(jTable1.getSelectedRow(), 8).toString());
         jDateChooser1.setDate(startDate);
         Date endDate = sdf.parse(modelTable.getValueAt(jTable1.getSelectedRow(), 9).toString());
-       jDateChooser2.setDate(endDate);
+        jDateChooser2.setDate(endDate);
 
         modelOnTask.clear();
         model.clear();

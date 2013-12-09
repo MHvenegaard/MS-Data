@@ -14,6 +14,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import model.Customer;
 import model.Statuss;
+import model.Task;
 import model.Type;
 import model.User;
 
@@ -365,10 +366,13 @@ public class CreateTaskPanel extends javax.swing.JPanel {
         try {
             //dbh.createTask(null, Integer.parseInt(TextFieldEstimatedTime.getText()), TextFieldOpgaveNavn.getText(), ComboBoxStatus.getSelectedItem().toString(), Integer.parseInt(ComboBoxPriority.getSelectedItem().toString()));
           //  Task task = new Task(null, Integer.parseInt(TextFieldEstimatedTime.getText()), ComboBoxStatus.getSelectedItem().toString(), Integer.parseInt(ComboBoxPriority.getSelectedItem().toString()), ComboBoxType.getSelectedItem().toString(), TextAreaBeskrivelse.getText(), null, null, ComboBoxCustomer.getSelectedItem().toString(), ComboBoxUser.getSelectedItem().toString(), TextFieldTaskName.getText());
+           
             
-                    
-                    
-            Controller.dbHandler.createTask(Integer.parseInt(TextFieldEstimatedTime.getText()), TextAreaBeskrivelse.getText(), ComboBoxStatus.getSelectedItem().toString(), Integer.parseInt(ComboBoxPriority.getSelectedItem().toString()), TextFieldTaskName.getText(), jDateChooser1.getDateFormatString(), jDateChooser2.getDateFormatString(), ComboBoxType.getSelectedItem().toString(), ComboBoxCustomer.getSelectedItem().toString(), ComboBoxUser.getSelectedItem().toString());
+            
+           Task task = new Task(Integer.parseInt(TextFieldEstimatedTime.getText()),(Statuss)ComboBoxStatus.getSelectedItem(), Integer.parseInt(ComboBoxPriority.getSelectedItem().toString()),(Type) ComboBoxType.getSelectedItem(), TextAreaBeskrivelse.getText(), jDateChooser1.getDate(), jDateChooser2.getDate(),(Customer) ComboBoxCustomer.getSelectedItem(),(User) ComboBoxUser.getSelectedItem(), TextFieldTaskName.getText());
+           Controller.dbHandler.createTask2(task);
+          
+            // Controller.dbHandler.createTask(Integer.parseInt(TextFieldEstimatedTime.getText()), TextAreaBeskrivelse.getText(), ComboBoxStatus.getSelectedItem().toString(), Integer.parseInt(ComboBoxPriority.getSelectedItem().toString()), TextFieldTaskName.getText(), jDateChooser1.getDateFormatString(), jDateChooser2.getDateFormatString(), ComboBoxType.getSelectedItem().toString(), ComboBoxCustomer.getSelectedItem().toString(), ComboBoxUser.getSelectedItem().toString());
             Controller.dbHandler.addUserToTask(ListUsersOnTask);
         } catch (SQLException | IOException ex) {
             Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
