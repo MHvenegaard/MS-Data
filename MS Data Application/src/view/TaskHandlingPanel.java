@@ -134,6 +134,8 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
 
         jLabel2.setText("Type");
 
+        ComboBoxPriority.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5" }));
+
         jLabel10.setText("Prioritet");
 
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -421,16 +423,18 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
 
     private void ButtonSaveChangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSaveChangesActionPerformed
         modelTable = (DefaultTableModel) jTable1.getModel();
-        Task task = new Task((Integer)modelTable.getValueAt(jTable1.getSelectedRow(), 0),
+        System.out.println(modelTable.getValueAt(jTable1.getSelectedRow(), 0) + "");
+        System.out.println("" + ComboBoxPriority.getSelectedItem());
+        Task task = new Task(Integer.parseInt(modelTable.getValueAt(jTable1.getSelectedRow(), 0).toString()),
                 TextFieldTaskName.getText(),
-               (Type)ComboBoxType.getSelectedItem(),
-                (Statuss)ComboBoxStatus.getSelectedItem(),
-                (Customer)ComboBoxCustomer.getSelectedItem(),
-                (User)ComboBoxProjectLeader.getSelectedItem(),
+                (Type) ComboBoxType.getSelectedItem(),
+                (Statuss) ComboBoxStatus.getSelectedItem(),
+                (Customer) ComboBoxCustomer.getSelectedItem(),
+                (User) ComboBoxProjectLeader.getSelectedItem(),
                 jDateChooser1.getDate(),
                 jDateChooser2.getDate(),
                 Integer.parseInt(TextFieldTime.getText()),
-                (Integer)ComboBoxPriority.getSelectedItem(),
+                Integer.parseInt(ComboBoxPriority.getSelectedItem().toString()),
                 textAreaDescription.getText());
         try {
             Controller.dbHandler.updateTask(task);
@@ -491,14 +495,14 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         for (int i = 0; i < tasks.size(); i++) {
             Object[] data = {tasks.get(i).getTaskID(),
                 tasks.get(i).getTaskName(),
-                tasks.get(i).getCustomer(),
                 tasks.get(i).getType(),
                 tasks.get(i).getStatus(),
+                tasks.get(i).getCustomer(),
                 tasks.get(i).getUser(),
-                tasks.get(i).getEstimatedtime(),
-                tasks.get(i).getPriority(),
                 tasks.get(i).getStartDate(),
                 tasks.get(i).getEndDate(),
+                tasks.get(i).getEstimatedtime(),
+                tasks.get(i).getPriority(),
                 tasks.get(i).getDescription()};
             modelTable.addRow(data);
         }
@@ -521,9 +525,9 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         jDateChooser1.setDate(startDate);
         Date endDate = sdf.parse(modelTable.getValueAt(jTable1.getSelectedRow(), 7).toString());
         jDateChooser2.setDate(endDate);
-        
+
         textAreaDescription.setText(modelTable.getValueAt(jTable1.getSelectedRow(), 10).toString());
-        
+
         modelOnTask.clear();
         model.clear();
 
