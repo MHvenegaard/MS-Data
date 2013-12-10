@@ -4,70 +4,66 @@
  */
 package model;
 
-
 import java.util.ArrayList;
 import java.util.Date;
-
 
 /**
  *
  * @author Marc
  */
-public class Task{
-    
+public class Task {
+
     private int taskID;
     private int estimatedtime;
-    private Statuss status;
     private int priority;
+    private int parentID;
+    private Statuss status;
     private Type type;
-    private String description;
     private Date startDate;
     private Date endDate;
     private Customer customer;
     private User user;
     private String taskName;
+    private String description;
     private ArrayList<TaskComment> commentList;
     private ArrayList<Task> taskList;
 
-
-    
-    public Task(int taskID, int estimatedtime, Statuss status, int priority, Type type, String description, Date startDate, Date endDate, Customer customer, User user, String taskName) {
+    public Task(int taskID, String taskName, Type type, Statuss status, Customer customer, User user, Date startDate, Date endDate, int estimatedtime, int priority, String description) {
         this.taskID = taskID;
-        this.estimatedtime = estimatedtime;
-        this.status = status;
-        this.priority = priority;
+        this.taskName = taskName;
         this.type = type;
-        this.description = description;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.status = status;
         this.customer = customer;
         this.user = user;
-        this.taskName = taskName;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.estimatedtime = estimatedtime;
+        this.priority = priority;
+        this.description = description;
         commentList = new ArrayList<>();
         taskList = new ArrayList<>();
     }
 
-        public Task(int estimatedtime, Statuss status, int priority, Type type, String description, Date startDate, Date endDate, Customer customer, User user, String taskName) {
-        this.estimatedtime = estimatedtime;
-        this.status = status;
-        this.priority = priority;
+    public Task(String taskName, Type type, Statuss status, Customer customer, User user, Date startDate, Date endDate, int estimatedtime, int priority, String description) {
+        this.taskName = taskName;
         this.type = type;
-        this.description = description;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.status = status;
         this.customer = customer;
         this.user = user;
-        this.taskName = taskName;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.estimatedtime = estimatedtime;
+        this.priority = priority;
+        this.description = description;
         commentList = new ArrayList<>();
         taskList = new ArrayList<>();
     }
-    
-    
+
     @Override
     public String toString() {
-        return ""+taskID;
+        return "" + taskID;
     }
- 
+
     public int getTaskID() {
         return taskID;
     }
@@ -171,5 +167,4 @@ public class Task{
     public void setTaskList(ArrayList<Task> taskList) {
         this.taskList = taskList;
     }
-
 }

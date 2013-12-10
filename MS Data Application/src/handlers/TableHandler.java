@@ -41,7 +41,7 @@ public class TableHandler {
     */
     /** @param table The targeted jTable
     * @param field The jTextField where the text that is going to filtered by
-    * @param combobox It is important that the items in the combo box is in the same order as
+    * @param combobox It is important that the items in the combobox is in the same order as
      in the table. If the table contains ID, Name, Surname, then the comboboxs items must
      be in the same order!
     */

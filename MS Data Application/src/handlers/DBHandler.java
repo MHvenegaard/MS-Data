@@ -284,7 +284,7 @@ public class DBHandler {
             user = rs.getString("User");
             User u = new User(user);
 
-            task = new Task(taskID, estimatedtime, s, priority, t, description, startDate, endDate, c, u, taskName);
+            task = new Task(taskID, taskName, t, s, c, u, startDate, endDate, estimatedtime, priority, description);
 
         }
         return task;
@@ -335,7 +335,7 @@ public class DBHandler {
             user = rs.getString("User");
             User u = new User(user);
 
-            Task task = new Task(taskID, estimatedtime, s, priority, t, description, startDate, endDate, c, u, taskName);
+            Task task = new Task(taskID, taskName, t, s, c, u, startDate, endDate, estimatedtime, priority, description);
             tasks.add(task);
         }
         return tasks;
@@ -348,17 +348,18 @@ public class DBHandler {
 
         CallableStatement cs = null;
         cs = conn.prepareCall("{call createTask(?,?,?,?,?,?,?,?,?,?,?)}");
-        cs.setString(1, null);
-        cs.setInt(2, task.getEstimatedtime());
-        cs.setString(3, task.getDescription());
+        cs.setString(1, null); 
+        cs.setString(2, task.getTaskName());
+        cs.setString(3, task.getType().getTypeName());
         cs.setString(4, task.getStatus().getStatussName());
-        cs.setInt(5, task.getPriority());
-        cs.setString(6, task.getTaskName());
+        cs.setString(5, task.getCustomer().getCompanyName());
+        cs.setString(6, task.getUser().getUserName());
         cs.setDate(7, sqlStartDate);
         cs.setDate(8, sqlEndDate);
-        cs.setString(9, task.getType().getTypeName());
-        cs.setString(10, task.getCustomer().getCompanyName());
-        cs.setString(11, task.getUser().getUserName());
+        cs.setInt(9, task.getEstimatedtime());
+        cs.setInt(10, task.getPriority());
+        cs.setString(11, task.getDescription());
+
         cs.execute();
     }
 
@@ -495,5 +496,4 @@ public class DBHandler {
         cs.setInt(1, userID);
         cs.execute();
     }
-
 }

@@ -99,10 +99,10 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
     private void fillUserList() throws SQLException, IOException {
         //Flyt dette
-        DefaultListModel modelOnTask = new DefaultListModel();
+         modelOnTask = new DefaultListModel();
         ListUsersOnTask.setModel(modelOnTask);
 
-        DefaultListModel model = new DefaultListModel();
+         model = new DefaultListModel();
 
         ListUsers.setModel(model);
         ArrayList<User> userList = Controller.dbHandler.SPgetUsers();
@@ -392,8 +392,8 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
         int index = ListUsers.getSelectedIndex();
 
-        DefaultListModel model = (DefaultListModel) ListUsers.getModel();
-        DefaultListModel modelOnTask = (DefaultListModel) ListUsersOnTask.getModel();
+         model = (DefaultListModel) ListUsers.getModel();
+         modelOnTask = (DefaultListModel) ListUsersOnTask.getModel();
 
         if (index != -1) {
             modelOnTask.addElement(ListUsers.getSelectedValue());
@@ -408,25 +408,24 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
 
-        if (CheckBoxSub.isEnabled()) {
             try {
-
-                Task task = new Task(Integer.parseInt(TextFieldEstimatedTime.getText()), (Statuss) ComboBoxStatus.getSelectedItem(), Integer.parseInt(ComboBoxPriority.getSelectedItem().toString()), (Type) ComboBoxType.getSelectedItem(), TextAreaBeskrivelse.getText(), jDateChooser1.getDate(), jDateChooser2.getDate(), (Customer) ComboBoxCustomer.getSelectedItem(), (User) ComboBoxUser.getSelectedItem(), TextFieldTaskName.getText());
-                //Create task as Subtask 
+                Task task = new Task
+                        (TextFieldTaskName.getText(), 
+                        (Type) ComboBoxType.getSelectedItem(), 
+                        (Statuss) ComboBoxStatus.getSelectedItem(), 
+                        (Customer) ComboBoxCustomer.getSelectedItem(), 
+                        (User) ComboBoxUser.getSelectedItem(), 
+                        jDateChooser1.getDate(), 
+                        jDateChooser2.getDate(),
+                        Integer.parseInt(TextFieldEstimatedTime.getText()),
+                        Integer.parseInt(ComboBoxPriority.getSelectedItem().toString()), 
+                        TextAreaBeskrivelse.getText());
+                
                 Controller.dbHandler.createTask(task);
                 Controller.dbHandler.addUserToTask(ListUsersOnTask);
             } catch (SQLException | IOException ex) {
                 Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
-            }
 
-        } else {
-            try {
-                Task task = new Task(Integer.parseInt(TextFieldEstimatedTime.getText()), (Statuss) ComboBoxStatus.getSelectedItem(), Integer.parseInt(ComboBoxPriority.getSelectedItem().toString()), (Type) ComboBoxType.getSelectedItem(), TextAreaBeskrivelse.getText(), jDateChooser1.getDate(), jDateChooser2.getDate(), (Customer) ComboBoxCustomer.getSelectedItem(), (User) ComboBoxUser.getSelectedItem(), TextFieldTaskName.getText());
-                Controller.dbHandler.createTask(task);
-                Controller.dbHandler.addUserToTask(ListUsersOnTask);
-            } catch (SQLException | IOException ex) {
-                Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
-            }
         }
     }//GEN-LAST:event_jButton9ActionPerformed
 
@@ -434,8 +433,8 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
         int index = ListUsersOnTask.getSelectedIndex();
 
-        DefaultListModel model = (DefaultListModel) ListUsers.getModel();
-        DefaultListModel modelOnTask = (DefaultListModel) ListUsersOnTask.getModel();
+         model = (DefaultListModel) ListUsers.getModel();
+         modelOnTask = (DefaultListModel) ListUsersOnTask.getModel();
 
         if (index != -1) {
             model.addElement(ListUsersOnTask.getSelectedValue());
@@ -453,9 +452,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_TextFieldTaskNameActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-
     }//GEN-LAST:event_jTable1MouseClicked
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonAddUser;
     private javax.swing.JButton ButtonRemoveUser;

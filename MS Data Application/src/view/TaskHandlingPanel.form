@@ -512,9 +512,9 @@
           <StringArray count="6">
             <StringItem index="0" value="ID"/>
             <StringItem index="1" value="TaskName"/>
-            <StringItem index="2" value="Kunde"/>
-            <StringItem index="3" value="Type"/>
-            <StringItem index="4" value="Status"/>
+            <StringItem index="2" value="Type"/>
+            <StringItem index="3" value="Status"/>
+            <StringItem index="4" value="Kunde"/>
             <StringItem index="5" value="Bruger"/>
           </StringArray>
         </Property>
