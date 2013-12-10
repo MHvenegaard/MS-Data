@@ -342,7 +342,6 @@ public class UserHandlingPanel extends javax.swing.JPanel {
         TextFieldName2.setText(modelTable.getValueAt(jTable1.getSelectedRow(), 1).toString());
         TextFieldLastname2.setText(modelTable.getValueAt(jTable1.getSelectedRow(), 2).toString());
         TextFieldShortname2.setText(modelTable.getValueAt(jTable1.getSelectedRow(), 3).toString());
-        System.out.println(modelTable.getValueAt(jTable1.getSelectedRow(), 4).toString());
         ComboBoxAccessLevel2.setSelectedItem(modelTable.getValueAt(jTable1.getSelectedRow(), 4).toString());
         TextFieldPassword2.setText(modelTable.getValueAt(jTable1.getSelectedRow(), 5).toString());
     }//GEN-LAST:event_jTable1MouseClicked

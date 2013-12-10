@@ -119,6 +119,12 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
 
         jLabel6.setText("Forventet start");
 
+        ComboBoxCustomer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ComboBoxCustomerActionPerformed(evt);
+            }
+        });
+
         jScrollPane1.setViewportView(ListUsers);
 
         jLabel7.setText("Forventet færdigt");
@@ -444,6 +450,11 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
             Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_ButtonSaveChangesActionPerformed
+
+    private void ComboBoxCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBoxCustomerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ComboBoxCustomerActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonAddUser;
     private javax.swing.JButton ButtonEditTask;
@@ -514,8 +525,8 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         model = (DefaultListModel) ListUsers.getModel();
         ArrayList<User> userList;
         TextFieldTaskName.setText(modelTable.getValueAt(jTable1.getSelectedRow(), 1).toString());
-        ComboBoxCustomer.setSelectedItem(modelTable.getValueAt(jTable1.getSelectedRow(), 4));
-        ComboBoxPriority.setSelectedItem(modelTable.getValueAt(jTable1.getSelectedRow(), 9));
+        ComboBoxCustomer.setSelectedItem(modelTable.getValueAt(jTable1.getSelectedRow(), 4).toString());
+        ComboBoxPriority.setSelectedItem(modelTable.getValueAt(jTable1.getSelectedRow(), 9).toString());
         ComboBoxProjectLeader.setSelectedItem(modelTable.getValueAt(jTable1.getSelectedRow(), 5).toString());
         ComboBoxStatus.setSelectedItem(modelTable.getValueAt(jTable1.getSelectedRow(), 3).toString());
         ComboBoxType.setSelectedItem(modelTable.getValueAt(jTable1.getSelectedRow(), 2).toString());
@@ -545,7 +556,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
 
         ArrayList<Customer> customers = Controller.dbHandler.SPgetCustomers();
         for (int i = 0; i < customers.size(); i++) {
-            ComboBoxCustomer.addItem(customers.get(i));
+            ComboBoxCustomer.addItem(customers.get(i).toString());
         }
         ComboBoxCustomer.setSelectedIndex(0);
     }
@@ -557,7 +568,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
 
         ArrayList<Type> typesList = Controller.dbHandler.SPgetTypes();
         for (int i = 0; i < typesList.size(); i++) {
-            ComboBoxType.addItem(typesList.get(i));
+            ComboBoxType.addItem(typesList.get(i).toString());
         }
         ComboBoxType.setSelectedIndex(0);
     }
@@ -569,7 +580,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
 
         ArrayList<User> userList = Controller.dbHandler.SPgetUsers();
         for (int i = 0; i < userList.size(); i++) {
-            ComboBoxProjectLeader.addItem(userList.get(i));
+            ComboBoxProjectLeader.addItem(userList.get(i).toString());
         }
         ComboBoxProjectLeader.setSelectedIndex(0);
     }
@@ -581,7 +592,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
 
         ArrayList<Statuss> statusList = Controller.dbHandler.SPgetStatus();
         for (int i = 0; i < statusList.size(); i++) {
-            ComboBoxStatus.addItem(statusList.get(i));
+            ComboBoxStatus.addItem(statusList.get(i).toString());
         }
         ComboBoxStatus.setSelectedIndex(0);
     }
@@ -596,7 +607,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         ArrayList<User> userList = Controller.dbHandler.SPgetUsers();
 
         for (int i = 0; i < userList.size(); i++) {
-            model.addElement(userList.get(i));
+            model.addElement(userList.get(i).toString());
         }
 
     }
