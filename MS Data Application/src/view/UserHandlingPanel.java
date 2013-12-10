@@ -14,7 +14,6 @@ import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import model.Task;
 import model.User;
 
 /**
@@ -324,7 +323,12 @@ public class UserHandlingPanel extends javax.swing.JPanel {
     private void ButtonUpdateUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonUpdateUserActionPerformed
         DefaultTableModel modelTable = (DefaultTableModel) jTable1.getModel();
         try {
-            Controller.dbHandler.updateUserInUserDB(TextFieldName2.getText(), TextFieldLastname2.getText(), TextFieldShortname2.getText(), TextFieldPassword2.getText(), Integer.parseInt(modelTable.getValueAt(jTable1.getSelectedRow(), 4).toString()), Integer.parseInt(modelTable.getValueAt(jTable1.getSelectedRow(), 0).toString()));
+            Controller.dbHandler.updateUserInUserDB(TextFieldName2.getText(),
+                    TextFieldLastname2.getText(),
+                    TextFieldShortname2.getText(),
+                    TextFieldPassword2.getText(),
+                    Integer.parseInt(modelTable.getValueAt(jTable1.getSelectedRow(), 4).toString()),
+                    Integer.parseInt(modelTable.getValueAt(jTable1.getSelectedRow(), 0).toString()));
             fillTableWithUser();
         } catch (SQLException ex) {
             Logger.getLogger(UserHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);

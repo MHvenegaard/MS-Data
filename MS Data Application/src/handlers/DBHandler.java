@@ -348,7 +348,7 @@ public class DBHandler {
 
         CallableStatement cs = null;
         cs = conn.prepareCall("{call createTask(?,?,?,?,?,?,?,?,?,?,?)}");
-        cs.setString(1, null); 
+        cs.setString(1, null);
         cs.setString(2, task.getTaskName());
         cs.setString(3, task.getType().getTypeName());
         cs.setString(4, task.getStatus().getStatussName());
@@ -360,6 +360,27 @@ public class DBHandler {
         cs.setInt(10, task.getPriority());
         cs.setString(11, task.getDescription());
 
+        cs.execute();
+    }
+
+    public void updateTask(Task task) throws SQLException, IOException {
+        Connection conn = (Connection) initiateEmployeeDBConn()[0];
+        java.sql.Date sqlStartDate = new java.sql.Date(task.getStartDate().getTime());
+        java.sql.Date sqlEndDate = new java.sql.Date(task.getEndDate().getTime());
+
+        CallableStatement cs = null;
+        cs = conn.prepareCall("{call updateTask(?,?,?,?,?,?,?,?,?,?,?)}");
+        cs.setInt(1, task.getTaskID());
+        cs.setString(2, task.getTaskName());
+        cs.setString(3, task.getType().getTypeName());
+        cs.setString(4, task.getStatus().getStatussName());
+        cs.setString(5, task.getCustomer().getCompanyName());
+        cs.setString(6, task.getUser().getUserName());
+        cs.setDate(7, sqlStartDate);
+        cs.setDate(8, sqlEndDate);
+        cs.setInt(9, task.getEstimatedtime());
+        cs.setInt(10, task.getPriority());
+        cs.setString(11, task.getDescription());
         cs.execute();
     }
 
