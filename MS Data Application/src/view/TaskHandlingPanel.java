@@ -38,6 +38,8 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     private final ArrayList<Type> typeList;
     private final ArrayList<Customer> customerList;
     private final ArrayList<Statuss> statusList;
+    private ArrayList<User> userOnTaskList;
+    private ArrayList<String> newUserOnTask;
 
     public TaskHandlingPanel() throws ClassNotFoundException, SQLException, IOException {
         initComponents();
@@ -45,6 +47,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         typeList = Controller.dbHandler.SPgetTypes();
         customerList = Controller.dbHandler.SPgetCustomers();
         statusList = Controller.dbHandler.SPgetStatus();
+        newUserOnTask = new ArrayList<>();
 
         fillCustomerCombo();
         fillStatusCombo();
@@ -383,11 +386,14 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
 
     private void ButtonAddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonAddUserActionPerformed
         int index = ListUsers.getSelectedIndex();
+       
         model = (DefaultListModel) ListUsers.getModel();
         modelOnTask = (DefaultListModel) ListUsersOnTask.getModel();
         if (index != -1) {
             modelOnTask.addElement(ListUsers.getSelectedValue());
+            newUserOnTask.add(ListUsers.getSelectedValue().toString());
             model.removeElement(ListUsers.getSelectedValue());
+            
         } else {
             JOptionPane.showMessageDialog(this, "Der ikke valgt nogen medarbejder", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
         }
@@ -404,8 +410,15 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         modelOnTask = (DefaultListModel) ListUsersOnTask.getModel();
 
         if (index != -1) {
+              for (int i = 0; i < newUserOnTask.size(); i++) {
+                if (newUserOnTask.get(i).toString().equals(ListUsersOnTask.getSelectedValue().toString())) {
+                    System.out.println("Fjerner " + ListUsersOnTask.getSelectedValue());
+                    newUserOnTask.remove(ListUsersOnTask.getSelectedValue().toString());
+                }
+            }
             model.addElement(ListUsersOnTask.getSelectedValue());
             modelOnTask.removeElement(ListUsersOnTask.getSelectedValue());
+          
         } else {
             JOptionPane.showMessageDialog(this, "Der ikke valgt nogen medarbejder", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
 
@@ -553,7 +566,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         model.clear();
         fillUserList();
         
-        ArrayList<User> userOnTaskList = Controller.dbHandler.SPgetUserOnTask(taskID);
+        userOnTaskList = Controller.dbHandler.SPgetUserOnTask(taskID);
         System.out.println(userOnTaskList.size()+"");
         for (int i = 0; i < userOnTaskList.size(); i++) {
             System.out.println(userList.get(i).getUserName().toString() + " - i: " + i);
