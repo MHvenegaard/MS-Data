@@ -386,25 +386,49 @@ public class DBHandler {
 
     public void addUserToTask(JList list) throws SQLException, IOException {
         ArrayList<User> userList = new ArrayList<>();
-
         Connection conn = (Connection) initiateSystemDBConn()[0];
         CallableStatement cs = null;
 
         DefaultListModel modelOnTask = (DefaultListModel) list.getModel();
-
         for (int i = 0; i < modelOnTask.getSize(); i++) {
+            System.out.println(modelOnTask.getElementAt(i).getClass());
             userList.add((User) modelOnTask.getElementAt(i));
         }
-
         for (int i = 0; i < userList.size(); i++) {
             cs = conn.prepareCall("{call addUserToTask(?)}");
             cs.setInt(1, userList.get(i).getUserID());
+            System.out.println("" + userList.get(i).getUserID());
+            cs.execute();
+        }
+    }
+
+    public void addUserToAlreadyMadeTask(JList list, int taskID) throws SQLException, IOException {
+        ArrayList<User> userList = new ArrayList<>();
+        Connection conn = (Connection) initiateSystemDBConn()[0];
+        CallableStatement cs = null;
+        DefaultListModel modelOnTask = (DefaultListModel) list.getModel();
+
+        for (int i = 0; i < modelOnTask.getSize(); i++) {
+            System.out.println(modelOnTask.getElementAt(i).getClass());
+            userList.add((User) modelOnTask.getElementAt(i));
+        }
+        for (int i = 0; i < userList.size(); i++) {
+            cs = conn.prepareCall("{call  addUserToAlreadyMadeTask(?,?)}");
+            cs.setInt(1, taskID);
+            cs.setInt(2, userList.get(i).getUserID());
+           
             cs.execute();
         }
     }
 
     public ArrayList<User> SPgetUserOnTask(int taskID) throws SQLException, IOException {
+        int userID;
+        int accessLevel;
         String username;
+        String firstName;
+        String lastName;
+        String password;
+
         ArrayList<User> userOnTaskList = new ArrayList<>();
 
         Connection conn = (Connection) initiateSystemDBConn()[0];
@@ -415,10 +439,24 @@ public class DBHandler {
         ResultSet rs = cs.executeQuery();
 
         while (rs.next()) {
+            userID = rs.getInt("IDUser");
             username = rs.getString("shortName");
-            userOnTaskList.add(new User(username));
+            firstName = rs.getString("userFirstName");
+            lastName = rs.getString("userLastName");
+            password = rs.getString("password");
+            accessLevel = rs.getInt("accessLevel");
+            userOnTaskList.add(new User(userID, username, firstName, lastName, password, accessLevel));
         }
         return userOnTaskList;
+    }
+
+    public void SPremoveAllUsersOnTask(int taskID) throws SQLException, IOException {
+        Connection conn = (Connection) initiateSystemDBConn()[0];
+
+        CallableStatement cs = null;
+        cs = conn.prepareCall("{call deleteAllUserOnTask(?)}");
+        cs.setInt(1, taskID);
+        cs.executeQuery();
     }
 
     public ArrayList<User> SPgetUsersFromUserDB() throws SQLException, IOException {
