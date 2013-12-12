@@ -37,11 +37,14 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
         fillCustomerCombo();
         fillTypeCombo();
-        fillUserCombo();
-        fillStatusCombo();
-        fillUserList();
+    
+        Controller.fillCombobox(ComboBoxUser, Controller.userList);
+        Controller.fillCombobox(ComboBoxType, Controller.typeList);
+        Controller.fillCombobox(ComboBoxStatus, Controller.statusList);
+        Controller.fillList(ListUsers, Controller.userList);
+      
         fillTableWithTasks();
-        //dbh.storedProcedureTest();
+        
 
     }
 
@@ -77,9 +80,9 @@ public class CreateTaskPanel extends javax.swing.JPanel {
         ComboBoxUser.removeAllItems();
         ComboBoxUser.addItem("Vælg projektleder");
 
-        ArrayList<User> userList = Controller.dbHandler.SPgetUsers();
-        for (int i = 0; i < userList.size(); i++) {
-            ComboBoxUser.addItem(userList.get(i));
+      //  ArrayList<User> userList = Controller.dbHandler.SPgetUsers();
+        for (int i = 0; i < Controller.userList.size(); i++) {
+            ComboBoxUser.addItem(Controller.userList.get(i));
         }
         ComboBoxUser.setSelectedIndex(0);
     }
@@ -99,10 +102,8 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
     private void fillUserList() throws SQLException, IOException {
         //Flyt dette
-         modelOnTask = new DefaultListModel();
-        ListUsersOnTask.setModel(modelOnTask);
-
-         model = new DefaultListModel();
+        
+        model = new DefaultListModel();
 
         ListUsers.setModel(model);
         ArrayList<User> userList = Controller.dbHandler.SPgetUsers();
