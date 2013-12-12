@@ -36,12 +36,12 @@
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="ComboBoxAccessLevel" min="-2" pref="71" max="-2" attributes="0"/>
+                                  <Component id="comboBoxAccessLevel" min="-2" pref="71" max="-2" attributes="0"/>
                                   <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                      <Component id="TextFieldFirstName" max="32767" attributes="0"/>
-                                      <Component id="TextFieldLastName" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="TextFieldShortName" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="TextFieldPassword" alignment="0" min="-2" pref="101" max="-2" attributes="0"/>
+                                      <Component id="textFieldFirstName" max="32767" attributes="0"/>
+                                      <Component id="textFieldLastName" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="textFieldShortName" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="textFieldPassword" alignment="0" min="-2" pref="101" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -53,8 +53,8 @@
                       <EmptySpace min="-2" pref="73" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
-                          <Component id="ComboBoxDeleteUserList" min="-2" max="-2" attributes="0"/>
-                          <Component id="ButtonDeleteUser" min="-2" max="-2" attributes="0"/>
+                          <Component id="comboBoxDeleteUserList" min="-2" max="-2" attributes="0"/>
+                          <Component id="buttonDeleteUser" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="97" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -69,16 +69,16 @@
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="TextFieldName2" max="32767" attributes="0"/>
-                                  <Component id="TextFieldLastname2" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="TextFieldShortname2" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="TextFieldPassword2" min="-2" pref="130" max="-2" attributes="0"/>
-                                  <Component id="ComboBoxAccessLevel2" alignment="0" min="-2" pref="70" max="-2" attributes="0"/>
+                                  <Component id="textFieldName2" max="32767" attributes="0"/>
+                                  <Component id="textFieldLastname2" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="textFieldShortname2" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="textFieldPassword2" min="-2" pref="130" max="-2" attributes="0"/>
+                                  <Component id="comboBoxAccessLevel2" alignment="0" min="-2" pref="70" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="61" pref="61" max="-2" attributes="0"/>
-                              <Component id="ButtonUpdateUser" min="-2" max="-2" attributes="0"/>
+                              <Component id="buttonUpdateUser" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace pref="474" max="32767" attributes="0"/>
@@ -98,27 +98,27 @@
                       <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="TextFieldFirstName" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="textFieldFirstName" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="TextFieldLastName" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="textFieldLastName" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="TextFieldShortName" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="textFieldShortName" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="TextFieldPassword" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="textFieldPassword" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="ComboBoxAccessLevel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="comboBoxAccessLevel" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
@@ -127,39 +127,39 @@
                   <Group type="102" attributes="0">
                       <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="ComboBoxDeleteUserList" min="-2" max="-2" attributes="0"/>
+                      <Component id="comboBoxDeleteUserList" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-                      <Component id="ButtonDeleteUser" min="-2" max="-2" attributes="0"/>
+                      <Component id="buttonDeleteUser" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="TextFieldName2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="textFieldName2" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel12" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="TextFieldLastname2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="textFieldLastname2" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="TextFieldShortname2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="textFieldShortname2" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel13" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="TextFieldPassword2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="textFieldPassword2" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="ComboBoxAccessLevel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="comboBoxAccessLevel2" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="ButtonUpdateUser" min="-2" max="-2" attributes="0"/>
+                      <Component id="buttonUpdateUser" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace pref="234" max="32767" attributes="0"/>
@@ -168,15 +168,15 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JTextField" name="TextFieldFirstName">
+    <Component class="javax.swing.JTextField" name="textFieldFirstName">
     </Component>
-    <Component class="javax.swing.JTextField" name="TextFieldLastName">
+    <Component class="javax.swing.JTextField" name="textFieldLastName">
     </Component>
-    <Component class="javax.swing.JTextField" name="TextFieldShortName">
+    <Component class="javax.swing.JTextField" name="textFieldShortName">
     </Component>
-    <Component class="javax.swing.JTextField" name="TextFieldPassword">
+    <Component class="javax.swing.JTextField" name="textFieldPassword">
     </Component>
-    <Component class="javax.swing.JComboBox" name="ComboBoxAccessLevel">
+    <Component class="javax.swing.JComboBox" name="comboBoxAccessLevel">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="2">
@@ -211,7 +211,7 @@
         <Property name="text" type="java.lang.String" value="Adgangsniveau"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JComboBox" name="ComboBoxDeleteUserList">
+    <Component class="javax.swing.JComboBox" name="comboBoxDeleteUserList">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="4">
@@ -253,18 +253,18 @@
         <Property name="text" type="java.lang.String" value="Efternavn"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="TextFieldName2">
+    <Component class="javax.swing.JTextField" name="textFieldName2">
     </Component>
-    <Component class="javax.swing.JTextField" name="TextFieldLastname2">
+    <Component class="javax.swing.JTextField" name="textFieldLastname2">
     </Component>
-    <Component class="javax.swing.JTextField" name="TextFieldShortname2">
+    <Component class="javax.swing.JTextField" name="textFieldShortname2">
     </Component>
-    <Component class="javax.swing.JTextField" name="TextFieldPassword2">
+    <Component class="javax.swing.JTextField" name="textFieldPassword2">
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="TextFieldPassword2ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="textFieldPassword2ActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JComboBox" name="ComboBoxAccessLevel2">
+    <Component class="javax.swing.JComboBox" name="comboBoxAccessLevel2">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="2">
@@ -292,20 +292,20 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="ButtonDeleteUser">
+    <Component class="javax.swing.JButton" name="buttonDeleteUser">
       <Properties>
         <Property name="text" type="java.lang.String" value="Fjern"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ButtonDeleteUserActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonDeleteUserActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="ButtonUpdateUser">
+    <Component class="javax.swing.JButton" name="buttonUpdateUser">
       <Properties>
         <Property name="text" type="java.lang.String" value="Rediger"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ButtonUpdateUserActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonUpdateUserActionPerformed"/>
       </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">

@@ -47,14 +47,14 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         initComponents();
 
         modelOnTask = new DefaultListModel();
-        ListUsersOnTask.setModel(modelOnTask);
+        listUsersOnTask.setModel(modelOnTask);
 
         customerList = Controller.dbHandler.SPgetCustomers();
 
-        Controller.fillCombobox(ComboBoxProjectLeader, Controller.userList);
-        Controller.fillCombobox(ComboBoxType, Controller.typeList);
-        Controller.fillCombobox(ComboBoxStatus, Controller.statusList);
-        Controller.fillList(ListUsers, Controller.userList);
+        Controller.fillCombobox(comboBoxProjectLeader, Controller.userList);
+        Controller.fillCombobox(comboBoxType, Controller.typeList);
+        Controller.fillCombobox(comboBoxStatus, Controller.statusList);
+        Controller.fillList(listUsers, Controller.userList);
 
         fillCustomerCombo();
         fillTableWithTask();
@@ -70,43 +70,43 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        ComboBoxStatus = new javax.swing.JComboBox();
-        TextFieldTaskName = new javax.swing.JTextField();
+        comboBoxStatus = new javax.swing.JComboBox();
+        textFieldTaskName = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        TextFieldTime = new javax.swing.JTextField();
+        textFieldTime = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        ButtonRemoveUser = new javax.swing.JButton();
+        buttonRemoveUser = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        ComboBoxCustomer = new javax.swing.JComboBox();
+        comboBoxCustomer = new javax.swing.JComboBox();
         jScrollPane1 = new javax.swing.JScrollPane();
-        ListUsers = new javax.swing.JList();
+        listUsers = new javax.swing.JList();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        ListUsersOnTask = new javax.swing.JList();
-        ButtonAddUser = new javax.swing.JButton();
-        ComboBoxProjectLeader = new javax.swing.JComboBox();
+        listUsersOnTask = new javax.swing.JList();
+        buttonAddUser = new javax.swing.JButton();
+        comboBoxProjectLeader = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
-        ComboBoxPriority = new javax.swing.JComboBox();
+        comboBoxPriority = new javax.swing.JComboBox();
         jLabel10 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        ComboBoxType = new javax.swing.JComboBox();
+        comboBoxType = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        ButtonEditTask = new javax.swing.JButton();
-        ButtonSaveChanges = new javax.swing.JButton();
+        buttonEditTask = new javax.swing.JButton();
+        buttonSaveChanges = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        dateChooserExpectedStart = new com.toedter.calendar.JDateChooser();
+        dateChooserExpectedEnd = new com.toedter.calendar.JDateChooser();
         jScrollPane8 = new javax.swing.JScrollPane();
         jList2 = new javax.swing.JList();
         jLabel30 = new javax.swing.JLabel();
         jLabel31 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tableAllTasks = new javax.swing.JTable();
-        ButtonFilter = new javax.swing.JButton();
+        buttonFilter = new javax.swing.JButton();
         textFieldSorting = new javax.swing.JTextField();
         comboboxSorting = new javax.swing.JComboBox();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -126,37 +126,37 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
 
         jLabel4.setText("Kunde");
 
-        ButtonRemoveUser.setText("Fjern medarbejder");
-        ButtonRemoveUser.addActionListener(new java.awt.event.ActionListener() {
+        buttonRemoveUser.setText("Fjern medarbejder");
+        buttonRemoveUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonRemoveUserActionPerformed(evt);
+                buttonRemoveUserActionPerformed(evt);
             }
         });
 
         jLabel6.setText("Forventet start");
 
-        ComboBoxCustomer.addActionListener(new java.awt.event.ActionListener() {
+        comboBoxCustomer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ComboBoxCustomerActionPerformed(evt);
+                comboBoxCustomerActionPerformed(evt);
             }
         });
 
-        jScrollPane1.setViewportView(ListUsers);
+        jScrollPane1.setViewportView(listUsers);
 
         jLabel7.setText("Forventet færdigt");
 
-        jScrollPane2.setViewportView(ListUsersOnTask);
+        jScrollPane2.setViewportView(listUsersOnTask);
 
-        ButtonAddUser.setText("Tilføj medarbejder");
-        ButtonAddUser.addActionListener(new java.awt.event.ActionListener() {
+        buttonAddUser.setText("Tilføj medarbejder");
+        buttonAddUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonAddUserActionPerformed(evt);
+                buttonAddUserActionPerformed(evt);
             }
         });
 
         jLabel2.setText("Type");
 
-        ComboBoxPriority.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5" }));
+        comboBoxPriority.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5" }));
 
         jLabel10.setText("Prioritet");
 
@@ -167,12 +167,12 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
 
         jLabel8.setText("Forventet tidsforbrug");
 
-        ButtonEditTask.setText("Rediger opgave ");
+        buttonEditTask.setText("Rediger opgave ");
 
-        ButtonSaveChanges.setText("Gem ændringer");
-        ButtonSaveChanges.addActionListener(new java.awt.event.ActionListener() {
+        buttonSaveChanges.setText("Gem ændringer");
+        buttonSaveChanges.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonSaveChangesActionPerformed(evt);
+                buttonSaveChangesActionPerformed(evt);
             }
         });
 
@@ -219,10 +219,10 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         });
         jScrollPane3.setViewportView(tableAllTasks);
 
-        ButtonFilter.setText("Test Filter");
-        ButtonFilter.addActionListener(new java.awt.event.ActionListener() {
+        buttonFilter.setText("Test Filter");
+        buttonFilter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonFilterActionPerformed(evt);
+                buttonFilterActionPerformed(evt);
             }
         });
 
@@ -257,31 +257,31 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
                                         .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(12, 12, 12)
-                                        .addComponent(ButtonEditTask)))
+                                        .addComponent(buttonEditTask)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(ComboBoxStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(ComboBoxCustomer, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(ComboBoxProjectLeader, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(TextFieldTime, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(ComboBoxPriority, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(ComboBoxType, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(TextFieldTaskName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(comboBoxStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(comboBoxCustomer, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(comboBoxProjectLeader, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(textFieldTime, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(comboBoxPriority, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(comboBoxType, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(textFieldTaskName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(18, 18, 18)
                                         .addComponent(jLabel9))
-                                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(ButtonSaveChanges, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(dateChooserExpectedStart, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(dateChooserExpectedEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(buttonSaveChanges, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(37, 37, 37)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(ButtonAddUser, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(ButtonRemoveUser, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(buttonAddUser, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(buttonRemoveUser, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(18, 18, 18)
                                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
@@ -294,7 +294,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(comboboxSorting, 0, 125, Short.MAX_VALUE)
-                                    .addComponent(ButtonFilter)
+                                    .addComponent(buttonFilter)
                                     .addComponent(textFieldSorting))
                                 .addGap(141, 141, 141)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -320,43 +320,43 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(textFieldSorting, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(ButtonFilter))
+                        .addComponent(buttonFilter))
                     .addComponent(jScrollPane8))
                 .addGap(44, 44, 44)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
-                            .addComponent(TextFieldTaskName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(textFieldTaskName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(ComboBoxType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(comboBoxType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
-                            .addComponent(ComboBoxStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(comboBoxStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(ComboBoxCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(comboBoxCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
-                            .addComponent(ComboBoxProjectLeader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(comboBoxProjectLeader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
-                            .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(dateChooserExpectedStart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7)
-                            .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(dateChooserExpectedEnd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
                             .addComponent(jLabel9)
-                            .addComponent(TextFieldTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(textFieldTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -368,38 +368,38 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
                             .addComponent(jScrollPane1)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(31, 31, 31)
-                                .addComponent(ButtonAddUser)
+                                .addComponent(buttonAddUser)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(ButtonRemoveUser))
+                                .addComponent(buttonRemoveUser))
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(ComboBoxPriority, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(comboBoxPriority, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ButtonEditTask)
-                    .addComponent(ButtonSaveChanges))
+                    .addComponent(buttonEditTask)
+                    .addComponent(buttonSaveChanges))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(27, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void ButtonAddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonAddUserActionPerformed
-        int index = ListUsers.getSelectedIndex();
+    private void buttonAddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddUserActionPerformed
+        int index = listUsers.getSelectedIndex();
 
-        model = (DefaultListModel) ListUsers.getModel();
-        modelOnTask = (DefaultListModel) ListUsersOnTask.getModel();
+        model = (DefaultListModel) listUsers.getModel();
+        modelOnTask = (DefaultListModel) listUsersOnTask.getModel();
         if (index != -1) {
-            modelOnTask.addElement(ListUsers.getSelectedValue());
-            model.removeElement(ListUsers.getSelectedValue());
+            modelOnTask.addElement(listUsers.getSelectedValue());
+            model.removeElement(listUsers.getSelectedValue());
 
         } else {
             JOptionPane.showMessageDialog(this, "Der ikke valgt nogen medarbejder", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
         }
-    }//GEN-LAST:event_ButtonAddUserActionPerformed
+    }//GEN-LAST:event_buttonAddUserActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         DefaultTableModel model = (DefaultTableModel) tableAllTasks.getModel();
@@ -412,27 +412,27 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         sorter.setRowFilter(rf);
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void ButtonRemoveUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonRemoveUserActionPerformed
-        int index = ListUsersOnTask.getSelectedIndex();
+    private void buttonRemoveUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRemoveUserActionPerformed
+        int index = listUsersOnTask.getSelectedIndex();
 
-        model = (DefaultListModel) ListUsers.getModel();
-        modelOnTask = (DefaultListModel) ListUsersOnTask.getModel();
+        model = (DefaultListModel) listUsers.getModel();
+        modelOnTask = (DefaultListModel) listUsersOnTask.getModel();
 
         if (index != -1) {
             for (int i = 0; i < model.size(); i++) {
-                if (model.get(i).toString().equals(ListUsersOnTask.getSelectedValue().toString())) {
-                    System.out.println("Fjerner " + ListUsersOnTask.getSelectedValue());
-                    model.removeElement(ListUsersOnTask.getSelectedValue());
+                if (model.get(i).toString().equals(listUsersOnTask.getSelectedValue().toString())) {
+                    System.out.println("Fjerner " + listUsersOnTask.getSelectedValue());
+                    model.removeElement(listUsersOnTask.getSelectedValue());
                 }
             }
-            model.addElement(ListUsersOnTask.getSelectedValue());
-            modelOnTask.removeElement(ListUsersOnTask.getSelectedValue());
+            model.addElement(listUsersOnTask.getSelectedValue());
+            modelOnTask.removeElement(listUsersOnTask.getSelectedValue());
 
         } else {
             JOptionPane.showMessageDialog(this, "Der ikke valgt nogen medarbejder", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
 
         }
-    }//GEN-LAST:event_ButtonRemoveUserActionPerformed
+    }//GEN-LAST:event_buttonRemoveUserActionPerformed
 
     private void tableAllTasksMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableAllTasksMouseClicked
         modelTable = (DefaultTableModel) tableAllTasks.getModel();
@@ -450,67 +450,63 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
 
     }//GEN-LAST:event_tableAllTasksMouseClicked
 
-    private void ButtonFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonFilterActionPerformed
+    private void buttonFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonFilterActionPerformed
 
         Controller.tHandler.applyRowFilter(tableAllTasks, textFieldSorting, comboboxSorting.getSelectedIndex());
 
-    }//GEN-LAST:event_ButtonFilterActionPerformed
+    }//GEN-LAST:event_buttonFilterActionPerformed
 
-    private void ButtonSaveChangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSaveChangesActionPerformed
+    private void buttonSaveChangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveChangesActionPerformed
         modelTable = (DefaultTableModel) tableAllTasks.getModel();
-        Type type = new Type(ComboBoxType.getSelectedItem().toString());
-        Statuss status = new Statuss(ComboBoxStatus.getSelectedItem().toString());
-        Customer customer = new Customer(ComboBoxCustomer.getSelectedItem().toString());
-        User user = new User(ComboBoxProjectLeader.getSelectedItem().toString());
+        Type type = new Type(comboBoxType.getSelectedItem().toString());
+        Statuss status = new Statuss(comboBoxStatus.getSelectedItem().toString());
+        Customer customer = new Customer(comboBoxCustomer.getSelectedItem().toString());
+        User user = new User(comboBoxProjectLeader.getSelectedItem().toString());
 
         Task task = new Task(Integer.parseInt(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 0).toString()),
-                TextFieldTaskName.getText(),
+                textFieldTaskName.getText(),
                 type,
                 status,
                 customer,
                 user,
-                jDateChooser1.getDate(),
-                jDateChooser2.getDate(),
-                Integer.parseInt(TextFieldTime.getText()),
-                Integer.parseInt(ComboBoxPriority.getSelectedItem().toString()),
+                dateChooserExpectedStart.getDate(),
+                dateChooserExpectedEnd.getDate(),
+                Integer.parseInt(textFieldTime.getText()),
+                Integer.parseInt(comboBoxPriority.getSelectedItem().toString()),
                 textAreaDescription.getText());
         try {
             Controller.dbHandler.SPremoveAllUsersOnTask(task.getTaskID());
             Controller.dbHandler.updateTask(task);
 
-            Controller.dbHandler.addUserToAlreadyMadeTask(ListUsersOnTask, task.getTaskID());
+            Controller.dbHandler.addUserToAlreadyMadeTask(listUsersOnTask, task.getTaskID());
 
-            Controller.fillList(ListUsers, Controller.userList);
+            Controller.fillList(listUsers, Controller.userList);
             fillTableWithTask();
         } catch (SQLException ex) {
             Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_ButtonSaveChangesActionPerformed
+    }//GEN-LAST:event_buttonSaveChangesActionPerformed
 
-    private void ComboBoxCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBoxCustomerActionPerformed
+    private void comboBoxCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxCustomerActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_ComboBoxCustomerActionPerformed
+    }//GEN-LAST:event_comboBoxCustomerActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton ButtonAddUser;
-    private javax.swing.JButton ButtonEditTask;
-    private javax.swing.JButton ButtonFilter;
-    private javax.swing.JButton ButtonRemoveUser;
-    private javax.swing.JButton ButtonSaveChanges;
-    private javax.swing.JComboBox ComboBoxCustomer;
-    private javax.swing.JComboBox ComboBoxPriority;
-    private javax.swing.JComboBox ComboBoxProjectLeader;
-    private javax.swing.JComboBox ComboBoxStatus;
-    private javax.swing.JComboBox ComboBoxType;
-    private javax.swing.JList ListUsers;
-    private javax.swing.JList ListUsersOnTask;
-    private javax.swing.JTextField TextFieldTaskName;
-    private javax.swing.JTextField TextFieldTime;
+    private javax.swing.JButton buttonAddUser;
+    private javax.swing.JButton buttonEditTask;
+    private javax.swing.JButton buttonFilter;
+    private javax.swing.JButton buttonRemoveUser;
+    private javax.swing.JButton buttonSaveChanges;
+    private javax.swing.JComboBox comboBoxCustomer;
+    private javax.swing.JComboBox comboBoxPriority;
+    private javax.swing.JComboBox comboBoxProjectLeader;
+    private javax.swing.JComboBox comboBoxStatus;
+    private javax.swing.JComboBox comboBoxType;
     private javax.swing.JComboBox comboboxSorting;
+    private com.toedter.calendar.JDateChooser dateChooserExpectedEnd;
+    private com.toedter.calendar.JDateChooser dateChooserExpectedStart;
     private javax.swing.JButton jButton1;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -531,9 +527,13 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JList listUsers;
+    private javax.swing.JList listUsersOnTask;
     private javax.swing.JTable tableAllTasks;
     private javax.swing.JTextArea textAreaDescription;
     private javax.swing.JTextField textFieldSorting;
+    private javax.swing.JTextField textFieldTaskName;
+    private javax.swing.JTextField textFieldTime;
     // End of variables declaration//GEN-END:variables
 
     private void fillTableWithTask() throws IOException, SQLException {
@@ -558,26 +558,26 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
 
     private void fillAllWithSelectedTask(int taskID) throws IOException, SQLException, ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        model = (DefaultListModel) ListUsers.getModel();
-        modelOnTask = (DefaultListModel) ListUsersOnTask.getModel();
-        TextFieldTaskName.setText(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 1).toString());
-        ComboBoxCustomer.setSelectedItem(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 4).toString());
-        ComboBoxPriority.setSelectedItem(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 9).toString());
-        ComboBoxProjectLeader.setSelectedItem(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 5).toString());
-        ComboBoxStatus.setSelectedItem(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 3).toString());
-        ComboBoxType.setSelectedItem(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 2).toString());
-        TextFieldTime.setText(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 8).toString());
+        model = (DefaultListModel) listUsers.getModel();
+        modelOnTask = (DefaultListModel) listUsersOnTask.getModel();
+        textFieldTaskName.setText(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 1).toString());
+        comboBoxCustomer.setSelectedItem(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 4).toString());
+        comboBoxPriority.setSelectedItem(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 9).toString());
+        comboBoxProjectLeader.setSelectedItem(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 5).toString());
+        comboBoxStatus.setSelectedItem(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 3).toString());
+        comboBoxType.setSelectedItem(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 2).toString());
+        textFieldTime.setText(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 8).toString());
 
         Date startDate = sdf.parse(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 6).toString());
-        jDateChooser1.setDate(startDate);
+        dateChooserExpectedStart.setDate(startDate);
         Date endDate = sdf.parse(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 7).toString());
-        jDateChooser2.setDate(endDate);
+        dateChooserExpectedEnd.setDate(endDate);
 
         textAreaDescription.setText(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 10).toString());
 
         modelOnTask.clear();
         model.clear();
-        Controller.fillList(ListUsers, Controller.userList);
+        Controller.fillList(listUsers, Controller.userList);
 
         userOnTaskList = Controller.dbHandler.SPgetUserOnTask(taskID);
 
@@ -590,13 +590,13 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     }
 
     private void fillCustomerCombo() throws SQLException, IOException {
-        ComboBoxCustomer.setSelectedIndex(-1);
-        ComboBoxCustomer.removeAllItems();
-        ComboBoxCustomer.addItem("Vælg kunde");
+        comboBoxCustomer.setSelectedIndex(-1);
+        comboBoxCustomer.removeAllItems();
+        comboBoxCustomer.addItem("Vælg kunde");
 
         for (int i = 0; i < customerList.size(); i++) {
-            ComboBoxCustomer.addItem(customerList.get(i).toString());
+            comboBoxCustomer.addItem(customerList.get(i).toString());
         }
-        ComboBoxCustomer.setSelectedIndex(0);
+        comboBoxCustomer.setSelectedIndex(0);
     }
 }

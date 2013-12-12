@@ -46,27 +46,27 @@
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                                      <Component id="ButtonEditTask" min="-2" max="-2" attributes="0"/>
+                                      <Component id="buttonEditTask" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
                                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                          <Component id="ComboBoxStatus" alignment="1" min="-2" pref="104" max="-2" attributes="0"/>
-                                          <Component id="ComboBoxCustomer" alignment="0" min="-2" pref="104" max="-2" attributes="0"/>
-                                          <Component id="ComboBoxProjectLeader" alignment="0" min="-2" pref="104" max="-2" attributes="0"/>
-                                          <Component id="TextFieldTime" alignment="1" min="-2" pref="104" max="-2" attributes="0"/>
-                                          <Component id="ComboBoxPriority" alignment="0" min="-2" pref="104" max="-2" attributes="0"/>
-                                          <Component id="ComboBoxType" alignment="0" min="-2" pref="104" max="-2" attributes="0"/>
-                                          <Component id="TextFieldTaskName" alignment="0" min="-2" pref="104" max="-2" attributes="0"/>
+                                          <Component id="comboBoxStatus" alignment="1" min="-2" pref="104" max="-2" attributes="0"/>
+                                          <Component id="comboBoxCustomer" alignment="0" min="-2" pref="104" max="-2" attributes="0"/>
+                                          <Component id="comboBoxProjectLeader" alignment="0" min="-2" pref="104" max="-2" attributes="0"/>
+                                          <Component id="textFieldTime" alignment="1" min="-2" pref="104" max="-2" attributes="0"/>
+                                          <Component id="comboBoxPriority" alignment="0" min="-2" pref="104" max="-2" attributes="0"/>
+                                          <Component id="comboBoxType" alignment="0" min="-2" pref="104" max="-2" attributes="0"/>
+                                          <Component id="textFieldTaskName" alignment="0" min="-2" pref="104" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="jDateChooser1" alignment="0" min="-2" pref="156" max="-2" attributes="0"/>
-                                  <Component id="jDateChooser2" alignment="0" min="-2" pref="156" max="-2" attributes="0"/>
-                                  <Component id="ButtonSaveChanges" alignment="1" max="32767" attributes="0"/>
+                                  <Component id="dateChooserExpectedStart" alignment="0" min="-2" pref="156" max="-2" attributes="0"/>
+                                  <Component id="dateChooserExpectedEnd" alignment="0" min="-2" pref="156" max="-2" attributes="0"/>
+                                  <Component id="buttonSaveChanges" alignment="1" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -74,8 +74,8 @@
                                       <Component id="jScrollPane1" min="-2" pref="104" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="ButtonAddUser" min="-2" pref="132" max="-2" attributes="0"/>
-                                          <Component id="ButtonRemoveUser" alignment="0" min="-2" pref="132" max="-2" attributes="0"/>
+                                          <Component id="buttonAddUser" min="-2" pref="132" max="-2" attributes="0"/>
+                                          <Component id="buttonRemoveUser" alignment="0" min="-2" pref="132" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
                                       <Component id="jScrollPane2" min="-2" pref="104" max="-2" attributes="0"/>
@@ -94,7 +94,7 @@
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="comboboxSorting" pref="125" max="32767" attributes="0"/>
-                                  <Component id="ButtonFilter" min="-2" max="-2" attributes="0"/>
+                                  <Component id="buttonFilter" min="-2" max="-2" attributes="0"/>
                                   <Component id="textFieldSorting" alignment="0" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="141" max="-2" attributes="0"/>
@@ -130,7 +130,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="textFieldSorting" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="ButtonFilter" min="-2" max="-2" attributes="0"/>
+                      <Component id="buttonFilter" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jScrollPane8" alignment="0" max="32767" attributes="0"/>
               </Group>
@@ -139,43 +139,43 @@
                   <Group type="102" alignment="1" attributes="0">
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="TextFieldTaskName" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="textFieldTaskName" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="ComboBoxType" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="comboBoxType" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="ComboBoxStatus" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="comboBoxStatus" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="ComboBoxCustomer" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="comboBoxCustomer" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="ComboBoxProjectLeader" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="comboBoxProjectLeader" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
-                          <Component id="jDateChooser1" min="-2" max="-2" attributes="0"/>
+                          <Component id="dateChooserExpectedStart" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
-                          <Component id="jDateChooser2" min="-2" max="-2" attributes="0"/>
+                          <Component id="dateChooserExpectedEnd" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="TextFieldTime" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="textFieldTime" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
@@ -191,9 +191,9 @@
                           <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="31" pref="31" max="-2" attributes="0"/>
-                              <Component id="ButtonAddUser" min="-2" max="-2" attributes="0"/>
+                              <Component id="buttonAddUser" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="ButtonRemoveUser" min="-2" max="-2" attributes="0"/>
+                              <Component id="buttonRemoveUser" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Component id="jScrollPane2" alignment="0" min="-2" pref="141" max="-2" attributes="0"/>
                       </Group>
@@ -203,12 +203,12 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="ComboBoxPriority" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="comboBoxPriority" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="ButtonEditTask" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="ButtonSaveChanges" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="buttonEditTask" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="buttonSaveChanges" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jScrollPane4" min="-2" max="-2" attributes="0"/>
@@ -218,14 +218,14 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JComboBox" name="ComboBoxStatus">
+    <Component class="javax.swing.JComboBox" name="comboBoxStatus">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="0"/>
         </Property>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="TextFieldTaskName">
+    <Component class="javax.swing.JTextField" name="textFieldTaskName">
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel9">
       <Properties>
@@ -243,7 +243,7 @@
         <Property name="text" type="java.lang.String" value="Ansatte"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="TextFieldTime">
+    <Component class="javax.swing.JTextField" name="textFieldTime">
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
@@ -255,12 +255,12 @@
         <Property name="text" type="java.lang.String" value="Kunde"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="ButtonRemoveUser">
+    <Component class="javax.swing.JButton" name="buttonRemoveUser">
       <Properties>
         <Property name="text" type="java.lang.String" value="Fjern medarbejder"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ButtonRemoveUserActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonRemoveUserActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel6">
@@ -268,14 +268,14 @@
         <Property name="text" type="java.lang.String" value="Forventet start"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JComboBox" name="ComboBoxCustomer">
+    <Component class="javax.swing.JComboBox" name="comboBoxCustomer">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="0"/>
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ComboBoxCustomerActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="comboBoxCustomerActionPerformed"/>
       </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
@@ -285,7 +285,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JList" name="ListUsers">
+        <Component class="javax.swing.JList" name="listUsers">
           <Properties>
             <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
               <StringArray count="0"/>
@@ -306,7 +306,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JList" name="ListUsersOnTask">
+        <Component class="javax.swing.JList" name="listUsersOnTask">
           <Properties>
             <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
               <StringArray count="0"/>
@@ -315,15 +315,15 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="ButtonAddUser">
+    <Component class="javax.swing.JButton" name="buttonAddUser">
       <Properties>
         <Property name="text" type="java.lang.String" value="Tilf&#xf8;j medarbejder"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ButtonAddUserActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonAddUserActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JComboBox" name="ComboBoxProjectLeader">
+    <Component class="javax.swing.JComboBox" name="comboBoxProjectLeader">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="0"/>
@@ -335,7 +335,7 @@
         <Property name="text" type="java.lang.String" value="Type"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JComboBox" name="ComboBoxPriority">
+    <Component class="javax.swing.JComboBox" name="comboBoxPriority">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="5">
@@ -359,7 +359,7 @@
         <Property name="text" type="java.lang.String" value="Ansatte p&#xe5; projektet"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JComboBox" name="ComboBoxType">
+    <Component class="javax.swing.JComboBox" name="comboBoxType">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="0"/>
@@ -376,17 +376,17 @@
         <Property name="text" type="java.lang.String" value="Forventet tidsforbrug"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="ButtonEditTask">
+    <Component class="javax.swing.JButton" name="buttonEditTask">
       <Properties>
         <Property name="text" type="java.lang.String" value="Rediger opgave "/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="ButtonSaveChanges">
+    <Component class="javax.swing.JButton" name="buttonSaveChanges">
       <Properties>
         <Property name="text" type="java.lang.String" value="Gem &#xe6;ndringer"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ButtonSaveChangesActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonSaveChangesActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButton1">
@@ -397,9 +397,9 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
       </Events>
     </Component>
-    <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser1">
+    <Component class="com.toedter.calendar.JDateChooser" name="dateChooserExpectedStart">
     </Component>
-    <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser2">
+    <Component class="com.toedter.calendar.JDateChooser" name="dateChooserExpectedEnd">
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane8">
       <AuxValues>
@@ -516,12 +516,12 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="ButtonFilter">
+    <Component class="javax.swing.JButton" name="buttonFilter">
       <Properties>
         <Property name="text" type="java.lang.String" value="Test Filter"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ButtonFilterActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonFilterActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="textFieldSorting">
