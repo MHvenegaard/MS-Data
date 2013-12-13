@@ -369,7 +369,7 @@ public class DBHandler {
         java.sql.Date sqlEndDate = new java.sql.Date(task.getEndDate().getTime());
 
         CallableStatement cs = null;
-        cs = conn.prepareCall("{call createTask(?,?,?,?,?,?,?,?,?,?,?,?)}");
+        cs = conn.prepareCall("{call createSubTask(?,?,?,?,?,?,?,?,?,?,?,?)}");
         cs.setString(1, null);
         cs.setInt(2, task.getParentID());
         cs.setString(3, task.getTaskName());
@@ -414,14 +414,17 @@ public class DBHandler {
 
         DefaultListModel modelOnTask = (DefaultListModel) list.getModel();
         for (int i = 0; i < modelOnTask.getSize(); i++) {
-            System.out.println(modelOnTask.getElementAt(i).getClass());
+            System.out.println(modelOnTask.getElementAt(i).toString());
             userList.add((User) modelOnTask.getElementAt(i));
         }
         for (int i = 0; i < userList.size(); i++) {
+            System.out.println("Size: " + userList.size());
             cs = conn.prepareCall("{call addUserToTask(?)}");
+            System.out.println("Prepare Call done!");
             cs.setInt(1, userList.get(i).getUserID());
-            System.out.println("" + userList.get(i).getUserID());
+            System.out.println("USERID: " + userList.get(i).getUserID());
             cs.execute();
+            System.out.println("done!");
         }
     }
 

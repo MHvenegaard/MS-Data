@@ -35,6 +35,9 @@ public class CreateTaskPanel extends javax.swing.JPanel {
     public CreateTaskPanel() throws ClassNotFoundException, SQLException, IOException {
         initComponents();
 
+        modelOnTask = new DefaultListModel();
+        listUsersOnTask.setModel(modelOnTask);
+        
         fillCustomerCombo();
         fillTypeCombo();
 
@@ -408,15 +411,20 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
 modelTable = (DefaultTableModel) tableAllTask.getModel();
+        Type type = new Type(comboBoxType.getSelectedItem().toString());
+        Statuss status = new Statuss(comboBoxStatus.getSelectedItem().toString());
+        Customer customer = new Customer(comboBoxCustomer.getSelectedItem().toString());
+        User user = new User(comboBoxUser.getSelectedItem().toString());
+        
         if (CheckBoxSub.isSelected()) {
             try {
                 System.out.println(modelTable.getValueAt(tableAllTask.getSelectedRow(), 0).toString());
                 Task task = new Task(textFieldTaskName.getText(),
                         Integer.parseInt(modelTable.getValueAt(tableAllTask.getSelectedRow(), 0).toString()),
-                        (Type) comboBoxType.getSelectedItem(),
-                        (Statuss) comboBoxStatus.getSelectedItem(),
-                        (Customer) comboBoxCustomer.getSelectedItem(),
-                        (User) comboBoxUser.getSelectedItem(),
+                        type,
+                        status,
+                        customer,
+                        user,
                         dateChooserExpectedStart.getDate(),
                         dateChooserExpectedEnd.getDate(),
                         Integer.parseInt(textFieldEstimatedTime.getText()),
@@ -434,10 +442,10 @@ modelTable = (DefaultTableModel) tableAllTask.getModel();
         } else {
             try {
                 Task task = new Task(textFieldTaskName.getText(),
-                        (Type) comboBoxType.getSelectedItem(),
-                        (Statuss) comboBoxStatus.getSelectedItem(),
-                        (Customer) comboBoxCustomer.getSelectedItem(),
-                        (User) comboBoxUser.getSelectedItem(),
+                        type,
+                        status,
+                        customer,
+                        user,
                         dateChooserExpectedStart.getDate(),
                         dateChooserExpectedEnd.getDate(),
                         Integer.parseInt(textFieldEstimatedTime.getText()),
