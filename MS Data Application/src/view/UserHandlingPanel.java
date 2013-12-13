@@ -85,8 +85,6 @@ public class UserHandlingPanel extends javax.swing.JPanel {
 
         jLabel5.setText("Adgangsniveau");
 
-        comboBoxDeleteUserList.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel6.setText("Opret medarbejder");
 
         jLabel7.setText("Fjern medarbejder");
@@ -187,10 +185,10 @@ public class UserHandlingPanel extends javax.swing.JPanel {
                                 .addGap(16, 16, 16)
                                 .addComponent(jButton1)))
                         .addGap(73, 73, 73)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
-                            .addComponent(comboBoxDeleteUserList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(buttonDeleteUser))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(buttonDeleteUser)
+                            .addComponent(comboBoxDeleteUserList, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(97, 97, 97)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8)
@@ -351,6 +349,7 @@ public class UserHandlingPanel extends javax.swing.JPanel {
             Logger.getLogger(UserHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_buttonDeleteUserActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonDeleteUser;
     private javax.swing.JButton buttonUpdateUser;

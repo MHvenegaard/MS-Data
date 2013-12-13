@@ -58,6 +58,22 @@ public class Task {
         commentList = new ArrayList<>();
         taskList = new ArrayList<>();
     }
+        //SubTask
+        public Task(String taskName, int parentID, Type type, Statuss status, Customer customer, User user, Date startDate, Date endDate, int estimatedtime, int priority, String description) {
+        this.taskName = taskName;
+        this.parentID = parentID;
+        this.type = type;
+        this.status = status;
+        this.customer = customer;
+        this.user = user;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.estimatedtime = estimatedtime;
+        this.priority = priority;
+        this.description = description;
+        commentList = new ArrayList<>();
+        taskList = new ArrayList<>();
+    }
 
     @Override
     public String toString() {
@@ -167,4 +183,13 @@ public class Task {
     public void setTaskList(ArrayList<Task> taskList) {
         this.taskList = taskList;
     }
+
+    public int getParentID() {
+        return parentID;
+    }
+
+    public void setParentID(int parentID) {
+        this.parentID = parentID;
+    }
+    
 }

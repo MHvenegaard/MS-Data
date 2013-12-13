@@ -363,6 +363,29 @@ public class DBHandler {
         cs.execute();
     }
 
+    public void createSubTask(Task task) throws SQLException, IOException {
+        Connection conn = (Connection) initiateSystemDBConn()[0];
+        java.sql.Date sqlStartDate = new java.sql.Date(task.getStartDate().getTime());
+        java.sql.Date sqlEndDate = new java.sql.Date(task.getEndDate().getTime());
+
+        CallableStatement cs = null;
+        cs = conn.prepareCall("{call createTask(?,?,?,?,?,?,?,?,?,?,?,?)}");
+        cs.setString(1, null);
+        cs.setInt(2, task.getParentID());
+        cs.setString(3, task.getTaskName());
+        cs.setString(4, task.getType().getTypeName());
+        cs.setString(5, task.getStatus().getStatussName());
+        cs.setString(6, task.getCustomer().getCompanyName());
+        cs.setString(7, task.getUser().getUserName());
+        cs.setDate(8, sqlStartDate);
+        cs.setDate(9, sqlEndDate);
+        cs.setInt(10, task.getEstimatedtime());
+        cs.setInt(11, task.getPriority());
+        cs.setString(12, task.getDescription());
+
+        cs.execute();
+    }
+
     public void updateTask(Task task) throws SQLException, IOException {
         Connection conn = (Connection) initiateSystemDBConn()[0];
         java.sql.Date sqlStartDate = new java.sql.Date(task.getStartDate().getTime());
@@ -416,7 +439,7 @@ public class DBHandler {
             cs = conn.prepareCall("{call  addUserToAlreadyMadeTask(?,?)}");
             cs.setInt(1, taskID);
             cs.setInt(2, userList.get(i).getUserID());
-           
+
             cs.execute();
         }
     }
