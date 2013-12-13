@@ -146,19 +146,27 @@ public class DBHandler {
     }
 
     public ArrayList<Customer> SPgetCustomers() throws SQLException, IOException {
-        String compName = null;
+        int customerID;
+        int customerPhone;
+        String customerName;
+        String customerAddress;
+        String customerCountry;
 
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
         ArrayList<Customer> customerList = new ArrayList<>();
 
-        CallableStatement cs = null;
-        cs = conn.prepareCall("{call getAllCustomerNames}");
+        CallableStatement cs;
+        cs = conn.prepareCall("{call getCustomers}");
         ResultSet rs = cs.executeQuery();
-
+//CustomerID, CompanyName, Phone,Address,Country
         while (rs.next()) {
-            compName = rs.getString("CompanyName");
-            Customer customer = new Customer(compName);
+            customerID = rs.getInt("CustomerID");
+            customerPhone = rs.getInt("Phone");
+            customerName = rs.getString("CompanyName");
+            customerAddress = rs.getString("Address");
+            customerCountry = rs.getString("Country");
+            Customer customer = new Customer(customerID, customerName, customerPhone, customerAddress, customerCountry);
             customerList.add(customer);
         }
         return customerList;

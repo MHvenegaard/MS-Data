@@ -7,7 +7,12 @@ package handlers;
 import java.io.IOException;
 import java.net.Socket;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
 import javax.swing.JList;
@@ -58,7 +63,7 @@ public class Controller {
 
     public static void fillList(JList list, ArrayList arrayList) throws SQLException, IOException {
         DefaultListModel model = new DefaultListModel();
-        DefaultListModel modelOnTask = new DefaultListModel();
+       //DefaultListModel modelOnTask = new DefaultListModel();
         //ListUsersOnTask.setModel(modelOnTask);
         
         list.setModel(model);
@@ -66,6 +71,20 @@ public class Controller {
         for (int i = 0; i < arrayList.size(); i++) {
             model.addElement(arrayList.get(i));
         }
+    }
+    
+    public static Date getCurrentDate(){
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        String str = sdf.format(date);
+        try {
+            date = new SimpleDateFormat("dd/MM/yyyy").parse(str);
+        } catch (ParseException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println(date);
+        return date;
+        
     }
 
     public void setUser(User user) {

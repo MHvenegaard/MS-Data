@@ -7,7 +7,9 @@ package view;
 import handlers.Controller;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -37,9 +39,8 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
         modelOnTask = new DefaultListModel();
         listUsersOnTask.setModel(modelOnTask);
-        
+
         fillCustomerCombo();
-      
 
         Controller.fillCombobox(comboBoxUser, Controller.userList);
         Controller.fillCombobox(comboBoxType, Controller.typeList);
@@ -47,7 +48,8 @@ public class CreateTaskPanel extends javax.swing.JPanel {
         Controller.fillList(listUsers, Controller.userList);
 
         fillTableWithTasks();
-
+        dateChooserExpectedStart.setDate(Controller.getCurrentDate());
+        dateChooserExpectedEnd.setDate(Controller.getCurrentDate());
 
     }
 
@@ -55,7 +57,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
         comboBoxCustomer.setSelectedIndex(-1);
         comboBoxCustomer.removeAllItems();
-        
+
         ArrayList<Customer> customers = Controller.dbHandler.SPgetCustomers();
         for (int i = 0; i < customers.size(); i++) {
             comboBoxCustomer.addItem(customers.get(i));
@@ -377,7 +379,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
         Statuss status = new Statuss(comboBoxStatus.getSelectedItem().toString());
         Customer customer = new Customer(comboBoxCustomer.getSelectedItem().toString());
         User user = new User(comboBoxUser.getSelectedItem().toString());
-        
+
         if (CheckBoxSub.isSelected()) {
             try {
                 System.out.println(modelTable.getValueAt(tableAllTask.getSelectedRow(), 0).toString());
@@ -395,7 +397,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
                 Controller.dbHandler.createSubTask(task);
                 Controller.dbHandler.addUserToTask(listUsersOnTask);
-                
+
             } catch (SQLException ex) {
                 Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
@@ -416,6 +418,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
                 Controller.dbHandler.createTask(task);
                 Controller.dbHandler.addUserToTask(listUsersOnTask);
+                fillTableWithTasks();
             } catch (SQLException | IOException ex) {
                 Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
 
@@ -449,15 +452,13 @@ public class CreateTaskPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_tableAllTaskMouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try {
-            fillTableWithTasks();
-        } catch (IOException ex) {
-            Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_jButton1ActionPerformed
 
+        //Date date = Controller.getCurrentDate();
+        //SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        //System.out.println(sdf.format(date));
+        //System.out.println(date);
+        dateChooserExpectedStart.setDate(Controller.getCurrentDate());
+    }//GEN-LAST:event_jButton1ActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox CheckBoxSub;
     private javax.swing.JButton buttonAddUser;

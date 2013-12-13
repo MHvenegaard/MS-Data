@@ -11,8 +11,8 @@ package model;
 public class Customer {
 
     private int idCustomer;
+    private int phone;
     private String companyName;
-    private String phone;
     private String Address;
     private String country;
    
@@ -20,6 +20,16 @@ public class Customer {
     public Customer(String companyName) {
         this.companyName = companyName;
     }
+
+    public Customer(int idCustomer, String companyName, int phone, String Address, String country) {
+        this.idCustomer = idCustomer;
+        this.companyName = companyName;
+        this.phone = phone;
+        this.Address = Address;
+        this.country = country;
+    }
+    
+    
 
     @Override
     public String toString() {
@@ -42,11 +52,11 @@ public class Customer {
         this.companyName = companyName;
     }
 
-    public String getPhone() {
+    public int getPhone() {
         return phone;
     }
 
-    public void setPhone(String phone) {
+    public void setPhone(int phone) {
         this.phone = phone;
     }
 
