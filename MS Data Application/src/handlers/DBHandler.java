@@ -159,7 +159,7 @@ public class DBHandler {
         CallableStatement cs;
         cs = conn.prepareCall("{call getCustomers}");
         ResultSet rs = cs.executeQuery();
-//CustomerID, CompanyName, Phone,Address,Country
+
         while (rs.next()) {
             customerID = rs.getInt("CustomerID");
             customerPhone = rs.getInt("Phone");
@@ -225,9 +225,9 @@ public class DBHandler {
     }
 
     public ArrayList<Statuss> SPgetStatus() throws SQLException, IOException {
-        String statusName = null;
+        String statusName;
         int statusID;
-        String description = null;
+        String description;
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
         ArrayList<Statuss> statusList = new ArrayList<>();
@@ -301,17 +301,17 @@ public class DBHandler {
     public ArrayList<Task> SPgetTasks() throws IOException, SQLException {
 
         ArrayList<Task> tasks = new ArrayList<>();
-        int taskID = 0;
-        int estimatedtime = 0;
-        int priority = 0;
-        String status = null;
-        String type = null;
-        String description = null;
-        String taskName = null;
-        Date startDate = null;
-        Date endDate = null;
-        String customer = null;
-        String user = null;
+        int taskID;
+        int estimatedtime;
+        int priority;
+        String status;
+        String type;
+        String description;
+        String taskName;
+        Date startDate;
+        Date endDate;
+        String customer;
+        String user;
 
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
@@ -354,7 +354,7 @@ public class DBHandler {
         java.sql.Date sqlStartDate = new java.sql.Date(task.getStartDate().getTime());
         java.sql.Date sqlEndDate = new java.sql.Date(task.getEndDate().getTime());
 
-        CallableStatement cs = null;
+        CallableStatement cs;
         cs = conn.prepareCall("{call createTask(?,?,?,?,?,?,?,?,?,?,?)}");
         cs.setString(1, null);
         cs.setString(2, task.getTaskName());
@@ -376,7 +376,7 @@ public class DBHandler {
         java.sql.Date sqlStartDate = new java.sql.Date(task.getStartDate().getTime());
         java.sql.Date sqlEndDate = new java.sql.Date(task.getEndDate().getTime());
 
-        CallableStatement cs = null;
+        CallableStatement cs;
         cs = conn.prepareCall("{call createSubTask(?,?,?,?,?,?,?,?,?,?,?,?)}");
         cs.setString(1, null);
         cs.setInt(2, task.getParentID());
@@ -399,7 +399,7 @@ public class DBHandler {
         java.sql.Date sqlStartDate = new java.sql.Date(task.getStartDate().getTime());
         java.sql.Date sqlEndDate = new java.sql.Date(task.getEndDate().getTime());
 
-        CallableStatement cs = null;
+        CallableStatement cs;
         cs = conn.prepareCall("{call updateTask(?,?,?,?,?,?,?,?,?,?,?)}");
         cs.setInt(1, task.getTaskID());
         cs.setString(2, task.getTaskName());
@@ -418,21 +418,17 @@ public class DBHandler {
     public void addUserToTask(JList list) throws SQLException, IOException {
         ArrayList<User> userList = new ArrayList<>();
         Connection conn = (Connection) initiateSystemDBConn()[0];
-        CallableStatement cs = null;
+        CallableStatement cs;
 
         DefaultListModel modelOnTask = (DefaultListModel) list.getModel();
         for (int i = 0; i < modelOnTask.getSize(); i++) {
-            System.out.println(modelOnTask.getElementAt(i).toString());
+
             userList.add((User) modelOnTask.getElementAt(i));
         }
         for (int i = 0; i < userList.size(); i++) {
-            System.out.println("Size: " + userList.size());
             cs = conn.prepareCall("{call addUserToTask(?)}");
-            System.out.println("Prepare Call done!");
             cs.setInt(1, userList.get(i).getUserID());
-            System.out.println("USERID: " + userList.get(i).getUserID());
             cs.execute();
-            System.out.println("done!");
         }
     }
 
