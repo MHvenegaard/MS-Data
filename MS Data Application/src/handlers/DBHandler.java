@@ -241,21 +241,21 @@ public class DBHandler {
 
     public Task SPgetTask(int taskID) throws IOException, SQLException {
 
-        int priority = 0;
-        int estimatedtime = 0;
-        String status = null;
-        String type = null;
-        String description = null;
-        String taskName = null;
-        String customer = null;
-        String user = null;
-        Date startDate = null;
-        Date endDate = null;
+        int priority;
+        int estimatedtime;
+        String status;
+        String type;
+        String description;
+        String taskName;
+        String customer;
+        String user;
+        Date startDate;
+        Date endDate;
         Task task = null;
 
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
-        CallableStatement cs = null;
+        CallableStatement cs;
         cs = conn.prepareCall("{call getTask(?)}");
         cs.setInt(1, taskID);
         ResultSet rs = cs.executeQuery();

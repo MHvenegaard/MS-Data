@@ -402,14 +402,17 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_buttonAddUserActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        DefaultTableModel model = (DefaultTableModel) tableAllTasks.getModel();
+        model = (DefaultListModel) listUsers.getModel();
 
-        TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);
-        tableAllTasks.setRowSorter(sorter);
-        RowFilter<TableModel, Object> rf = null;
+        for (int i = 0; i < userOnTaskList.size(); i++) {
+            //  modelOnTask.addElement(Controller.userList.get(i));
+            System.out.println(modelOnTask.get(i).toString() + " er lige med : " + Controller.userList.get(i).getUserName().toString());
+            if (modelOnTask.get(i).toString().equals(Controller.userList.get(i).getUserName().toString())) {
+                System.out.println("Fjerner : " + Controller.userList.get(i));
+                model.removeElement(model.get(i));
 
-        rf = RowFilter.regexFilter(textFieldSorting.getText(), comboboxSorting.getSelectedIndex());
-        sorter.setRowFilter(rf);
+            }
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void buttonRemoveUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRemoveUserActionPerformed
@@ -559,7 +562,6 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     private void fillAllWithSelectedTask(int taskID) throws IOException, SQLException, ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         model = (DefaultListModel) listUsers.getModel();
-        modelOnTask = (DefaultListModel) listUsersOnTask.getModel();
         textFieldTaskName.setText(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 1).toString());
         comboBoxCustomer.setSelectedItem(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 4).toString());
         comboBoxPriority.setSelectedItem(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 9).toString());
@@ -581,9 +583,14 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
 
         userOnTaskList = Controller.dbHandler.SPgetUserOnTask(taskID);
 
+        model = (DefaultListModel) listUsers.getModel();
+        modelOnTask = (DefaultListModel) listUsersOnTask.getModel();
+
         for (int i = 0; i < userOnTaskList.size(); i++) {
             modelOnTask.addElement(Controller.userList.get(i));
+            System.out.println(modelOnTask.get(i).toString() + " er lige med : " + Controller.userList.get(i).getUserName().toString());
             if (modelOnTask.get(i).toString().equals(Controller.userList.get(i).getUserName().toString())) {
+                System.out.println("Fjerner : " + Controller.userList.get(i));
                 model.removeElement(Controller.userList.get(i));
             }
         }
