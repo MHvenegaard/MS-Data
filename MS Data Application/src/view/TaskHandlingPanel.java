@@ -15,10 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 import model.Customer;
 import model.Statuss;
 import model.Task;
@@ -402,16 +399,12 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_buttonAddUserActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        model = (DefaultListModel) listUsers.getModel();
-
-        for (int i = 0; i < userOnTaskList.size(); i++) {
-            //  modelOnTask.addElement(Controller.userList.get(i));
-            System.out.println(modelOnTask.get(i).toString() + " er lige med : " + Controller.userList.get(i).getUserName().toString());
-            if (modelOnTask.get(i).toString().equals(Controller.userList.get(i).getUserName().toString())) {
-                System.out.println("Fjerner : " + Controller.userList.get(i));
-                model.removeElement(model.get(i));
-
-            }
+        try {
+            fillTableWithTask();
+        } catch (IOException ex) {
+            Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

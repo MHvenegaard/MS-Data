@@ -39,7 +39,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
         listUsersOnTask.setModel(modelOnTask);
         
         fillCustomerCombo();
-        fillTypeCombo();
+      
 
         Controller.fillCombobox(comboBoxUser, Controller.userList);
         Controller.fillCombobox(comboBoxType, Controller.typeList);
@@ -55,66 +55,12 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
         comboBoxCustomer.setSelectedIndex(-1);
         comboBoxCustomer.removeAllItems();
-        comboBoxCustomer.addItem("Vælg kunde");
-
+        
         ArrayList<Customer> customers = Controller.dbHandler.SPgetCustomers();
         for (int i = 0; i < customers.size(); i++) {
             comboBoxCustomer.addItem(customers.get(i));
         }
         comboBoxCustomer.setSelectedIndex(0);
-    }
-
-    private void fillTypeCombo() throws SQLException, IOException {
-
-        comboBoxType.setSelectedIndex(-1);
-        comboBoxType.removeAllItems();
-        comboBoxType.addItem("Vælg type");
-
-        ArrayList<Type> typesList = Controller.dbHandler.SPgetTypes();
-        for (int i = 0; i < typesList.size(); i++) {
-            comboBoxType.addItem(typesList.get(i));
-        }
-        comboBoxType.setSelectedIndex(0);
-    }
-
-    private void fillUserCombo() throws SQLException, IOException {
-
-        comboBoxUser.setSelectedIndex(-1);
-        comboBoxUser.removeAllItems();
-        comboBoxUser.addItem("Vælg projektleder");
-
-        //  ArrayList<User> userList = Controller.dbHandler.SPgetUsers();
-        for (int i = 0; i < Controller.userList.size(); i++) {
-            comboBoxUser.addItem(Controller.userList.get(i));
-        }
-        comboBoxUser.setSelectedIndex(0);
-    }
-
-    private void fillStatusCombo() throws SQLException, IOException {
-
-        comboBoxStatus.setSelectedIndex(-1);
-        comboBoxStatus.removeAllItems();
-        comboBoxStatus.addItem("Vælg status");
-
-        ArrayList<Statuss> statusList = Controller.dbHandler.SPgetStatus();
-        for (int i = 0; i < statusList.size(); i++) {
-            comboBoxStatus.addItem(statusList.get(i));
-        }
-        comboBoxStatus.setSelectedIndex(0);
-    }
-
-    private void fillUserList() throws SQLException, IOException {
-        //Flyt dette
-
-        model = new DefaultListModel();
-
-        listUsers.setModel(model);
-        ArrayList<User> userList = Controller.dbHandler.SPgetUsers();
-
-        for (int i = 0; i < userList.size(); i++) {
-            model.addElement(userList.get(i));
-        }
-
     }
 
     /**
@@ -160,6 +106,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
         jScrollPane4 = new javax.swing.JScrollPane();
         tableAllTask = new javax.swing.JTable();
         CheckBoxSub = new javax.swing.JCheckBox();
+        jButton1 = new javax.swing.JButton();
 
         jLabel1.setText("Projekt navn");
 
@@ -256,6 +203,13 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
         CheckBoxSub.setText("Opret opgaven som delopgave");
 
+        jButton1.setText("Update");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -307,13 +261,19 @@ public class CreateTaskPanel extends javax.swing.JPanel {
                                     .addComponent(buttonRemoveUser, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 767, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton9)
-                                    .addComponent(CheckBoxSub, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 767, Short.MAX_VALUE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jButton9)
+                                            .addComponent(CheckBoxSub, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(0, 0, Short.MAX_VALUE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(340, 340, 340)
+                                .addComponent(jButton1)
                                 .addGap(0, 0, Short.MAX_VALUE)))))
                 .addGap(33, 33, 33))
         );
@@ -386,7 +346,9 @@ public class CreateTaskPanel extends javax.swing.JPanel {
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(47, 47, 47)
-                        .addComponent(jButton9)))
+                        .addComponent(jButton9)
+                        .addGap(11, 11, 11)
+                        .addComponent(jButton1)))
                 .addContainerGap(175, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -410,7 +372,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_buttonAddUserActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-modelTable = (DefaultTableModel) tableAllTask.getModel();
+        modelTable = (DefaultTableModel) tableAllTask.getModel();
         Type type = new Type(comboBoxType.getSelectedItem().toString());
         Statuss status = new Statuss(comboBoxStatus.getSelectedItem().toString());
         Customer customer = new Customer(comboBoxCustomer.getSelectedItem().toString());
@@ -485,6 +447,17 @@ modelTable = (DefaultTableModel) tableAllTask.getModel();
 
     private void tableAllTaskMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableAllTaskMouseClicked
     }//GEN-LAST:event_tableAllTaskMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+            fillTableWithTasks();
+        } catch (IOException ex) {
+            Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox CheckBoxSub;
     private javax.swing.JButton buttonAddUser;
@@ -496,6 +469,7 @@ modelTable = (DefaultTableModel) tableAllTask.getModel();
     private javax.swing.JComboBox comboBoxUser;
     private com.toedter.calendar.JDateChooser dateChooserExpectedEnd;
     private com.toedter.calendar.JDateChooser dateChooserExpectedStart;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
