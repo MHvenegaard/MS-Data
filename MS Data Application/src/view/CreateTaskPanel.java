@@ -109,6 +109,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
         tableAllTask = new javax.swing.JTable();
         CheckBoxSub = new javax.swing.JCheckBox();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         jLabel1.setText("Projekt navn");
 
@@ -212,6 +213,13 @@ public class CreateTaskPanel extends javax.swing.JPanel {
             }
         });
 
+        jButton2.setText("jButton2");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -274,8 +282,13 @@ public class CreateTaskPanel extends javax.swing.JPanel {
                                             .addComponent(CheckBoxSub, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(0, 0, Short.MAX_VALUE))))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(340, 340, 340)
-                                .addComponent(jButton1)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(340, 340, 340)
+                                        .addComponent(jButton1))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(176, 176, 176)
+                                        .addComponent(jButton2)))
                                 .addGap(0, 0, Short.MAX_VALUE)))))
                 .addGap(33, 33, 33))
         );
@@ -350,8 +363,10 @@ public class CreateTaskPanel extends javax.swing.JPanel {
                         .addGap(47, 47, 47)
                         .addComponent(jButton9)
                         .addGap(11, 11, 11)
-                        .addComponent(jButton1)))
-                .addContainerGap(175, Short.MAX_VALUE))
+                        .addComponent(jButton1)
+                        .addGap(30, 30, 30)
+                        .addComponent(jButton2)))
+                .addContainerGap(165, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -375,46 +390,55 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         modelTable = (DefaultTableModel) tableAllTask.getModel();
-        Type type = new Type(comboBoxType.getSelectedItem().toString());
-        Statuss status = new Statuss(comboBoxStatus.getSelectedItem().toString());
-        Customer customer = new Customer(comboBoxCustomer.getSelectedItem().toString());
-        User user = new User(comboBoxUser.getSelectedItem().toString());
-
+        Type type = (Type) comboBoxType.getSelectedItem();
+        Statuss status = (Statuss) (comboBoxStatus.getSelectedItem());
+        Customer customer = (Customer) comboBoxCustomer.getSelectedItem();
+        User user = (User) comboBoxUser.getSelectedItem();
+        String taskName = textFieldTaskName.getText();
+        String taskDescription = textAreaBeskrivelse.getText();
+        int taskID;
+        int estimatedTime = Integer.parseInt(textFieldEstimatedTime.getText());
+        int priority = Integer.parseInt(comboBoxPriority.getSelectedItem().toString());
+        System.out.println("Row selected = " + tableAllTask.getSelectedRow());
         if (CheckBoxSub.isSelected()) {
-            try {
-                System.out.println(modelTable.getValueAt(tableAllTask.getSelectedRow(), 0).toString());
-                Task task = new Task(textFieldTaskName.getText(),
-                        Integer.parseInt(modelTable.getValueAt(tableAllTask.getSelectedRow(), 0).toString()),
-                        type,
-                        status,
-                        customer,
-                        user,
-                        dateChooserExpectedStart.getDate(),
-                        dateChooserExpectedEnd.getDate(),
-                        Integer.parseInt(textFieldEstimatedTime.getText()),
-                        Integer.parseInt(comboBoxPriority.getSelectedItem().toString()),
-                        textAreaBeskrivelse.getText());
+            if (tableAllTask.getSelectedRow() != -1) {
+                taskID = Integer.parseInt(modelTable.getValueAt(tableAllTask.getSelectedRow(), 0).toString());
+                try {
+                    Task task = new Task(taskName,
+                            taskID,
+                            type,
+                            status,
+                            customer,
+                            user,
+                            dateChooserExpectedStart.getDate(),
+                            dateChooserExpectedEnd.getDate(),
+                            estimatedTime,
+                            priority,
+                            taskDescription);
 
-                Controller.dbHandler.createSubTask(task);
-                Controller.dbHandler.addUserToTask(listUsersOnTask);
+                    Controller.dbHandler.createSubTask(task);
+                    Controller.dbHandler.addUserToTask(listUsersOnTask);
 
-            } catch (SQLException ex) {
-                Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Der ikke valgt nogen opgave at lav delopgave til", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
             }
-        } else {
+        } else if (!CheckBoxSub.isSelected()) {
             try {
-                Task task = new Task(textFieldTaskName.getText(),
+                Task task = new Task(taskName,
                         type,
                         status,
                         customer,
                         user,
                         dateChooserExpectedStart.getDate(),
                         dateChooserExpectedEnd.getDate(),
-                        Integer.parseInt(textFieldEstimatedTime.getText()),
-                        Integer.parseInt(comboBoxPriority.getSelectedItem().toString()),
-                        textAreaBeskrivelse.getText());
+                        estimatedTime,
+                        priority,
+                        taskDescription);
 
                 Controller.dbHandler.createTask(task);
                 Controller.dbHandler.addUserToTask(listUsersOnTask);
@@ -424,6 +448,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
             }
         }
+
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void buttonRemoveUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRemoveUserActionPerformed
@@ -459,6 +484,12 @@ public class CreateTaskPanel extends javax.swing.JPanel {
         //System.out.println(date);
         dateChooserExpectedStart.setDate(Controller.getCurrentDate());
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        int rowIndex = tableAllTask.getSelectedRow();
+        System.out.println(rowIndex);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox CheckBoxSub;
     private javax.swing.JButton buttonAddUser;
@@ -471,6 +502,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
     private com.toedter.calendar.JDateChooser dateChooserExpectedEnd;
     private com.toedter.calendar.JDateChooser dateChooserExpectedStart;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -501,7 +533,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
         modelTable = (DefaultTableModel) tableAllTask.getModel();
         ArrayList<Task> tasks = Controller.dbHandler.SPgetTasks();
-
+        modelTable.setRowCount(0);
         for (int i = 0; i < tasks.size(); i++) {
             Object[] data = {tasks.get(i).getTaskID(),
                 tasks.get(i).getTaskName(),

@@ -56,7 +56,8 @@ public class Controller {
     public static void fillCombobox(JComboBox combobox, ArrayList arrayList) throws SQLException, IOException {
 
         for (int i = 0; i < arrayList.size(); i++) {
-            combobox.addItem(arrayList.get(i).toString());
+            //combobox.addItem(arrayList.get(i).toString());
+            combobox.addItem(arrayList.get(i));
         }
         combobox.setSelectedIndex(0);
     }
