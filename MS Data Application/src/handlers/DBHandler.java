@@ -256,6 +256,7 @@ public class DBHandler {
 
         int priority;
         int estimatedtime;
+        int parentID;
         String status;
         String type;
         String description;
@@ -275,6 +276,8 @@ public class DBHandler {
 
         while (rs.next()) {
 
+            parentID = rs.getInt("ParentID");
+            
             estimatedtime = rs.getInt("EstimatedTime");
 
             status = rs.getString("Status");
@@ -297,7 +300,7 @@ public class DBHandler {
             user = rs.getString("User");
             User u = new User(user);
 
-            task = new Task(taskID, taskName, t, s, c, u, startDate, endDate, estimatedtime, priority, description);
+            task = new Task(taskID,parentID, taskName, t, s, c, u, startDate, endDate, estimatedtime, priority, description);
 
         }
         return task;
@@ -307,6 +310,7 @@ public class DBHandler {
 
         ArrayList<Task> tasks = new ArrayList<>();
         int taskID;
+        int parentID;
         int estimatedtime;
         int priority;
         String status;
@@ -326,6 +330,7 @@ public class DBHandler {
         while (rs.next()) {
 
             taskID = rs.getInt("TaskID");
+           parentID = rs.getInt("ParentID");
             estimatedtime = rs.getInt("EstimatedTime");
 
             priority = rs.getInt("Priority");
@@ -348,7 +353,7 @@ public class DBHandler {
             user = rs.getString("User");
             User u = new User(user);
 
-            Task task = new Task(taskID, taskName, t, s, c, u, startDate, endDate, estimatedtime, priority, description);
+            Task task = new Task(taskID,parentID, taskName, t, s, c, u, startDate, endDate, estimatedtime, priority, description);
             tasks.add(task);
         }
         return tasks;

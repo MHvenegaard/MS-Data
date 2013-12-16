@@ -273,6 +273,7 @@ public class Controller {
         User user = new User(comboBoxTaskLeader.getSelectedItem().toString());
 
         Task task = new Task(Integer.parseInt(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 0).toString()),
+                Integer.parseInt(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 1).toString()),
                 textFieldTaskName.getText(),
                 type,
                 status,

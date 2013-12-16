@@ -28,8 +28,9 @@ public class Task {
     private ArrayList<TaskComment> commentList;
     private ArrayList<Task> taskList;
 
-    public Task(int taskID, String taskName, Type type, Statuss status, Customer customer, User user, Date startDate, Date endDate, int estimatedtime, int priority, String description) {
+    public Task(int taskID,int parentID, String taskName, Type type, Statuss status, Customer customer, User user, Date startDate, Date endDate, int estimatedtime, int priority, String description) {
         this.taskID = taskID;
+        this.parentID = parentID;
         this.taskName = taskName;
         this.type = type;
         this.status = status;
