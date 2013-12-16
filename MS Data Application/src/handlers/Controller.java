@@ -4,6 +4,7 @@
  */
 package handlers;
 
+import com.toedter.calendar.JDateChooser;
 import java.io.IOException;
 import java.net.Socket;
 import java.sql.SQLException;
@@ -15,12 +16,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import model.*;
+import view.CreateTaskPanel;
 
 /**
  *
@@ -71,7 +76,7 @@ public class Controller {
 
     public static void fillList(JList list, ArrayList arrayList) throws SQLException, IOException {
         DefaultListModel model = new DefaultListModel();
-       //DefaultListModel modelOnTask = new DefaultListModel();
+        //DefaultListModel modelOnTask = new DefaultListModel();
         //ListUsersOnTask.setModel(modelOnTask);
 
         list.setModel(model);
@@ -117,11 +122,11 @@ public class Controller {
         return tasks;
     }
 
-    public static void addUserToOnTaskList(JList listUsers, JList listUsersOnTask, JButton button){
-         int index = listUsers.getSelectedIndex();
+    public static void addUserToOnTaskList(JList listUsers, JList listUsersOnTask, JButton button) {
+        int index = listUsers.getSelectedIndex();
 
-       DefaultListModel model = (DefaultListModel) listUsers.getModel();
-       DefaultListModel modelOnTask = (DefaultListModel) listUsersOnTask.getModel();
+        DefaultListModel model = (DefaultListModel) listUsers.getModel();
+        DefaultListModel modelOnTask = (DefaultListModel) listUsersOnTask.getModel();
 
         if (index != -1) {
             modelOnTask.addElement(listUsers.getSelectedValue());
@@ -130,7 +135,133 @@ public class Controller {
             JOptionPane.showMessageDialog(button, "Der ikke valgt nogen medarbejder", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
         }
     }
-    
+
+    public static void removeUserFromTaskList(JList listUsers, JList listUsersOnTask, JButton button) {
+        int index = listUsersOnTask.getSelectedIndex();
+        DefaultListModel model = (DefaultListModel) listUsers.getModel();
+        DefaultListModel modelOnTask = (DefaultListModel) listUsersOnTask.getModel();
+
+        if (index != -1) {
+            for (int i = 0; i < model.size(); i++) {
+                if (model.get(i).toString().equals(listUsersOnTask.getSelectedValue().toString())) {
+                    System.out.println("Fjerner " + listUsersOnTask.getSelectedValue());
+                    model.removeElement(listUsersOnTask.getSelectedValue());
+                }
+            }
+            model.addElement(listUsersOnTask.getSelectedValue());
+            modelOnTask.removeElement(listUsersOnTask.getSelectedValue());
+
+        } else {
+            JOptionPane.showMessageDialog(button, "Der ikke valgt nogen medarbejder", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    public static void fillWithSelectedTask(JList userList, JList userOnTaskLlist, JTable tableAllTasks, JTextField textFieldTaskName, JComboBox comboBoxType, JComboBox comboBoxStatus,
+            JComboBox comboBoxCustomer, JComboBox comboBoxProjectLeader, JDateChooser dateChooserExpectedStart, JDateChooser dateChooserExpectedEnd,
+            JTextField textFieldTime, JComboBox comboBoxPriority, JTextArea textAreaDescription) throws ParseException, SQLException, IOException {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        DefaultListModel model = (DefaultListModel) userList.getModel();
+        DefaultListModel modelOnTask = (DefaultListModel) userOnTaskLlist.getModel();
+        DefaultTableModel modelTable = (DefaultTableModel) tableAllTasks.getModel();
+        int taskID = Integer.parseInt(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 0).toString());
+
+        textFieldTaskName.setText(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 2).toString());
+        comboBoxType.setSelectedItem(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 3).toString());
+        comboBoxStatus.setSelectedItem(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 4).toString());
+        comboBoxCustomer.setSelectedItem(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 5).toString());
+        comboBoxProjectLeader.setSelectedItem(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 6).toString());
+        Date startDate = sdf.parse(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 7).toString());
+        dateChooserExpectedStart.setDate(startDate);
+        Date endDate = sdf.parse(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 8).toString());
+        dateChooserExpectedEnd.setDate(endDate);
+        textFieldTime.setText(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 9).toString());
+        comboBoxPriority.setSelectedItem(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 10).toString());
+        textAreaDescription.setText(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 11).toString());
+
+        modelOnTask.clear();
+        model.clear();
+        Controller.fillList(userList, Controller.userList);
+
+        ArrayList<User> userOnTaskList = Controller.dbHandler.SPgetUserOnTask(taskID);
+
+        model = (DefaultListModel) userList.getModel();
+        modelOnTask = (DefaultListModel) userOnTaskLlist.getModel();
+
+        for (int i = 0; i < userOnTaskList.size(); i++) {
+            modelOnTask.addElement(Controller.userList.get(i));
+            System.out.println(modelOnTask.get(i).toString() + " er lige med : " + Controller.userList.get(i).getUserName().toString());
+            if (modelOnTask.get(i).toString().equals(Controller.userList.get(i).getUserName().toString())) {
+                System.out.println("Fjerner : " + Controller.userList.get(i));
+                model.removeElement(Controller.userList.get(i));
+            }
+        }
+    }
+
+    public static void createNewTask(JTable tableAllTask, JList listUsersOnTask, JButton button, JCheckBox checkBoxSub, JTextField textFieldTaskName, JComboBox comboBoxType, JComboBox comboBoxStatus,
+            JComboBox comboBoxCustomer, JComboBox comboBoxTaskLeader, JDateChooser dateChooserExpectedStart, JDateChooser dateChooserExpectedEnd,
+            JTextField textFieldEstimatedTime, JComboBox comboBoxPriority, JTextArea textAreaDescription) {
+        DefaultTableModel modelTable = (DefaultTableModel) tableAllTask.getModel();
+        Type type = (Type) comboBoxType.getSelectedItem();
+        Statuss status = (Statuss) (comboBoxStatus.getSelectedItem());
+        Customer customer = (Customer) comboBoxCustomer.getSelectedItem();
+        User user = (User) comboBoxTaskLeader.getSelectedItem();
+        String taskName = textFieldTaskName.getText();
+        String taskDescription = textAreaDescription.getText();
+        int taskID;
+        int estimatedTime = Integer.parseInt(textFieldEstimatedTime.getText());
+        int priority = Integer.parseInt(comboBoxPriority.getSelectedItem().toString());
+        //ArrayList<User> listUsersOnTask = Controller.userList;
+
+        System.out.println("Row selected = " + tableAllTask.getSelectedRow());
+        if (checkBoxSub.isSelected()) {
+            if (tableAllTask.getSelectedRow() != -1) {
+                taskID = Integer.parseInt(modelTable.getValueAt(tableAllTask.getSelectedRow(), 0).toString());
+                try {
+                    Task task = new Task(taskName,
+                            taskID,
+                            type,
+                            status,
+                            customer,
+                            user,
+                            dateChooserExpectedStart.getDate(),
+                            dateChooserExpectedEnd.getDate(),
+                            estimatedTime,
+                            priority,
+                            taskDescription);
+
+                    Controller.dbHandler.createSubTask(task);
+                    Controller.dbHandler.addUserToTask(listUsersOnTask);
+
+                } catch (SQLException | IOException ex) {
+                    Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                JOptionPane.showMessageDialog(button, "Der ikke valgt nogen opgave at lav delopgave til", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
+            }
+        } else if (!checkBoxSub.isSelected()) {
+            try {
+                Task task = new Task(taskName,
+                        type,
+                        status,
+                        customer,
+                        user,
+                        dateChooserExpectedStart.getDate(),
+                        dateChooserExpectedEnd.getDate(),
+                        estimatedTime,
+                        priority,
+                        taskDescription);
+
+                Controller.dbHandler.createTask(task);
+                Controller.dbHandler.addUserToTask(listUsersOnTask);
+                Controller.fillTableWithTask(tableAllTask);
+            } catch (SQLException | IOException ex) {
+                Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
+
+            }
+        }
+    }
+
     public void setUser(User user) {
         currentUser = user;
     }

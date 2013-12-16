@@ -382,17 +382,6 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
 
         Controller.addUserToOnTaskList(listUsers, listUsersOnTask, buttonAddUser);
 
-//        int index = listUsers.getSelectedIndex();
-//
-//        model = (DefaultListModel) listUsers.getModel();
-//        modelOnTask = (DefaultListModel) listUsersOnTask.getModel();
-//        if (index != -1) {
-//            modelOnTask.addElement(listUsers.getSelectedValue());
-//            model.removeElement(listUsers.getSelectedValue());
-//
-//        } else {
-//            JOptionPane.showMessageDialog(this, "Der ikke valgt nogen medarbejder", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
-//        }
     }//GEN-LAST:event_buttonAddUserActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -404,32 +393,27 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void buttonRemoveUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRemoveUserActionPerformed
-        int index = listUsersOnTask.getSelectedIndex();
-
-        model = (DefaultListModel) listUsers.getModel();
-        modelOnTask = (DefaultListModel) listUsersOnTask.getModel();
-
-        if (index != -1) {
-            for (int i = 0; i < model.size(); i++) {
-                if (model.get(i).toString().equals(listUsersOnTask.getSelectedValue().toString())) {
-                    System.out.println("Fjerner " + listUsersOnTask.getSelectedValue());
-                    model.removeElement(listUsersOnTask.getSelectedValue());
-                }
-            }
-            model.addElement(listUsersOnTask.getSelectedValue());
-            modelOnTask.removeElement(listUsersOnTask.getSelectedValue());
-
-        } else {
-            JOptionPane.showMessageDialog(this, "Der ikke valgt nogen medarbejder", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
-
-        }
+       Controller.removeUserFromTaskList(listUsers, listUsersOnTask, buttonRemoveUser);
     }//GEN-LAST:event_buttonRemoveUserActionPerformed
 
     private void tableAllTasksMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableAllTasksMouseClicked
         modelTable = (DefaultTableModel) tableAllTasks.getModel();
         try {
             try {
-                fillAllWithSelectedTask((Integer) modelTable.getValueAt(tableAllTasks.getSelectedRow(), 0));
+              //  fillAllWithSelectedTask((Integer) modelTable.getValueAt(tableAllTasks.getSelectedRow(), 0));
+                Controller.fillWithSelectedTask(listUsers, 
+                        listUsersOnTask,
+                        tableAllTasks,
+                        textFieldTaskName,
+                        comboBoxType,
+                        comboBoxStatus, 
+                        comboBoxCustomer,
+                        comboBoxProjectLeader,
+                        dateChooserExpectedStart,
+                        dateChooserExpectedEnd,
+                        textFieldTime,
+                        comboBoxPriority,
+                        textAreaDescription);
             } catch (ParseException ex) {
                 Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
             }
