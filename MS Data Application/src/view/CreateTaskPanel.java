@@ -7,19 +7,7 @@ package view;
 import handlers.Controller;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
-import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
-import model.Customer;
-import model.Statuss;
-import model.Task;
-import model.Type;
-import model.User;
 
 /**
  *
@@ -30,13 +18,11 @@ public class CreateTaskPanel extends javax.swing.JPanel {
     /**
      * Creates new form CreateTaskPanel
      */
-    private DefaultListModel modelOnTask;
-
 
     public CreateTaskPanel() throws ClassNotFoundException, SQLException, IOException {
         initComponents();
 
-       // modelOnTask = new DefaultListModel();
+        DefaultListModel modelOnTask = new DefaultListModel();
         listUsersOnTask.setModel(modelOnTask);
 
         Controller.fillCombobox(comboBoxUser, Controller.userList);
@@ -86,8 +72,6 @@ public class CreateTaskPanel extends javax.swing.JPanel {
         listUsers = new javax.swing.JList();
         comboBoxUser = new javax.swing.JComboBox();
         buttonAddUser = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        listUsersOnTask = new javax.swing.JList();
         buttonCreateTask = new javax.swing.JButton();
         dateChooserExpectedStart = new com.toedter.calendar.JDateChooser();
         dateChooserExpectedEnd = new com.toedter.calendar.JDateChooser();
@@ -96,6 +80,10 @@ public class CreateTaskPanel extends javax.swing.JPanel {
         CheckBoxSub = new javax.swing.JCheckBox();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        listUsersOnTask = new javax.swing.JList();
 
         jLabel1.setText("Projekt navn");
 
@@ -146,7 +134,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
         jLabel6.setText("Forventet start");
 
-        listUsers.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        listUsers.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         listUsers.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         listUsers.setFocusTraversalPolicyProvider(true);
         jScrollPane1.setViewportView(listUsers);
@@ -157,8 +145,6 @@ public class CreateTaskPanel extends javax.swing.JPanel {
                 buttonAddUserActionPerformed(evt);
             }
         });
-
-        jScrollPane2.setViewportView(listUsersOnTask);
 
         buttonCreateTask.setText("Opret opgave");
         buttonCreateTask.addActionListener(new java.awt.event.ActionListener() {
@@ -183,6 +169,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        tableAllTask.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tableAllTask.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tableAllTaskMouseClicked(evt);
@@ -205,6 +192,10 @@ public class CreateTaskPanel extends javax.swing.JPanel {
                 jButton2ActionPerformed(evt);
             }
         });
+
+        jScrollPane5.setViewportView(jList1);
+
+        jScrollPane2.setViewportView(listUsersOnTask);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -273,7 +264,9 @@ public class CreateTaskPanel extends javax.swing.JPanel {
                                         .addGap(340, 340, 340)
                                         .addComponent(jButton1))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(176, 176, 176)
+                                        .addGap(37, 37, 37)
+                                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(104, 104, 104)
                                         .addComponent(jButton2)))
                                 .addGap(0, 0, Short.MAX_VALUE)))))
                 .addGap(33, 33, 33))
@@ -337,8 +330,8 @@ public class CreateTaskPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(31, 31, 31)
                                 .addComponent(buttonAddUser)
@@ -351,8 +344,10 @@ public class CreateTaskPanel extends javax.swing.JPanel {
                         .addGap(11, 11, 11)
                         .addComponent(jButton1)
                         .addGap(30, 30, 30)
-                        .addComponent(jButton2)))
-                .addContainerGap(165, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton2)
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(58, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -441,7 +436,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
     private void buttonRemoveUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRemoveUserActionPerformed
 
-       Controller.removeUserFromTaskList(listUsers, listUsersOnTask, jButton1);
+       Controller.removeUserFromTaskList(listUsers, listUsersOnTask, buttonRemoveUser);
 
     }//GEN-LAST:event_buttonRemoveUserActionPerformed
 
@@ -453,7 +448,8 @@ public class CreateTaskPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_tableAllTaskMouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
+System.out.println(listUsers.getModel().getClass());
+System.out.println(listUsersOnTask.getModel().getClass());
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -488,10 +484,12 @@ public class CreateTaskPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JList jList1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JList listUsers;
     private javax.swing.JList listUsersOnTask;
     private javax.swing.JTable tableAllTask;

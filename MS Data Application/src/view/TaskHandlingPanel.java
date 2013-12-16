@@ -14,7 +14,6 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Customer;
 import model.Statuss;
@@ -102,6 +101,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         comboboxSorting = new javax.swing.JComboBox();
         jScrollPane4 = new javax.swing.JScrollPane();
         textAreaDescription = new javax.swing.JTextArea();
+        jButton2 = new javax.swing.JButton();
 
         setMinimumSize(new java.awt.Dimension(1280, 775));
         setPreferredSize(new java.awt.Dimension(1280, 775));
@@ -223,6 +223,13 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         textAreaDescription.setRows(5);
         jScrollPane4.setViewportView(textAreaDescription);
 
+        jButton2.setText("jButton2");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -293,7 +300,11 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
                                     .addComponent(jLabel30)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(88, 88, 88)
-                                .addComponent(jButton1)))))
+                                .addComponent(jButton1))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton2)
+                                .addGap(127, 127, 127)))))
                 .addContainerGap(106, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -363,7 +374,10 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(buttonRemoveUser))
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jButton1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton2)
+                        .addGap(2, 2, 2)
+                        .addComponent(jButton1)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
@@ -393,20 +407,20 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void buttonRemoveUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRemoveUserActionPerformed
-       Controller.removeUserFromTaskList(listUsers, listUsersOnTask, buttonRemoveUser);
+        Controller.removeUserFromTaskList(listUsers, listUsersOnTask, buttonRemoveUser);
     }//GEN-LAST:event_buttonRemoveUserActionPerformed
 
     private void tableAllTasksMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableAllTasksMouseClicked
         modelTable = (DefaultTableModel) tableAllTasks.getModel();
         try {
             try {
-              //  fillAllWithSelectedTask((Integer) modelTable.getValueAt(tableAllTasks.getSelectedRow(), 0));
-                Controller.fillWithSelectedTask(listUsers, 
+                //  fillAllWithSelectedTask((Integer) modelTable.getValueAt(tableAllTasks.getSelectedRow(), 0));
+                Controller.fillWithSelectedTask(listUsers,
                         listUsersOnTask,
                         tableAllTasks,
                         textFieldTaskName,
                         comboBoxType,
-                        comboBoxStatus, 
+                        comboBoxStatus,
                         comboBoxCustomer,
                         comboBoxProjectLeader,
                         dateChooserExpectedStart,
@@ -430,39 +444,60 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_buttonFilterActionPerformed
 
     private void buttonSaveChangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveChangesActionPerformed
-        modelTable = (DefaultTableModel) tableAllTasks.getModel();
-        Type type = new Type(comboBoxType.getSelectedItem().toString());
-        Statuss status = new Statuss(comboBoxStatus.getSelectedItem().toString());
-        Customer customer = new Customer(comboBoxCustomer.getSelectedItem().toString());
-        User user = new User(comboBoxProjectLeader.getSelectedItem().toString());
 
-        Task task = new Task(Integer.parseInt(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 0).toString()),
-                textFieldTaskName.getText(),
-                type,
-                status,
-                customer,
-                user,
-                dateChooserExpectedStart.getDate(),
-                dateChooserExpectedEnd.getDate(),
-                Integer.parseInt(textFieldTime.getText()),
-                Integer.parseInt(comboBoxPriority.getSelectedItem().toString()),
-                textAreaDescription.getText());
-        try {
-            Controller.dbHandler.SPremoveAllUsersOnTask(task.getTaskID());
-            Controller.dbHandler.updateTask(task);
-            Controller.dbHandler.addUserToAlreadyMadeTask(listUsersOnTask, task.getTaskID());
+        Controller.SaveChangesToTask(tableAllTasks,
+                listUsers,
+                listUsersOnTask,
+                buttonSaveChanges,
+                textFieldTaskName,
+                comboBoxType,
+                comboBoxStatus,
+                comboBoxCustomer,
+                comboBoxProjectLeader,
+                dateChooserExpectedStart,
+                dateChooserExpectedEnd,
+                textFieldTime,
+                comboBoxPriority,
+                textAreaDescription);
 
-            Controller.fillList(listUsers, Controller.userList);
-
-            Controller.fillTableWithTask(tableAllTasks);
-        } catch (SQLException | IOException ex) {
-            Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        modelTable = (DefaultTableModel) tableAllTasks.getModel();
+//        Type type = new Type(comboBoxType.getSelectedItem().toString());
+//        Statuss status = new Statuss(comboBoxStatus.getSelectedItem().toString());
+//        Customer customer = new Customer(comboBoxCustomer.getSelectedItem().toString());
+//        User user = new User(comboBoxProjectLeader.getSelectedItem().toString());
+//
+//        Task task = new Task(Integer.parseInt(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 0).toString()),
+//                textFieldTaskName.getText(),
+//                type,
+//                status,
+//                customer,
+//                user,
+//                dateChooserExpectedStart.getDate(),
+//                dateChooserExpectedEnd.getDate(),
+//                Integer.parseInt(textFieldTime.getText()),
+//                Integer.parseInt(comboBoxPriority.getSelectedItem().toString()),
+//                textAreaDescription.getText());
+//        try {
+//            Controller.dbHandler.SPremoveAllUsersOnTask(task.getTaskID());
+//            Controller.dbHandler.updateTask(task);
+//            Controller.dbHandler.addUserToAlreadyMadeTask(listUsersOnTask, task.getTaskID());
+//
+//            Controller.fillList(listUsers, Controller.userList);
+//
+//            Controller.fillTableWithTask(tableAllTasks);
+//        } catch (SQLException | IOException ex) {
+//            Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }//GEN-LAST:event_buttonSaveChangesActionPerformed
 
     private void comboBoxCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxCustomerActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_comboBoxCustomerActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonAddUser;
     private javax.swing.JButton buttonEditTask;
@@ -478,6 +513,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     private com.toedter.calendar.JDateChooser dateChooserExpectedEnd;
     private com.toedter.calendar.JDateChooser dateChooserExpectedStart;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -508,39 +544,39 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void fillAllWithSelectedTask(int taskID) throws IOException, SQLException, ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        model = (DefaultListModel) listUsers.getModel();
-
-        textFieldTaskName.setText(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 2).toString());
-        comboBoxType.setSelectedItem(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 3).toString());
-        comboBoxStatus.setSelectedItem(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 4).toString());
-        comboBoxCustomer.setSelectedItem(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 5).toString());
-        comboBoxProjectLeader.setSelectedItem(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 6).toString());
-        Date startDate = sdf.parse(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 7).toString());
-        dateChooserExpectedStart.setDate(startDate);
-        Date endDate = sdf.parse(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 8).toString());
-        dateChooserExpectedEnd.setDate(endDate);
-        textFieldTime.setText(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 9).toString());
-        comboBoxPriority.setSelectedItem(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 10).toString());
-        textAreaDescription.setText(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 11).toString());
-
-        modelOnTask.clear();
-        model.clear();
-        Controller.fillList(listUsers, Controller.userList);
-
-        userOnTaskList = Controller.dbHandler.SPgetUserOnTask(taskID);
-
-        model = (DefaultListModel) listUsers.getModel();
-        modelOnTask = (DefaultListModel) listUsersOnTask.getModel();
-
-        for (int i = 0; i < userOnTaskList.size(); i++) {
-            modelOnTask.addElement(Controller.userList.get(i));
-            System.out.println(modelOnTask.get(i).toString() + " er lige med : " + Controller.userList.get(i).getUserName().toString());
-            if (modelOnTask.get(i).toString().equals(Controller.userList.get(i).getUserName().toString())) {
-                System.out.println("Fjerner : " + Controller.userList.get(i));
-                model.removeElement(Controller.userList.get(i));
-            }
-        }
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//        model = (DefaultListModel) listUsers.getModel();
+//
+//        textFieldTaskName.setText(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 2).toString());
+//        comboBoxType.setSelectedItem(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 3).toString());
+//        comboBoxStatus.setSelectedItem(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 4).toString());
+//        comboBoxCustomer.setSelectedItem(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 5).toString());
+//        comboBoxProjectLeader.setSelectedItem(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 6).toString());
+//        Date startDate = sdf.parse(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 7).toString());
+//        dateChooserExpectedStart.setDate(startDate);
+//        Date endDate = sdf.parse(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 8).toString());
+//        dateChooserExpectedEnd.setDate(endDate);
+//        textFieldTime.setText(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 9).toString());
+//        comboBoxPriority.setSelectedItem(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 10).toString());
+//        textAreaDescription.setText(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 11).toString());
+//
+//        modelOnTask.clear();
+//        model.clear();
+//        Controller.fillList(listUsers, Controller.userList);
+//
+//        userOnTaskList = Controller.dbHandler.SPgetUserOnTask(taskID);
+//
+//        model = (DefaultListModel) listUsers.getModel();
+//        modelOnTask = (DefaultListModel) listUsersOnTask.getModel();
+//
+//        for (int i = 0; i < userOnTaskList.size(); i++) {
+//            modelOnTask.addElement(Controller.userList.get(i));
+//            System.out.println(modelOnTask.get(i).toString() + " er lige med : " + Controller.userList.get(i).getUserName().toString());
+//            if (modelOnTask.get(i).toString().equals(Controller.userList.get(i).getUserName().toString())) {
+//                System.out.println("Fjerner : " + Controller.userList.get(i));
+//                model.removeElement(Controller.userList.get(i));
+//            }
+//        }
     }
 
 }

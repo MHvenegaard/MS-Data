@@ -26,6 +26,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import model.*;
 import view.CreateTaskPanel;
+import view.TaskHandlingPanel;
 
 /**
  *
@@ -124,7 +125,7 @@ public class Controller {
 
     public static void addUserToOnTaskList(JList listUsers, JList listUsersOnTask, JButton button) {
         int index = listUsers.getSelectedIndex();
-
+        
         DefaultListModel model = (DefaultListModel) listUsers.getModel();
         DefaultListModel modelOnTask = (DefaultListModel) listUsersOnTask.getModel();
 
@@ -262,6 +263,39 @@ public class Controller {
         }
     }
 
+    public static void SaveChangesToTask(JTable tableAllTasks,JList listUsers, JList listUsersOnTask, JButton button, JTextField textFieldTaskName, JComboBox comboBoxType, JComboBox comboBoxStatus,
+            JComboBox comboBoxCustomer, JComboBox comboBoxTaskLeader, JDateChooser dateChooserExpectedStart, JDateChooser dateChooserExpectedEnd,
+            JTextField textFieldEstimatedTime, JComboBox comboBoxPriority, JTextArea textAreaDescription){
+        DefaultTableModel modelTable = (DefaultTableModel) tableAllTasks.getModel();
+        Type type = new Type(comboBoxType.getSelectedItem().toString());
+        Statuss status = new Statuss(comboBoxStatus.getSelectedItem().toString());
+        Customer customer = new Customer(comboBoxCustomer.getSelectedItem().toString());
+        User user = new User(comboBoxTaskLeader.getSelectedItem().toString());
+
+        Task task = new Task(Integer.parseInt(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 0).toString()),
+                textFieldTaskName.getText(),
+                type,
+                status,
+                customer,
+                user,
+                dateChooserExpectedStart.getDate(),
+                dateChooserExpectedEnd.getDate(),
+                Integer.parseInt(textFieldEstimatedTime.getText()),
+                Integer.parseInt(comboBoxPriority.getSelectedItem().toString()),
+                textAreaDescription.getText());
+        try {
+            Controller.dbHandler.SPremoveAllUsersOnTask(task.getTaskID());
+            Controller.dbHandler.updateTask(task);
+            Controller.dbHandler.addUserToAlreadyMadeTask(listUsersOnTask, task.getTaskID());
+
+            Controller.fillList(listUsers, Controller.userList);
+
+            Controller.fillTableWithTask(tableAllTasks);
+        } catch (SQLException | IOException ex) {
+            Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public void setUser(User user) {
         currentUser = user;
     }
