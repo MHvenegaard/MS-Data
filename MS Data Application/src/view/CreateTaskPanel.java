@@ -40,29 +40,16 @@ public class CreateTaskPanel extends javax.swing.JPanel {
         modelOnTask = new DefaultListModel();
         listUsersOnTask.setModel(modelOnTask);
 
-        fillCustomerCombo();
-
         Controller.fillCombobox(comboBoxUser, Controller.userList);
         Controller.fillCombobox(comboBoxType, Controller.typeList);
         Controller.fillCombobox(comboBoxStatus, Controller.statusList);
         Controller.fillList(listUsers, Controller.userList);
-
-        fillTableWithTasks();
+        Controller.fillCombobox(comboBoxCustomer, Controller.customerList);
+        Controller.fillTableWithTask(tableAllTask);
+  
         dateChooserExpectedStart.setDate(Controller.getCurrentDate());
         dateChooserExpectedEnd.setDate(Controller.getCurrentDate());
 
-    }
-
-    private void fillCustomerCombo() throws SQLException, IOException {
-
-        comboBoxCustomer.setSelectedIndex(-1);
-        comboBoxCustomer.removeAllItems();
-
-        ArrayList<Customer> customers = Controller.dbHandler.SPgetCustomers();
-        for (int i = 0; i < customers.size(); i++) {
-            comboBoxCustomer.addItem(customers.get(i));
-        }
-        comboBoxCustomer.setSelectedIndex(0);
     }
 
     /**
@@ -186,11 +173,11 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "TaskName", "Kunde", "Type", "Status", "User", "Forventet tidsforbrug", "Prioritet", "Start dato", "Slut dato"
+                "ID", "ParentID", "TaskName", "Type", "Status", "Kunde", "User", "Start dato", "Slut dato", "Forventet tidsforbrug", "Prioritet", "Beskrivelse"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -372,18 +359,20 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
     private void buttonAddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddUserActionPerformed
 
-        int index = listUsers.getSelectedIndex();
-
-        model = (DefaultListModel) listUsers.getModel();
-        modelOnTask = (DefaultListModel) listUsersOnTask.getModel();
-
-        if (index != -1) {
-            modelOnTask.addElement(listUsers.getSelectedValue());
-            model.removeElement(listUsers.getSelectedValue());
-        } else {
-            JOptionPane.showMessageDialog(this, "Der ikke valgt nogen medarbejder", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
-
-        }
+        Controller.addUserToOnTaskList(listUsers, listUsersOnTask, buttonAddUser);
+        
+//        int index = listUsers.getSelectedIndex();
+//
+//        model = (DefaultListModel) listUsers.getModel();
+//        modelOnTask = (DefaultListModel) listUsersOnTask.getModel();
+//
+//        if (index != -1) {
+//            modelOnTask.addElement(listUsers.getSelectedValue());
+//            model.removeElement(listUsers.getSelectedValue());
+//        } else {
+//            JOptionPane.showMessageDialog(this, "Der ikke valgt nogen medarbejder", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
+//
+//        }
 
 
     }//GEN-LAST:event_buttonAddUserActionPerformed
@@ -442,7 +431,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
                 Controller.dbHandler.createTask(task);
                 Controller.dbHandler.addUserToTask(listUsersOnTask);
-                fillTableWithTasks();
+                Controller.fillTableWithTask(tableAllTask);
             } catch (SQLException | IOException ex) {
                 Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
 
@@ -478,11 +467,6 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-        //Date date = Controller.getCurrentDate();
-        //SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        //System.out.println(sdf.format(date));
-        //System.out.println(date);
-        dateChooserExpectedStart.setDate(Controller.getCurrentDate());
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -529,23 +513,4 @@ public class CreateTaskPanel extends javax.swing.JPanel {
     private javax.swing.JTextField textFieldTaskName;
     // End of variables declaration//GEN-END:variables
 
-    private void fillTableWithTasks() throws IOException, SQLException {
-
-        modelTable = (DefaultTableModel) tableAllTask.getModel();
-        ArrayList<Task> tasks = Controller.dbHandler.SPgetTasks();
-        modelTable.setRowCount(0);
-        for (int i = 0; i < tasks.size(); i++) {
-            Object[] data = {tasks.get(i).getTaskID(),
-                tasks.get(i).getTaskName(),
-                tasks.get(i).getCustomer(),
-                tasks.get(i).getType(),
-                tasks.get(i).getStatus(),
-                tasks.get(i).getUser(),
-                tasks.get(i).getEstimatedtime(),
-                tasks.get(i).getPriority(),
-                tasks.get(i).getStartDate(),
-                tasks.get(i).getEndDate()};
-            modelTable.addRow(data);
-        }
-    }
 }

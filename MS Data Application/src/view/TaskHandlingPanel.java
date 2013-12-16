@@ -34,10 +34,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     private DefaultListModel model;
     private DefaultListModel modelOnTask;
     private DefaultTableModel modelTable;
-//    private final ArrayList<User> userList;
-//    private final ArrayList<Type> typeList;
-    private final ArrayList<Customer> customerList;
-//    private final ArrayList<Statuss> statusList;
+
     private ArrayList<User> userOnTaskList;
 
     public TaskHandlingPanel() throws ClassNotFoundException, SQLException, IOException {
@@ -46,15 +43,12 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         modelOnTask = new DefaultListModel();
         listUsersOnTask.setModel(modelOnTask);
 
-        customerList = Controller.dbHandler.SPgetCustomers();
-
         Controller.fillCombobox(comboBoxProjectLeader, Controller.userList);
         Controller.fillCombobox(comboBoxType, Controller.typeList);
         Controller.fillCombobox(comboBoxStatus, Controller.statusList);
         Controller.fillList(listUsers, Controller.userList);
-
-        fillCustomerCombo();
-        fillTableWithTask();
+        Controller.fillCombobox(comboBoxCustomer, Controller.customerList);
+        Controller.fillTableWithTask(tableAllTasks);
 
     }
 
@@ -198,11 +192,11 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "TaskName", "Type", "Status", "Kunde", "User", "Start dato", "Slut dato", "Forventet tidsforbrug", "Prioritet", "Beskrivelse"
+                "ID", "ParentID", "TaskName", "Type", "Status", "Kunde", "User", "Start dato", "Slut dato", "Forventet tidsforbrug", "Prioritet", "Beskrivelse"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -385,25 +379,26 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonAddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddUserActionPerformed
-        int index = listUsers.getSelectedIndex();
 
-        model = (DefaultListModel) listUsers.getModel();
-        modelOnTask = (DefaultListModel) listUsersOnTask.getModel();
-        if (index != -1) {
-            modelOnTask.addElement(listUsers.getSelectedValue());
-            model.removeElement(listUsers.getSelectedValue());
+        Controller.addUserToOnTaskList(listUsers, listUsersOnTask, buttonAddUser);
 
-        } else {
-            JOptionPane.showMessageDialog(this, "Der ikke valgt nogen medarbejder", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
-        }
+//        int index = listUsers.getSelectedIndex();
+//
+//        model = (DefaultListModel) listUsers.getModel();
+//        modelOnTask = (DefaultListModel) listUsersOnTask.getModel();
+//        if (index != -1) {
+//            modelOnTask.addElement(listUsers.getSelectedValue());
+//            model.removeElement(listUsers.getSelectedValue());
+//
+//        } else {
+//            JOptionPane.showMessageDialog(this, "Der ikke valgt nogen medarbejder", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
+//        }
     }//GEN-LAST:event_buttonAddUserActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            fillTableWithTask();
-        } catch (IOException ex) {
-            Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+            Controller.fillTableWithTask(tableAllTasks);
+        } catch (IOException | SQLException ex) {
             Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -438,9 +433,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
             } catch (ParseException ex) {
                 Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (IOException ex) {
-            Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (IOException | SQLException ex) {
             Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -473,14 +466,12 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         try {
             Controller.dbHandler.SPremoveAllUsersOnTask(task.getTaskID());
             Controller.dbHandler.updateTask(task);
-
             Controller.dbHandler.addUserToAlreadyMadeTask(listUsersOnTask, task.getTaskID());
 
             Controller.fillList(listUsers, Controller.userList);
-            fillTableWithTask();
-        } catch (SQLException ex) {
-            Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+
+            Controller.fillTableWithTask(tableAllTasks);
+        } catch (SQLException | IOException ex) {
             Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_buttonSaveChangesActionPerformed
@@ -532,43 +523,22 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     private javax.swing.JTextField textFieldTime;
     // End of variables declaration//GEN-END:variables
 
-    private void fillTableWithTask() throws IOException, SQLException {
-        modelTable = (DefaultTableModel) tableAllTasks.getModel();
-        ArrayList<Task> tasks = Controller.dbHandler.SPgetTasks();
-        modelTable.setRowCount(0);
-        for (int i = 0; i < tasks.size(); i++) {
-            Object[] data = {tasks.get(i).getTaskID(),
-                tasks.get(i).getTaskName(),
-                tasks.get(i).getType(),
-                tasks.get(i).getStatus(),
-                tasks.get(i).getCustomer(),
-                tasks.get(i).getUser(),
-                tasks.get(i).getStartDate(),
-                tasks.get(i).getEndDate(),
-                tasks.get(i).getEstimatedtime(),
-                tasks.get(i).getPriority(),
-                tasks.get(i).getDescription()};
-            modelTable.addRow(data);
-        }
-    }
-
     private void fillAllWithSelectedTask(int taskID) throws IOException, SQLException, ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         model = (DefaultListModel) listUsers.getModel();
-        textFieldTaskName.setText(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 1).toString());
-        comboBoxCustomer.setSelectedItem(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 4).toString());
-        comboBoxPriority.setSelectedItem(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 9).toString());
-        comboBoxProjectLeader.setSelectedItem(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 5).toString());
-        comboBoxStatus.setSelectedItem(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 3).toString());
-        comboBoxType.setSelectedItem(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 2).toString());
-        textFieldTime.setText(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 8).toString());
 
-        Date startDate = sdf.parse(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 6).toString());
+        textFieldTaskName.setText(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 2).toString());
+        comboBoxType.setSelectedItem(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 3).toString());
+        comboBoxStatus.setSelectedItem(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 4).toString());
+        comboBoxCustomer.setSelectedItem(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 5).toString());
+        comboBoxProjectLeader.setSelectedItem(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 6).toString());
+        Date startDate = sdf.parse(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 7).toString());
         dateChooserExpectedStart.setDate(startDate);
-        Date endDate = sdf.parse(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 7).toString());
+        Date endDate = sdf.parse(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 8).toString());
         dateChooserExpectedEnd.setDate(endDate);
-
-        textAreaDescription.setText(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 10).toString());
+        textFieldTime.setText(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 9).toString());
+        comboBoxPriority.setSelectedItem(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 10).toString());
+        textAreaDescription.setText(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 11).toString());
 
         modelOnTask.clear();
         model.clear();
@@ -589,14 +559,4 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         }
     }
 
-    private void fillCustomerCombo() throws SQLException, IOException {
-        comboBoxCustomer.setSelectedIndex(-1);
-        comboBoxCustomer.removeAllItems();
-        comboBoxCustomer.addItem("Vælg kunde");
-
-        for (int i = 0; i < customerList.size(); i++) {
-            comboBoxCustomer.addItem(customerList.get(i).toString());
-        }
-        comboBoxCustomer.setSelectedIndex(0);
-    }
 }
