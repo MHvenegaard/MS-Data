@@ -326,6 +326,20 @@ public class Controller {
         }
     }
 
+       public static void fillTableWithStatus(JTable table) {
+        DefaultTableModel modelTable = (DefaultTableModel) table.getModel();
+        modelTable.setRowCount(0);
+        
+        for (int i = 0; i < statusList.size(); i++) {
+            Object[] data = {statusList.get(i).getStatusID(),
+                statusList.get(i).getStatussName(),
+                statusList.get(i).getDescription()};
+            modelTable.addRow(data);
+
+        }
+    }
+
+    
     public void setUser(User user) {
         currentUser = user;
     }
