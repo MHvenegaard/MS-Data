@@ -35,6 +35,7 @@ public class Mainframe extends javax.swing.JFrame {
         tabPane.add("Opgaveoprettelse", new CreateTaskPanel());
         tabPane.add("Opgavehåndtering", new TaskHandlingPanel());
         tabPane.add("Brugerhåndtering", new UserHandlingPanel());
+        tabPane.add("Typehåndtering", new TypeHandlingPanel());
         
     }
 

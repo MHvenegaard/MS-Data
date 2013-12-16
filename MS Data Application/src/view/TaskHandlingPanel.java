@@ -8,17 +8,11 @@ import handlers.Controller;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
-import model.Customer;
-import model.Statuss;
-import model.Task;
-import model.Type;
 import model.User;
 
 /**
@@ -34,7 +28,6 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     private DefaultListModel modelOnTask;
     private DefaultTableModel modelTable;
 
-    private ArrayList<User> userOnTaskList;
 
     public TaskHandlingPanel() throws ClassNotFoundException, SQLException, IOException {
         initComponents();

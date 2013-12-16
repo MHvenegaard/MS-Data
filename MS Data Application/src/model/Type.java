@@ -13,7 +13,14 @@ public class Type {
     private int typeID;
     private String typeName;
     private String description;
+
+    public Type(int typeID, String typeName, String description) {
+        this.typeID = typeID;
+        this.typeName = typeName;
+        this.description = description;
+    }
     
+        
     public Type(String typeName) {
        this.typeName = typeName;
     }

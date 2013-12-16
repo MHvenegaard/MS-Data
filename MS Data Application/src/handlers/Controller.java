@@ -125,7 +125,7 @@ public class Controller {
 
     public static void addUserToOnTaskList(JList listUsers, JList listUsersOnTask, JButton button) {
         int index = listUsers.getSelectedIndex();
-        
+
         DefaultListModel model = (DefaultListModel) listUsers.getModel();
         DefaultListModel modelOnTask = (DefaultListModel) listUsersOnTask.getModel();
 
@@ -263,9 +263,9 @@ public class Controller {
         }
     }
 
-    public static void SaveChangesToTask(JTable tableAllTasks,JList listUsers, JList listUsersOnTask, JButton button, JTextField textFieldTaskName, JComboBox comboBoxType, JComboBox comboBoxStatus,
+    public static void SaveChangesToTask(JTable tableAllTasks, JList listUsers, JList listUsersOnTask, JButton button, JTextField textFieldTaskName, JComboBox comboBoxType, JComboBox comboBoxStatus,
             JComboBox comboBoxCustomer, JComboBox comboBoxTaskLeader, JDateChooser dateChooserExpectedStart, JDateChooser dateChooserExpectedEnd,
-            JTextField textFieldEstimatedTime, JComboBox comboBoxPriority, JTextArea textAreaDescription){
+            JTextField textFieldEstimatedTime, JComboBox comboBoxPriority, JTextArea textAreaDescription) {
         DefaultTableModel modelTable = (DefaultTableModel) tableAllTasks.getModel();
         Type type = new Type(comboBoxType.getSelectedItem().toString());
         Statuss status = new Statuss(comboBoxStatus.getSelectedItem().toString());
@@ -295,7 +295,36 @@ public class Controller {
             Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
+    public static void fillTableWithUser(JTable table) throws IOException, SQLException {
+        DefaultTableModel modelTable = (DefaultTableModel) table.getModel();
+        modelTable.setRowCount(0);
+        userList = Controller.dbHandler.getUserInUserDB();
+        for (int i = 0; i < userList.size(); i++) {
+            Object[] data = {userList.get(i).getUserID(),
+                userList.get(i).getFirstName(),
+                userList.get(i).getLastName(),
+                userList.get(i).getUserName(),
+                userList.get(i).getAccessLevel(),
+                userList.get(i).getPassword()};
+            modelTable.addRow(data);
+
+        }
+    }
+
+    public static void fillTableWithType(JTable table) {
+        DefaultTableModel modelTable = (DefaultTableModel) table.getModel();
+        modelTable.setRowCount(0);
+        
+        for (int i = 0; i < typeList.size(); i++) {
+            Object[] data = {typeList.get(i).getTypeID(),
+                typeList.get(i).getTypeName(),
+                typeList.get(i).getDescription()};
+            modelTable.addRow(data);
+
+        }
+    }
+
     public void setUser(User user) {
         currentUser = user;
     }

@@ -29,8 +29,8 @@ public class UserHandlingPanel extends javax.swing.JPanel {
     public UserHandlingPanel() throws SQLException, IOException {
         initComponents();
         userList = Controller.userList;
-        
-        fillTableWithUser();
+        Controller.fillTableWithUser(jTable1);
+      
         Controller.fillCombobox(comboBoxDeleteUserList, userList);
     }
 
@@ -283,7 +283,7 @@ public class UserHandlingPanel extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             Controller.dbHandler.createUserInUserDB(null, textFieldFirstName.getText(), textFieldLastName.getText(), textFieldShortName.getText(), textFieldPassword.getText(), Integer.parseInt(comboBoxAccessLevel.getSelectedItem().toString()));
-            fillTableWithUser();
+            Controller.fillTableWithUser(jTable1);
         } catch (SQLException ex) {
             Logger.getLogger(UserHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -291,22 +291,8 @@ public class UserHandlingPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void fillTableWithUser() throws IOException, SQLException {
-        DefaultTableModel modelTable = (DefaultTableModel) jTable1.getModel();
-        modelTable.setRowCount(0);
-        userList = Controller.dbHandler.getUserInUserDB();
-        for (int i = 0; i < userList.size(); i++) {
-            Object[] data = {userList.get(i).getUserID(),
-                userList.get(i).getFirstName(),
-                userList.get(i).getLastName(),
-                userList.get(i).getUserName(),
-                userList.get(i).getAccessLevel(),
-                userList.get(i).getPassword()};
-            modelTable.addRow(data);
-
-        }
-    }
-
+ 
+    
     private void buttonUpdateUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonUpdateUserActionPerformed
         DefaultTableModel modelTable = (DefaultTableModel) jTable1.getModel();
         try {
@@ -316,7 +302,7 @@ public class UserHandlingPanel extends javax.swing.JPanel {
                     textFieldPassword2.getText(),
                     Integer.parseInt(modelTable.getValueAt(jTable1.getSelectedRow(), 4).toString()),
                     Integer.parseInt(modelTable.getValueAt(jTable1.getSelectedRow(), 0).toString()));
-            fillTableWithUser();
+            Controller.fillTableWithUser(jTable1);
         } catch (SQLException ex) {
             Logger.getLogger(UserHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -341,7 +327,7 @@ public class UserHandlingPanel extends javax.swing.JPanel {
             int dialogResult = JOptionPane.showConfirmDialog(null, "Sikker på du vil fjerne " + modelTable.getValueAt(jTable1.getSelectedRow(), 3).toString(), "Warning", dialogButton);
             if (dialogResult == JOptionPane.YES_OPTION) {
                 Controller.dbHandler.deleteUserInUserDB(Integer.parseInt(modelTable.getValueAt(jTable1.getSelectedRow(), 0).toString()));
-                fillTableWithUser();
+                Controller.fillTableWithUser(jTable1);
             }
         } catch (SQLException ex) {
             Logger.getLogger(UserHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);

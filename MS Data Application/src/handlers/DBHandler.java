@@ -177,7 +177,10 @@ public class DBHandler {
      Der henter navnene på alle typer ud og sætter dem ind i en ArrayList
      */
     public ArrayList<Type> SPgetTypes() throws SQLException, IOException {
-        String typeName = null;
+        int typeID;
+        String typeName;
+        String typeDescription;
+        
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
         ArrayList<Type> typeList = new ArrayList<>();
@@ -187,8 +190,10 @@ public class DBHandler {
         ResultSet rs = cs.executeQuery();
 
         while (rs.next()) {
+            typeID = rs.getInt("ID");
             typeName = rs.getString("Name");
-            Type type = new Type(typeName);
+            typeDescription = rs.getString("Description");
+            Type type = new Type(typeID,typeName,typeDescription);
             typeList.add(type);
 
         }
@@ -585,4 +590,65 @@ public class DBHandler {
         cs.setInt(1, userID);
         cs.execute();
     }
+    
+    public void updateType(int typeID, String name, String description) throws SQLException, IOException{
+        Connection conn = (Connection) initiateSystemDBConn()[0];
+
+        CallableStatement cs = null;
+        cs = conn.prepareCall("{call updateType(?,?,?)}");
+        cs.setInt(1, typeID);
+        cs.setString(2, name);
+        cs.setString(3, description);
+        cs.execute();
+    }
+    
+    public void createType(String name, String description) throws SQLException, IOException{
+        Connection conn = (Connection) initiateSystemDBConn()[0];
+
+        CallableStatement cs = null;
+        cs = conn.prepareCall("{call createType(?,?)}");
+        cs.setString(1, name);
+        cs.setString(2, description);
+        cs.execute();
+    }
+    
+    public void deleteType(int typeID) throws SQLException, IOException{
+        Connection conn = (Connection) initiateSystemDBConn()[0];
+
+        CallableStatement cs = null;
+        cs = conn.prepareCall("{call deleteType(?)}");
+        cs.setInt(1, typeID);
+        cs.execute();
+    }
+    
+    public void updateStatus(int statusID, String name, String description) throws SQLException, IOException{
+        Connection conn = (Connection) initiateSystemDBConn()[0];
+
+        CallableStatement cs = null;
+        cs = conn.prepareCall("{call updateStatus(?,?,?)}");
+        cs.setInt(1, statusID);
+        cs.setString(2, name);
+        cs.setString(3, description);
+        cs.execute();
+    }
+    
+    public void createStatus(String name, String description) throws SQLException, IOException{
+        Connection conn = (Connection) initiateSystemDBConn()[0];
+
+        CallableStatement cs = null;
+        cs = conn.prepareCall("{call createStatus(?,?)}");
+        cs.setString(1, name);
+        cs.setString(2, description);
+        cs.execute();
+    }
+    
+    public void deleteStatus(int statusID) throws SQLException, IOException{
+        Connection conn = (Connection) initiateSystemDBConn()[0];
+
+        CallableStatement cs = null;
+        cs = conn.prepareCall("{call deleteStatus(?)}");
+        cs.setInt(1, statusID);
+        cs.execute();
+    }
+    
 }
