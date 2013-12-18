@@ -196,9 +196,13 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        tableAllTasks.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tableAllTasks.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tableAllTasksMouseClicked(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tableAllTasksMouseReleased(evt);
             }
         });
         jScrollPane3.setViewportView(tableAllTasks);
@@ -404,29 +408,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_buttonRemoveUserActionPerformed
 
     private void tableAllTasksMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableAllTasksMouseClicked
-        modelTable = (DefaultTableModel) tableAllTasks.getModel();
-        try {
-            try {
-                //  fillAllWithSelectedTask((Integer) modelTable.getValueAt(tableAllTasks.getSelectedRow(), 0));
-                Controller.fillWithSelectedTask(listUsers,
-                        listUsersOnTask,
-                        tableAllTasks,
-                        textFieldTaskName,
-                        comboBoxType,
-                        comboBoxStatus,
-                        comboBoxCustomer,
-                        comboBoxProjectLeader,
-                        dateChooserExpectedStart,
-                        dateChooserExpectedEnd,
-                        textFieldTime,
-                        comboBoxPriority,
-                        textAreaDescription);
-            } catch (ParseException ex) {
-                Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } catch (IOException | SQLException ex) {
-            Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
 
     }//GEN-LAST:event_tableAllTasksMouseClicked
 
@@ -490,6 +472,32 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void tableAllTasksMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableAllTasksMouseReleased
+        modelTable = (DefaultTableModel) tableAllTasks.getModel();
+        try {
+            try {
+                //  fillAllWithSelectedTask((Integer) modelTable.getValueAt(tableAllTasks.getSelectedRow(), 0));
+                Controller.fillWithSelectedTask(listUsers,
+                        listUsersOnTask,
+                        tableAllTasks,
+                        textFieldTaskName,
+                        comboBoxType,
+                        comboBoxStatus,
+                        comboBoxCustomer,
+                        comboBoxProjectLeader,
+                        dateChooserExpectedStart,
+                        dateChooserExpectedEnd,
+                        textFieldTime,
+                        comboBoxPriority,
+                        textAreaDescription);
+            } catch (ParseException ex) {
+                Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (IOException | SQLException ex) {
+            Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_tableAllTasksMouseReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonAddUser;

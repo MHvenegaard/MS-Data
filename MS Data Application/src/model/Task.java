@@ -27,8 +27,9 @@ public class Task {
     private String description;
     private ArrayList<TaskComment> commentList;
     private ArrayList<Task> taskList;
+    private ArrayList<User> userOnTask;
 
-    public Task(int taskID,int parentID, String taskName, Type type, Statuss status, Customer customer, User user, Date startDate, Date endDate, int estimatedtime, int priority, String description) {
+    public Task(int taskID,int parentID, String taskName, Type type, Statuss status, Customer customer, User user, Date startDate, Date endDate, int estimatedtime, int priority, String description,ArrayList<User> userOnTask) {
         this.taskID = taskID;
         this.parentID = parentID;
         this.taskName = taskName;
@@ -43,6 +44,7 @@ public class Task {
         this.description = description;
         commentList = new ArrayList<>();
         taskList = new ArrayList<>();
+        this.userOnTask = new ArrayList<>();
     }
 
     public Task(String taskName, Type type, Statuss status, Customer customer, User user, Date startDate, Date endDate, int estimatedtime, int priority, String description) {
@@ -192,5 +194,15 @@ public class Task {
     public void setParentID(int parentID) {
         this.parentID = parentID;
     }
+
+    public ArrayList<User> getUserOnTask() {
+        return userOnTask;
+    }
+
+    public void setUserOnTask(ArrayList<User> userOnTask) {
+        this.userOnTask = userOnTask;
+    }
+    
+    
     
 }

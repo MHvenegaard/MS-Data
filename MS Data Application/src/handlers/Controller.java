@@ -52,7 +52,15 @@ public class Controller {
         typeList = dbHandler.SPgetTypes();
         statusList = dbHandler.SPgetStatus();
         customerList = dbHandler.SPgetCustomers();
-        tasks = Controller.dbHandler.SPgetTasks();
+        tasks = dbHandler.SPgetTasks();
+        
+        //SKAL FLYTTES TIL DBHANDLER
+        for (int i = 0; i < tasks.size(); i++) {
+             tasks.get(i).setUserOnTask(dbHandler.SPgetUserOnTask(tasks.get(i).getTaskID()));
+            
+           System.out.println("Henter userOnTask ud fra Task, længde : "+tasks.get(i).getUserOnTask().size());
+        }
+              
     }
 
     public static void checkInternet() throws IOException {
@@ -118,7 +126,9 @@ public class Controller {
                 tasks.get(i).getEstimatedtime(),
                 tasks.get(i).getPriority(),
                 tasks.get(i).getDescription()};
-            modelTable.addRow(data);
+            modelTable.addRow(data);       
+            
+           
         }
         return tasks;
     }
@@ -161,6 +171,7 @@ public class Controller {
             JComboBox comboBoxCustomer, JComboBox comboBoxProjectLeader, JDateChooser dateChooserExpectedStart, JDateChooser dateChooserExpectedEnd,
             JTextField textFieldTime, JComboBox comboBoxPriority, JTextArea textAreaDescription) throws ParseException, SQLException, IOException {
 
+        ArrayList<User> userOnTaskList = new ArrayList<>();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         DefaultListModel model = (DefaultListModel) userList.getModel();
         DefaultListModel modelOnTask = (DefaultListModel) userOnTaskLlist.getModel();
@@ -184,8 +195,13 @@ public class Controller {
         model.clear();
         Controller.fillList(userList, Controller.userList);
 
-        ArrayList<User> userOnTaskList = Controller.dbHandler.SPgetUserOnTask(taskID);
-
+        for (int i = 0; i < tasks.size(); i++) {
+            if (tasks.get(i).getTaskID() == taskID) {
+                 userOnTaskList = tasks.get(i).getUserOnTask();
+            }
+ 
+        }
+        
         model = (DefaultListModel) userList.getModel();
         modelOnTask = (DefaultListModel) userOnTaskLlist.getModel();
 
@@ -267,10 +283,17 @@ public class Controller {
             JComboBox comboBoxCustomer, JComboBox comboBoxTaskLeader, JDateChooser dateChooserExpectedStart, JDateChooser dateChooserExpectedEnd,
             JTextField textFieldEstimatedTime, JComboBox comboBoxPriority, JTextArea textAreaDescription) {
         DefaultTableModel modelTable = (DefaultTableModel) tableAllTasks.getModel();
+        DefaultListModel modelOnTask = (DefaultListModel) listUsersOnTask.getModel();
         Type type = new Type(comboBoxType.getSelectedItem().toString());
         Statuss status = new Statuss(comboBoxStatus.getSelectedItem().toString());
         Customer customer = new Customer(comboBoxCustomer.getSelectedItem().toString());
         User user = new User(comboBoxTaskLeader.getSelectedItem().toString());
+        ArrayList<User> userOnTask = new ArrayList<>();
+        
+        for (int i = 0; i < modelOnTask.getSize(); i++) {
+            System.out.println(modelOnTask.getElementAt(i).getClass());
+            userOnTask.add((User) modelOnTask.getElementAt(i));
+        }
 
         Task task = new Task(Integer.parseInt(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 0).toString()),
                 Integer.parseInt(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 1).toString()),
@@ -283,7 +306,9 @@ public class Controller {
                 dateChooserExpectedEnd.getDate(),
                 Integer.parseInt(textFieldEstimatedTime.getText()),
                 Integer.parseInt(comboBoxPriority.getSelectedItem().toString()),
-                textAreaDescription.getText());
+                textAreaDescription.getText(),
+                userOnTask);
+                
         try {
             Controller.dbHandler.SPremoveAllUsersOnTask(task.getTaskID());
             Controller.dbHandler.updateTask(task);

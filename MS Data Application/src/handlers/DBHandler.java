@@ -180,7 +180,7 @@ public class DBHandler {
         int typeID;
         String typeName;
         String typeDescription;
-        
+
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
         ArrayList<Type> typeList = new ArrayList<>();
@@ -193,7 +193,7 @@ public class DBHandler {
             typeID = rs.getInt("ID");
             typeName = rs.getString("Name");
             typeDescription = rs.getString("Description");
-            Type type = new Type(typeID,typeName,typeDescription);
+            Type type = new Type(typeID, typeName, typeDescription);
             typeList.add(type);
 
         }
@@ -252,60 +252,59 @@ public class DBHandler {
         return statusList;
     }
 
-    public Task SPgetTask(int taskID) throws IOException, SQLException {
-
-        int priority;
-        int estimatedtime;
-        int parentID;
-        String status;
-        String type;
-        String description;
-        String taskName;
-        String customer;
-        String user;
-        Date startDate;
-        Date endDate;
-        Task task = null;
-
-        Connection conn = (Connection) initiateSystemDBConn()[0];
-
-        CallableStatement cs;
-        cs = conn.prepareCall("{call getTask(?)}");
-        cs.setInt(1, taskID);
-        ResultSet rs = cs.executeQuery();
-
-        while (rs.next()) {
-
-            parentID = rs.getInt("ParentID");
-            
-            estimatedtime = rs.getInt("EstimatedTime");
-
-            status = rs.getString("Status");
-            Statuss s = new Statuss(status);
-
-            priority = rs.getInt("Priority");
-
-            type = rs.getString("Type");
-            Type t = new Type(type);
-
-            description = rs.getString("Description");
-
-            taskName = rs.getString("TaskName");
-            startDate = rs.getDate("StartDate");
-            endDate = rs.getDate("EndDate");
-
-            customer = rs.getString("Customer");
-            Customer c = new Customer(customer);
-
-            user = rs.getString("User");
-            User u = new User(user);
-
-            task = new Task(taskID,parentID, taskName, t, s, c, u, startDate, endDate, estimatedtime, priority, description);
-
-        }
-        return task;
-    }
-
+//    public Task SPgetTask(int taskID) throws IOException, SQLException {
+//
+//        int priority;
+//        int estimatedtime;
+//        int parentID;
+//        String status;
+//        String type;
+//        String description;
+//        String taskName;
+//        String customer;
+//        String user;
+//        Date startDate;
+//        Date endDate;
+//        Task task = null;
+//
+//        Connection conn = (Connection) initiateSystemDBConn()[0];
+//
+//        CallableStatement cs;
+//        cs = conn.prepareCall("{call getTask(?)}");
+//        cs.setInt(1, taskID);
+//        ResultSet rs = cs.executeQuery();
+//
+//        while (rs.next()) {
+//
+//            parentID = rs.getInt("ParentID");
+//            
+//            estimatedtime = rs.getInt("EstimatedTime");
+//
+//            status = rs.getString("Status");
+//            Statuss s = new Statuss(status);
+//
+//            priority = rs.getInt("Priority");
+//
+//            type = rs.getString("Type");
+//            Type t = new Type(type);
+//
+//            description = rs.getString("Description");
+//
+//            taskName = rs.getString("TaskName");
+//            startDate = rs.getDate("StartDate");
+//            endDate = rs.getDate("EndDate");
+//
+//            customer = rs.getString("Customer");
+//            Customer c = new Customer(customer);
+//
+//            user = rs.getString("User");
+//            User u = new User(user);
+//
+//            task = new Task(taskID,parentID, taskName, t, s, c, u, startDate, endDate, estimatedtime, priority, description);
+//
+//        }
+//        return task;
+//    }
     public ArrayList<Task> SPgetTasks() throws IOException, SQLException {
 
         ArrayList<Task> tasks = new ArrayList<>();
@@ -320,7 +319,8 @@ public class DBHandler {
         Date startDate;
         Date endDate;
         String customer;
-        String user;
+        String taskLeader;
+        ArrayList<User> userOnTask =new ArrayList<>();
 
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
@@ -330,7 +330,7 @@ public class DBHandler {
         while (rs.next()) {
 
             taskID = rs.getInt("TaskID");
-           parentID = rs.getInt("ParentID");
+            parentID = rs.getInt("ParentID");
             estimatedtime = rs.getInt("EstimatedTime");
 
             priority = rs.getInt("Priority");
@@ -350,10 +350,14 @@ public class DBHandler {
             customer = rs.getString("Customer");
             Customer c = new Customer(customer);
 
-            user = rs.getString("User");
-            User u = new User(user);
+            taskLeader = rs.getString("User");
+            User u = new User(taskLeader);
 
-            Task task = new Task(taskID,parentID, taskName, t, s, c, u, startDate, endDate, estimatedtime, priority, description);
+            //VIL IKKE SENDE DEN MED SÅ HENTER UD I CONTROLLER
+            //userOnTask = SPgetUserOnTask(taskID);
+            
+            Task task = new Task(taskID, parentID, taskName, t, s, c, u, startDate, endDate, estimatedtime, priority, description, userOnTask);
+            
             tasks.add(task);
         }
         return tasks;
@@ -595,8 +599,8 @@ public class DBHandler {
         cs.setInt(1, userID);
         cs.execute();
     }
-    
-    public void updateType(int typeID, String name, String description) throws SQLException, IOException{
+
+    public void updateType(int typeID, String name, String description) throws SQLException, IOException {
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
         CallableStatement cs = null;
@@ -606,8 +610,8 @@ public class DBHandler {
         cs.setString(3, description);
         cs.execute();
     }
-    
-    public void createType(String name, String description) throws SQLException, IOException{
+
+    public void createType(String name, String description) throws SQLException, IOException {
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
         CallableStatement cs = null;
@@ -616,8 +620,8 @@ public class DBHandler {
         cs.setString(2, description);
         cs.execute();
     }
-    
-    public void deleteType(int typeID) throws SQLException, IOException{
+
+    public void deleteType(int typeID) throws SQLException, IOException {
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
         CallableStatement cs = null;
@@ -625,8 +629,8 @@ public class DBHandler {
         cs.setInt(1, typeID);
         cs.execute();
     }
-    
-    public void updateStatus(int statusID, String name, String description) throws SQLException, IOException{
+
+    public void updateStatus(int statusID, String name, String description) throws SQLException, IOException {
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
         CallableStatement cs = null;
@@ -636,8 +640,8 @@ public class DBHandler {
         cs.setString(3, description);
         cs.execute();
     }
-    
-    public void createStatus(String name, String description) throws SQLException, IOException{
+
+    public void createStatus(String name, String description) throws SQLException, IOException {
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
         CallableStatement cs = null;
@@ -646,8 +650,8 @@ public class DBHandler {
         cs.setString(2, description);
         cs.execute();
     }
-    
-    public void deleteStatus(int statusID) throws SQLException, IOException{
+
+    public void deleteStatus(int statusID) throws SQLException, IOException {
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
         CallableStatement cs = null;
@@ -655,5 +659,5 @@ public class DBHandler {
         cs.setInt(1, statusID);
         cs.execute();
     }
-    
+
 }
