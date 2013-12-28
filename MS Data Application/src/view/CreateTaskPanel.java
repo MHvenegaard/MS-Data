@@ -7,6 +7,9 @@ package view;
 import handlers.Controller;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 
 /**
@@ -358,22 +361,22 @@ public class CreateTaskPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_buttonAddUserActionPerformed
 
     private void buttonCreateTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCreateTaskActionPerformed
-
-        Controller.createNewTask(tableAllTask, 
-                listUsersOnTask, 
-                buttonCreateTask, 
-                CheckBoxSub, 
-                textFieldTaskName, 
-                comboBoxType, 
-                comboBoxStatus,
-                comboBoxCustomer, 
-                comboBoxUser, 
-                dateChooserExpectedStart, 
-                dateChooserExpectedEnd, 
-                textFieldEstimatedTime, 
-                comboBoxPriority, 
-                textAreaBeskrivelse);
-
+        try {
+            Controller.createNewTask(tableAllTask,
+                    listUsersOnTask,
+                    buttonCreateTask,
+                    CheckBoxSub,
+                    textFieldTaskName,
+                    comboBoxType,
+                    comboBoxStatus,
+                    comboBoxCustomer,
+                    comboBoxUser,
+                    dateChooserExpectedStart,
+                    dateChooserExpectedEnd,
+                    textFieldEstimatedTime,
+                    comboBoxPriority,
+                    textAreaBeskrivelse);
+            
 //        modelTable = (DefaultTableModel) tableAllTask.getModel();
 //        Type type = (Type) comboBoxType.getSelectedItem();
 //        Statuss status = (Statuss) (comboBoxStatus.getSelectedItem());
@@ -431,6 +434,9 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 //
 //            }
 //        }
+        } catch (ParseException ex) {
+            Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }//GEN-LAST:event_buttonCreateTaskActionPerformed
 

@@ -453,7 +453,6 @@ public class DBHandler {
         DefaultListModel modelOnTask = (DefaultListModel) list.getModel();
 
         for (int i = 0; i < modelOnTask.getSize(); i++) {
-            System.out.println(modelOnTask.getElementAt(i).getClass());
             userList.add((User) modelOnTask.getElementAt(i));
         }
         for (int i = 0; i < userList.size(); i++) {
