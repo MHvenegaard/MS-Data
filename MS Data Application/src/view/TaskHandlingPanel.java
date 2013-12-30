@@ -214,7 +214,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
             }
         });
 
-        comboboxSorting.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ID", "TaskName", "Type", "Status", "Kunde", "Bruger" }));
+        comboboxSorting.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ID", "ParentID", "TaskName", "Type", "Status", "Kunde", "Bruger" }));
 
         textAreaDescription.setColumns(20);
         textAreaDescription.setRows(5);

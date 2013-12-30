@@ -543,13 +543,14 @@
     <Component class="javax.swing.JComboBox" name="comboboxSorting">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="6">
+          <StringArray count="7">
             <StringItem index="0" value="ID"/>
-            <StringItem index="1" value="TaskName"/>
-            <StringItem index="2" value="Type"/>
-            <StringItem index="3" value="Status"/>
-            <StringItem index="4" value="Kunde"/>
-            <StringItem index="5" value="Bruger"/>
+            <StringItem index="1" value="ParentID"/>
+            <StringItem index="2" value="TaskName"/>
+            <StringItem index="3" value="Type"/>
+            <StringItem index="4" value="Status"/>
+            <StringItem index="5" value="Kunde"/>
+            <StringItem index="6" value="Bruger"/>
           </StringArray>
         </Property>
       </Properties>
