@@ -11,9 +11,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class Home extends javax.swing.JPanel {
 
-    /**
-     * Creates new form Home
-     */
+    
     public Home() {
         initComponents();
         initiate();
