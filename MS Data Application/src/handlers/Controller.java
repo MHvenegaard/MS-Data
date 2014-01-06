@@ -24,6 +24,7 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import model.*;
 import view.CreateTaskPanel;
 import view.TaskHandlingPanel;
@@ -223,11 +224,10 @@ public class Controller {
         Date ParentStartDate = sdf.parse(modelTable.getValueAt(tableAllTask.getSelectedRow(), 7).toString());
         Date ParentEndDate = sdf.parse(modelTable.getValueAt(tableAllTask.getSelectedRow(), 8).toString());
 
-
         try {
             int estimatedTime = Integer.parseInt(textFieldEstimatedTime.getText());
             int priority = Integer.parseInt(comboBoxPriority.getSelectedItem().toString());
-     
+
             //ArrayList<User> listUsersOnTask = Controller.userList;
             if (taskName.equals("") && dateChooserExpectedStart.getDate().after(dateChooserExpectedEnd.getDate()) == true) {
                 System.out.println("Der er opstået en fejl ! Er alle felter med stjerne udfyldt? Og er den valgte slut dato efter start dato?");
@@ -290,9 +290,9 @@ public class Controller {
         }
     }
 
-    public static void SaveChangesToTask(JTable tableAllTasks, JList listUsers, JList listUsersOnTask, JButton button, JTextField textFieldTaskName, JComboBox comboBoxType, JComboBox comboBoxStatus,
-            JComboBox comboBoxCustomer, JComboBox comboBoxTaskLeader, JDateChooser dateChooserExpectedStart, JDateChooser dateChooserExpectedEnd,
-            JTextField textFieldEstimatedTime, JComboBox comboBoxPriority, JTextArea textAreaDescription) {
+    public static void SaveChangesToTask(JTable tableAllTasks, JList listUsers, JList listUsersOnTask, JButton button, JTextField textFieldTaskName,
+            JComboBox comboBoxType, JComboBox comboBoxStatus, JComboBox comboBoxCustomer, JComboBox comboBoxTaskLeader, JDateChooser dateChooserExpectedStart,
+            JDateChooser dateChooserExpectedEnd, JTextField textFieldEstimatedTime, JComboBox comboBoxPriority, JTextArea textAreaDescription) {
         DefaultTableModel modelTable = (DefaultTableModel) tableAllTasks.getModel();
         DefaultListModel modelOnTask = (DefaultListModel) listUsersOnTask.getModel();
         Type type = new Type(comboBoxType.getSelectedItem().toString());
@@ -372,6 +372,69 @@ public class Controller {
             modelTable.addRow(data);
 
         }
+    }
+
+    public static void removeTableHeaders(JTable table) {
+        TableColumn column = table.getColumnModel().getColumn(0);
+        System.out.println(column.getHeaderValue().toString());
+        table.removeColumn(column);
+
+        column = table.getColumnModel().getColumn(0);
+        System.out.println(column.getHeaderValue().toString());
+        table.removeColumn(column);
+    }
+    
+    public static ArrayList<Task> updateTableWithNewTasks(JTable tableAllTask) throws IOException, SQLException{
+        tasks = dbHandler.SPgetTasks();
+        
+          DefaultTableModel modelTable = (DefaultTableModel) tableAllTask.getModel();
+        modelTable.setRowCount(0);
+
+        for (int i = 0; i < tasks.size(); i++) {
+            Object[] data = {tasks.get(i).getTaskID(),
+                tasks.get(i).getParentID(),
+                tasks.get(i).getTaskName(),
+                tasks.get(i).getType(),
+                tasks.get(i).getStatus(),
+                tasks.get(i).getCustomer(),
+                tasks.get(i).getUser(),
+                tasks.get(i).getStartDate(),
+                tasks.get(i).getEndDate(),
+                tasks.get(i).getEstimatedtime(),
+                tasks.get(i).getPriority(),
+                tasks.get(i).getDescription()};
+            modelTable.addRow(data);
+
+        }
+        return tasks;
+    }
+    
+    public static void clearAll(JTextField taskName, JComboBox type, JComboBox status, JComboBox customer, JComboBox taskManager,
+            JDateChooser expStart, JDateChooser expEnd , JTextField expTimeUsed, JComboBox priority, JList Listuser, JList ListUsersOnTask) {
+        
+         DefaultListModel model = (DefaultListModel) Listuser.getModel();
+        DefaultListModel modelOnTask = (DefaultListModel) ListUsersOnTask.getModel();
+        
+        taskName.setText("");
+        type.setSelectedIndex(0);
+        status.setSelectedIndex(0);
+        customer.setSelectedIndex(0);
+        taskManager.setSelectedIndex(0);
+        expStart.setDate(Controller.getCurrentDate());
+        expEnd.setDate(Controller.getCurrentDate());
+        expTimeUsed.setText("");
+        priority.setSelectedIndex(0);
+        
+        model.clear();
+        modelOnTask.clear();
+        try {
+            Controller.fillList(Listuser, Controller.userList);
+        } catch (SQLException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     public void setUser(User user) {
