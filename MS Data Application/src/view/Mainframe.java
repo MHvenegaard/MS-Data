@@ -31,6 +31,7 @@ public class Mainframe extends javax.swing.JFrame {
         
         setTitle();
         
+        tabPane.add("Hovedside", new Home());
         tabPane.add("Kundehåndtering", new CustomerHandlingPanel());
         tabPane.add("Opgaveoprettelse", new CreateTaskPanel());
         tabPane.add("Opgavehåndtering", new TaskHandlingPanel());
@@ -54,6 +55,9 @@ public class Mainframe extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(1280, 768));
+        setMinimumSize(new java.awt.Dimension(1280, 768));
+        setName("MS Teknik"); // NOI18N
 
         jMenu1.setText("File");
         topMenu.add(jMenu1);

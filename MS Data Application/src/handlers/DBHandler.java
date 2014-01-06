@@ -1,6 +1,10 @@
 package handlers;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Properties;
@@ -72,7 +76,7 @@ public class DBHandler {
      * Object[0] is the Connection object
      * Object[1] is the Statement object
      */
-    public Object[] initiateEmployeeDBConn() throws SQLException, IOException {
+    public static Object[] initiateEmployeeDBConn() throws SQLException, IOException {
         Properties prop = new Properties();
 
         //load a properties file
@@ -101,7 +105,7 @@ public class DBHandler {
      * Object[0] is the Connection object
      * Object[1] is the Statement object
      */
-    public Object[] initiateSystemDBConn() throws SQLException, IOException {
+    public static Object[] initiateSystemDBConn() throws SQLException, IOException {
         Properties prop = new Properties();
 
         //load a properties file
@@ -123,6 +127,83 @@ public class DBHandler {
         objects[1] = stmt;
 
         return objects;
+    }
+
+    public static Object[] initiateFileDBConn() throws IOException, SQLException {
+        Properties prop = new Properties();
+
+        //load a properties file
+        prop.load(DBHandler.class.getResourceAsStream("/ressources/config.properties"));
+
+        //get the property value and print it out
+        String database = prop.getProperty("file_db_databasename");
+        String dbuser = prop.getProperty("file_db_username");
+        String dbpassword = prop.getProperty("file_db_password");
+        String ip = prop.getProperty("file_db_ip");
+        String port = prop.getProperty("file_db_port");
+        String connectString = "jdbc:mysql://" + ip + ":" + port + "/" + database;
+
+        Connection conn = DriverManager.getConnection(connectString, dbuser, dbpassword);
+        Statement stmt = conn.createStatement();
+
+        Object[] returnObjects = new Object[2];
+        returnObjects[0] = conn;
+        returnObjects[1] = stmt;
+
+        return returnObjects;
+    }
+
+    public void saveFile(String name, InputStream inputStream, int taskID) throws IOException, SQLException {
+
+        Connection conn = (Connection) initiateFileDBConn()[0];
+
+        String sql = "INSERT INTO File (Name, File, TaskID) values (?, ?, ?)";
+        PreparedStatement statement = conn.prepareStatement(sql);
+        statement.setString(1, name);
+        statement.setBlob(2, inputStream);
+        statement.setInt(3, taskID);
+
+        int row = statement.executeUpdate();
+        if (row > 0) {
+            System.out.println("A contact was inserted with photo image.");
+        }
+    }
+
+    public String getFile(int taskID) throws IOException, SQLException {
+
+        Statement stmt = (Statement) initiateFileDBConn()[1];
+        ResultSet rs = stmt.executeQuery("SELECT fileName, extension, file FROM Files");
+
+        File file = null;
+
+        if (rs.next()) {
+
+
+            String filename = rs.getString(1);
+            String extension = rs.getString(2);
+            Blob blob = rs.getBlob(3);
+            InputStream is = blob.getBinaryStream();
+            // Find the temporary folder
+            String tmpfolder = System.getProperty("java.io.tmpdir");
+
+            file = File.createTempFile(filename, extension, new File(tmpfolder));
+            FileOutputStream fos = new FileOutputStream(file);
+
+            int b = 0;
+            while ((b = is.read()) != -1) {
+                fos.write(b);
+            }
+
+
+
+        }
+        String result;
+        if (file != null) {
+            result = file.getCanonicalPath();
+        } else {
+            result = "";
+        }
+        return result;
     }
 
     /*
@@ -200,7 +281,7 @@ public class DBHandler {
         return typeList;
     }
 
-    public ArrayList<User> SPgetUsers() throws SQLException, IOException {
+    public static ArrayList<User> SPgetUsers() throws SQLException, IOException {
         int userID;
         String userName = null;
         String password = null;
@@ -320,7 +401,7 @@ public class DBHandler {
         Date endDate;
         String customer;
         String taskLeader;
-        ArrayList<User> userOnTask =new ArrayList<>();
+        ArrayList<User> userOnTask = new ArrayList<>();
 
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
@@ -355,9 +436,9 @@ public class DBHandler {
 
             //VIL IKKE SENDE DEN MED SÅ HENTER UD I CONTROLLER
             //userOnTask = SPgetUserOnTask(taskID);
-            
+
             Task task = new Task(taskID, parentID, taskName, t, s, c, u, startDate, endDate, estimatedtime, priority, description, userOnTask);
-            
+
             tasks.add(task);
         }
         return tasks;
@@ -658,5 +739,4 @@ public class DBHandler {
         cs.setInt(1, statusID);
         cs.execute();
     }
-
 }

@@ -6,6 +6,7 @@ package handlers;
 
 import com.toedter.calendar.JDateChooser;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.Socket;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -14,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -289,6 +292,12 @@ public class Controller {
             System.out.println("Forventet tidsforbrug skal være et tal");
         }
     }
+    
+    public static void setCurrentUserIDToTextField(JTextField textFieldUser){
+        textFieldUser.setText(currentUser.getUserID() + "");
+    }
+    
+    
 
     public static void SaveChangesToTask(JTable tableAllTasks, JList listUsers, JList listUsersOnTask, JButton button, JTextField textFieldTaskName,
             JComboBox comboBoxType, JComboBox comboBoxStatus, JComboBox comboBoxCustomer, JComboBox comboBoxTaskLeader, JDateChooser dateChooserExpectedStart,
@@ -360,6 +369,33 @@ public class Controller {
 
         }
     }
+    
+    public static void fillComboBoxWithStatus(JComboBox cb){
+        DefaultComboBoxModel dcbm = new DefaultComboBoxModel();
+        for (int i = 0; i < statusList.size(); i++) {
+            dcbm.addElement(statusList.get(i));
+        }
+        cb.setModel(dcbm);
+    }
+        
+    public static void fillComboBoxWithCustomers(JComboBox cb){
+        DefaultComboBoxModel dcbm = new DefaultComboBoxModel();
+        for (int i = 0; i < customerList.size(); i++) {
+            dcbm.addElement(customerList.get(i));
+        }
+        cb.setModel(dcbm);
+        
+    }
+    
+    
+    
+    public static void fillComboBoxWithType(JComboBox cb){
+        DefaultComboBoxModel dcbm = new DefaultComboBoxModel();
+        for (int i = 0; i < typeList.size(); i++) {
+            dcbm.addElement(typeList.get(i));
+        }
+        cb.setModel(dcbm);
+    }
 
     public static void fillTableWithStatus(JTable table) {
         DefaultTableModel modelTable = (DefaultTableModel) table.getModel();
@@ -372,6 +408,27 @@ public class Controller {
             modelTable.addRow(data);
 
         }
+    }
+    
+    public static void fillComboBoxModelWithAllUsers(JComboBox cb){
+        
+        int currentUserIndex = 0;
+        
+        DefaultComboBoxModel dcbm = new DefaultComboBoxModel();
+        for (int i = 0; i < userList.size(); i++) {
+            dcbm.addElement(userList.get(i).getUserName());
+            if(userList.get(i).getUserID() == currentUser.getUserID()){
+                currentUserIndex = i;
+            }
+        }
+        cb.setModel(dcbm);
+        cb.setSelectedIndex(currentUserIndex);
+    }
+    
+    
+    
+    public void saveFile(String name, InputStream inputStream, int taskID) throws IOException, SQLException {
+        dbHandler.saveFile(name, inputStream, taskID);
     }
 
     public static void removeTableHeaders(JTable table) {

@@ -54,6 +54,16 @@ public class TableHandler {
         rf = RowFilter.regexFilter(field.getText(), selectedIndex);
         sorter.setRowFilter(rf);
     }
+    
+    public void applyRowFilter(JTable table, String str, int selectedIndex) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+
+        TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);
+        table.setRowSorter(sorter);
+        RowFilter<TableModel, Object> rf = null;
+        rf = RowFilter.regexFilter(str, selectedIndex);
+        sorter.setRowFilter(rf);
+    }
 
     public JTable getTable() {
         return table;
