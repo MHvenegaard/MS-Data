@@ -136,7 +136,8 @@ public class Controller {
     }
     
         public static void fillTableWithList(JTable tableAllTask, ArrayList<Task> fillList) throws IOException, SQLException {
-        DefaultTableModel modelTable = (DefaultTableModel) tableAllTask.getModel();
+        
+            DefaultTableModel modelTable = (DefaultTableModel) tableAllTask.getModel();
         modelTable.setRowCount(0);
 
         for (int i = 0; i < fillList.size(); i++) {
@@ -544,7 +545,7 @@ public class Controller {
     }
 
     public static int getSelectedTaskId(JTable mainTaskTable) {
-        
+        children.clear();
         DefaultTableModel modelTable = (DefaultTableModel) mainTaskTable.getModel();
         int taskID = Integer.parseInt(modelTable.getValueAt(mainTaskTable.getSelectedRow(), 0).toString());
         System.out.println("TaskID = " +taskID);

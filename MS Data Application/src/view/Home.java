@@ -351,7 +351,9 @@ public class Home extends javax.swing.JPanel {
 
     private void tableAllTasksMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableAllTasksMouseReleased
         try {
+            
             Controller.fillTableWithList(tableAllSubTasks, Controller.getAllChildrenById(Controller.getSelectedTaskId(tableAllTasks)));
+            
         } catch (IOException ex) {
             Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
