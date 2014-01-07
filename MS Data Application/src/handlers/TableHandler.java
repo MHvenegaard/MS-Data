@@ -5,6 +5,7 @@
  */
 package handlers;
 
+import java.util.ArrayList;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -50,9 +51,23 @@ public class TableHandler {
 
         TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);
         table.setRowSorter(sorter);
-        RowFilter<TableModel, Object> rf = null;
-        rf = RowFilter.regexFilter(field.getText(), selectedIndex);
-        sorter.setRowFilter(rf);
+//        RowFilter<TableModel, Object> rf = null;
+//        rf = RowFilter.regexFilter(field.getText(), selectedIndex);
+//        sorter.setRowFilter(rf);
+        
+        
+        //TEST
+        
+         ArrayList<RowFilter<Object, Object>> andFilters = new ArrayList<RowFilter<Object, Object>>();
+        
+        andFilters.add(RowFilter.regexFilter(field.getText(), selectedIndex));
+        andFilters.add(RowFilter.notFilter(RowFilter.regexFilter("Afsluttet", 4)));
+        
+        
+        sorter.setRowFilter(RowFilter.andFilter(andFilters));
+        
+        
+        
     }
     
     public void applyRowFilter(JTable table, String str, int selectedIndex) {
@@ -63,6 +78,24 @@ public class TableHandler {
         RowFilter<TableModel, Object> rf = null;
         rf = RowFilter.regexFilter(str, selectedIndex);
         sorter.setRowFilter(rf);
+    }
+    
+    public void removeFinshedTaskFilter(JTable table){
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+
+        TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);
+        table.setRowSorter(sorter);
+        
+        ArrayList<RowFilter<Object, Object>> andFilters = new ArrayList<RowFilter<Object, Object>>();
+        
+        andFilters.add(RowFilter.regexFilter("Afsluttet", 4));
+        andFilters.add(RowFilter.notFilter(RowFilter.regexFilter("Afsluttet", 4)));
+        
+        
+        sorter.setRowFilter(RowFilter.andFilter(andFilters));
+        //RowFilter.regexFilter("Afsluttet", 4)
+        //notFilter(RowFilter.regexFilter("Afsluttet", 4))    
+        
     }
 
     public JTable getTable() {
