@@ -547,8 +547,8 @@ public class Controller {
     public static int getSelectedTaskId(JTable mainTaskTable) {
         children.clear();
         DefaultTableModel modelTable = (DefaultTableModel) mainTaskTable.getModel();
-        int taskID = Integer.parseInt(modelTable.getValueAt(mainTaskTable.getSelectedRow(), 0).toString());
-        System.out.println("TaskID = " +taskID);
+        System.out.println("Selected row: " +mainTaskTable.getSelectedRow());
+        int taskID = Integer.parseInt(modelTable.getValueAt(mainTaskTable.convertRowIndexToModel(mainTaskTable.getSelectedRow()), 0).toString());
         return taskID;
     }
 }

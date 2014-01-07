@@ -43,15 +43,12 @@ public class Home extends javax.swing.JPanel {
         jLabel9 = new javax.swing.JLabel();
         labelTaskID = new javax.swing.JLabel();
         comboboxSortTaskAfterUser = new javax.swing.JComboBox();
-        comboboxSortSubtaskAfterUser = new javax.swing.JComboBox();
         jLabel10 = new javax.swing.JLabel();
         textFieldUser = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         labelSubtaskID = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
         comboBoxType = new javax.swing.JComboBox();
         jScrollPane5 = new javax.swing.JScrollPane();
@@ -99,16 +96,12 @@ public class Home extends javax.swing.JPanel {
 
         jLabel1.setText("Sorter efter bruger:");
 
-        jLabel2.setText("Sorter efter bruger:");
-
         jButton2.setText("Sorter");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
-
-        jButton3.setText("Sorter");
 
         jLabel12.setText("Type:");
 
@@ -157,11 +150,11 @@ public class Home extends javax.swing.JPanel {
         });
         tableAllTasks.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tableAllTasks.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                tableAllTasksMouseReleased(evt);
-            }
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tableAllTasksMouseClicked(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tableAllTasksMouseReleased(evt);
             }
         });
         jScrollPane6.setViewportView(tableAllTasks);
@@ -187,12 +180,7 @@ public class Home extends javax.swing.JPanel {
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                         .addComponent(jLabel5)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(comboboxSortSubtaskAfterUser, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(33, 33, 33)
-                                        .addComponent(jButton3))
-                                    .addComponent(jLabel2)))
+                                .addGap(125, 125, 125))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
@@ -267,14 +255,7 @@ public class Home extends javax.swing.JPanel {
                         .addComponent(jLabel5))
                     .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(9, 9, 9)
-                        .addComponent(comboboxSortSubtaskAfterUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton3))
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(9, 9, 9)
                 .addComponent(jLabel14)
                 .addGap(18, 18, 18)
@@ -351,7 +332,7 @@ public class Home extends javax.swing.JPanel {
 
     private void tableAllTasksMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableAllTasksMouseReleased
         try {
-            
+            System.out.println("test " + Controller.getSelectedTaskId(tableAllTasks));
             Controller.fillTableWithList(tableAllSubTasks, Controller.getAllChildrenById(Controller.getSelectedTaskId(tableAllTasks)));
             
         } catch (IOException ex) {
@@ -391,17 +372,14 @@ public class Home extends javax.swing.JPanel {
     private javax.swing.JComboBox comboBoxCustomer;
     private javax.swing.JComboBox comboBoxStatus;
     private javax.swing.JComboBox comboBoxType;
-    private javax.swing.JComboBox comboboxSortSubtaskAfterUser;
     private javax.swing.JComboBox comboboxSortTaskAfterUser;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
