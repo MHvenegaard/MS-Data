@@ -224,18 +224,20 @@ public class Controller {
         String taskDescription = textAreaDescription.getText();
         int taskID;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date ParentStartDate = sdf.parse(modelTable.getValueAt(tableAllTask.getSelectedRow(), 7).toString());
-        Date ParentEndDate = sdf.parse(modelTable.getValueAt(tableAllTask.getSelectedRow(), 8).toString());
+
+        
 
         try {
             int estimatedTime = Integer.parseInt(textFieldEstimatedTime.getText());
             int priority = Integer.parseInt(comboBoxPriority.getSelectedItem().toString());
 
             //ArrayList<User> listUsersOnTask = Controller.userList;
-            if (taskName.equals("") && dateChooserExpectedStart.getDate().after(dateChooserExpectedEnd.getDate()) == true) {
+            if (taskName.equals("") == true) {
                 System.out.println("Der er opstået en fejl ! Er alle felter med stjerne udfyldt? Og er den valgte slut dato efter start dato?");
             } else if (checkBoxSub.isSelected()) {
-
+                Date ParentStartDate = sdf.parse(modelTable.getValueAt(tableAllTask.getSelectedRow(), 7).toString());
+                Date ParentEndDate = sdf.parse(modelTable.getValueAt(tableAllTask.getSelectedRow(), 8).toString());
+              
                 if (tableAllTask.getSelectedRow() != -1
                         && dateChooserExpectedStart.getDate().after(ParentStartDate) == true
                         && dateChooserExpectedEnd.getDate().before(ParentEndDate) == true
