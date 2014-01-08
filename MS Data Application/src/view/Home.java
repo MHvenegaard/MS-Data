@@ -1,6 +1,8 @@
 package view;
 
 import handlers.Controller;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -15,7 +17,7 @@ public class Home extends javax.swing.JPanel {
     public Home() {
         initComponents();
         initiate();
-        Controller.tHandler.removeFinshedTaskFilter(tableAllTasks);
+        
     }
 
     /**
@@ -86,6 +88,12 @@ public class Home extends javax.swing.JPanel {
         jLabel9.setText("Tilknyt kommentar:");
 
         labelTaskID.setText("             ");
+
+        comboboxSortTaskAfterUser.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                comboboxSortTaskAfterUserItemStateChanged(evt);
+            }
+        });
 
         jLabel10.setText("Bruger:");
 
@@ -178,9 +186,7 @@ public class Home extends javax.swing.JPanel {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 1123, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(26, 26, 26))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addComponent(jLabel5)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING))
                                 .addGap(125, 125, 125))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -227,9 +233,8 @@ public class Home extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(8, 8, 8)
                                 .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 1123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1)
                                     .addComponent(comboboxSortTaskAfterUser, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -245,16 +250,16 @@ public class Home extends javax.swing.JPanel {
                 .addGap(12, 12, 12)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(comboboxSortTaskAfterUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(27, 27, 27)
-                        .addComponent(jButton2)
-                        .addGap(165, 165, 165)
-                        .addComponent(jLabel5))
+                        .addComponent(jButton2))
                     .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(9, 9, 9)
@@ -351,6 +356,10 @@ public class Home extends javax.swing.JPanel {
         Controller.tHandler.applyRowFilter(tableAllTasks, comboboxSortTaskAfterUser.getSelectedItem().toString(), 6);
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void comboboxSortTaskAfterUserItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboboxSortTaskAfterUserItemStateChanged
+        Controller.tHandler.applyRowFilter(tableAllTasks, comboboxSortTaskAfterUser.getSelectedItem().toString(), 6);
+    }//GEN-LAST:event_comboboxSortTaskAfterUserItemStateChanged
+
     private void initiate(){
         try {
             Controller.fillComboBoxModelWithAllUsers(comboboxSortTaskAfterUser);
@@ -358,6 +367,7 @@ public class Home extends javax.swing.JPanel {
             Controller.fillComboBoxWithType(comboBoxType);
             Controller.fillComboBoxWithStatus(comboBoxStatus);
             Controller.fillComboBoxWithCustomers(comboBoxCustomer);
+            Controller.tHandler.removeFinshedTaskFilter(tableAllTasks);
             Controller.fillTableWithTask(tableAllTasks);
         } catch (IOException ex) {
             Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
@@ -366,6 +376,8 @@ public class Home extends javax.swing.JPanel {
         }
         
     }
+    
+   
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
