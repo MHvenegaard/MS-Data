@@ -5,6 +5,8 @@
 package view;
 
 import handlers.Controller;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -43,9 +45,10 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         Controller.fillCombobox(comboBoxCustomer, Controller.customerList);
         Controller.fillTableWithTask(tableAllTasks);
         Controller.removeTableHeaders(tableAllTasks);
+        Controller.tHandler.removeFinshedTaskFilter(tableAllTasks);
 
        
-        
+        addActionListerner();
     }
 
     /**
@@ -202,6 +205,12 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         buttonFilter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonFilterActionPerformed(evt);
+            }
+        });
+
+        textFieldSorting.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                textFieldSortingKeyReleased(evt);
             }
         });
 
@@ -468,6 +477,20 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void textFieldSortingKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldSortingKeyReleased
+       
+    }//GEN-LAST:event_textFieldSortingKeyReleased
+
+    private void addActionListerner(){
+        textFieldSorting.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Controller.tHandler.applyRowFilter(tableAllTasks, textFieldSorting, comboboxSorting.getSelectedIndex());
+            }
+        });
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonAddUser;
     private javax.swing.JButton buttonEditTask;

@@ -35,6 +35,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
         Controller.fillCombobox(comboBoxCustomer, Controller.customerList);
         Controller.fillTableWithTask(tableAllTask);
         Controller.removeTableHeaders(tableAllTask);
+        Controller.tHandler.removeFinshedTaskFilter(tableAllTask);
   
         dateChooserExpectedStart.setDate(Controller.getCurrentDate());
         dateChooserExpectedEnd.setDate(Controller.getCurrentDate());
