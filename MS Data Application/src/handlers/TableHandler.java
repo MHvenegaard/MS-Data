@@ -75,9 +75,17 @@ public class TableHandler {
 
         TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);
         table.setRowSorter(sorter);
-        RowFilter<TableModel, Object> rf = null;
-        rf = RowFilter.regexFilter(str, selectedIndex);
-        sorter.setRowFilter(rf);
+//        RowFilter<TableModel, Object> rf = null;
+//        rf = RowFilter.regexFilter(str, selectedIndex);
+//        sorter.setRowFilter(rf);
+        
+           ArrayList<RowFilter<Object, Object>> andFilters = new ArrayList<RowFilter<Object, Object>>();
+        
+        andFilters.add(RowFilter.regexFilter(str, selectedIndex));
+        andFilters.add(RowFilter.notFilter(RowFilter.regexFilter("Afsluttet", 4)));
+        
+        
+        sorter.setRowFilter(RowFilter.andFilter(andFilters));
     }
     
     public void removeFinshedTaskFilter(JTable table){
@@ -88,7 +96,7 @@ public class TableHandler {
         
         ArrayList<RowFilter<Object, Object>> andFilters = new ArrayList<RowFilter<Object, Object>>();
         
-        andFilters.add(RowFilter.regexFilter("Afsluttet", 4));
+        //andFilters.add(RowFilter.regexFilter("Afsluttet", 4));
         andFilters.add(RowFilter.notFilter(RowFilter.regexFilter("Afsluttet", 4)));
         
         

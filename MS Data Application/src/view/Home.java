@@ -15,6 +15,7 @@ public class Home extends javax.swing.JPanel {
     public Home() {
         initComponents();
         initiate();
+        Controller.tHandler.removeFinshedTaskFilter(tableAllTasks);
     }
 
     /**
