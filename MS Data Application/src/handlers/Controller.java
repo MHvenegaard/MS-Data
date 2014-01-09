@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package handlers;
 
 import com.toedter.calendar.JDateChooser;
@@ -32,7 +28,6 @@ import view.CreateTaskPanel;
 import view.TaskHandlingPanel;
 
 /**
- *
  * @author Marc
  */
 public class Controller {
@@ -71,7 +66,7 @@ public class Controller {
 
         Socket socket = null;
 
-        socket = new Socket("173.194.70.94", 80);
+        socket = new Socket("8.8.8.8", 80);
 
         if (socket != null) {
             socket.close();
