@@ -28,8 +28,7 @@ public class CustomerLookUp extends javax.swing.JPanel {
     public CustomerLookUp(int customer) {
         
         initComponents();
-        customer = 1;
-        try {
+                try {
             Controller.removeTableHeadersCustomer(jTable1);
             Controller.fillTableWithCustomer(jTable1);
             
