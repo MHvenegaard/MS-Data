@@ -127,7 +127,12 @@ public class Mainframe extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new Mainframe(new Controller(new User(1337, "DummyUser", "Dummy", "User", "admin", 0))).setVisible(true);
+                    
+                    Controller ctrl = new Controller();
+                    User us = new User(1337, "DummyUser", "Dummy", "User", "admin", 0);
+                    ctrl.setUser(us);
+                    new Mainframe(ctrl).setVisible(true);
+                    
                 } catch (ClassNotFoundException ex) {
                     Logger.getLogger(Mainframe.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (SQLException ex) {

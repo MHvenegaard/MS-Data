@@ -740,4 +740,127 @@ public class DBHandler {
         cs.setInt(1, statusID);
         cs.execute();
     }
+    
+     public ArrayList<User> initiateUserList(Connection conn) throws SQLException{
+       int userID;
+        String userName = null;
+        String password = null;
+        String firstName = null;
+        String lastName = null;
+        int accessLevel;
+
+        ArrayList<User> userList = new ArrayList<>();
+
+        CallableStatement cs = null;
+        cs = conn.prepareCall("{call getUsers}");
+        ResultSet rs = cs.executeQuery();
+
+        while (rs.next()) {
+            userID = rs.getInt("idUser");
+            userName = rs.getString("shortName");
+            firstName = rs.getString("userFirstName");
+            lastName = rs.getString("userLastName");
+            password = rs.getString("password");
+            accessLevel = rs.getInt("accessLevel");
+            User user = new User(userID, userName, firstName, lastName, password, accessLevel);
+            userList.add(user);
+        }
+        return userList;
+     }
+     
+     public ArrayList<Type> initiateTypeList(Connection conn) throws SQLException{
+         int typeID;
+        String typeName;
+        String typeDescription;
+
+        ArrayList<Type> typeList = new ArrayList<>();
+
+        CallableStatement cs = null;
+        cs = conn.prepareCall("{call getTypes}");
+        ResultSet rs = cs.executeQuery();
+
+        while (rs.next()) {
+            typeID = rs.getInt("ID");
+            typeName = rs.getString("Name");
+            typeDescription = rs.getString("Description");
+            Type type = new Type(typeID, typeName, typeDescription);
+            typeList.add(type);
+
+        }
+        return typeList;
+     }
+     
+     public ArrayList<Statuss> initiateStatusList(Connection conn) throws SQLException{
+         String statusName;
+        int statusID;
+        String description;
+        ArrayList<Statuss> statusList = new ArrayList<>();
+
+        CallableStatement cs = null;
+        cs = conn.prepareCall("{call getStatus}");
+        ResultSet rs = cs.executeQuery();
+
+        while (rs.next()) {
+            statusName = rs.getString("statusName");
+            statusID = rs.getInt("idStatus");
+            description = rs.getString("description");
+            Statuss status = new Statuss(statusID, statusName, description);
+            statusList.add(status);
+
+        }
+        return statusList;
+     }
+     
+     public ArrayList<Task> initiateTaskList(Connection conn) throws SQLException{
+         
+        ArrayList<Task> tasks = new ArrayList<>();
+        int taskID;
+        int parentID;
+        int estimatedtime;
+        int priority;
+        String status;
+        String type;
+        String description;
+        String taskName;
+        Date startDate;
+        Date endDate;
+        String customer;
+        String taskLeader;
+        ArrayList<User> userOnTask = new ArrayList<>();
+
+        CallableStatement cs = conn.prepareCall("{call getAllTasks}");
+        ResultSet rs = cs.executeQuery();
+
+        while (rs.next()) {
+
+            taskID = rs.getInt("TaskID");
+            parentID = rs.getInt("ParentID");
+            estimatedtime = rs.getInt("EstimatedTime");
+
+            priority = rs.getInt("Priority");
+
+            type = rs.getString("Type");
+            Type t = new Type(type);
+
+            status = rs.getString("Status");
+            Statuss s = new Statuss(status);
+
+            description = rs.getString("Description");
+
+            taskName = rs.getString("TaskName");
+            startDate = rs.getDate("StartDate");
+            endDate = rs.getDate("EndDate");
+
+            customer = rs.getString("Customer");
+            Customer c = new Customer(customer);
+
+            taskLeader = rs.getString("User");
+            User u = new User(taskLeader);
+            Task task = new Task(taskID, parentID, taskName, t, s, c, u, startDate, endDate, estimatedtime, priority, description, userOnTask);
+
+            tasks.add(task);
+        }
+        return tasks;
+         
+     }
 }

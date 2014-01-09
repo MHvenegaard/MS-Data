@@ -1,5 +1,6 @@
 package handlers;
 
+import com.mysql.jdbc.Connection;
 import com.toedter.calendar.JDateChooser;
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,39 +40,41 @@ public class Controller {
     public static ArrayList<User> userList;
     public static ArrayList<Type> typeList;
     public static ArrayList<Statuss> statusList;
-    public static ArrayList<Customer> customerList;
     public static ArrayList<Task> tasks;
     public static ArrayList<Task> children;
     public static int customerID;
 
-    public Controller(User user) throws ClassNotFoundException, SQLException, IOException {
-        currentUser = user;
+    public Controller() throws ClassNotFoundException, SQLException, IOException {
+        currentUser = null;
         dbHandler = new DBHandler();
         tHandler = new TableHandler();
         userList = dbHandler.SPgetUsers();
         typeList = dbHandler.SPgetTypes();
         statusList = dbHandler.SPgetStatus();
-        customerList = dbHandler.SPgetCustomers();
         tasks = dbHandler.SPgetTasks();
-        children = new ArrayList<>();
+        
+        initiateController();
+        
+    }
+    
 
+    private void initiateController() throws SQLException, IOException{
+        Connection conn = (Connection) dbHandler.initiateSystemDBConn()[0];
+        userList = dbHandler.initiateUserList(conn);
+        typeList = dbHandler.initiateTypeList(conn);
+        statusList = dbHandler.initiateStatusList(conn);
+        tasks = dbHandler.initiateTaskList(conn);
+        children = new ArrayList<>();
+        
         //SKAL FLYTTES TIL DBHANDLER
         for (int i = 0; i < tasks.size(); i++) {
             tasks.get(i).setUserOnTask(dbHandler.SPgetUserOnTask(tasks.get(i).getTaskID()));
         }
-
+        
     }
-
-    public static void checkInternet() throws IOException {
-
-        Socket socket = null;
-
-        socket = new Socket("8.8.8.8", 80);
-
-        if (socket != null) {
-            socket.close();
-        }
-    }
+    
+  
+ 
 
     public static void fillCombobox(JComboBox combobox, ArrayList arrayList) throws SQLException, IOException {
 
@@ -154,16 +157,16 @@ public class Controller {
     }
         
      public static void fillTableWithCustomer(JTable tableAllTask) throws IOException, SQLException {       
-        DefaultTableModel modelTable = (DefaultTableModel) tableAllTask.getModel();
-        modelTable.setRowCount(0);
-
-        for (int i = 0; i < customerList.size(); i++) {
-            Object[] data = {customerList.get(i).getIdCustomer(),
-                customerList.get(i).getCompanyName(),
-                customerList.get(i).getPhone(),
-            customerList.get(i).getPhone()};                            
-            modelTable.addRow(data);
-        }
+//        DefaultTableModel modelTable = (DefaultTableModel) tableAllTask.getModel();
+//        modelTable.setRowCount(0);
+//
+//        for (int i = 0; i < customerList.size(); i++) {
+//            Object[] data = {customerList.get(i).getIdCustomer(),
+//                customerList.get(i).getCompanyName(),
+//                customerList.get(i).getPhone(),
+//            customerList.get(i).getPhone()};                            
+//            modelTable.addRow(data);
+//        }
     }    
 
     public static void addUserToOnTaskList(JList listUsers, JList listUsersOnTask, JButton button) {
@@ -412,11 +415,11 @@ public class Controller {
     }
 
     public static void fillComboBoxWithCustomers(JComboBox cb) {
-        DefaultComboBoxModel dcbm = new DefaultComboBoxModel();
-        for (int i = 0; i < customerList.size(); i++) {
-            dcbm.addElement(customerList.get(i));
-        }
-        cb.setModel(dcbm);
+//        DefaultComboBoxModel dcbm = new DefaultComboBoxModel();
+//        for (int i = 0; i < customerList.size(); i++) {
+//            dcbm.addElement(customerList.get(i));
+//        }
+//        cb.setModel(dcbm);
 
     }
 

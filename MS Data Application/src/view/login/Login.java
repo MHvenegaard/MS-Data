@@ -18,11 +18,31 @@ import view.Mainframe;
 public class Login extends javax.swing.JFrame {
 
     private int loginStatus;
+    private Controller control;
 
     public Login() {
 
+        
         loginStatus = 0;
         initComponents();
+        try {
+            System.out.println(System.currentTimeMillis());
+            System.out.println("1");
+            control = new Controller();
+            System.out.println("2");
+            System.out.println(System.currentTimeMillis());
+        } catch (ClassNotFoundException ex) {
+            // Database driver could not be loaded
+            setWarningMessage("Database driverne kunne ikke lokaliseres");
+            
+        } catch (SQLException ex) {
+            // Connection to SystemDB could not be established
+            setWarningMessage("Der kunne ikke oprettes forbindelse til systemdatabasen");
+            
+        } catch (IOException ex) {
+            // Connection to SystemDB could not be established
+            setWarningMessage("Der kunne ikke oprettes forbindelse til systemdatabasen");
+        }
 
     }
 
@@ -53,7 +73,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        progressBar.setMaximum(3);
+        progressBar.setMaximum(5);
 
         buttonLogin.setText("Login");
         buttonLogin.addActionListener(new java.awt.event.ActionListener() {
@@ -294,7 +314,7 @@ public class Login extends javax.swing.JFrame {
 
         setMessage("Initialiserer system.. Vent venligst");
         Mainframe mf = null;
-        Controller control = new Controller(user);
+        control.setUser(user);
         mf = new Mainframe(control);
         mf.setLocationRelativeTo(null);
         Image image = ImageIO.read(getClass().getResource("/ressources/ms-teknik-logo.jpg"));
