@@ -69,14 +69,16 @@ public class Controller {
         tasks = dbHandler.initiateTaskList(conn);
         children = new ArrayList<>();
         
-        //SKAL FLYTTES TIL DBHANDLER
-        for (int i = 0; i < tasks.size(); i++) {
-            tasks.get(i).setUserOnTask(dbHandler.SPgetUserOnTask(tasks.get(i).getTaskID()));
-        }
+        
         
     }
     
-  
+    public void setUsersOnTask() throws SQLException, IOException{
+    //SKAL FLYTTES TIL DBHANDLER
+        for (int i = 0; i < tasks.size(); i++) {
+            tasks.get(i).setUserOnTask(dbHandler.SPgetUserOnTask(tasks.get(i).getTaskID()));
+        }
+    }
  
 
     public static void fillCombobox(JComboBox combobox, ArrayList arrayList) throws SQLException, IOException {

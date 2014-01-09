@@ -19,26 +19,33 @@ public class Login extends javax.swing.JFrame {
 
     private int loginStatus;
     private Controller control;
+    private boolean t1Done;
+    private boolean t2Done;
 
     public Login() {
 
-        
+
         loginStatus = 0;
+        t1Done = false;
+        t2Done = false;
         initComponents();
         try {
             System.out.println(System.currentTimeMillis());
             System.out.println("1");
             control = new Controller();
+
+
+
             System.out.println("2");
             System.out.println(System.currentTimeMillis());
         } catch (ClassNotFoundException ex) {
             // Database driver could not be loaded
             setWarningMessage("Database driverne kunne ikke lokaliseres");
-            
+
         } catch (SQLException ex) {
             // Connection to SystemDB could not be established
             setWarningMessage("Der kunne ikke oprettes forbindelse til systemdatabasen");
-            
+
         } catch (IOException ex) {
             // Connection to SystemDB could not be established
             setWarningMessage("Der kunne ikke oprettes forbindelse til systemdatabasen");
@@ -141,8 +148,30 @@ public class Login extends javax.swing.JFrame {
 
     private void buttonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLoginActionPerformed
 
+        // Gets all users on tasks using a new thread. 
+        // This task alone is around 20 seconds
+        final Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                initiateUsersOnTask();
+
+                // If the first thread is done doing its checks and validating 
+                // the login credentials, the gui is set in waiting status
+                // if it haven't finished this thread is set to sleep
+                while (!t2Done) {
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException ex) {
+                    }
+                }
+
+            }
+        });
+        t1.start();
+
+
         // A new thread continously updates the login interface
-        final Thread t = new Thread(new Runnable() {
+        final Thread t2 = new Thread(new Runnable() {
             @Override
             public void run() {
 
@@ -159,20 +188,37 @@ public class Login extends javax.swing.JFrame {
 
                 // Validate connection to customer database
                 validateCustomerDBConnection();
-                
+
                 // Validate connection to file database
                 validateFileDBConnection();
-                        
+
                 // Checking login credentials
                 validateLoginCredentials();
 
 
             }
         });
-        t.start();
+        t2.start();
 
         updateProgressView();
     }//GEN-LAST:event_buttonLoginActionPerformed
+
+    private void initiateUsersOnTask() {
+        try {
+
+            control.setUsersOnTask();
+
+        } catch (SQLException ex) {
+            // A connection couldnt be established to the database
+            setWarningMessage("Der kunne ikke oprettes forbindelse til systemdatabasen");
+
+        } catch (IOException ex) {
+            // A connection couldnt be established to the database
+            setWarningMessage("Der kunne ikke oprettes forbindelse til systemdatabasen");
+
+        }
+        t1Done = true;
+    }
 
     private void validateSystemDBConnection() {
         loginStatus = 1;
@@ -252,7 +298,7 @@ public class Login extends javax.swing.JFrame {
 
     private void validateLoginCredentials() {
         loginStatus = 5;
-        setMessage("Kontrollerer forbindelse til kundedatabase");
+        setMessage("Kontrollerer login oplysninger");
         try {
 
             ArrayList<User> users = Controller.dbHandler.SPgetUsers();
@@ -274,9 +320,26 @@ public class Login extends javax.swing.JFrame {
                 counter++;
             }
             if (userFound && passwordMatch) {
-                progressBar.setValue(loginStatus);
-                setMessage("Success");
-                login(users.get(counter - 1)); // -1 As it has incremented once and would otherwise create an out of bounds exception
+                if (t1Done) {
+                    progressBar.setValue(loginStatus);
+                    setMessage("Success");
+                    login(users.get(counter - 1)); // -1 As it has incremented once and would otherwise create an out of bounds exception
+                } else {
+                    setMessage("Dine opgaver hentes");
+                    progressBar.setMaximum(6);
+                    progressBar.setValue(loginStatus);
+                    while (!t1Done) {
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
+                    }
+                    loginStatus = 6;
+                    setMessage("Success");
+                    login(users.get(counter - 1)); // -1 As it has incremented once and would otherwise create an out of bounds exception
+                }
 
             } else if (!userFound) {
                 // User doesnt exist
@@ -285,7 +348,6 @@ public class Login extends javax.swing.JFrame {
                 // Password doesnt match
                 setWarningMessage("Passwordet matcher ikke brugernavnet");
             }
-
 
         } catch (SQLException ex) {
             // A connection couldnt be established to the database
