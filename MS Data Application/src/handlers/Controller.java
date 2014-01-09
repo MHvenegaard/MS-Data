@@ -582,6 +582,10 @@ public class Controller {
         Controller.customerID = customerID;
     }
 
+    public static String getCustomerIDToString(){
+        return customerID +"";
+    }
+    
     public static void openCustomerLookUpFrame(){
         frame.setVisible(true);
     }
