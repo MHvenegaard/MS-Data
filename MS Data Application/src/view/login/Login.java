@@ -1,11 +1,9 @@
 package view.login;
 
-import com.mysql.jdbc.Connection;
 import handlers.Controller;
 import java.awt.Color;
 import java.awt.Image;
 import java.io.IOException;
-import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -128,92 +126,27 @@ public class Login extends javax.swing.JFrame {
             @Override
             public void run() {
 
-
-                // Initialiserer forbindelsestjek
-
+                // Initializing connection checks
                 loginStatus = 0;
                 setMessage("Initialiserer system");
                 progressBar.setValue(loginStatus);
 
+                // Validate connection to system database
+                validateSystemDBConnection();
 
-                // Kontroller internet forbindelse
-                try {
-                    loginStatus = 1;
-                    setMessage("Kontrollerer internetforbindelse");
-                    Controller.checkInternet();
+                // Validate connection to user database
+                validateUserDBConnection();
 
-
-                    progressBar.setValue(loginStatus);
-
-                } catch (IOException ex) {
-                    setWarningMessage("Der kunne ikke oprettes forbindelse til Internettet");
-                }
-                // Kontroller database forbindelse
-                try {
-                    loginStatus = 2;
-                    setMessage("Kontrollerer databaseforbindelse");
-                    
-                    Connection conn = (Connection) Controller.dbHandler.initiateSystemDBConn()[0];
-                    
-                    progressBar.setValue(loginStatus);
-
-                } catch (Exception ex) {
-                    setWarningMessage("BLOW ME");
-                    System.out.println(ex);
-//                } catch (SQLException ex) {
-//                    setWarningMessage("Der kunne ikke oprettes forbindelse til databasen");
-//                } catch (IOException ex) {
-//                    setWarningMessage("Der kunne ikke oprettes forbindelse til databasen");
-                } 
+                // Validate connection to customer database
+                validateCustomerDBConnection();
+                
+                // Validate connection to file database
+                validateFileDBConnection();
+                        
+                // Checking login credentials
+                validateLoginCredentials();
 
 
-                try {
-                    // kontrollerer loginoplysninger
-                    loginStatus = 3;
-                    setMessage("Validerer loginoplysninger");
-
-                    ArrayList<User> users = Controller.dbHandler.SPgetUsers();
-                    String username = textFieldUserName.getText();
-                    char[] pw = passwordFieldPassword.getPassword();
-                    String enteredPassword = new String(pw);
-                    boolean userFound = false;
-                    boolean passwordMatch = false;
-                    int counter = 0;
-                    while (!userFound && counter < users.size()) {
-                        if (users.get(counter).getUserName().equals(username)) {
-                            userFound = true;
-                            String pass = users.get(counter).getPassword();
-                            if (pass.equals(enteredPassword)) {
-                                passwordMatch = true;
-
-                            }
-                        }
-                        counter++;
-                    }
-                    if (userFound && passwordMatch) {
-                        progressBar.setValue(loginStatus);
-                        setMessage("Success");
-                        login(users.get(counter - 1)); // -1 As it has incremented once and would otherwise create an out of bounds exception
-
-                    } else if (!userFound) {
-                        // User doesnt exist
-                        setWarningMessage("Brugernavnet kan ikke genkendes");
-                    } else {
-                        // Password doesnt match
-                        setWarningMessage("Passwordet matcher ikke brugernavnet");
-                    }
-
-
-                } catch (SQLException ex) {
-                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-                    setWarningMessage("");
-                } catch (IOException ex) {
-                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-                    setWarningMessage("");
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-                    setWarningMessage("");
-                } 
             }
         });
         t.start();
@@ -221,11 +154,140 @@ public class Login extends javax.swing.JFrame {
         updateProgressView();
     }//GEN-LAST:event_buttonLoginActionPerformed
 
+    private void validateSystemDBConnection() {
+        loginStatus = 1;
+        setMessage("Kontrollerer forbindelse til systemdatabase");
+        try {
+
+            Controller.dbHandler.initiateSystemDBConn();
+
+        } catch (SQLException ex) {
+            // A connection couldnt be established to the database
+            setWarningMessage("Der kunne ikke oprettes forbindelse til systemdatabasen");
+
+        } catch (IOException ex) {
+            // A connection couldnt be established to the database
+            setWarningMessage("Der kunne ikke oprettes forbindelse til systemdatabasen");
+
+        }
+        progressBar.setValue(loginStatus);
+    }
+
+    private void validateUserDBConnection() {
+        loginStatus = 2;
+        setMessage("Kontrollerer forbindelse til medarbejderdatabasen");
+        try {
+
+            Controller.dbHandler.initiateEmployeeDBConn();
+
+        } catch (SQLException ex) {
+            // A connection couldnt be established to the database
+            setWarningMessage("Der kunne ikke oprettes forbindelse til medarbejderdatabasen");
+
+        } catch (IOException ex) {
+            // A connection couldnt be established to the database
+            setWarningMessage("Der kunne ikke oprettes forbindelse til medarbejderdatabasen");
+
+        }
+        progressBar.setValue(loginStatus);
+    }
+
+    private void validateCustomerDBConnection() {
+        loginStatus = 3;
+        setMessage("Kontrollerer forbindelse til kundedatabase");
+        try {
+
+            Controller.dbHandler.initiateCustomerDBConn();
+
+        } catch (SQLException ex) {
+            // A connection couldnt be established to the database
+            setWarningMessage("Der kunne ikke oprettes forbindelse til kundedatabase");
+
+        } catch (IOException ex) {
+            // A connection couldnt be established to the database
+            setWarningMessage("Der kunne ikke oprettes forbindelse til kundedatabase");
+
+        }
+        progressBar.setValue(loginStatus);
+    }
+
+    private void validateFileDBConnection() {
+        loginStatus = 4;
+        setMessage("Kontrollerer forbindelse til fildatabasen");
+        try {
+
+            Controller.dbHandler.initiateFileDBConn();
+
+        } catch (SQLException ex) {
+            // A connection couldnt be established to the database
+            setWarningMessage("Der kunne ikke oprettes forbindelse til fildatabasen");
+
+        } catch (IOException ex) {
+            // A connection couldnt be established to the database
+            setWarningMessage("Der kunne ikke oprettes forbindelse til fildatabasen");
+
+        }
+        progressBar.setValue(loginStatus);
+    }
+
+    private void validateLoginCredentials() {
+        loginStatus = 5;
+        setMessage("Kontrollerer forbindelse til kundedatabase");
+        try {
+
+            ArrayList<User> users = Controller.dbHandler.SPgetUsers();
+            String username = textFieldUserName.getText();
+            char[] pw = passwordFieldPassword.getPassword();
+            String enteredPassword = new String(pw);
+            boolean userFound = false;
+            boolean passwordMatch = false;
+            int counter = 0;
+            while (!userFound && counter < users.size()) {
+                if (users.get(counter).getUserName().equals(username)) {
+                    userFound = true;
+                    String pass = users.get(counter).getPassword();
+                    if (pass.equals(enteredPassword)) {
+                        passwordMatch = true;
+
+                    }
+                }
+                counter++;
+            }
+            if (userFound && passwordMatch) {
+                progressBar.setValue(loginStatus);
+                setMessage("Success");
+                login(users.get(counter - 1)); // -1 As it has incremented once and would otherwise create an out of bounds exception
+
+            } else if (!userFound) {
+                // User doesnt exist
+                setWarningMessage("Brugernavnet kan ikke genkendes");
+            } else {
+                // Password doesnt match
+                setWarningMessage("Passwordet matcher ikke brugernavnet");
+            }
+
+
+        } catch (SQLException ex) {
+            // A connection couldnt be established to the database
+            setWarningMessage("Der kunne ikke oprettes forbindelse til systemdatabasen");
+
+        } catch (IOException ex) {
+            // A connection couldnt be established to the database
+            setWarningMessage("Der kunne ikke oprettes forbindelse til systemdatabasen");
+
+        } catch (ClassNotFoundException ex) {
+            // Mainframe couldnt be initialized
+            setWarningMessage("Programmet kunne ikke starte - Prøv igen..");
+
+        }
+        progressBar.setValue(loginStatus);
+    }
+
     private void passwordFieldPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldPasswordActionPerformed
         buttonLoginActionPerformed(evt);
     }//GEN-LAST:event_passwordFieldPasswordActionPerformed
 
-    private void login(User user) throws IOException, ClassNotFoundException, SQLException {
+    private void login(User user) throws IOException, SQLException, ClassNotFoundException {
 
         // INSERT USER INTO CONTROLLER
         // INSERT CONTROLLER INTO MAINFRAME

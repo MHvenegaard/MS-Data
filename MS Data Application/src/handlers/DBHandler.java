@@ -1,7 +1,6 @@
 package handlers;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -76,7 +75,7 @@ public class DBHandler {
      * Object[0] is the Connection object
      * Object[1] is the Statement object
      */
-    public static Object[] initiateEmployeeDBConn() throws SQLException, IOException {
+    public Object[] initiateEmployeeDBConn() throws SQLException, IOException {
         Properties prop = new Properties();
 
         //load a properties file
@@ -105,7 +104,7 @@ public class DBHandler {
      * Object[0] is the Connection object
      * Object[1] is the Statement object
      */
-    public static Object[] initiateSystemDBConn() throws SQLException, IOException {
+    public Object[] initiateSystemDBConn() throws SQLException, IOException {
         Properties prop = new Properties();
 
         //load a properties file
@@ -129,7 +128,7 @@ public class DBHandler {
         return objects;
     }
 
-    public static Object[] initiateFileDBConn() throws IOException, SQLException {
+    public Object[] initiateFileDBConn() throws IOException, SQLException {
         Properties prop = new Properties();
 
         //load a properties file
@@ -283,7 +282,7 @@ public class DBHandler {
         return typeList;
     }
 
-    public static ArrayList<User> SPgetUsers() throws SQLException, IOException {
+    public ArrayList<User> SPgetUsers() throws SQLException, IOException {
         int userID;
         String userName = null;
         String password = null;
