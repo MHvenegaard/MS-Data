@@ -242,8 +242,10 @@ public class DBHandler {
 
         while (rs.next()) {
             customerID = rs.getInt("CustomerID");
-            customerPhone = rs.getInt("Phone");
+            
             customerName = rs.getString("CompanyName");
+            System.out.println(customerName);
+            customerPhone = rs.getInt("Phone");
             customerAddress = rs.getString("Address");
             customerCountry = rs.getString("Country");
             Customer customer = new Customer(customerID, customerName, customerPhone, customerAddress, customerCountry);

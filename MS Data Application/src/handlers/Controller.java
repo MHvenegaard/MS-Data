@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -43,6 +42,7 @@ public class Controller {
     public static ArrayList<Customer> customerList;
     public static ArrayList<Task> tasks;
     public static ArrayList<Task> children;
+    public static int customerID;
 
     public Controller(User user) throws ClassNotFoundException, SQLException, IOException {
         currentUser = user;
@@ -152,6 +152,19 @@ public class Controller {
 
         }
     }
+        
+     public static void fillTableWithCustomer(JTable tableAllTask) throws IOException, SQLException {       
+        DefaultTableModel modelTable = (DefaultTableModel) tableAllTask.getModel();
+        modelTable.setRowCount(0);
+
+        for (int i = 0; i < customerList.size(); i++) {
+            Object[] data = {customerList.get(i).getIdCustomer(),
+                customerList.get(i).getCompanyName(),
+                customerList.get(i).getPhone(),
+            customerList.get(i).getPhone()};                            
+            modelTable.addRow(data);
+        }
+    }    
 
     public static void addUserToOnTaskList(JList listUsers, JList listUsersOnTask, JButton button) {
         int index = listUsers.getSelectedIndex();
@@ -447,7 +460,7 @@ public class Controller {
         dbHandler.saveFile(name, inputStream, taskID);
     }
 
-    public static void removeTableHeaders(JTable table) {
+    public static void removeTableHeadersTask(JTable table) {
         TableColumn column = table.getColumnModel().getColumn(0);
         System.out.println(column.getHeaderValue().toString());
         table.removeColumn(column);
@@ -456,6 +469,12 @@ public class Controller {
         System.out.println(column.getHeaderValue().toString());
         table.removeColumn(column);
     }
+    
+     public static void removeTableHeadersCustomer(JTable table) {
+        TableColumn column = table.getColumnModel().getColumn(0);
+        System.out.println(column.getHeaderValue().toString());
+        table.removeColumn(column);
+      }
 
     public static ArrayList<Task> updateTableWithNewTasks(JTable tableAllTask) throws IOException, SQLException {
         tasks = dbHandler.SPgetTasks();
@@ -546,4 +565,16 @@ public class Controller {
         int taskID = Integer.parseInt(modelTable.getValueAt(mainTaskTable.convertRowIndexToModel(mainTaskTable.getSelectedRow()), 0).toString());
         return taskID;
     }
+
+    public static int getCustomerID() {
+        return customerID;
+    }
+
+    public static void setCustomerID(int customerID) {
+        Controller.customerID = customerID;
+    }
+
+  
+    
+    
 }
