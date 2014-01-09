@@ -28,7 +28,6 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     private DefaultListModel model;
     private DefaultListModel modelOnTask;
     private DefaultTableModel modelTable;
-    private JFrame frame;
     public int customerid;
 
 
@@ -42,11 +41,11 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         Controller.fillCombobox(comboBoxType, Controller.typeList);
         Controller.fillCombobox(comboBoxStatus, Controller.statusList);
         Controller.fillList(listUsers, Controller.userList);
-        Controller.fillCombobox(comboBoxCustomer, Controller.customerList);
+//        Controller.fillCombobox(comboBoxCustomer, Controller.customerList);
         Controller.fillTableWithTask(tableAllTasks);
         Controller.removeTableHeadersTask(tableAllTasks);
         Controller.tHandler.removeFinshedTaskFilter(tableAllTasks);
-        frame = new CustomerLookUpFrame();
+        
         
          addActionListerner();
     }
@@ -511,14 +510,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_textFieldSortingKeyReleased
 
     private void buttonFindCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonFindCustomerActionPerformed
-//        JPanel panel = new CustomerLookUp(customerid);
-//        JFrame frame = new JFrame();
-//        frame.setBounds(50, 50, 600, 600);
-//        frame.add(panel);
-//        frame.setBounds(50, 50, 600, 600);
-//        panel.setVisible(true);
-        
-        frame.setVisible(true);
+              Controller.openCustomerLookUpFrame();
     }//GEN-LAST:event_buttonFindCustomerActionPerformed
 
     private void addActionListerner(){

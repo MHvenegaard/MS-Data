@@ -17,6 +17,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -26,6 +27,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import model.*;
 import view.CreateTaskPanel;
+import view.CustomerLookUpFrame;
 import view.TaskHandlingPanel;
 
 /**
@@ -43,6 +45,7 @@ public class Controller {
     public static ArrayList<Task> tasks;
     public static ArrayList<Task> children;
     public static int customerID;
+    public static JFrame frame;
 
     public Controller() throws ClassNotFoundException, SQLException, IOException {
         currentUser = null;
@@ -52,7 +55,7 @@ public class Controller {
         typeList = dbHandler.SPgetTypes();
         statusList = dbHandler.SPgetStatus();
         tasks = dbHandler.SPgetTasks();
-        
+        frame = new CustomerLookUpFrame();
         initiateController();
         
     }
@@ -157,16 +160,18 @@ public class Controller {
     }
         
      public static void fillTableWithCustomer(JTable tableAllTask) throws IOException, SQLException {       
-//        DefaultTableModel modelTable = (DefaultTableModel) tableAllTask.getModel();
-//        modelTable.setRowCount(0);
-//
-//        for (int i = 0; i < customerList.size(); i++) {
-//            Object[] data = {customerList.get(i).getIdCustomer(),
-//                customerList.get(i).getCompanyName(),
-//                customerList.get(i).getPhone(),
-//            customerList.get(i).getPhone()};                            
-//            modelTable.addRow(data);
-//        }
+        DefaultTableModel modelTable = (DefaultTableModel) tableAllTask.getModel();
+        modelTable.setRowCount(0);
+
+        ArrayList<Customer> customerList = Controller.dbHandler.SPgetCustomers();
+        
+        for (int i = 0; i < customerList.size(); i++) {
+            Object[] data = {customerList.get(i).getIdCustomer(),
+                customerList.get(i).getCompanyName(),
+                customerList.get(i).getPhone(),
+            customerList.get(i).getPhone()};                            
+            modelTable.addRow(data);
+        }
     }    
 
     public static void addUserToOnTaskList(JList listUsers, JList listUsersOnTask, JButton button) {
@@ -577,6 +582,9 @@ public class Controller {
         Controller.customerID = customerID;
     }
 
+    public static void openCustomerLookUpFrame(){
+        frame.setVisible(true);
+    }
   
     
     
