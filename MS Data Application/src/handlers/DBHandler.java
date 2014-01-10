@@ -75,6 +75,7 @@ public class DBHandler {
      * Object[0] is the Connection object
      * Object[1] is the Statement object
      */
+
     public Object[] initiateEmployeeDBConn() throws SQLException, IOException {
         Properties prop = new Properties();
 
@@ -103,6 +104,7 @@ public class DBHandler {
      * Object[0] is the Connection object
      * Object[1] is the Statement object
      */
+
     public Object[] initiateSystemDBConn() throws SQLException, IOException {
         Properties prop = new Properties();
 
@@ -131,6 +133,7 @@ public class DBHandler {
      * Object[0] is the Connection object
      * Object[1] is the Statement object
      */
+
     public Object[] initiateFileDBConn() throws IOException, SQLException {
         Properties prop = new Properties();
 
@@ -154,7 +157,7 @@ public class DBHandler {
 
         return returnObjects;
     }
-    
+
     //Get and Save Files
     public void saveFile(String name, InputStream inputStream, int taskID) throws IOException, SQLException {
 
@@ -171,6 +174,7 @@ public class DBHandler {
             System.out.println("A contact was inserted with photo image.");
         }
     }
+
     public String getFile(int taskID) throws IOException, SQLException {
 
         Statement stmt = (Statement) initiateFileDBConn()[1];
@@ -236,6 +240,7 @@ public class DBHandler {
         }
         return customerList;
     }
+
     public ArrayList<Type> SPgetTypes() throws SQLException, IOException {
         int typeID;
         String typeName;
@@ -259,6 +264,7 @@ public class DBHandler {
         }
         return typeList;
     }
+
     public ArrayList<User> SPgetUsers() throws SQLException, IOException {
         int userID;
         String userName;
@@ -287,11 +293,12 @@ public class DBHandler {
         }
         return userList;
     }
+
     public ArrayList<Statuss> SPgetStatus() throws SQLException, IOException {
         String statusName;
         int statusID;
         String description;
-        
+
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
         ArrayList<Statuss> statusList = new ArrayList<>();
@@ -310,6 +317,7 @@ public class DBHandler {
         }
         return statusList;
     }
+
     public ArrayList<Task> SPgetTasks() throws IOException, SQLException {
 
         ArrayList<Task> tasks = new ArrayList<>();
@@ -318,13 +326,11 @@ public class DBHandler {
         int estimatedtime;
         int priority;
         String taskName;
-        String status;
         String type;
         String description;
         Date startDate;
         Date endDate;
-        String customer;
-        String taskLeader;
+
         ArrayList<User> userOnTask = new ArrayList<>();
 
         Connection conn = (Connection) initiateSystemDBConn()[0];
@@ -343,24 +349,31 @@ public class DBHandler {
             type = rs.getString("Type");
             Type t = new Type(type);
 
-            status = rs.getString("Status");
-            Statuss s = new Statuss(status);
-
+            
             description = rs.getString("Description");
-
             taskName = rs.getString("TaskName");
             startDate = rs.getDate("StartDate");
             endDate = rs.getDate("EndDate");
 
-            customer = rs.getString("Customer");
-            Customer c = new Customer(customer);
-         
+            Statuss s = null;
+            for (int i = 0; i < Controller.statusList.size(); i++) {
+                if(Controller.statusList.get(i).getStatussName().equals(rs.getString("Status"))){
+                    s = Controller.statusList.get(i);
+                }               
+            }
             
+            Customer c = null;
+            for (int i = 0; i < Controller.customerList.size(); i++) {
+
+                if (Controller.customerList.get(i).getCompanyName().equals(rs.getString("Customer"))) {
+                    c = Controller.customerList.get(i);
+                }
+            }
+
             User u = null;
-                       
             for (int i = 0; i < Controller.userList.size(); i++) {
-                if(Controller.userList.get(i).getUserName().equals(rs.getString("User"))){
-                 u = Controller.userList.get(i);
+                if (Controller.userList.get(i).getUserName().equals(rs.getString("User"))) {
+                    u = Controller.userList.get(i);
                 }
             }
 
@@ -369,10 +382,12 @@ public class DBHandler {
 
             Task task = new Task(taskID, parentID, taskName, t, s, c, u, startDate, endDate, estimatedtime, priority, description, userOnTask);
 
+            System.out.println(s + " - " + c + " - " + u);
             tasks.add(task);
         }
         return tasks;
     }
+
     public ArrayList<TimeSpentOnTask> SPgetTimeSpentOnTask() throws SQLException, IOException {
         ArrayList<TimeSpentOnTask> tsotList = new ArrayList();
 
@@ -415,6 +430,7 @@ public class DBHandler {
 
         cs.execute();
     }
+
     public void createSubTask(Task task) throws SQLException, IOException {
         Connection conn = (Connection) initiateSystemDBConn()[0];
         java.sql.Date sqlStartDate = new java.sql.Date(task.getStartDate().getTime());
@@ -437,6 +453,7 @@ public class DBHandler {
 
         cs.execute();
     }
+
     public void updateTask(Task task) throws SQLException, IOException {
         Connection conn = (Connection) initiateSystemDBConn()[0];
         java.sql.Date sqlStartDate = new java.sql.Date(task.getStartDate().getTime());
@@ -468,6 +485,7 @@ public class DBHandler {
         cs.setString(2, description);
         cs.execute();
     }
+
     public void updateType(int typeID, String name, String description) throws SQLException, IOException {
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
@@ -478,6 +496,7 @@ public class DBHandler {
         cs.setString(3, description);
         cs.execute();
     }
+
     public void deleteType(int typeID) throws SQLException, IOException {
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
@@ -486,7 +505,7 @@ public class DBHandler {
         cs.setInt(1, typeID);
         cs.execute();
     }
-    
+
     //Statusadministration in SystemDB
     public void createStatus(String name, String description) throws SQLException, IOException {
         Connection conn = (Connection) initiateSystemDBConn()[0];
@@ -497,6 +516,7 @@ public class DBHandler {
         cs.setString(2, description);
         cs.execute();
     }
+
     public void updateStatus(int statusID, String name, String description) throws SQLException, IOException {
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
@@ -507,6 +527,7 @@ public class DBHandler {
         cs.setString(3, description);
         cs.execute();
     }
+
     public void deleteStatus(int statusID) throws SQLException, IOException {
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
@@ -515,7 +536,7 @@ public class DBHandler {
         cs.setInt(1, statusID);
         cs.execute();
     }
-    
+
     //Add users to tasks
     public void addUserToTask(JList list) throws SQLException, IOException {
         ArrayList<User> userList = new ArrayList<>();
@@ -533,6 +554,7 @@ public class DBHandler {
             cs.execute();
         }
     }
+
     public void addUserToAlreadyMadeTask(JList list, int taskID) throws SQLException, IOException {
         ArrayList<User> userList = new ArrayList<>();
         Connection conn = (Connection) initiateSystemDBConn()[0];
@@ -565,6 +587,7 @@ public class DBHandler {
         cs.setInt(6, accessLevel);
         cs.execute();
     }
+
     public void updateUserInUserDB(String userName, String firstName, String lastName, String password, int accessLevel, int userID) throws SQLException, IOException {
         Connection conn = (Connection) initiateEmployeeDBConn()[0];
 
@@ -578,6 +601,7 @@ public class DBHandler {
         cs.setInt(6, userID);
         cs.execute();
     }
+
     public void deleteUserInUserDB(int userID) throws SQLException, IOException {
         Connection conn = (Connection) initiateEmployeeDBConn()[0];
         CallableStatement cs = null;
@@ -589,10 +613,10 @@ public class DBHandler {
     //Note 1 - Nikolaj 
     public ArrayList<User> initiateUserList(Connection conn) throws SQLException {
         int userID;
-        String userName = null;
-        String password = null;
-        String firstName = null;
-        String lastName = null;
+        String userName;
+        String password;
+        String firstName;
+        String lastName;
         int accessLevel;
 
         ArrayList<User> userList = new ArrayList<>();
@@ -613,6 +637,7 @@ public class DBHandler {
         }
         return userList;
     }
+
     public ArrayList<Type> initiateTypeList(Connection conn) throws SQLException {
         int typeID;
         String typeName;
@@ -634,6 +659,7 @@ public class DBHandler {
         }
         return typeList;
     }
+
     public ArrayList<Statuss> initiateStatusList(Connection conn) throws SQLException {
         String statusName;
         int statusID;
@@ -654,6 +680,7 @@ public class DBHandler {
         }
         return statusList;
     }
+
     public ArrayList<Task> initiateTaskList(Connection conn) throws SQLException {
 
         ArrayList<Task> tasks = new ArrayList<>();
@@ -661,50 +688,55 @@ public class DBHandler {
         int parentID;
         int estimatedtime;
         int priority;
-        String status;
-        String type;
+        Type t = null;
         String description;
         String taskName;
+        String status;
         Date startDate;
         Date endDate;
-        String customer;
-        String taskLeader;
+        
         ArrayList<User> userOnTask = new ArrayList<>();
 
         CallableStatement cs = conn.prepareCall("{call getAllTasks}");
         ResultSet rs = cs.executeQuery();
 
         while (rs.next()) {
-
             taskID = rs.getInt("TaskID");
             parentID = rs.getInt("ParentID");
             estimatedtime = rs.getInt("EstimatedTime");
-
             priority = rs.getInt("Priority");
-
-            type = rs.getString("Type");
-            Type t = new Type(type);
-
-            status = rs.getString("Status");
-            Statuss s = new Statuss(status);
-
             description = rs.getString("Description");
-
             taskName = rs.getString("TaskName");
             startDate = rs.getDate("StartDate");
             endDate = rs.getDate("EndDate");
-
-            customer = rs.getString("Customer");
-            Customer c = new Customer(customer);
-
-            taskLeader = rs.getString("User");
-            User u = null;
-                for (int i = 0; i < Controller.userList.size(); i++) {
-                if(Controller.userList.get(i).getUserName().equals(rs.getString("User")))
-                 u = Controller.userList.get(i);
+            status = rs.getString("Status");
+            
+            Statuss s = null;
+            for (int i = 0; i < Controller.statusList.size(); i++) {
+                if(Controller.statusList.get(i).getStatussName().equals(status)){
+                    s = Controller.statusList.get(i);
+                }               
             }
+            
+            Customer c = null;
+            for (int i = 0; i < Controller.customerList.size(); i++) {
+                if (Controller.customerList.get(i).getCompanyName().equals(rs.getString("Customer"))) {
+                    c = Controller.customerList.get(i);
+                }
+            }
+
+            User u = null;
+            
+            for (int i = 0; i < Controller.userList.size(); i++) {
+                if (Controller.userList.get(i).getUserName().equals(rs.getString("User"))) {
+                    u = Controller.userList.get(i);
+                }
+            }
+            
+            System.out.println(s + " - " + c + " - " + u + "TEST");
             Task task = new Task(taskID, parentID, taskName, t, s, c, u, startDate, endDate, estimatedtime, priority, description, userOnTask);
 
+            
             tasks.add(task);
         }
         return tasks;
