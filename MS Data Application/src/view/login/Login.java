@@ -24,7 +24,7 @@ public class Login extends javax.swing.JFrame {
 
 
         loginStatus = 0;
-  
+
         initComponents();
         try {
             control = new Controller();
@@ -71,7 +71,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        progressBar.setMaximum(5);
+        progressBar.setMaximum(7);
 
         buttonLogin.setText("Login");
         buttonLogin.addActionListener(new java.awt.event.ActionListener() {
@@ -139,11 +139,11 @@ public class Login extends javax.swing.JFrame {
 
     private void buttonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLoginActionPerformed
 
-       
-        
+
+
         // Gets all users on tasks using a new thread. 
         // This task alone is around 20 seconds
-       
+
 
 
         // A new thread continously updates the login interface
@@ -167,13 +167,13 @@ public class Login extends javax.swing.JFrame {
 
                 // Checking login credentials
                 User user = validateUser();
-                
-                if(user != null){
-                // Fetches the remaining data from the server
-                initiateUsersOnTask();
-                
-                // Login
-                login(user);
+
+                if (user != null) {
+                    // Fetches the remaining data from the server
+                    initiateController();
+
+                    // Login
+                    login(user);
                 }
 
             }
@@ -183,10 +183,14 @@ public class Login extends javax.swing.JFrame {
         updateProgressView();
     }//GEN-LAST:event_buttonLoginActionPerformed
 
-    private void initiateUsersOnTask() {
+    private void initiateController() {
+        loginStatus = 6;
+        updateProgressView();
         try {
 
-            control.setUsersOnTask();
+            control.initiateController();
+
+
 
         } catch (SQLException ex) {
             // A connection couldnt be established to the database
@@ -197,11 +201,13 @@ public class Login extends javax.swing.JFrame {
             setWarningMessage("Der kunne ikke oprettes forbindelse til systemdatabasen");
 
         }
+
     }
 
     private void validateSystemDBConnection() {
         loginStatus = 1;
-        
+        updateProgressView();
+
         try {
 
             Controller.dbHandler.initiateSystemDBConn();
@@ -216,12 +222,13 @@ public class Login extends javax.swing.JFrame {
 
         }
         //progressBar.setValue(loginStatus);
-        updateProgressView();
+
     }
 
     private void validateUserDBConnection() {
         loginStatus = 2;
-        
+        updateProgressView();
+
         try {
 
             Controller.dbHandler.initiateEmployeeDBConn();
@@ -236,12 +243,13 @@ public class Login extends javax.swing.JFrame {
 
         }
         //progressBar.setValue(loginStatus);
-        updateProgressView();
+
     }
 
     private void validateCustomerDBConnection() {
         loginStatus = 3;
-        
+        updateProgressView();
+
         try {
 
             Controller.dbHandler.initiateCustomerDBConn();
@@ -256,12 +264,12 @@ public class Login extends javax.swing.JFrame {
 
         }
         //progressBar.setValue(loginStatus);
-        updateProgressView();
+
     }
 
     private void validateFileDBConnection() {
         loginStatus = 4;
-        
+        updateProgressView();
         try {
 
             Controller.dbHandler.initiateFileDBConn();
@@ -276,25 +284,26 @@ public class Login extends javax.swing.JFrame {
 
         }
         //progressBar.setValue(loginStatus);
-        updateProgressView();
+
     }
 
     private User validateUser() {
         loginStatus = 5;
+        updateProgressView();
         User user = null;
-        
-        
+
+
         try {
 
             // Get all users
             ArrayList<User> users = Controller.dbHandler.SPgetUsers();
-            
+
             // Retrieve login credentials
             String username = textFieldUserName.getText();
             char[] pw = passwordFieldPassword.getPassword();
             String enteredPassword = new String(pw);
-            
-            
+
+
             // Iterate through all users and compare credentials
             boolean userFound = false;
             boolean passwordMatch = false;
@@ -311,10 +320,10 @@ public class Login extends javax.swing.JFrame {
                 counter++;
             }
             if (userFound && passwordMatch) {
-                    progressBar.setValue(loginStatus);
-                    setMessage("Success");
-                    user = users.get(counter - 1); // -1 As it has incremented once and would otherwise create an out of bounds exception
-               
+                progressBar.setValue(loginStatus);
+                setMessage("Success");
+                user = users.get(counter - 1); // -1 As it has incremented once and would otherwise create an out of bounds exception
+
             } else if (!userFound) {
                 // User doesnt exist
                 setWarningMessage("Brugernavnet kan ikke genkendes");
@@ -337,8 +346,8 @@ public class Login extends javax.swing.JFrame {
 //
         }
         //progressBar.setValue(loginStatus);
-        updateProgressView();
-        
+
+
         return user;
     }
 
@@ -347,18 +356,22 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_passwordFieldPasswordActionPerformed
 
     private void login(User user) {
-        try {
-            loginStatus = 6;
+        loginStatus = 7;
+        updateProgressView();
 
-            
+        try {
+
+
+
             Mainframe mf = null;
             control.setUser(user);
             mf = new Mainframe(control);
             mf.setLocationRelativeTo(null);
+
             Image image = ImageIO.read(getClass().getResource("/ressources/ms-teknik-logo.jpg"));
             mf.setIconImage(image);
             mf.setVisible(true);
-            
+
         } catch (ClassNotFoundException ex) {
             setWarningMessage("Brugergrænsefladen kunne ikke initialiseres.. Prøv igen");
         } catch (SQLException ex) {
@@ -396,10 +409,14 @@ public class Login extends javax.swing.JFrame {
                 progressBar.setValue(loginStatus);
                 break;
             case 6:
+                setMessage("Henter systemdata");
+                progressBar.setValue(loginStatus);
+                break;
+            case 7:
                 setMessage("Initialiserer system.. Vent venligst");
                 progressBar.setValue(loginStatus);
                 break;
-                
+
         }
     }
 

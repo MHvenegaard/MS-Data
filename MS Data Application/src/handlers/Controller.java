@@ -50,25 +50,27 @@ public class Controller {
         currentUser = null;
         dbHandler = new DBHandler();
         tHandler = new TableHandler();
-        userList = dbHandler.SPgetUsers();
-        typeList = dbHandler.SPgetTypes();
-        statusList = dbHandler.SPgetStatus();
-        tasks = dbHandler.SPgetTasks();
+        
+        userList = new ArrayList();
+        typeList = new ArrayList();
+        statusList = new ArrayList();
+        
+        tasks = new ArrayList();
         frame = new CustomerLookUpFrame();
-        initiateController();
-        setUsersOnTask();
+        
+        
 
     }
 
-    private void initiateController() throws SQLException, IOException {
+    public void initiateController() throws SQLException, IOException {
         Connection conn = (Connection) dbHandler.initiateSystemDBConn()[0];
         userList = dbHandler.initiateUserList(conn);
         typeList = dbHandler.initiateTypeList(conn);
         statusList = dbHandler.initiateStatusList(conn);
         tasks = dbHandler.initiateTaskList(conn);
         children = new ArrayList<>();
-
-
+        setUsersOnTask();
+        
 
 
     }
@@ -95,9 +97,6 @@ public class Controller {
                     }
                 }
             }
-        }
-        for (int i = 0; i < tasks.get(3).getUserOnTask().size(); i++) {
-            System.out.println("users on task 3: " + tasks.get(3).getUserOnTask().get(i).getUserName());
         }
     }
 
