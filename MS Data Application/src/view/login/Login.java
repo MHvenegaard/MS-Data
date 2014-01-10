@@ -19,25 +19,16 @@ public class Login extends javax.swing.JFrame {
 
     private int loginStatus;
     private Controller control;
-    private boolean t1Done;
-    private boolean t2Done;
 
     public Login() {
 
 
         loginStatus = 0;
-        t1Done = false;
-        t2Done = false;
+  
         initComponents();
         try {
-            System.out.println(System.currentTimeMillis());
-            System.out.println("1");
             control = new Controller();
 
-
-
-            System.out.println("2");
-            System.out.println(System.currentTimeMillis());
         } catch (ClassNotFoundException ex) {
             // Database driver could not be loaded
             setWarningMessage("Database driverne kunne ikke lokaliseres");
@@ -148,37 +139,19 @@ public class Login extends javax.swing.JFrame {
 
     private void buttonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLoginActionPerformed
 
+       
+        
         // Gets all users on tasks using a new thread. 
         // This task alone is around 20 seconds
-        final Thread t1 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                initiateUsersOnTask();
-
-                // If the first thread is done doing its checks and validating 
-                // the login credentials, the gui is set in waiting status
-                // if it haven't finished this thread is set to sleep
-                while (!t2Done) {
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException ex) {
-                    }
-                }
-
-            }
-        });
-        t1.start();
+       
 
 
         // A new thread continously updates the login interface
-        final Thread t2 = new Thread(new Runnable() {
+        final Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
 
-                // Initializing connection checks
-                loginStatus = 0;
-                setMessage("Initialiserer system");
-                progressBar.setValue(loginStatus);
+                //updateProgressView();
 
                 // Validate connection to system database
                 validateSystemDBConnection();
@@ -193,12 +166,19 @@ public class Login extends javax.swing.JFrame {
                 validateFileDBConnection();
 
                 // Checking login credentials
-                validateLoginCredentials();
-
+                User user = validateUser();
+                
+                if(user != null){
+                // Fetches the remaining data from the server
+                initiateUsersOnTask();
+                
+                // Login
+                login(user);
+                }
 
             }
         });
-        t2.start();
+        t.start();
 
         updateProgressView();
     }//GEN-LAST:event_buttonLoginActionPerformed
@@ -217,12 +197,11 @@ public class Login extends javax.swing.JFrame {
             setWarningMessage("Der kunne ikke oprettes forbindelse til systemdatabasen");
 
         }
-        t1Done = true;
     }
 
     private void validateSystemDBConnection() {
         loginStatus = 1;
-        setMessage("Kontrollerer forbindelse til systemdatabase");
+        
         try {
 
             Controller.dbHandler.initiateSystemDBConn();
@@ -236,12 +215,13 @@ public class Login extends javax.swing.JFrame {
             setWarningMessage("Der kunne ikke oprettes forbindelse til systemdatabasen");
 
         }
-        progressBar.setValue(loginStatus);
+        //progressBar.setValue(loginStatus);
+        updateProgressView();
     }
 
     private void validateUserDBConnection() {
         loginStatus = 2;
-        setMessage("Kontrollerer forbindelse til medarbejderdatabasen");
+        
         try {
 
             Controller.dbHandler.initiateEmployeeDBConn();
@@ -255,12 +235,13 @@ public class Login extends javax.swing.JFrame {
             setWarningMessage("Der kunne ikke oprettes forbindelse til medarbejderdatabasen");
 
         }
-        progressBar.setValue(loginStatus);
+        //progressBar.setValue(loginStatus);
+        updateProgressView();
     }
 
     private void validateCustomerDBConnection() {
         loginStatus = 3;
-        setMessage("Kontrollerer forbindelse til kundedatabase");
+        
         try {
 
             Controller.dbHandler.initiateCustomerDBConn();
@@ -274,12 +255,13 @@ public class Login extends javax.swing.JFrame {
             setWarningMessage("Der kunne ikke oprettes forbindelse til kundedatabase");
 
         }
-        progressBar.setValue(loginStatus);
+        //progressBar.setValue(loginStatus);
+        updateProgressView();
     }
 
     private void validateFileDBConnection() {
         loginStatus = 4;
-        setMessage("Kontrollerer forbindelse til fildatabasen");
+        
         try {
 
             Controller.dbHandler.initiateFileDBConn();
@@ -293,18 +275,27 @@ public class Login extends javax.swing.JFrame {
             setWarningMessage("Der kunne ikke oprettes forbindelse til fildatabasen");
 
         }
-        progressBar.setValue(loginStatus);
+        //progressBar.setValue(loginStatus);
+        updateProgressView();
     }
 
-    private void validateLoginCredentials() {
+    private User validateUser() {
         loginStatus = 5;
-        setMessage("Kontrollerer login oplysninger");
+        User user = null;
+        
+        
         try {
 
+            // Get all users
             ArrayList<User> users = Controller.dbHandler.SPgetUsers();
+            
+            // Retrieve login credentials
             String username = textFieldUserName.getText();
             char[] pw = passwordFieldPassword.getPassword();
             String enteredPassword = new String(pw);
+            
+            
+            // Iterate through all users and compare credentials
             boolean userFound = false;
             boolean passwordMatch = false;
             int counter = 0;
@@ -320,27 +311,10 @@ public class Login extends javax.swing.JFrame {
                 counter++;
             }
             if (userFound && passwordMatch) {
-                if (t1Done) {
                     progressBar.setValue(loginStatus);
                     setMessage("Success");
-                    login(users.get(counter - 1)); // -1 As it has incremented once and would otherwise create an out of bounds exception
-                } else {
-                    setMessage("Dine opgaver hentes");
-                    progressBar.setMaximum(6);
-                    progressBar.setValue(loginStatus);
-                    while (!t1Done) {
-                        try {
-                            Thread.sleep(500);
-                        } catch (InterruptedException ex) {
-                            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-
-                    }
-                    loginStatus = 6;
-                    setMessage("Success");
-                    login(users.get(counter - 1)); // -1 As it has incremented once and would otherwise create an out of bounds exception
-                }
-
+                    user = users.get(counter - 1); // -1 As it has incremented once and would otherwise create an out of bounds exception
+               
             } else if (!userFound) {
                 // User doesnt exist
                 setWarningMessage("Brugernavnet kan ikke genkendes");
@@ -357,53 +331,75 @@ public class Login extends javax.swing.JFrame {
             // A connection couldnt be established to the database
             setWarningMessage("Der kunne ikke oprettes forbindelse til systemdatabasen");
 
-        } catch (ClassNotFoundException ex) {
-            // Mainframe couldnt be initialized
-            setWarningMessage("Programmet kunne ikke starte - Prøv igen..");
-
+//        } catch (ClassNotFoundException ex) {
+//            //Mainframe couldnt be initialized
+//            setWarningMessage("Programmet kunne ikke starte - Prøv igen..");
+//
         }
-        progressBar.setValue(loginStatus);
+        //progressBar.setValue(loginStatus);
+        updateProgressView();
+        
+        return user;
     }
 
     private void passwordFieldPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldPasswordActionPerformed
         buttonLoginActionPerformed(evt);
     }//GEN-LAST:event_passwordFieldPasswordActionPerformed
 
-    private void login(User user) throws IOException, SQLException, ClassNotFoundException {
+    private void login(User user) {
+        try {
+            loginStatus = 6;
 
-        // INSERT USER INTO CONTROLLER
-        // INSERT CONTROLLER INTO MAINFRAME
-
-        setMessage("Initialiserer system.. Vent venligst");
-        Mainframe mf = null;
-        control.setUser(user);
-        mf = new Mainframe(control);
-        mf.setLocationRelativeTo(null);
-        Image image = ImageIO.read(getClass().getResource("/ressources/ms-teknik-logo.jpg"));
-        mf.setIconImage(image);
-        mf.setVisible(true);
+            
+            Mainframe mf = null;
+            control.setUser(user);
+            mf = new Mainframe(control);
+            mf.setLocationRelativeTo(null);
+            Image image = ImageIO.read(getClass().getResource("/ressources/ms-teknik-logo.jpg"));
+            mf.setIconImage(image);
+            mf.setVisible(true);
+            
+        } catch (ClassNotFoundException ex) {
+            setWarningMessage("Brugergrænsefladen kunne ikke initialiseres.. Prøv igen");
+        } catch (SQLException ex) {
+            setWarningMessage("Der kunne ikke oprettes forbindelse til systemdatabasen");
+        } catch (IOException ex) {
+            setWarningMessage("Der kunne ikke oprettes forbindelse til systemdatabasen");
+        }
     }
 
     private void updateProgressView() {
+        System.out.println(loginStatus);
         switch (loginStatus) {
             case 0:
                 setMessage("Initialiserer system");
                 progressBar.setValue(loginStatus);
+                break;
             case 1:
-                setMessage("Kontrollerer internetforbindelse");
+                setMessage("Kontrollerer forbindelse til systemdatabase");
                 progressBar.setValue(loginStatus);
+                break;
             case 2:
-                setMessage("Kontrollerer databaseforbindelse");
+                setMessage("Kontrollerer forbindelse til medarbejderdatabasen");
                 progressBar.setValue(loginStatus);
+                break;
             case 3:
-                setMessage("Kontrollerer CRM forbindelse");
+                setMessage("Kontrollerer forbindelse til kundedatabase");
                 progressBar.setValue(loginStatus);
+                break;
             case 4:
-                setMessage("Kontrollerer ERP forbindelse");
+                setMessage("Kontrollerer forbindelse til fildatabasen");
                 progressBar.setValue(loginStatus);
+                break;
             case 5:
-                setMessage("Validerer loginoplysninger");
+                setMessage("Validerer login oplysninger");
                 progressBar.setValue(loginStatus);
+                break;
+            case 6:
+                setMessage("Initialiserer system.. Vent venligst");
+                progressBar.setValue(loginStatus);
+                break;
+                
         }
     }
 
