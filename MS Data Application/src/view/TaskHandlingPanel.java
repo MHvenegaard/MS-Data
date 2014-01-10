@@ -45,7 +45,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
 //        Controller.fillCombobox(comboBoxCustomer, Controller.customerList);
         Controller.fillTableWithTask(tableAllTasks);
         Controller.removeTableHeadersTask(tableAllTasks);
-        Controller.tHandler.removeFinshedTaskFilter(tableAllTasks);
+       // Controller.tHandler.removeFinshedTaskFilter(tableAllTasks);
         
         
          addActionListerner();
@@ -488,10 +488,10 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     private void tableAllTasksMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableAllTasksMouseReleased
         modelTable = (DefaultTableModel) tableAllTasks.getModel();
         try {
-            try {
-                //  fillAllWithSelectedTask((Integer) modelTable.getValueAt(tableAllTasks.getSelectedRow(), 0));
-                
-                Controller.fillWithSelectedTask(listUsers,
+
+            
+                     Controller.fillComponents(Integer.parseInt(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 0).toString()),
+                        listUsers,
                         listUsersOnTask,
                         tableAllTasks,
                         textFieldTaskName,
@@ -504,11 +504,33 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
                         textFieldTime,
                         comboBoxPriority,
                         textAreaDescription);
-            } catch (ParseException ex) {
-                Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } catch (IOException | SQLException ex) {
+                             
+        } catch (SQLException | IOException ex) {
             Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        try {
+//            try {
+//                //  fillAllWithSelectedTask((Integer) modelTable.getValueAt(tableAllTasks.getSelectedRow(), 0));
+//                
+//                
+//                Controller.fillWithSelectedTask(listUsers,
+//                        listUsersOnTask,
+//                        tableAllTasks,
+//                        textFieldTaskName,
+//                        comboBoxType,
+//                        comboBoxStatus,
+//                        comboBoxCustomer,
+//                        comboBoxProjectLeader,
+//                        dateChooserExpectedStart,
+//                        dateChooserExpectedEnd,
+//                        textFieldTime,
+//                        comboBoxPriority,
+//                        textAreaDescription);
+//            } catch (ParseException ex) {
+//                Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        } catch (IOException | SQLException ex) {
+//            Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_tableAllTasksMouseReleased
 

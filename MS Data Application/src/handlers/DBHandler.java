@@ -247,9 +247,8 @@ public class DBHandler {
             customerName = rs.getString("CompanyName");
             System.out.println(customerName);
             customerPhone = rs.getInt("Phone");
-            customerAddress = rs.getString("Address");
-            customerCountry = rs.getString("Country");
-            Customer customer = new Customer(customerID, customerName, customerPhone, customerAddress, customerCountry);
+            customerAddress = rs.getString("CVR");
+            Customer customer = new Customer(customerID, customerName, customerPhone, customerAddress);
             customerList.add(customer);
         }
         return customerList;

@@ -13,20 +13,18 @@ public class Customer {
     private int idCustomer;
     private int phone;
     private String companyName;
-    private String Address;
-    private String country;
+    private String CVR;
    
     
     public Customer(String companyName) {
         this.companyName = companyName;
     }
 
-    public Customer(int idCustomer, String companyName, int phone, String Address, String country) {
+    public Customer(int idCustomer, String companyName, int phone, String CVR) {
         this.idCustomer = idCustomer;
         this.companyName = companyName;
         this.phone = phone;
-        this.Address = Address;
-        this.country = country;
+        this.CVR = CVR;
     }
     
     
@@ -60,21 +58,15 @@ public class Customer {
         this.phone = phone;
     }
 
-    public String getAddress() {
-        return Address;
+    public String getCVR() {
+        return CVR;
     }
 
-    public void setAddress(String Address) {
-        this.Address = Address;
+    public void setCVR(String CVR) {
+        this.CVR = CVR;
     }
 
-    public String getCountry() {
-        return country;
-    }
 
-    public void setCountry(String country) {
-        this.country = country;
-    }
 
    
     

@@ -4,7 +4,6 @@ import com.mysql.jdbc.Connection;
 import com.toedter.calendar.JDateChooser;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.Socket;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -68,10 +67,6 @@ public class Controller {
         statusList = dbHandler.initiateStatusList(conn);
         tasks = dbHandler.initiateTaskList(conn);
         children = new ArrayList<>();
-
-
-
-
     }
 
     public void setUsersOnTask() throws SQLException, IOException {
@@ -97,9 +92,6 @@ public class Controller {
                 }
             }
         }
-        for (int i = 0; i < tasks.get(3).getUserOnTask().size(); i++) {
-            System.out.println("users on task 3: " + tasks.get(3).getUserOnTask().get(i).getUserName());
-        }
     }
 
     public static void fillCombobox(JComboBox combobox, ArrayList arrayList) throws SQLException, IOException {
@@ -113,13 +105,29 @@ public class Controller {
 
     public static void fillList(JList list, ArrayList arrayList) throws SQLException, IOException {
         DefaultListModel model = new DefaultListModel();
-        //DefaultListModel modelOnTask = new DefaultListModel();
-        //ListUsersOnTask.setModel(modelOnTask);
 
         list.setModel(model);
         model.clear();
         for (int i = 0; i < arrayList.size(); i++) {
             model.addElement(arrayList.get(i));
+        }
+    }
+
+    public static void fillAndRemove(JList uList, JList userOnTaskLlist, ArrayList<User> userOnTask) throws SQLException, IOException {
+
+        DefaultListModel model = (DefaultListModel) uList.getModel();
+        DefaultListModel modelOnTask = (DefaultListModel) userOnTaskLlist.getModel();
+
+        fillList(uList, userList); 
+        modelOnTask.clear(); 
+
+        for (int i = 0; i < userOnTask.size(); i++) {
+            modelOnTask.addElement(userOnTask.get(i));
+            for (int j = 0; j < userList.size(); j++) {
+                if (modelOnTask.get(i).toString().equals(userList.get(j).getUserName().toString())) {
+                    model.removeElement(userList.get(j));
+                }
+            }
         }
     }
 
@@ -291,6 +299,27 @@ public class Controller {
                 model.removeElement(Controller.userList.get(i));
             }
         }
+    }
+
+    public static void fillComponents(int taskID, JList userList, JList userOnTaskLlist, JTable tableAllTasks, JTextField textFieldTaskName, JComboBox comboBoxType, JComboBox comboBoxStatus,
+            JComboBox comboBoxCustomer, JComboBox comboBoxProjectLeader, JDateChooser dateChooserExpectedStart, JDateChooser dateChooserExpectedEnd,
+            JTextField textFieldTime, JComboBox comboBoxPriority, JTextArea textAreaDescription) throws SQLException, IOException {
+
+        Task t = getSelectedTask(taskID);
+
+        textFieldTaskName.setText(t.getTaskName());
+        comboBoxType.setSelectedItem(t.getType());
+        comboBoxStatus.setSelectedItem(t.getStatus());
+        comboBoxCustomer.setSelectedItem(t.getCustomer());
+        System.out.println("USER: " + t.getUser());
+        comboBoxProjectLeader.removeAllItems();
+        fillCombobox(comboBoxProjectLeader, Controller.userList);
+        comboBoxProjectLeader.setSelectedItem(t.getUser());
+        textFieldTime.setText(t.getEstimatedtime() + "");
+        comboBoxPriority.setSelectedItem(t.getPriority());
+        textAreaDescription.setText(t.getDescription());
+
+        Controller.fillAndRemove(userList, userOnTaskLlist, t.getUserOnTask());
 
 
 
@@ -616,7 +645,6 @@ public class Controller {
         return taskID;
     }
 
-   
     public static int getCustomerID() {
         return customerID;
     }
@@ -631,5 +659,16 @@ public class Controller {
 
     public static void openCustomerLookUpFrame() {
         frame.setVisible(true);
+    }
+
+    public static Task getSelectedTask(int ID) {
+        Task task = null;
+
+        for (int i = 0; i < tasks.size(); i++) {
+            if (tasks.get(i).getTaskID() == ID) {
+                task = tasks.get(i);
+            }
+        }
+        return task;
     }
 }
