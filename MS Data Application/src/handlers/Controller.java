@@ -67,6 +67,10 @@ public class Controller {
         statusList = dbHandler.initiateStatusList(conn);
         tasks = dbHandler.initiateTaskList(conn);
         children = new ArrayList<>();
+
+
+
+
     }
 
     public void setUsersOnTask() throws SQLException, IOException {
@@ -91,6 +95,9 @@ public class Controller {
                     }
                 }
             }
+        }
+        for (int i = 0; i < tasks.get(3).getUserOnTask().size(); i++) {
+            System.out.println("users on task 3: " + tasks.get(3).getUserOnTask().get(i).getUserName());
         }
     }
 
@@ -118,8 +125,12 @@ public class Controller {
         DefaultListModel model = (DefaultListModel) uList.getModel();
         DefaultListModel modelOnTask = (DefaultListModel) userOnTaskLlist.getModel();
 
-        fillList(uList, userList); 
-        modelOnTask.clear(); 
+        model.clear();
+        for (int i = 0; i < userList.size(); i++) {
+            model.addElement(userList.get(i));
+
+        }
+        modelOnTask.clear();
 
         for (int i = 0; i < userOnTask.size(); i++) {
             modelOnTask.addElement(userOnTask.get(i));
@@ -302,7 +313,7 @@ public class Controller {
     }
 
     public static void fillComponents(int taskID, JList userList, JList userOnTaskLlist, JTable tableAllTasks, JTextField textFieldTaskName, JComboBox comboBoxType, JComboBox comboBoxStatus,
-            JComboBox comboBoxCustomer, JComboBox comboBoxProjectLeader, JDateChooser dateChooserExpectedStart, JDateChooser dateChooserExpectedEnd,
+            JTextField comboBoxCustomer, JComboBox comboBoxProjectLeader, JDateChooser dateChooserExpectedStart, JDateChooser dateChooserExpectedEnd,
             JTextField textFieldTime, JComboBox comboBoxPriority, JTextArea textAreaDescription) throws SQLException, IOException {
 
         Task t = getSelectedTask(taskID);
@@ -310,10 +321,7 @@ public class Controller {
         textFieldTaskName.setText(t.getTaskName());
         comboBoxType.setSelectedItem(t.getType());
         comboBoxStatus.setSelectedItem(t.getStatus());
-        comboBoxCustomer.setSelectedItem(t.getCustomer());
-        System.out.println("USER: " + t.getUser());
-        comboBoxProjectLeader.removeAllItems();
-        fillCombobox(comboBoxProjectLeader, Controller.userList);
+        comboBoxCustomer.setText(t.getCustomer().getCompanyName());
         comboBoxProjectLeader.setSelectedItem(t.getUser());
         textFieldTime.setText(t.getEstimatedtime() + "");
         comboBoxPriority.setSelectedItem(t.getPriority());
@@ -413,13 +421,13 @@ public class Controller {
     }
 
     public static void SaveChangesToTask(JTable tableAllTasks, JList listUsers, JList listUsersOnTask, JButton button, JTextField textFieldTaskName,
-            JComboBox comboBoxType, JComboBox comboBoxStatus, JComboBox comboBoxCustomer, JComboBox comboBoxTaskLeader, JDateChooser dateChooserExpectedStart,
+            JComboBox comboBoxType, JComboBox comboBoxStatus, JTextField TextFieldCustomer, JComboBox comboBoxTaskLeader, JDateChooser dateChooserExpectedStart,
             JDateChooser dateChooserExpectedEnd, JTextField textFieldEstimatedTime, JComboBox comboBoxPriority, JTextArea textAreaDescription) {
         DefaultTableModel modelTable = (DefaultTableModel) tableAllTasks.getModel();
         DefaultListModel modelOnTask = (DefaultListModel) listUsersOnTask.getModel();
         Type type = new Type(comboBoxType.getSelectedItem().toString());
         Statuss status = new Statuss(comboBoxStatus.getSelectedItem().toString());
-        Customer customer = new Customer(comboBoxCustomer.getSelectedItem().toString());
+        Customer customer = new Customer(TextFieldCustomer.getText());
         User user = new User(comboBoxTaskLeader.getSelectedItem().toString());
         ArrayList<User> userOnTask = new ArrayList<>();
 
@@ -580,7 +588,7 @@ public class Controller {
         return tasks;
     }
 
-    public static void clearAll(JTextField taskName, JComboBox type, JComboBox status, JComboBox customer, JComboBox taskManager,
+    public static void clearAll(JTextField taskName, JComboBox type, JComboBox status, JTextField customer, JComboBox taskManager,
             JDateChooser expStart, JDateChooser expEnd, JTextField expTimeUsed, JComboBox priority, JList Listuser, JList ListUsersOnTask) {
 
         DefaultListModel model = (DefaultListModel) Listuser.getModel();
@@ -589,7 +597,7 @@ public class Controller {
         taskName.setText("");
         type.setSelectedIndex(0);
         status.setSelectedIndex(0);
-        customer.setSelectedIndex(0);
+        customer.setText("");
         taskManager.setSelectedIndex(0);
         expStart.setDate(Controller.getCurrentDate());
         expEnd.setDate(Controller.getCurrentDate());
