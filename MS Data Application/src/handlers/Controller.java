@@ -74,12 +74,27 @@ public class Controller {
     }
     
     public void setUsersOnTask() throws SQLException, IOException{
-    //SKAL FLYTTES TIL DBHANDLER
+    
+        ArrayList<TimeSpentOnTask> tsotList = dbHandler.SPgetTimeSpentOnTask();
+        // taskList = tasks;
+        
         for (int i = 0; i < tasks.size(); i++) {
-            tasks.get(i).setUserOnTask(dbHandler.SPgetUserOnTask(tasks.get(i).getTaskID()));
+            for (int j = 0; j < tsotList.size(); j++) {
+                if(tasks.get(i).getTaskID() == tsotList.get(j).getTaskID()){
+                    
+                    // Run through userList to find the userObject
+                    for (int k = 0; k < userList.size(); k++) {
+                        if(userList.get(k).getUserID() == tsotList.get(j).getUserID()){
+                            
+                            // Add user to the userlist on task
+                            tasks.get(i).addToUserOnTask(userList.get(k));
+                        }
+                    }
+                }
+            }
         }
     }
- 
+
 
     public static void fillCombobox(JComboBox combobox, ArrayList arrayList) throws SQLException, IOException {
 

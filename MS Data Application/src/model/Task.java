@@ -29,7 +29,7 @@ public class Task {
     private ArrayList<Task> taskList;
     private ArrayList<User> userOnTask;
 
-    public Task(int taskID,int parentID, String taskName, Type type, Statuss status, Customer customer, User user, Date startDate, Date endDate, int estimatedtime, int priority, String description,ArrayList<User> userOnTask) {
+    public Task(int taskID, int parentID, String taskName, Type type, Statuss status, Customer customer, User user, Date startDate, Date endDate, int estimatedtime, int priority, String description, ArrayList<User> userOnTask) {
         this.taskID = taskID;
         this.parentID = parentID;
         this.taskName = taskName;
@@ -61,8 +61,9 @@ public class Task {
         commentList = new ArrayList<>();
         taskList = new ArrayList<>();
     }
-        //SubTask
-        public Task(String taskName, int parentID, Type type, Statuss status, Customer customer, User user, Date startDate, Date endDate, int estimatedtime, int priority, String description) {
+    //SubTask
+
+    public Task(String taskName, int parentID, Type type, Statuss status, Customer customer, User user, Date startDate, Date endDate, int estimatedtime, int priority, String description) {
         this.taskName = taskName;
         this.parentID = parentID;
         this.type = type;
@@ -203,6 +204,11 @@ public class Task {
         this.userOnTask = userOnTask;
     }
     
+    public void addToUserOnTask(User u){
+        userOnTask.add(u);
+    }
     
-    
+    public void removeUserOnTask(User u){
+        userOnTask.remove(u);
+    }
 }

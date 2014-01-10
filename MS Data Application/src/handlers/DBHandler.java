@@ -12,6 +12,7 @@ import javax.swing.JList;
 import model.Customer;
 import model.Statuss;
 import model.Task;
+import model.TimeSpentOnTask;
 import model.Type;
 import model.User;
 
@@ -546,34 +547,57 @@ public class DBHandler {
         }
     }
 
-    public ArrayList<User> SPgetUserOnTask(int taskID) throws SQLException, IOException {
-        int userID;
-        int accessLevel;
-        String username;
-        String firstName;
-        String lastName;
-        String password;
-
-        ArrayList<User> userOnTaskList = new ArrayList<>();
-
+//    public ArrayList<User> SPgetUserOnTask(int taskID) throws SQLException, IOException {
+//        int userID;
+//        int accessLevel;
+//        String username;
+//        String firstName;
+//        String lastName;
+//        String password;
+//
+//        ArrayList<User> userOnTaskList = new ArrayList<>();
+//
+//        Connection conn = (Connection) initiateSystemDBConn()[0];
+//
+//        CallableStatement cs = null;
+//        cs = conn.prepareCall("{call getUserOnTask(?)}");
+//        cs.setInt(1, taskID);
+//        ResultSet rs = cs.executeQuery();
+//
+//        while (rs.next()) {
+//            userID = rs.getInt("IDUser");
+//            username = rs.getString("shortName");
+//            firstName = rs.getString("userFirstName");
+//            lastName = rs.getString("userLastName");
+//            password = rs.getString("password");
+//            accessLevel = rs.getInt("accessLevel");
+//            userOnTaskList.add(new User(userID, username, firstName, lastName, password, accessLevel));
+//        }
+//        return userOnTaskList;
+//    }
+    
+    
+    public ArrayList<TimeSpentOnTask> SPgetTimeSpentOnTask() throws SQLException, IOException{
+        ArrayList<TimeSpentOnTask> tsotList = new ArrayList();
+        
         Connection conn = (Connection) initiateSystemDBConn()[0];
-
+        
         CallableStatement cs = null;
-        cs = conn.prepareCall("{call getUserOnTask(?)}");
-        cs.setInt(1, taskID);
+        cs = conn.prepareCall("{call getAllTimeSpentOnTask}");
         ResultSet rs = cs.executeQuery();
 
         while (rs.next()) {
-            userID = rs.getInt("IDUser");
-            username = rs.getString("shortName");
-            firstName = rs.getString("userFirstName");
-            lastName = rs.getString("userLastName");
-            password = rs.getString("password");
-            accessLevel = rs.getInt("accessLevel");
-            userOnTaskList.add(new User(userID, username, firstName, lastName, password, accessLevel));
+            int taskID = rs.getInt("TaskID");
+            int userID = rs.getInt("UsersID");
+            int timeSpent = rs.getInt("TimeSpent");
+            
+            TimeSpentOnTask tsot = new TimeSpentOnTask(userID, taskID, timeSpent);
+            tsotList.add(tsot);
         }
-        return userOnTaskList;
+
+        return  tsotList;
     }
+    
 
     public void SPremoveAllUsersOnTask(int taskID) throws SQLException, IOException {
         Connection conn = (Connection) initiateSystemDBConn()[0];
