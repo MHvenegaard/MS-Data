@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
+import model.Task;
 
 /**
  *
@@ -489,6 +490,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         try {
             try {
                 //  fillAllWithSelectedTask((Integer) modelTable.getValueAt(tableAllTasks.getSelectedRow(), 0));
+                
                 Controller.fillWithSelectedTask(listUsers,
                         listUsersOnTask,
                         tableAllTasks,

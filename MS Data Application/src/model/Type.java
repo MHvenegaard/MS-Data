@@ -19,6 +19,7 @@ public class Type {
         this.typeName = typeName;
         this.description = description;
     }
+
     
         
     public Type(String typeName) {

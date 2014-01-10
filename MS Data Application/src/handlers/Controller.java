@@ -57,44 +57,50 @@ public class Controller {
         tasks = dbHandler.SPgetTasks();
         frame = new CustomerLookUpFrame();
         initiateController();
-        
-    }
-    
+        setUsersOnTask();
 
-    private void initiateController() throws SQLException, IOException{
+    }
+
+    private void initiateController() throws SQLException, IOException {
         Connection conn = (Connection) dbHandler.initiateSystemDBConn()[0];
         userList = dbHandler.initiateUserList(conn);
         typeList = dbHandler.initiateTypeList(conn);
         statusList = dbHandler.initiateStatusList(conn);
         tasks = dbHandler.initiateTaskList(conn);
         children = new ArrayList<>();
-        
-        
-        
+
+
+
+
     }
-    
-    public void setUsersOnTask() throws SQLException, IOException{
-    
+
+    public void setUsersOnTask() throws SQLException, IOException {
+
         ArrayList<TimeSpentOnTask> tsotList = dbHandler.SPgetTimeSpentOnTask();
         // taskList = tasks;
-        
+        System.out.println("Task size: " + tasks.size());
         for (int i = 0; i < tasks.size(); i++) {
             for (int j = 0; j < tsotList.size(); j++) {
-                if(tasks.get(i).getTaskID() == tsotList.get(j).getTaskID()){
-                    
+                // System.out.println("Er disse de samme : " +  tasks.get(i).getTaskID() + "&" + tsotList.get(j).getTaskID());
+                if (tasks.get(i).getTaskID() == tsotList.get(j).getTaskID()) {
+                    System.out.println(tsotList.size());
+
                     // Run through userList to find the userObject
                     for (int k = 0; k < userList.size(); k++) {
-                        if(userList.get(k).getUserID() == tsotList.get(j).getUserID()){
-                            
+                        if (userList.get(k).getUserID() == tsotList.get(j).getUserID()) {
+
                             // Add user to the userlist on task
+                            System.out.println("Bliver tilføjet til liste" + tasks.get(i));
                             tasks.get(i).addToUserOnTask(userList.get(k));
                         }
                     }
                 }
             }
         }
+        for (int i = 0; i < tasks.get(3).getUserOnTask().size(); i++) {
+            System.out.println("users on task 3: " + tasks.get(3).getUserOnTask().get(i).getUserName());
+        }
     }
-
 
     public static void fillCombobox(JComboBox combobox, ArrayList arrayList) throws SQLException, IOException {
 
@@ -152,10 +158,10 @@ public class Controller {
         }
         return tasks;
     }
-    
-        public static void fillTableWithList(JTable tableAllTask, ArrayList<Task> fillList) throws IOException, SQLException {
-        
-            DefaultTableModel modelTable = (DefaultTableModel) tableAllTask.getModel();
+
+    public static void fillTableWithList(JTable tableAllTask, ArrayList<Task> fillList) throws IOException, SQLException {
+
+        DefaultTableModel modelTable = (DefaultTableModel) tableAllTask.getModel();
         modelTable.setRowCount(0);
 
         for (int i = 0; i < fillList.size(); i++) {
@@ -175,21 +181,21 @@ public class Controller {
 
         }
     }
-        
-     public static void fillTableWithCustomer(JTable tableAllTask) throws IOException, SQLException {       
+
+    public static void fillTableWithCustomer(JTable tableAllTask) throws IOException, SQLException {
         DefaultTableModel modelTable = (DefaultTableModel) tableAllTask.getModel();
         modelTable.setRowCount(0);
 
         ArrayList<Customer> customerList = Controller.dbHandler.SPgetCustomers();
-        
+
         for (int i = 0; i < customerList.size(); i++) {
             Object[] data = {customerList.get(i).getIdCustomer(),
                 customerList.get(i).getCompanyName(),
                 customerList.get(i).getPhone(),
-            customerList.get(i).getPhone()};                            
+                customerList.get(i).getPhone()};
             modelTable.addRow(data);
         }
-    }    
+    }
 
     public static void addUserToOnTaskList(JList listUsers, JList listUsersOnTask, JButton button) {
         int index = listUsers.getSelectedIndex();
@@ -234,40 +240,60 @@ public class Controller {
         DefaultListModel modelOnTask = (DefaultListModel) userOnTaskLlist.getModel();
         DefaultTableModel modelTable = (DefaultTableModel) tableAllTasks.getModel();
         int taskID = Integer.parseInt(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 0).toString());
+        int parentID = Integer.parseInt(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 1).toString());
+        String taskName = (modelTable.getValueAt(tableAllTasks.getSelectedRow(), 2).toString());
+        Type type = new Type(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 3).toString());
+        Statuss status = new Statuss(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 4).toString());
+        Customer customer = new Customer(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 5).toString());
+        User user = new User(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 6).toString());
+        int time = Integer.parseInt(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 9).toString());
+        int priority = Integer.parseInt(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 10).toString());
+        String description = modelTable.getValueAt(tableAllTasks.getSelectedRow(), 11).toString();
 
-        textFieldTaskName.setText(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 2).toString());
-        comboBoxType.setSelectedItem(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 3).toString());
-        comboBoxStatus.setSelectedItem(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 4).toString());
-        comboBoxCustomer.setSelectedItem(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 5).toString());
-        comboBoxProjectLeader.setSelectedItem(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 6).toString());
         Date startDate = sdf.parse(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 7).toString());
         dateChooserExpectedStart.setDate(startDate);
         Date endDate = sdf.parse(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 8).toString());
         dateChooserExpectedEnd.setDate(endDate);
-        textFieldTime.setText(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 9).toString());
-        comboBoxPriority.setSelectedItem(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 10).toString());
-        textAreaDescription.setText(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 11).toString());
+
+        textFieldTaskName.setText(taskName);
+        comboBoxType.setSelectedItem(type);
+        comboBoxStatus.setSelectedItem(status);
+        comboBoxCustomer.setSelectedItem(customer);
+        comboBoxProjectLeader.setSelectedItem(user);
+        textFieldTime.setText(time + "");
+        comboBoxPriority.setSelectedItem(priority);
+        textAreaDescription.setText(description);
+
 
         modelOnTask.clear();
         model.clear();
         Controller.fillList(userList, Controller.userList);
 
-        for (int i = 0; i < tasks.size(); i++) {
-            if (tasks.get(i).getTaskID() == taskID) {
-                userOnTaskList = tasks.get(i).getUserOnTask();
-            }
+        Task task = new Task(taskID, parentID, taskName, type, status, customer, user, startDate, endDate, time, priority, description, userOnTaskList);
 
-        }
+        //Løb opgaverne igennem
+//        for (int i = 0; i < tasks.size(); i++) {
+//            if (tasks.get(i).getTaskID() == taskID) {
+//                userOnTaskList = tasks.get(i).getUserOnTask();
+//            }
+//        }
 
+        userOnTaskList = task.getUserOnTask();
+        System.out.println("userOnTaskList Size : " + userOnTaskList.size());
         model = (DefaultListModel) userList.getModel();
         modelOnTask = (DefaultListModel) userOnTaskLlist.getModel();
 
         for (int i = 0; i < userOnTaskList.size(); i++) {
             modelOnTask.addElement(Controller.userList.get(i));
+            System.out.println(Controller.userList.get(i));
             if (modelOnTask.get(i).toString().equals(Controller.userList.get(i).getUserName().toString())) {
+
                 model.removeElement(Controller.userList.get(i));
             }
         }
+
+
+
     }
 
     public static void createNewTask(JTable tableAllTask, JList listUsersOnTask, JButton button, JCheckBox checkBoxSub, JTextField textFieldTaskName, JComboBox comboBoxType, JComboBox comboBoxStatus,
@@ -442,7 +468,6 @@ public class Controller {
 //            dcbm.addElement(customerList.get(i));
 //        }
 //        cb.setModel(dcbm);
-
     }
 
     public static void fillComboBoxWithType(JComboBox cb) {
@@ -494,12 +519,12 @@ public class Controller {
         System.out.println(column.getHeaderValue().toString());
         table.removeColumn(column);
     }
-    
-     public static void removeTableHeadersCustomer(JTable table) {
+
+    public static void removeTableHeadersCustomer(JTable table) {
         TableColumn column = table.getColumnModel().getColumn(0);
         System.out.println(column.getHeaderValue().toString());
         table.removeColumn(column);
-      }
+    }
 
     public static ArrayList<Task> updateTableWithNewTasks(JTable tableAllTask) throws IOException, SQLException {
         tasks = dbHandler.SPgetTasks();
@@ -571,12 +596,12 @@ public class Controller {
     }
 
     public static ArrayList<Task> getAllChildrenById(int Id) {
-        System.out.println("getAllChildrenById(" + Id +")");
+        System.out.println("getAllChildrenById(" + Id + ")");
         for (int i = 0; i < tasks.size(); i++) {
             if (tasks.get(i).getParentID() == Id && tasks.get(i).getTaskID() != Id) {
                 System.out.println("adding: " + tasks.get(i).getTaskName());
                 children.add(tasks.get(i));
-                System.out.println("Kalder metode: getAllChildrenById(" +tasks.get(i).getTaskID() +")");
+                System.out.println("Kalder metode: getAllChildrenById(" + tasks.get(i).getTaskID() + ")");
                 getAllChildrenById(tasks.get(i).getTaskID());
             }
         }
@@ -586,11 +611,12 @@ public class Controller {
     public static int getSelectedTaskId(JTable mainTaskTable) {
         children.clear();
         DefaultTableModel modelTable = (DefaultTableModel) mainTaskTable.getModel();
-        System.out.println("Selected row: " +mainTaskTable.getSelectedRow());
+        System.out.println("Selected row: " + mainTaskTable.getSelectedRow());
         int taskID = Integer.parseInt(modelTable.getValueAt(mainTaskTable.convertRowIndexToModel(mainTaskTable.getSelectedRow()), 0).toString());
         return taskID;
     }
 
+   
     public static int getCustomerID() {
         return customerID;
     }
@@ -599,14 +625,11 @@ public class Controller {
         Controller.customerID = customerID;
     }
 
-    public static String getCustomerIDToString(){
-        return customerID +"";
+    public static String getCustomerIDToString() {
+        return customerID + "";
     }
-    
-    public static void openCustomerLookUpFrame(){
+
+    public static void openCustomerLookUpFrame() {
         frame.setVisible(true);
     }
-  
-    
-    
 }

@@ -15,15 +15,19 @@ public class TimeSpentOnTask {
     private int taskID;
     
     
-    public TimeSpentOnTask(int userID,int taskID){
-        timeSpent = 0;
+     public TimeSpentOnTask(int userID,int taskID, int timeSpent){
+        this.timeSpent = timeSpent;
+        this.userID = userID;
+        this.taskID = taskID;
     }
     
-    public TimeSpentOnTask(int userID,int taskID, int timeSpent){
-        this.timeSpent = timeSpent;
+    public TimeSpentOnTask(int userID,int taskID){
+        timeSpent = 0;
+        this.userID = userID;
+        this.taskID = taskID;
     }
-
-    public int getTimeSpent() {
+    
+     public int getTimeSpent() {
         return timeSpent;
     }
 
