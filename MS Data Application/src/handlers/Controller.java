@@ -55,44 +55,34 @@ public class Controller {
         userList = new ArrayList();
         typeList = new ArrayList();
         statusList = new ArrayList();
+        customerList = new ArrayList();
         
         tasks = new ArrayList();
         frame = new CustomerLookUpFrame();
-        
-        
-
     }
-
+    
     public void initiateController() throws SQLException, IOException {
         Connection conn = (Connection) dbHandler.initiateSystemDBConn()[0];
         userList = dbHandler.initiateUserList(conn);
         typeList = dbHandler.initiateTypeList(conn);
         statusList = dbHandler.initiateStatusList(conn);
         tasks = dbHandler.initiateTaskList(conn);
+        customerList = dbHandler.SPgetCustomers();
         children = new ArrayList<>();
         setUsersOnTask();
-        
-
-
     }
 
     public void setUsersOnTask() throws SQLException, IOException {
 
         ArrayList<TimeSpentOnTask> tsotList = dbHandler.SPgetTimeSpentOnTask();
         // taskList = tasks;
-        System.out.println("Task size: " + tasks.size());
         for (int i = 0; i < tasks.size(); i++) {
             for (int j = 0; j < tsotList.size(); j++) {
-                // System.out.println("Er disse de samme : " +  tasks.get(i).getTaskID() + "&" + tsotList.get(j).getTaskID());
                 if (tasks.get(i).getTaskID() == tsotList.get(j).getTaskID()) {
-                    System.out.println(tsotList.size());
-
                     // Run through userList to find the userObject
                     for (int k = 0; k < userList.size(); k++) {
                         if (userList.get(k).getUserID() == tsotList.get(j).getUserID()) {
-
                             // Add user to the userlist on task
-                            System.out.println("Bliver tilføjet til liste" + tasks.get(i));
                             tasks.get(i).addToUserOnTask(userList.get(k));
                         }
                     }
@@ -101,18 +91,15 @@ public class Controller {
         }
     }
 
+    //Universalmetoder
     public static void fillCombobox(JComboBox combobox, ArrayList arrayList) throws SQLException, IOException {
-
         for (int i = 0; i < arrayList.size(); i++) {
-            //combobox.addItem(arrayList.get(i).toString());
             combobox.addItem(arrayList.get(i));
         }
-//        combobox.setSelectedIndex(0);
     }
-
+    
     public static void fillList(JList list, ArrayList arrayList) throws SQLException, IOException {
         DefaultListModel model = new DefaultListModel();
-
         list.setModel(model);
         model.clear();
         for (int i = 0; i < arrayList.size(); i++) {
@@ -120,6 +107,7 @@ public class Controller {
         }
     }
 
+    //Fills JList.UserOnTaskList and removes ppl from JList.UserList
     public static void fillAndRemove(JList uList, JList userOnTaskLlist, ArrayList<User> userOnTask) throws SQLException, IOException {
 
         DefaultListModel model = (DefaultListModel) uList.getModel();
@@ -142,6 +130,7 @@ public class Controller {
         }
     }
 
+    //Returns the current date
     public static Date getCurrentDate() {
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -177,7 +166,6 @@ public class Controller {
         }
         return tasks;
     }
-
     public static void fillTableWithList(JTable tableAllTask, ArrayList<Task> fillList) throws IOException, SQLException {
 
         DefaultTableModel modelTable = (DefaultTableModel) tableAllTask.getModel();
@@ -200,7 +188,6 @@ public class Controller {
 
         }
     }
-
     public static void fillTableWithCustomer(JTable tableAllTask) throws IOException, SQLException {
         DefaultTableModel modelTable = (DefaultTableModel) tableAllTask.getModel();
         modelTable.setRowCount(0);
@@ -216,6 +203,7 @@ public class Controller {
         }
     }
 
+    //add and remove users in the userlists
     public static void addUserToOnTaskList(JList listUsers, JList listUsersOnTask, JButton button) {
         int index = listUsers.getSelectedIndex();
 
@@ -229,7 +217,6 @@ public class Controller {
             JOptionPane.showMessageDialog(button, "Der ikke valgt nogen medarbejder", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
         }
     }
-
     public static void removeUserFromTaskList(JList listUsers, JList listUsersOnTask, JButton button) {
         int index = listUsersOnTask.getSelectedIndex();
         DefaultListModel model = (DefaultListModel) listUsers.getModel();
@@ -246,69 +233,6 @@ public class Controller {
 
         } else {
             JOptionPane.showMessageDialog(button, "Der ikke valgt nogen medarbejder", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
-        }
-    }
-
-    public static void fillWithSelectedTask(JList userList, JList userOnTaskLlist, JTable tableAllTasks, JTextField textFieldTaskName, JComboBox comboBoxType, JComboBox comboBoxStatus,
-            JComboBox comboBoxCustomer, JComboBox comboBoxProjectLeader, JDateChooser dateChooserExpectedStart, JDateChooser dateChooserExpectedEnd,
-            JTextField textFieldTime, JComboBox comboBoxPriority, JTextArea textAreaDescription) throws ParseException, SQLException, IOException {
-
-        ArrayList<User> userOnTaskList = new ArrayList<>();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        DefaultListModel model = (DefaultListModel) userList.getModel();
-        DefaultListModel modelOnTask = (DefaultListModel) userOnTaskLlist.getModel();
-        DefaultTableModel modelTable = (DefaultTableModel) tableAllTasks.getModel();
-        int taskID = Integer.parseInt(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 0).toString());
-        int parentID = Integer.parseInt(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 1).toString());
-        String taskName = (modelTable.getValueAt(tableAllTasks.getSelectedRow(), 2).toString());
-        Type type = new Type(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 3).toString());
-        Statuss status = new Statuss(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 4).toString());
-        Customer customer = new Customer(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 5).toString());
-
-        int time = Integer.parseInt(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 9).toString());
-        int priority = Integer.parseInt(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 10).toString());
-        String description = modelTable.getValueAt(tableAllTasks.getSelectedRow(), 11).toString();
-
-        Date startDate = sdf.parse(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 7).toString());
-        dateChooserExpectedStart.setDate(startDate);
-        Date endDate = sdf.parse(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 8).toString());
-        dateChooserExpectedEnd.setDate(endDate);
-
-        textFieldTaskName.setText(taskName);
-        comboBoxType.setSelectedItem(type);
-        comboBoxStatus.setSelectedItem(status);
-        comboBoxCustomer.setSelectedItem(customer);
-    //    comboBoxProjectLeader.setSelectedItem(user);
-        textFieldTime.setText(time + "");
-        comboBoxPriority.setSelectedItem(priority);
-        textAreaDescription.setText(description);
-
-
-        modelOnTask.clear();
-        model.clear();
-        Controller.fillList(userList, Controller.userList);
-
-   //     Task task = new Task(taskID, parentID, taskName, type, status, customer, user, startDate, endDate, time, priority, description, userOnTaskList);
-
-        //Løb opgaverne igennem
-//        for (int i = 0; i < tasks.size(); i++) {
-//            if (tasks.get(i).getTaskID() == taskID) {
-//                userOnTaskList = tasks.get(i).getUserOnTask();
-//            }
-//        }
-
-   //     userOnTaskList = task.getUserOnTask();
-        System.out.println("userOnTaskList Size : " + userOnTaskList.size());
-        model = (DefaultListModel) userList.getModel();
-        modelOnTask = (DefaultListModel) userOnTaskLlist.getModel();
-
-        for (int i = 0; i < userOnTaskList.size(); i++) {
-            modelOnTask.addElement(Controller.userList.get(i));
-            System.out.println(Controller.userList.get(i));
-            if (modelOnTask.get(i).toString().equals(Controller.userList.get(i).getUserName().toString())) {
-
-                model.removeElement(Controller.userList.get(i));
-            }
         }
     }
 
@@ -466,7 +390,7 @@ public class Controller {
     public static void fillTableWithUser(JTable table) throws IOException, SQLException {
         DefaultTableModel modelTable = (DefaultTableModel) table.getModel();
         modelTable.setRowCount(0);
-        userList = Controller.dbHandler.getUserInUserDB();
+        userList = Controller.dbHandler.SPgetUsers();
         for (int i = 0; i < userList.size(); i++) {
             Object[] data = {userList.get(i).getUserID(),
                 userList.get(i).getFirstName(),
@@ -478,7 +402,6 @@ public class Controller {
 
         }
     }
-
     public static void fillTableWithType(JTable table) {
         DefaultTableModel modelTable = (DefaultTableModel) table.getModel();
         modelTable.setRowCount(0);
@@ -488,34 +411,8 @@ public class Controller {
                 typeList.get(i).getTypeName(),
                 typeList.get(i).getDescription()};
             modelTable.addRow(data);
-
         }
     }
-
-    public static void fillComboBoxWithStatus(JComboBox cb) {
-        DefaultComboBoxModel dcbm = new DefaultComboBoxModel();
-        for (int i = 0; i < statusList.size(); i++) {
-            dcbm.addElement(statusList.get(i));
-        }
-        cb.setModel(dcbm);
-    }
-
-    public static void fillComboBoxWithCustomers(JComboBox cb) {
-//        DefaultComboBoxModel dcbm = new DefaultComboBoxModel();
-//        for (int i = 0; i < customerList.size(); i++) {
-//            dcbm.addElement(customerList.get(i));
-//        }
-//        cb.setModel(dcbm);
-    }
-
-    public static void fillComboBoxWithType(JComboBox cb) {
-        DefaultComboBoxModel dcbm = new DefaultComboBoxModel();
-        for (int i = 0; i < typeList.size(); i++) {
-            dcbm.addElement(typeList.get(i));
-        }
-        cb.setModel(dcbm);
-    }
-
     public static void fillTableWithStatus(JTable table) {
         DefaultTableModel modelTable = (DefaultTableModel) table.getModel();
         modelTable.setRowCount(0);
@@ -634,12 +531,9 @@ public class Controller {
     }
 
     public static ArrayList<Task> getAllChildrenById(int Id) {
-        System.out.println("getAllChildrenById(" + Id + ")");
         for (int i = 0; i < tasks.size(); i++) {
             if (tasks.get(i).getParentID() == Id && tasks.get(i).getTaskID() != Id) {
-                System.out.println("adding: " + tasks.get(i).getTaskName());
                 children.add(tasks.get(i));
-                System.out.println("Kalder metode: getAllChildrenById(" + tasks.get(i).getTaskID() + ")");
                 getAllChildrenById(tasks.get(i).getTaskID());
             }
         }
