@@ -17,27 +17,25 @@ import model.User;
  */
 public class Mainframe extends javax.swing.JFrame {
 
-    
     private Controller controller;
-            
 
     /**
      * Creates new form Mainframe
      */
     public Mainframe(Controller control) throws ClassNotFoundException, SQLException, IOException {
         controller = control;
-        
+
         initComponents();
-        
+
         setTitle();
+
+        createGUIBasedOnAccessLevel(controller.getUser().getAccessLevel());
+
+
         
-        tabPane.add("Hovedside", new Home());
-        tabPane.add("Kundehåndtering", new CustomerHandlingPanel());
-        tabPane.add("Opgaveoprettelse", new CreateTaskPanel());
-        tabPane.add("Opgavehåndtering", new TaskHandlingPanel());
-        tabPane.add("Brugerhåndtering", new UserHandlingPanel());
-        tabPane.add("Typehåndtering", new TypeAndStatusHandlingPanel());
         
+
+     
     }
 
     /**
@@ -81,22 +79,39 @@ public class Mainframe extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
-    private void setTitle(){
-        
+    private void createGUIBasedOnAccessLevel(int accessLevel) throws SQLException, IOException, ClassNotFoundException {
+
+        // Admin
+        if (accessLevel == 0) {
+            tabPane.add("Hovedside", new Home());
+            tabPane.add("Kundehåndtering", new CustomerHandlingPanel());
+            tabPane.add("Opgaveoprettelse", new CreateTaskPanel());
+            tabPane.add("Opgavehåndtering", new TaskHandlingPanel());
+            tabPane.add("Brugerhåndtering", new UserHandlingPanel());
+            tabPane.add("Typehåndtering", new TypeAndStatusHandlingPanel());
+        }
+        // User
+        else{
+            tabPane.add("Hovedside", new Home());
+            tabPane.add("Opgavehåndtering", new TaskHandlingPanel());
+        }
+
+    }
+
+    private void setTitle() {
+
         String userName = controller.getUser().getUserName();
         String accessLevel;
-        if(controller.getUser().getAccessLevel() == 0){
+        if (controller.getUser().getAccessLevel() == 0) {
             accessLevel = "Administrator";
-        }
-        else{
+        } else {
             accessLevel = "Bruger";
         }
         this.setTitle(userName + " - " + accessLevel);
     }
-    
+
     /**
-     * 
+     *
      * @param args the command line arguments
      */
     public static void main(String args[]) {
@@ -127,12 +142,12 @@ public class Mainframe extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    
+
                     Controller ctrl = new Controller();
                     User us = new User(1337, "DummyUser", "Dummy", "User", "admin", 0);
                     ctrl.setUser(us);
                     new Mainframe(ctrl).setVisible(true);
-                    
+
                 } catch (ClassNotFoundException ex) {
                     Logger.getLogger(Mainframe.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (SQLException ex) {
