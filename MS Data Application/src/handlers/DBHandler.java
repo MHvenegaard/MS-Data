@@ -212,27 +212,14 @@ public class DBHandler {
      * 
      *
      */
-    public ArrayList<Customer> retriveCustomers(String query) throws SQLException, IOException {
-
-        ArrayList<Customer> customerList = new ArrayList<>();
-
-        Statement stmt = (Statement) initiateSystemDBConn()[1];
-
-        ResultSet rs = stmt.executeQuery(query);
-        while (rs.next()) {
-            String companyName = rs.getString("CompanyName");
-            Customer customer = new Customer(companyName);
-            customerList.add(customer);
-        }
-        return customerList;
-    }
+   
 
     public ArrayList<Customer> SPgetCustomers() throws SQLException, IOException {
         int customerID;
         int customerPhone;
         String customerName;
-        String customerAddress;
-        String customerCountry;
+        String customerCVR;
+
 
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
@@ -248,8 +235,8 @@ public class DBHandler {
             customerName = rs.getString("CompanyName");
             System.out.println(customerName);
             customerPhone = rs.getInt("Phone");
-            customerAddress = rs.getString("CVR");
-            Customer customer = new Customer(customerID, customerName, customerPhone, customerAddress);
+            customerCVR = rs.getString("CVR");
+            Customer customer = new Customer(customerID, customerName, customerPhone, customerCVR);
             customerList.add(customer);
         }
         return customerList;
@@ -285,10 +272,10 @@ public class DBHandler {
 
     public ArrayList<User> SPgetUsers() throws SQLException, IOException {
         int userID;
-        String userName = null;
-        String password = null;
-        String firstName = null;
-        String lastName = null;
+        String userName;
+        String password;
+        String firstName;
+        String lastName;
         int accessLevel;
 
         Connection conn = (Connection) initiateSystemDBConn()[0];
@@ -316,6 +303,7 @@ public class DBHandler {
         String statusName;
         int statusID;
         String description;
+        
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
         ArrayList<Statuss> statusList = new ArrayList<>();
@@ -452,10 +440,10 @@ public class DBHandler {
         int parentID;
         int estimatedtime;
         int priority;
+        String taskName;
         String status;
         String type;
         String description;
-        String taskName;
         Date startDate;
         Date endDate;
         String customer;
@@ -489,10 +477,14 @@ public class DBHandler {
 
             customer = rs.getString("Customer");
             Customer c = new Customer(customer);
+         
+            
             User u = null;
+                       
             for (int i = 0; i < Controller.userList.size(); i++) {
-                if(Controller.userList.get(i).getUserName().equals(rs.getString("User")))
+                if(Controller.userList.get(i).getUserName().equals(rs.getString("User"))){
                  u = Controller.userList.get(i);
+                }
             }
 
             //VIL IKKE SENDE DEN MED SÅ HENTER UD I CONTROLLER

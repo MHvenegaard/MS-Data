@@ -362,7 +362,7 @@ public class Home extends javax.swing.JPanel {
 
     private void initiate(){
         try {
-            Controller.fillComboBoxModelWithAllUsers(comboboxSortTaskAfterUser);
+           // Controller.fillComboBoxModelWithAllUsers(comboboxSortTaskAfterUser);
             Controller.setCurrentUserIDToTextField(textFieldUser);
             Controller.fillComboBoxWithType(comboBoxType);
             Controller.fillComboBoxWithStatus(comboBoxStatus);

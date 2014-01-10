@@ -43,6 +43,7 @@ public class Controller {
     public static ArrayList<Statuss> statusList;
     public static ArrayList<Task> tasks;
     public static ArrayList<Task> children;
+    public static ArrayList<Customer> customerList;
     public static int customerID;
     public static JFrame frame;
 
@@ -106,7 +107,7 @@ public class Controller {
             //combobox.addItem(arrayList.get(i).toString());
             combobox.addItem(arrayList.get(i));
         }
-        combobox.setSelectedIndex(0);
+//        combobox.setSelectedIndex(0);
     }
 
     public static void fillList(JList list, ArrayList arrayList) throws SQLException, IOException {
