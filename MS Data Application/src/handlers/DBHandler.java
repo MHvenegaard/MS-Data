@@ -1,5 +1,6 @@
 package handlers;
 
+import com.sun.jmx.snmp.UserAcl;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -299,7 +300,7 @@ public class DBHandler {
         ResultSet rs = cs.executeQuery();
 
         while (rs.next()) {
-            userID = rs.getInt("idUser");
+            userID = rs.getInt("IDUser");
             userName = rs.getString("shortName");
             firstName = rs.getString("userFirstName");
             lastName = rs.getString("userLastName");
@@ -488,9 +489,11 @@ public class DBHandler {
 
             customer = rs.getString("Customer");
             Customer c = new Customer(customer);
-
-            taskLeader = rs.getString("User");
-            User u = new User(taskLeader);
+            User u = null;
+            for (int i = 0; i < Controller.userList.size(); i++) {
+                if(Controller.userList.get(i).getUserName().equals(rs.getString("User")))
+                 u = Controller.userList.get(i);
+            }
 
             //VIL IKKE SENDE DEN MED SÅ HENTER UD I CONTROLLER
             //userOnTask = SPgetUserOnTask(taskID);
@@ -931,7 +934,11 @@ public class DBHandler {
             Customer c = new Customer(customer);
 
             taskLeader = rs.getString("User");
-            User u = new User(taskLeader);
+            User u = null;
+                for (int i = 0; i < Controller.userList.size(); i++) {
+                if(Controller.userList.get(i).getUserName().equals(rs.getString("User")))
+                 u = Controller.userList.get(i);
+            }
             Task task = new Task(taskID, parentID, taskName, t, s, c, u, startDate, endDate, estimatedtime, priority, description, userOnTask);
 
             tasks.add(task);

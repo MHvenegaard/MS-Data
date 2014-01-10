@@ -263,7 +263,7 @@ public class Controller {
         Type type = new Type(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 3).toString());
         Statuss status = new Statuss(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 4).toString());
         Customer customer = new Customer(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 5).toString());
-        User user = new User(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 6).toString());
+
         int time = Integer.parseInt(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 9).toString());
         int priority = Integer.parseInt(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 10).toString());
         String description = modelTable.getValueAt(tableAllTasks.getSelectedRow(), 11).toString();
@@ -277,7 +277,7 @@ public class Controller {
         comboBoxType.setSelectedItem(type);
         comboBoxStatus.setSelectedItem(status);
         comboBoxCustomer.setSelectedItem(customer);
-        comboBoxProjectLeader.setSelectedItem(user);
+    //    comboBoxProjectLeader.setSelectedItem(user);
         textFieldTime.setText(time + "");
         comboBoxPriority.setSelectedItem(priority);
         textAreaDescription.setText(description);
@@ -287,7 +287,7 @@ public class Controller {
         model.clear();
         Controller.fillList(userList, Controller.userList);
 
-        Task task = new Task(taskID, parentID, taskName, type, status, customer, user, startDate, endDate, time, priority, description, userOnTaskList);
+   //     Task task = new Task(taskID, parentID, taskName, type, status, customer, user, startDate, endDate, time, priority, description, userOnTaskList);
 
         //Løb opgaverne igennem
 //        for (int i = 0; i < tasks.size(); i++) {
@@ -296,7 +296,7 @@ public class Controller {
 //            }
 //        }
 
-        userOnTaskList = task.getUserOnTask();
+   //     userOnTaskList = task.getUserOnTask();
         System.out.println("userOnTaskList Size : " + userOnTaskList.size());
         model = (DefaultListModel) userList.getModel();
         modelOnTask = (DefaultListModel) userOnTaskLlist.getModel();
@@ -321,7 +321,7 @@ public class Controller {
         comboBoxType.setSelectedItem(t.getType());
         comboBoxStatus.setSelectedItem(t.getStatus());
         comboBoxCustomer.setText(t.getCustomer().getCompanyName());
-        comboBoxProjectLeader.setSelectedItem(t.getUser());
+        comboBoxProjectLeader.setSelectedIndex((t.getUser().getUserID()) -1);
         textFieldTime.setText(t.getEstimatedtime() + "");
         comboBoxPriority.setSelectedItem(t.getPriority());
         textAreaDescription.setText(t.getDescription());
@@ -427,7 +427,8 @@ public class Controller {
         Type type = new Type(comboBoxType.getSelectedItem().toString());
         Statuss status = new Statuss(comboBoxStatus.getSelectedItem().toString());
         Customer customer = new Customer(TextFieldCustomer.getText());
-        User user = new User(comboBoxTaskLeader.getSelectedItem().toString());
+        // FEJL I USER
+        User user = new User(customerID, null, null, null, null, customerID);
         ArrayList<User> userOnTask = new ArrayList<>();
 
         for (int i = 0; i < modelOnTask.getSize(); i++) {

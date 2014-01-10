@@ -13,9 +13,6 @@ public class User {
     private String password;
     private int accessLevel;
 
-    public User(String userName) {
-        this.userName = userName;
-    }
 
     public User(int userID, String userName, String firstName, String lastName, String password, int accessLevel) {
         this.userID = userID;
