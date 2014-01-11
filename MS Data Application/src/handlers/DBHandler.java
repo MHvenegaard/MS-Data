@@ -542,7 +542,6 @@ public class DBHandler {
 
         while (rs.next()) {
             taskID = rs.getInt("taskID");
-            System.out.println("TaskID : " + taskID);
             parentID = rs.getInt("parentID");
             estimatedtime = rs.getInt("estimatedTime");
             priority = rs.getInt("priority");

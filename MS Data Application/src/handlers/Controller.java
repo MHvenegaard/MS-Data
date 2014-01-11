@@ -194,9 +194,7 @@ public class Controller {
     public static void fillTableWithCustomer(JTable tableAllTask) throws IOException, SQLException {
         DefaultTableModel modelTable = (DefaultTableModel) tableAllTask.getModel();
         modelTable.setRowCount(0);
-
-        System.out.println("Kundeliste : "+customerList.size());
-        
+     
         for (int i = 0; i < customerList.size(); i++) {
             Object[] data = {customerList.get(i).getCustomerID(),
                 customerList.get(i).getCompanyName(),
@@ -306,9 +304,7 @@ public class Controller {
                                 estimatedTime,
                                 priority,
                                 taskDescription);
-                        System.out.println("Sub task til : " + taskID);
-                        System.out.println(dateChooserExpectedStart.getDate());
-                        System.out.println(dateChooserExpectedEnd.getDate());
+                      
                         Controller.dbHandler.createSubTask(task);
                         Controller.dbHandler.addUserToTask(listUsersOnTask);
 
@@ -331,7 +327,7 @@ public class Controller {
                             estimatedTime,
                             priority,
                             taskDescription);
-                    System.out.println("Ny opgave");
+                    
                     Controller.dbHandler.createTask(task);
                     Controller.dbHandler.addUserToTask(listUsersOnTask);
                     // Controller.fillTableWithTask(tableAllTask);
@@ -395,8 +391,7 @@ public class Controller {
     public static void fillTableWithUser(JTable table) throws IOException, SQLException {
         DefaultTableModel modelTable = (DefaultTableModel) table.getModel();
         modelTable.setRowCount(0);
-  
-        System.out.println("Userlist size : "+userList.size());
+
         for (int i = 0; i < userList.size(); i++) {
             Object[] data = {userList.get(i).getUserID(),
                 userList.get(i).getUserName(),
@@ -449,17 +444,14 @@ public class Controller {
 
     public static void removeTableHeadersTask(JTable table) {
         TableColumn column = table.getColumnModel().getColumn(0);
-        System.out.println(column.getHeaderValue().toString());
         table.removeColumn(column);
 
         column = table.getColumnModel().getColumn(0);
-        System.out.println(column.getHeaderValue().toString());
-        table.removeColumn(column);
+         table.removeColumn(column);
     }
 
     public static void removeTableHeadersCustomer(JTable table) {
         TableColumn column = table.getColumnModel().getColumn(0);
-        System.out.println(column.getHeaderValue().toString());
         table.removeColumn(column);
     }
 
@@ -547,7 +539,6 @@ public class Controller {
     public static int getSelectedTaskId(JTable mainTaskTable) {
         children.clear();
         DefaultTableModel modelTable = (DefaultTableModel) mainTaskTable.getModel();
-        System.out.println("Selected row: " + mainTaskTable.getSelectedRow());
         int taskID = Integer.parseInt(modelTable.getValueAt(mainTaskTable.convertRowIndexToModel(mainTaskTable.getSelectedRow()), 0).toString());
         return taskID;
     }

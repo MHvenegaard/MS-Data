@@ -342,8 +342,12 @@ public class Home extends javax.swing.JPanel {
         try {
             Controller.setCurrentUserIDToTextField(textFieldUser);
             Controller.fillCombobox(comboBoxType, Controller.typeList);
-            Controller.fillCombobox(comboBoxStatus, Controller.statusList);        
+            Controller.fillCombobox(comboBoxStatus, Controller.statusList); 
+            System.out.println("TEST1");
             Controller.fillCombobox(comboBoxCustomer, Controller.customerList);
+            System.out.println("TEST");
+            System.out.println("userList size" + Controller.userList.size() + "TEST");
+            Controller.fillCombobox(comboboxSortTaskAfterUser, Controller.userList);
             Controller.tHandler.removeFinshedTaskFilter(tableAllTasks);
             Controller.fillTableWithTask(tableAllTasks);
         } catch (IOException | SQLException ex) {
