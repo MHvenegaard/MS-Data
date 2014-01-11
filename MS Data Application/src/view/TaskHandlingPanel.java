@@ -494,7 +494,9 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_textFieldSortingKeyReleased
 
     private void buttonFindCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonFindCustomerActionPerformed
-        Controller.openCustomerLookUpFrame();
+        //Controller.openCustomerLookUpFrame();
+        JFrame frame = new CustomerLookUpFrame();
+        frame.setVisible(true);
     }//GEN-LAST:event_buttonFindCustomerActionPerformed
 
     private void addActionListerner() {
