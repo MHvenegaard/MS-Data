@@ -213,14 +213,12 @@ public class DBHandler {
     }
 
     //Get complete lists of objects by SP
-    public ArrayList<Customer> SPgetCustomers() throws SQLException, IOException {
+    public ArrayList<Customer> initiateCustomerList(Connection conn) throws SQLException, IOException {
+        System.out.println("Henter kunder");
         int customerID;
         int customerPhone;
         String customerName;
         String customerCVR;
-
-
-        Connection conn = (Connection) initiateSystemDBConn()[0];
 
         ArrayList<Customer> customerList = new ArrayList<>();
 
@@ -230,7 +228,6 @@ public class DBHandler {
 
         while (rs.next()) {
             customerID = rs.getInt("CustomerID");
-
             customerName = rs.getString("CompanyName");
             System.out.println(customerName);
             customerPhone = rs.getInt("Phone");
@@ -244,7 +241,6 @@ public class DBHandler {
     public ArrayList<Type> SPgetTypes() throws SQLException, IOException {
         int typeID;
         String typeName;
-        String typeDescription;
 
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
@@ -257,8 +253,7 @@ public class DBHandler {
         while (rs.next()) {
             typeID = rs.getInt("ID");
             typeName = rs.getString("Name");
-            typeDescription = rs.getString("Description");
-            Type type = new Type(typeID, typeName, typeDescription);
+            Type type = new Type(typeID, typeName);
             typeList.add(type);
 
         }
@@ -269,8 +264,6 @@ public class DBHandler {
         int userID;
         String userName;
         String password;
-        String firstName;
-        String lastName;
         int accessLevel;
 
         Connection conn = (Connection) initiateSystemDBConn()[0];
@@ -282,13 +275,11 @@ public class DBHandler {
         ResultSet rs = cs.executeQuery();
 
         while (rs.next()) {
-            userID = rs.getInt("IDUser");
-            userName = rs.getString("shortName");
-            firstName = rs.getString("userFirstName");
-            lastName = rs.getString("userLastName");
+            userID = rs.getInt("userID");
+            userName = rs.getString("userName");
             password = rs.getString("password");
             accessLevel = rs.getInt("accessLevel");
-            User user = new User(userID, userName, firstName, lastName, password, accessLevel);
+            User user = new User(userID, userName, password, accessLevel);
             userList.add(user);
         }
         return userList;
@@ -297,7 +288,6 @@ public class DBHandler {
     public ArrayList<Statuss> SPgetStatus() throws SQLException, IOException {
         String statusName;
         int statusID;
-        String description;
 
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
@@ -309,9 +299,8 @@ public class DBHandler {
 
         while (rs.next()) {
             statusName = rs.getString("statusName");
-            statusID = rs.getInt("idStatus");
-            description = rs.getString("description");
-            Statuss status = new Statuss(statusID, statusName, description);
+            statusID = rs.getInt("statusID");
+            Statuss status = new Statuss(statusID, statusName);
             statusList.add(status);
 
         }
@@ -340,24 +329,22 @@ public class DBHandler {
 
         while (rs.next()) {
 
-            taskID = rs.getInt("TaskID");
-            parentID = rs.getInt("ParentID");
-            estimatedtime = rs.getInt("EstimatedTime");
-
-            priority = rs.getInt("Priority");
-
-            type = rs.getString("Type");
+            taskID = rs.getInt("taskID");
+            parentID = rs.getInt("parentID");
+            estimatedtime = rs.getInt("estimatedTime");
+            priority = rs.getInt("priority");
+            type = rs.getString("type");
             Type t = new Type(type);
 
             
-            description = rs.getString("Description");
-            taskName = rs.getString("TaskName");
-            startDate = rs.getDate("StartDate");
-            endDate = rs.getDate("EndDate");
+            description = rs.getString("description");
+            taskName = rs.getString("taskName");
+            startDate = rs.getDate("startDate");
+            endDate = rs.getDate("endDate");
 
             Statuss s = null;
             for (int i = 0; i < Controller.statusList.size(); i++) {
-                if(Controller.statusList.get(i).getStatussName().equals(rs.getString("Status"))){
+                if(Controller.statusList.get(i).getStatussName().equals(rs.getString("status"))){
                     s = Controller.statusList.get(i);
                 }               
             }
@@ -365,14 +352,14 @@ public class DBHandler {
             Customer c = null;
             for (int i = 0; i < Controller.customerList.size(); i++) {
 
-                if (Controller.customerList.get(i).getCompanyName().equals(rs.getString("Customer"))) {
+                if (Controller.customerList.get(i).getCompanyName().equals(rs.getString("customer"))) {
                     c = Controller.customerList.get(i);
                 }
             }
 
             User u = null;
             for (int i = 0; i < Controller.userList.size(); i++) {
-                if (Controller.userList.get(i).getUserName().equals(rs.getString("User"))) {
+                if (Controller.userList.get(i).getUserName().equals(rs.getString("user"))) {
                     u = Controller.userList.get(i);
                 }
             }
@@ -390,7 +377,10 @@ public class DBHandler {
 
     public ArrayList<TimeSpentOnTask> SPgetTimeSpentOnTask() throws SQLException, IOException {
         ArrayList<TimeSpentOnTask> tsotList = new ArrayList();
-
+        int taskID;
+        int userID;
+        int timeSpent;
+        
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
         CallableStatement cs = null;
@@ -398,10 +388,11 @@ public class DBHandler {
         ResultSet rs = cs.executeQuery();
 
         while (rs.next()) {
-            int taskID = rs.getInt("taskID");
-            int userID = rs.getInt("userID");
-
-            TimeSpentOnTask tsot = new TimeSpentOnTask(userID, taskID);
+            taskID = rs.getInt("taskID");
+            userID = rs.getInt("userID");
+            timeSpent = rs.getInt("timeSpent");
+            
+            TimeSpentOnTask tsot = new TimeSpentOnTask(userID, taskID, timeSpent);
             tsotList.add(tsot);
         }
 
@@ -480,9 +471,8 @@ public class DBHandler {
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
         CallableStatement cs = null;
-        cs = conn.prepareCall("{call createType(?,?)}");
+        cs = conn.prepareCall("{call createType(?)}");
         cs.setString(1, name);
-        cs.setString(2, description);
         cs.execute();
     }
 
@@ -490,10 +480,9 @@ public class DBHandler {
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
         CallableStatement cs = null;
-        cs = conn.prepareCall("{call updateType(?,?,?)}");
+        cs = conn.prepareCall("{call updateType(?,?)}");
         cs.setInt(1, typeID);
         cs.setString(2, name);
-        cs.setString(3, description);
         cs.execute();
     }
 
@@ -511,9 +500,8 @@ public class DBHandler {
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
         CallableStatement cs = null;
-        cs = conn.prepareCall("{call createStatus(?,?)}");
+        cs = conn.prepareCall("{call createStatus(?)}");
         cs.setString(1, name);
-        cs.setString(2, description);
         cs.execute();
     }
 
@@ -521,10 +509,9 @@ public class DBHandler {
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
         CallableStatement cs = null;
-        cs = conn.prepareCall("{call updateStatus(?,?,?)}");
+        cs = conn.prepareCall("{call updateStatus(?,?)}");
         cs.setInt(1, statusID);
         cs.setString(2, name);
-        cs.setString(3, description);
         cs.execute();
     }
 
@@ -612,11 +599,10 @@ public class DBHandler {
 
     //Note 1 - Nikolaj 
     public ArrayList<User> initiateUserList(Connection conn) throws SQLException {
+        System.out.println("Henter bruger");
         int userID;
         String userName;
         String password;
-        String firstName;
-        String lastName;
         int accessLevel;
 
         ArrayList<User> userList = new ArrayList<>();
@@ -626,22 +612,20 @@ public class DBHandler {
         ResultSet rs = cs.executeQuery();
 
         while (rs.next()) {
-            userID = rs.getInt("idUser");
-            userName = rs.getString("shortName");
-            firstName = rs.getString("userFirstName");
-            lastName = rs.getString("userLastName");
+            userID = rs.getInt("userID");
+            userName = rs.getString("userName");
             password = rs.getString("password");
             accessLevel = rs.getInt("accessLevel");
-            User user = new User(userID, userName, firstName, lastName, password, accessLevel);
+            User user = new User(userID, userName, password, accessLevel);
             userList.add(user);
         }
         return userList;
     }
 
     public ArrayList<Type> initiateTypeList(Connection conn) throws SQLException {
+        System.out.println("Henter Type");
         int typeID;
         String typeName;
-        String typeDescription;
 
         ArrayList<Type> typeList = new ArrayList<>();
 
@@ -650,10 +634,10 @@ public class DBHandler {
         ResultSet rs = cs.executeQuery();
 
         while (rs.next()) {
-            typeID = rs.getInt("ID");
-            typeName = rs.getString("Name");
-            typeDescription = rs.getString("Description");
-            Type type = new Type(typeID, typeName, typeDescription);
+            typeID = rs.getInt("typeID");
+            typeName = rs.getString("typeName");
+            System.out.println("TypeID : "+typeID);
+            Type type = new Type(typeID, typeName);
             typeList.add(type);
 
         }
@@ -661,9 +645,9 @@ public class DBHandler {
     }
 
     public ArrayList<Statuss> initiateStatusList(Connection conn) throws SQLException {
+        System.out.println("Henter Status");
         String statusName;
         int statusID;
-        String description;
         ArrayList<Statuss> statusList = new ArrayList<>();
 
         CallableStatement cs = null;
@@ -671,10 +655,9 @@ public class DBHandler {
         ResultSet rs = cs.executeQuery();
 
         while (rs.next()) {
+            statusID = rs.getInt("statusID");
             statusName = rs.getString("statusName");
-            statusID = rs.getInt("idStatus");
-            description = rs.getString("description");
-            Statuss status = new Statuss(statusID, statusName, description);
+            Statuss status = new Statuss(statusID, statusName);
             statusList.add(status);
 
         }
@@ -682,7 +665,7 @@ public class DBHandler {
     }
 
     public ArrayList<Task> initiateTaskList(Connection conn) throws SQLException {
-
+         System.out.println("Henter Task");
         ArrayList<Task> tasks = new ArrayList<>();
         int taskID;
         int parentID;
@@ -699,17 +682,17 @@ public class DBHandler {
 
         CallableStatement cs = conn.prepareCall("{call getAllTasks}");
         ResultSet rs = cs.executeQuery();
-
+      
         while (rs.next()) {
-            taskID = rs.getInt("TaskID");
-            parentID = rs.getInt("ParentID");
-            estimatedtime = rs.getInt("EstimatedTime");
-            priority = rs.getInt("Priority");
-            description = rs.getString("Description");
-            taskName = rs.getString("TaskName");
-            startDate = rs.getDate("StartDate");
-            endDate = rs.getDate("EndDate");
-            status = rs.getString("Status");
+            taskID = rs.getInt("taskID");
+            parentID = rs.getInt("parentID");
+            estimatedtime = rs.getInt("estimatedTime");
+            priority = rs.getInt("priority");
+            description = rs.getString("description");
+            taskName = rs.getString("taskName");
+            startDate = rs.getDate("startDate");
+            endDate = rs.getDate("endDate");
+            status = rs.getString("status");
             
             Statuss s = null;
             for (int i = 0; i < Controller.statusList.size(); i++) {
@@ -720,7 +703,7 @@ public class DBHandler {
             
             Customer c = null;
             for (int i = 0; i < Controller.customerList.size(); i++) {
-                if (Controller.customerList.get(i).getCompanyName().equals(rs.getString("Customer"))) {
+                if (Controller.customerList.get(i).getCompanyName().equals(rs.getString("customer"))) {
                     c = Controller.customerList.get(i);
                 }
             }
@@ -728,7 +711,7 @@ public class DBHandler {
             User u = null;
             
             for (int i = 0; i < Controller.userList.size(); i++) {
-                if (Controller.userList.get(i).getUserName().equals(rs.getString("User"))) {
+                if (Controller.userList.get(i).getUserName().equals(rs.getString("user"))) {
                     u = Controller.userList.get(i);
                 }
             }

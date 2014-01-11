@@ -12,12 +12,11 @@ public class Type {
 
     private int typeID;
     private String typeName;
-    private String description;
 
-    public Type(int typeID, String typeName, String description) {
+
+    public Type(int typeID, String typeName) {
         this.typeID = typeID;
         this.typeName = typeName;
-        this.description = description;
     }
 
     
@@ -46,15 +45,5 @@ public class Type {
     public void setTypeName(String typeName) {
         this.typeName = typeName;
     }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-    
-    
     
 }

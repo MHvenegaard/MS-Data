@@ -63,11 +63,18 @@ public class Controller {
     
     public void initiateController() throws SQLException, IOException {
         Connection conn = (Connection) dbHandler.initiateSystemDBConn()[0];
+        
         userList = dbHandler.initiateUserList(conn);
+        System.out.println("Henter bruger - Done");
         typeList = dbHandler.initiateTypeList(conn);
+        System.out.println("Henter type - Done");
         statusList = dbHandler.initiateStatusList(conn);
+        System.out.println("Henter Status - Done");
         tasks = dbHandler.initiateTaskList(conn);
-        customerList = dbHandler.SPgetCustomers();
+        System.out.println("Henter Task - Done");
+        customerList = dbHandler.initiateCustomerList(conn);
+        System.out.println("Henter kunder - Done");
+        
         children = new ArrayList<>();
         setUsersOnTask();
     }
@@ -191,8 +198,6 @@ public class Controller {
     public static void fillTableWithCustomer(JTable tableAllTask) throws IOException, SQLException {
         DefaultTableModel modelTable = (DefaultTableModel) tableAllTask.getModel();
         modelTable.setRowCount(0);
-
-        ArrayList<Customer> customerList = Controller.dbHandler.SPgetCustomers();
 
         for (int i = 0; i < customerList.size(); i++) {
             Object[] data = {customerList.get(i).getIdCustomer(),
@@ -353,7 +358,7 @@ public class Controller {
         Statuss status = new Statuss(comboBoxStatus.getSelectedItem().toString());
         Customer customer = new Customer(TextFieldCustomer.getText());
         // FEJL I USER
-        User user = new User(customerID, null, null, null, null, customerID);
+        User user = new User(customerID, null, null, customerID);
         ArrayList<User> userOnTask = new ArrayList<>();
 
         for (int i = 0; i < modelOnTask.getSize(); i++) {
@@ -390,11 +395,10 @@ public class Controller {
     public static void fillTableWithUser(JTable table) throws IOException, SQLException {
         DefaultTableModel modelTable = (DefaultTableModel) table.getModel();
         modelTable.setRowCount(0);
-        userList = Controller.dbHandler.SPgetUsers();
+  
+        System.out.println("Userlist size : "+userList.size());
         for (int i = 0; i < userList.size(); i++) {
             Object[] data = {userList.get(i).getUserID(),
-                userList.get(i).getFirstName(),
-                userList.get(i).getLastName(),
                 userList.get(i).getUserName(),
                 userList.get(i).getAccessLevel(),
                 userList.get(i).getPassword()};
@@ -408,8 +412,7 @@ public class Controller {
 
         for (int i = 0; i < typeList.size(); i++) {
             Object[] data = {typeList.get(i).getTypeID(),
-                typeList.get(i).getTypeName(),
-                typeList.get(i).getDescription()};
+                typeList.get(i).getTypeName()};
             modelTable.addRow(data);
         }
     }
@@ -419,8 +422,7 @@ public class Controller {
 
         for (int i = 0; i < statusList.size(); i++) {
             Object[] data = {statusList.get(i).getStatusID(),
-                statusList.get(i).getStatussName(),
-                statusList.get(i).getDescription()};
+                statusList.get(i).getStatussName()};
             modelTable.addRow(data);
 
         }

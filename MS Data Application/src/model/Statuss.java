@@ -14,16 +14,14 @@ public class Statuss {
     
     private int statusID;
     private String statussName;
-    private String description;
 
     public Statuss(String statusName) {
         this.statussName = statusName;
     }
 
-    public Statuss(int statusID, String statussName, String description) {
+    public Statuss(int statusID, String statussName) {
         this.statusID = statusID;
         this.statussName = statussName;
-        this.description = description;
     }
     
     
@@ -47,15 +45,5 @@ public class Statuss {
     public void setStatussName(String statussName) {
         this.statussName = statussName;
     }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-    
-    
-    
+          
 }

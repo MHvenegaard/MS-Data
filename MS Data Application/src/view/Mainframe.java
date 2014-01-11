@@ -144,7 +144,7 @@ public class Mainframe extends javax.swing.JFrame {
                 try {
 
                     Controller ctrl = new Controller();
-                    User us = new User(1337, "DummyUser", "Dummy", "User", "admin", 0);
+                    User us = new User(1337, "User", "admin", 0);
                     ctrl.setUser(us);
                     new Mainframe(ctrl).setVisible(true);
 
