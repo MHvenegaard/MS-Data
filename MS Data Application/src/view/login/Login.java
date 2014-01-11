@@ -1,5 +1,6 @@
 package view.login;
 
+import com.mysql.jdbc.Connection;
 import handlers.Controller;
 import java.awt.Color;
 import java.awt.Image;
@@ -296,7 +297,8 @@ public class Login extends javax.swing.JFrame {
         try {
 
             // Get all users
-            ArrayList<User> users = Controller.dbHandler.SPgetUsers();
+            Connection conn = (Connection) Controller.dbHandler.initiateSystemDBConn()[0];
+            ArrayList<User> users = Controller.dbHandler.initiateUserList(conn);
 
             // Retrieve login credentials
             String username = textFieldUserName.getText();

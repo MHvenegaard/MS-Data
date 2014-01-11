@@ -84,7 +84,6 @@ public class Mainframe extends javax.swing.JFrame {
         // Admin
         if (accessLevel == 0) {
             tabPane.add("Hovedside", new Home());
-            tabPane.add("Kundehåndtering", new CustomerHandlingPanel());
             tabPane.add("Opgaveoprettelse", new CreateTaskPanel());
             tabPane.add("Opgavehåndtering", new TaskHandlingPanel());
             tabPane.add("Brugerhåndtering", new UserHandlingPanel());

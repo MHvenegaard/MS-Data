@@ -213,167 +213,6 @@ public class DBHandler {
     }
 
     //Get complete lists of objects by SP
-    public ArrayList<Customer> initiateCustomerList(Connection conn) throws SQLException, IOException {
-        int customerID;
-        int customerPhone;
-        String customerName;
-        String customerCVR;
-
-        ArrayList<Customer> customerList = new ArrayList<>();
-
-        CallableStatement cs;
-        cs = conn.prepareCall("{call getCustomers}");
-        ResultSet rs = cs.executeQuery();
-
-        while (rs.next()) {
-            customerID = rs.getInt("CustomerID");
-            customerName = rs.getString("CompanyName");
-            System.out.println(customerName);
-            customerPhone = rs.getInt("Phone");
-            customerCVR = rs.getString("CVR");
-            Customer customer = new Customer(customerID, customerName, customerPhone, customerCVR);
-            customerList.add(customer);
-        }
-        return customerList;
-    }
-
-    public ArrayList<Type> SPgetTypes() throws SQLException, IOException {
-        int typeID;
-        String typeName;
-
-        Connection conn = (Connection) initiateSystemDBConn()[0];
-
-        ArrayList<Type> typeList = new ArrayList<>();
-
-        CallableStatement cs = null;
-        cs = conn.prepareCall("{call getTypes}");
-        ResultSet rs = cs.executeQuery();
-
-        while (rs.next()) {
-            typeID = rs.getInt("ID");
-            typeName = rs.getString("Name");
-            Type type = new Type(typeID, typeName);
-            typeList.add(type);
-
-        }
-        return typeList;
-    }
-
-    public ArrayList<User> SPgetUsers() throws SQLException, IOException {
-        int userID;
-        String userName;
-        String password;
-        int accessLevel;
-
-        Connection conn = (Connection) initiateSystemDBConn()[0];
-
-        ArrayList<User> userList = new ArrayList<>();
-
-        CallableStatement cs = null;
-        cs = conn.prepareCall("{call getUsers}");
-        ResultSet rs = cs.executeQuery();
-
-        while (rs.next()) {
-            userID = rs.getInt("userID");
-            userName = rs.getString("userName");
-            password = rs.getString("password");
-            accessLevel = rs.getInt("accessLevel");
-            User user = new User(userID, userName, password, accessLevel);
-            userList.add(user);
-        }
-        return userList;
-    }
-
-    public ArrayList<Statuss> SPgetStatus() throws SQLException, IOException {
-        String statusName;
-        int statusID;
-
-        Connection conn = (Connection) initiateSystemDBConn()[0];
-
-        ArrayList<Statuss> statusList = new ArrayList<>();
-
-        CallableStatement cs = null;
-        cs = conn.prepareCall("{call getStatus}");
-        ResultSet rs = cs.executeQuery();
-
-        while (rs.next()) {
-            statusName = rs.getString("statusName");
-            statusID = rs.getInt("statusID");
-            Statuss status = new Statuss(statusID, statusName);
-            statusList.add(status);
-
-        }
-        return statusList;
-    }
-
-    public ArrayList<Task> SPgetTasks() throws IOException, SQLException {
-
-        ArrayList<Task> tasks = new ArrayList<>();
-        int taskID;
-        int parentID;
-        int estimatedtime;
-        int priority;
-        String taskName;
-        String type;
-        String description;
-        Date startDate;
-        Date endDate;
-
-        ArrayList<User> userOnTask = new ArrayList<>();
-
-        Connection conn = (Connection) initiateSystemDBConn()[0];
-
-        CallableStatement cs = conn.prepareCall("{call getAllTasks}");
-        ResultSet rs = cs.executeQuery();
-
-        while (rs.next()) {
-
-            taskID = rs.getInt("taskID");
-            parentID = rs.getInt("parentID");
-            estimatedtime = rs.getInt("estimatedTime");
-            priority = rs.getInt("priority");
-            type = rs.getString("type");
-            Type t = new Type(type);
-
-            
-            description = rs.getString("description");
-            taskName = rs.getString("taskName");
-            startDate = rs.getDate("startDate");
-            endDate = rs.getDate("endDate");
-
-            Statuss s = null;
-            for (int i = 0; i < Controller.statusList.size(); i++) {
-                if(Controller.statusList.get(i).getStatussName().equals(rs.getString("status"))){
-                    s = Controller.statusList.get(i);
-                }               
-            }
-            
-            Customer c = null;
-            for (int i = 0; i < Controller.customerList.size(); i++) {
-
-                if (Controller.customerList.get(i).getCompanyName().equals(rs.getString("customer"))) {
-                    c = Controller.customerList.get(i);
-                }
-            }
-
-            User u = null;
-            for (int i = 0; i < Controller.userList.size(); i++) {
-                if (Controller.userList.get(i).getUserName().equals(rs.getString("user"))) {
-                    u = Controller.userList.get(i);
-                }
-            }
-
-            //VIL IKKE SENDE DEN MED SÅ HENTER UD I CONTROLLER
-            //userOnTask = SPgetUserOnTask(taskID);
-
-            Task task = new Task(taskID, parentID, taskName, t, s, c, u, startDate, endDate, estimatedtime, priority, description, userOnTask);
-
-            System.out.println(s + " - " + c + " - " + u);
-            tasks.add(task);
-        }
-        return tasks;
-    }
-
     public ArrayList<TimeSpentOnTask> SPgetTimeSpentOnTask() throws SQLException, IOException {
         ArrayList<TimeSpentOnTask> tsotList = new ArrayList();
         int taskID;
@@ -660,6 +499,30 @@ public class DBHandler {
         return statusList;
     }
 
+        public ArrayList<Customer> initiateCustomerList(Connection conn) throws SQLException, IOException {
+        int customerID;
+        int customerPhone;
+        String customerName;
+        String customerCVR;
+
+        ArrayList<Customer> customerList = new ArrayList<>();
+
+        CallableStatement cs;
+        cs = conn.prepareCall("{call getCustomers}");
+        ResultSet rs = cs.executeQuery();
+
+        while (rs.next()) {
+            customerID = rs.getInt("CustomerID");
+            customerName = rs.getString("CompanyName");
+            System.out.println(customerName);
+            customerPhone = rs.getInt("Phone");
+            customerCVR = rs.getString("CVR");
+            Customer customer = new Customer(customerID, customerName, customerPhone, customerCVR);
+            customerList.add(customer);
+        }
+        return customerList;
+    }
+        
     public ArrayList<Task> initiateTaskList(Connection conn) throws SQLException {
         ArrayList<Task> tasks = new ArrayList<>();
         int taskID;

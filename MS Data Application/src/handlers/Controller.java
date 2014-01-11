@@ -459,7 +459,9 @@ public class Controller {
     }
 
     public static ArrayList<Task> updateTableWithNewTasks(JTable tableAllTask) throws IOException, SQLException {
-        tasks = dbHandler.SPgetTasks();
+        Connection conn = (Connection) dbHandler.initiateSystemDBConn()[0];
+        tasks = dbHandler.initiateTaskList(conn);
+
 
         DefaultTableModel modelTable = (DefaultTableModel) tableAllTask.getModel();
         modelTable.setRowCount(0);
