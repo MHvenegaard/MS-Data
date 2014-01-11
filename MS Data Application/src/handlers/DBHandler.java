@@ -184,7 +184,6 @@ public class DBHandler {
 
         if (rs.next()) {
 
-
             String filename = rs.getString(1);
             String extension = rs.getString(2);
             Blob blob = rs.getBlob(3);
@@ -199,8 +198,6 @@ public class DBHandler {
             while ((b = is.read()) != -1) {
                 fos.write(b);
             }
-
-
 
         }
         String result;
@@ -218,7 +215,7 @@ public class DBHandler {
         int taskID;
         int userID;
         int timeSpent;
-        
+
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
         CallableStatement cs = null;
@@ -229,7 +226,7 @@ public class DBHandler {
             taskID = rs.getInt("taskID");
             userID = rs.getInt("userID");
             timeSpent = rs.getInt("timeSpent");
-            
+
             TimeSpentOnTask tsot = new TimeSpentOnTask(userID, taskID, timeSpent);
             tsotList.add(tsot);
         }
@@ -472,7 +469,6 @@ public class DBHandler {
         while (rs.next()) {
             typeID = rs.getInt("typeID");
             typeName = rs.getString("typeName");
-            System.out.println("TypeID : "+typeID);
             Type type = new Type(typeID, typeName);
             typeList.add(type);
 
@@ -499,7 +495,7 @@ public class DBHandler {
         return statusList;
     }
 
-        public ArrayList<Customer> initiateCustomerList(Connection conn) throws SQLException, IOException {
+    public ArrayList<Customer> initiateCustomerList(Connection conn) throws SQLException, IOException {
         int customerID;
         int customerPhone;
         String customerName;
@@ -512,17 +508,18 @@ public class DBHandler {
         ResultSet rs = cs.executeQuery();
 
         while (rs.next()) {
-            customerID = rs.getInt("CustomerID");
-            customerName = rs.getString("CompanyName");
-            System.out.println(customerName);
-            customerPhone = rs.getInt("Phone");
+            customerID = rs.getInt("customerID");
+            customerName = rs.getString("companyName");
+            customerPhone = rs.getInt("phone");
             customerCVR = rs.getString("CVR");
             Customer customer = new Customer(customerID, customerName, customerPhone, customerCVR);
             customerList.add(customer);
         }
-        return customerList;
-    }
         
+        return customerList;
+        
+    }
+
     public ArrayList<Task> initiateTaskList(Connection conn) throws SQLException {
         ArrayList<Task> tasks = new ArrayList<>();
         int taskID;
@@ -530,19 +527,22 @@ public class DBHandler {
         int estimatedtime;
         int priority;
         Type t = null;
+        Statuss s = null;
+        Customer c = null;
+        User u = null;
         String description;
         String taskName;
-        String status;
         Date startDate;
         Date endDate;
-        
+
         ArrayList<User> userOnTask = new ArrayList<>();
 
         CallableStatement cs = conn.prepareCall("{call getAllTasks}");
         ResultSet rs = cs.executeQuery();
-      
+
         while (rs.next()) {
             taskID = rs.getInt("taskID");
+            System.out.println("TaskID : " + taskID);
             parentID = rs.getInt("parentID");
             estimatedtime = rs.getInt("estimatedTime");
             priority = rs.getInt("priority");
@@ -550,34 +550,31 @@ public class DBHandler {
             taskName = rs.getString("taskName");
             startDate = rs.getDate("startDate");
             endDate = rs.getDate("endDate");
-            status = rs.getString("status");
-            
-            Statuss s = null;
+
             for (int i = 0; i < Controller.statusList.size(); i++) {
-                if(Controller.statusList.get(i).getStatussName().equals(status)){
+                if (Controller.statusList.get(i).getStatusID() == rs.getInt("status")) {
                     s = Controller.statusList.get(i);
-                }               
+                }
             }
-            
-            Customer c = null;
+
             for (int i = 0; i < Controller.customerList.size(); i++) {
-                if (Controller.customerList.get(i).getCompanyName().equals(rs.getString("customer"))) {
+                if (Controller.customerList.get(i).getCustomerID() == rs.getInt("customer")) {
                     c = Controller.customerList.get(i);
                 }
             }
 
-            User u = null;
-            
             for (int i = 0; i < Controller.userList.size(); i++) {
-                if (Controller.userList.get(i).getUserName().equals(rs.getString("user"))) {
+                if (Controller.userList.get(i).getUserID() == rs.getInt("taskLeader")) {
                     u = Controller.userList.get(i);
                 }
             }
             
-            System.out.println(s + " - " + c + " - " + u + "TEST");
+            for (int i = 0; i < Controller.typeList.size(); i++) {
+                if (Controller.typeList.get(i).getTypeID() == rs.getInt("type")) {
+                    t = Controller.typeList.get(i);
+                }
+            }
             Task task = new Task(taskID, parentID, taskName, t, s, c, u, startDate, endDate, estimatedtime, priority, description, userOnTask);
-
-            
             tasks.add(task);
         }
         return tasks;

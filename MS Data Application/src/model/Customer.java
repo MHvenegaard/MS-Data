@@ -10,7 +10,7 @@ package model;
  */
 public class Customer {
 
-    private int idCustomer;
+    private int customerID;
     private int phone;
     private String companyName;
     private String CVR;
@@ -21,7 +21,7 @@ public class Customer {
     }
 
     public Customer(int idCustomer, String companyName, int phone, String CVR) {
-        this.idCustomer = idCustomer;
+        this.customerID = idCustomer;
         this.companyName = companyName;
         this.phone = phone;
         this.CVR = CVR;
@@ -34,12 +34,12 @@ public class Customer {
         return companyName;
     }
 
-    public int getIdCustomer() {
-        return idCustomer;
+    public int getCustomerID() {
+        return customerID;
     }
 
     public void setIdCustomer(int idCustomer) {
-        this.idCustomer = idCustomer;
+        this.customerID = idCustomer;
     }
 
     public String getCompanyName() {

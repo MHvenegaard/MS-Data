@@ -67,8 +67,9 @@ public class Controller {
         userList = dbHandler.initiateUserList(conn);
         typeList = dbHandler.initiateTypeList(conn);
         statusList = dbHandler.initiateStatusList(conn);
-        tasks = dbHandler.initiateTaskList(conn);
         customerList = dbHandler.initiateCustomerList(conn);
+        tasks = dbHandler.initiateTaskList(conn);
+       
      
         children = new ArrayList<>();
         setUsersOnTask();
@@ -194,8 +195,10 @@ public class Controller {
         DefaultTableModel modelTable = (DefaultTableModel) tableAllTask.getModel();
         modelTable.setRowCount(0);
 
+        System.out.println("Kundeliste : "+customerList.size());
+        
         for (int i = 0; i < customerList.size(); i++) {
-            Object[] data = {customerList.get(i).getIdCustomer(),
+            Object[] data = {customerList.get(i).getCustomerID(),
                 customerList.get(i).getCompanyName(),
                 customerList.get(i).getPhone(),
                 customerList.get(i).getPhone()};
