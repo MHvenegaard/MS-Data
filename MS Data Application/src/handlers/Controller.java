@@ -268,6 +268,8 @@ public class Controller {
             JTextField textFieldEstimatedTime, JComboBox comboBoxPriority, JTextArea textAreaDescription) throws ParseException {
         
         DefaultTableModel modelTable = (DefaultTableModel) tableAllTask.getModel();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        
         Type type = (Type) comboBoxType.getSelectedItem();
         Statuss status = (Statuss) (comboBoxStatus.getSelectedItem());
         Customer customer = null;
@@ -275,10 +277,12 @@ public class Controller {
         String taskName = textFieldTaskName.getText();
         String taskDescription = textAreaDescription.getText();
         int taskID;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         int estimatedTime = Integer.parseInt(textFieldEstimatedTime.getText());
         int priority = Integer.parseInt(comboBoxPriority.getSelectedItem().toString());
-
+        Date taskStartDate = dateChooserExpectedStart.getDate();
+        Date taskEndDate = dateChooserExpectedEnd.getDate();
+        
+        
         for (int i = 0; i < Controller.customerList.size(); i++) {
                 if (Controller.customerList.get(i).getCustomerID() == Integer.parseInt(textFieldCustomer.getText())) {
                     customer = Controller.customerList.get(i);
@@ -286,19 +290,15 @@ public class Controller {
             }
         
         try {
-            
-
-            //ArrayList<User> listUsersOnTask = Controller.userList;
             if (taskName.equals("") == true) {
                 System.out.println("Der er opstået en fejl ! Er alle felter med stjerne udfyldt? Og er den valgte slut dato efter start dato?");
             } else if (checkBoxSub.isSelected()) {
                 Date ParentStartDate = sdf.parse(modelTable.getValueAt(tableAllTask.getSelectedRow(), 7).toString());
                 Date ParentEndDate = sdf.parse(modelTable.getValueAt(tableAllTask.getSelectedRow(), 8).toString());
-
-                if (tableAllTask.getSelectedRow() != -1
-                        && dateChooserExpectedStart.getDate().after(ParentStartDate) == true
-                        && dateChooserExpectedEnd.getDate().before(ParentEndDate) == true
-                        && dateChooserExpectedStart.getDate().before(dateChooserExpectedEnd.getDate()) == true) {
+                Boolean taskChecker = Controller.subTaskDateChecker(taskStartDate, taskEndDate, ParentStartDate, ParentEndDate);
+                
+                
+                if (tableAllTask.getSelectedRow() != -1 && taskChecker) {
                     taskID = Integer.parseInt(modelTable.getValueAt(tableAllTask.getSelectedRow(), 0).toString());
 
                     try {
@@ -308,8 +308,8 @@ public class Controller {
                                 status,
                                 customer,
                                 user,
-                                dateChooserExpectedStart.getDate(),
-                                dateChooserExpectedEnd.getDate(),
+                                taskStartDate,
+                                taskEndDate,
                                 estimatedTime,
                                 priority,
                                 taskDescription);
@@ -331,8 +331,8 @@ public class Controller {
                             status,
                             customer,
                             user,
-                            dateChooserExpectedStart.getDate(),
-                            dateChooserExpectedEnd.getDate(),
+                            taskStartDate,
+                            taskEndDate,
                             estimatedTime,
                             priority,
                             taskDescription);
@@ -352,6 +352,17 @@ public class Controller {
 
     public static void setCurrentUserIDToTextField(JTextField textFieldUser) {
         textFieldUser.setText(currentUser.getUserID() + "");
+    }
+    
+    public static Boolean subTaskDateChecker(Date supTaskStartDate, Date supTaskEndDate, Date parentStartDate, Date parentEndDate){
+        Boolean result = true;
+        if (supTaskStartDate.before(parentStartDate)
+                || supTaskStartDate.after(parentEndDate)
+                || supTaskStartDate.after(supTaskEndDate)) {
+            result = false;
+        }
+        
+        return result;
     }
 
 //    public static void SaveChangesToTask(JTable tableAllTasks, JList listUsers, JList listUsersOnTask, JButton button, JTextField textFieldTaskName,
