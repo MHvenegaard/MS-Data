@@ -515,7 +515,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void testbuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testbuttonActionPerformed
-        testbutton.setText(Controller.getCustomerIDToString());
+        textFieldCustomer.setText(Controller.getCustomerIDToString());
     }//GEN-LAST:event_testbuttonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

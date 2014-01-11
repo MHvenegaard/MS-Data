@@ -266,6 +266,7 @@ public class Controller {
     public static void createNewTask(JTable tableAllTask, JList listUsersOnTask, JButton button, JCheckBox checkBoxSub, JTextField textFieldTaskName, JComboBox comboBoxType, JComboBox comboBoxStatus,
             JComboBox comboBoxCustomer, JComboBox comboBoxTaskLeader, JDateChooser dateChooserExpectedStart, JDateChooser dateChooserExpectedEnd,
             JTextField textFieldEstimatedTime, JComboBox comboBoxPriority, JTextArea textAreaDescription) throws ParseException {
+        
         DefaultTableModel modelTable = (DefaultTableModel) tableAllTask.getModel();
         Type type = (Type) comboBoxType.getSelectedItem();
         Statuss status = (Statuss) (comboBoxStatus.getSelectedItem());
@@ -330,7 +331,7 @@ public class Controller {
                             estimatedTime,
                             priority,
                             taskDescription);
-
+                    System.out.println("Customer i con : " + customer);
                     Controller.dbHandler.createTask(task);
                     Controller.dbHandler.addUserToTask(listUsersOnTask);
                     // Controller.fillTableWithTask(tableAllTask);

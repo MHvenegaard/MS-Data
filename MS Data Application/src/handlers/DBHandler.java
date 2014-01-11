@@ -239,7 +239,7 @@ public class DBHandler {
         Connection conn = (Connection) initiateSystemDBConn()[0];
         java.sql.Date sqlStartDate = new java.sql.Date(task.getStartDate().getTime());
         java.sql.Date sqlEndDate = new java.sql.Date(task.getEndDate().getTime());
-
+        System.out.println(task.getCustomer().getCompanyName());
         CallableStatement cs;
         cs = conn.prepareCall("{call createTask(?,?,?,?,?,?,?,?,?,?,?)}");
         cs.setString(1, null);
