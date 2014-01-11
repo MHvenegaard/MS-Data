@@ -214,7 +214,6 @@ public class DBHandler {
 
     //Get complete lists of objects by SP
     public ArrayList<Customer> initiateCustomerList(Connection conn) throws SQLException, IOException {
-        System.out.println("Henter kunder");
         int customerID;
         int customerPhone;
         String customerName;
@@ -599,7 +598,6 @@ public class DBHandler {
 
     //Note 1 - Nikolaj 
     public ArrayList<User> initiateUserList(Connection conn) throws SQLException {
-        System.out.println("Henter bruger");
         int userID;
         String userName;
         String password;
@@ -623,7 +621,6 @@ public class DBHandler {
     }
 
     public ArrayList<Type> initiateTypeList(Connection conn) throws SQLException {
-        System.out.println("Henter Type");
         int typeID;
         String typeName;
 
@@ -645,7 +642,6 @@ public class DBHandler {
     }
 
     public ArrayList<Statuss> initiateStatusList(Connection conn) throws SQLException {
-        System.out.println("Henter Status");
         String statusName;
         int statusID;
         ArrayList<Statuss> statusList = new ArrayList<>();
@@ -665,7 +661,6 @@ public class DBHandler {
     }
 
     public ArrayList<Task> initiateTaskList(Connection conn) throws SQLException {
-         System.out.println("Henter Task");
         ArrayList<Task> tasks = new ArrayList<>();
         int taskID;
         int parentID;

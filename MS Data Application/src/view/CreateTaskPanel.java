@@ -32,7 +32,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
         Controller.fillCombobox(comboBoxType, Controller.typeList);
         Controller.fillCombobox(comboBoxStatus, Controller.statusList);
         Controller.fillList(listUsers, Controller.userList);
- //       Controller.fillCombobox(comboBoxCustomer, Controller.customerList);
+      //  Controller.fillCombobox(comboBoxCustomer, Controller.customerList);
         Controller.fillTableWithTask(tableAllTask);
         Controller.removeTableHeadersTask(tableAllTask);
         Controller.tHandler.removeFinshedTaskFilter(tableAllTask);

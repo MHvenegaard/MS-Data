@@ -65,16 +65,11 @@ public class Controller {
         Connection conn = (Connection) dbHandler.initiateSystemDBConn()[0];
         
         userList = dbHandler.initiateUserList(conn);
-        System.out.println("Henter bruger - Done");
         typeList = dbHandler.initiateTypeList(conn);
-        System.out.println("Henter type - Done");
         statusList = dbHandler.initiateStatusList(conn);
-        System.out.println("Henter Status - Done");
         tasks = dbHandler.initiateTaskList(conn);
-        System.out.println("Henter Task - Done");
         customerList = dbHandler.initiateCustomerList(conn);
-        System.out.println("Henter kunder - Done");
-        
+     
         children = new ArrayList<>();
         setUsersOnTask();
     }
