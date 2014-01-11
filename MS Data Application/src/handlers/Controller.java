@@ -253,6 +253,8 @@ public class Controller {
         textFieldTime.setText(t.getEstimatedtime() + "");
         comboBoxPriority.setSelectedItem(t.getPriority());
         textAreaDescription.setText(t.getDescription());
+        dateChooserExpectedStart.setDate(t.getStartDate());
+        dateChooserExpectedEnd.setDate(t.getEndDate());
 
         Controller.fillAndRemove(userList, userOnTaskLlist, t.getUserOnTask());
 

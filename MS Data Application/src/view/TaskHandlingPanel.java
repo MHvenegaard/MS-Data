@@ -465,7 +465,8 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     private void tableAllTasksMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableAllTasksMouseReleased
         modelTable = (DefaultTableModel) tableAllTasks.getModel();
         try {
-            Controller.fillComponents(Integer.parseInt(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 0).toString()),
+            Controller.fillComponents(
+                    Integer.parseInt(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 0).toString()),
                     listUsers,
                     listUsersOnTask,
                     tableAllTasks,
