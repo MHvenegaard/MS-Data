@@ -48,7 +48,7 @@
                                   </Group>
                                   <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                          <Component id="jTextField1" max="32767" attributes="0"/>
+                                          <Component id="textFieldCustomer" max="32767" attributes="0"/>
                                           <Component id="comboBoxStatus" alignment="1" max="32767" attributes="0"/>
                                           <Component id="comboBoxUser" alignment="0" max="32767" attributes="0"/>
                                           <Component id="textFieldEstimatedTime" alignment="1" max="32767" attributes="0"/>
@@ -92,7 +92,7 @@
                               <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                               <Component id="comboBoxCustomer" min="-2" pref="104" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
-                              <Component id="textFieldCustomer" min="-2" max="-2" attributes="0"/>
+                              <Component id="testbutton" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="80" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -156,7 +156,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextField1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="textFieldCustomer" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jButton3" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -236,7 +236,7 @@
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace max="32767" attributes="0"/>
-                              <Component id="textFieldCustomer" min="-2" max="-2" attributes="0"/>
+                              <Component id="testbutton" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -519,7 +519,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JTextField" name="jTextField1">
+    <Component class="javax.swing.JTextField" name="textFieldCustomer">
     </Component>
     <Component class="javax.swing.JButton" name="jButton3">
       <Properties>
@@ -529,12 +529,12 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="textFieldCustomer">
+    <Component class="javax.swing.JButton" name="testbutton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Test"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="textFieldCustomerActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="testbuttonActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

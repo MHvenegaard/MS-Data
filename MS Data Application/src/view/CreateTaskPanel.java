@@ -90,9 +90,9 @@ public class CreateTaskPanel extends javax.swing.JPanel {
         jList1 = new javax.swing.JList();
         jScrollPane2 = new javax.swing.JScrollPane();
         listUsersOnTask = new javax.swing.JList();
-        jTextField1 = new javax.swing.JTextField();
+        textFieldCustomer = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
-        textFieldCustomer = new javax.swing.JButton();
+        testbutton = new javax.swing.JButton();
 
         jLabel1.setText("Projekt navn");
 
@@ -213,10 +213,10 @@ public class CreateTaskPanel extends javax.swing.JPanel {
             }
         });
 
-        textFieldCustomer.setText("Test");
-        textFieldCustomer.addActionListener(new java.awt.event.ActionListener() {
+        testbutton.setText("Test");
+        testbutton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textFieldCustomerActionPerformed(evt);
+                testbuttonActionPerformed(evt);
             }
         });
 
@@ -253,7 +253,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
                                         .addComponent(dateChooserExpectedStart, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(jTextField1)
+                                            .addComponent(textFieldCustomer)
                                             .addComponent(comboBoxStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(comboBoxUser, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(textFieldEstimatedTime)
@@ -286,7 +286,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
                                 .addGap(37, 37, 37)
                                 .addComponent(comboBoxCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(textFieldCustomer)
+                                .addComponent(testbutton)
                                 .addGap(80, 80, 80)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -332,7 +332,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textFieldCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -396,7 +396,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
                                 .addContainerGap(134, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(textFieldCustomer)
+                                .addComponent(testbutton)
                                 .addGap(44, 44, 44))))))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -514,9 +514,9 @@ public class CreateTaskPanel extends javax.swing.JPanel {
         frame.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void textFieldCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldCustomerActionPerformed
-        textFieldCustomer.setText(Controller.getCustomerIDToString());
-    }//GEN-LAST:event_textFieldCustomerActionPerformed
+    private void testbuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testbuttonActionPerformed
+        testbutton.setText(Controller.getCustomerIDToString());
+    }//GEN-LAST:event_testbuttonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox CheckBoxSub;
@@ -552,12 +552,12 @@ public class CreateTaskPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JList listUsers;
     private javax.swing.JList listUsersOnTask;
     private javax.swing.JTable tableAllTask;
+    private javax.swing.JButton testbutton;
     private javax.swing.JTextArea textAreaBeskrivelse;
-    private javax.swing.JButton textFieldCustomer;
+    private javax.swing.JTextField textFieldCustomer;
     private javax.swing.JTextField textFieldEstimatedTime;
     private javax.swing.JTextField textFieldTaskName;
     // End of variables declaration//GEN-END:variables
