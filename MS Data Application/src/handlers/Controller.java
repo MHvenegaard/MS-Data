@@ -45,32 +45,32 @@ public class Controller {
     public static ArrayList<Task> children;
     public static ArrayList<Customer> customerList;
     public static int customerID;
-    public static JFrame frame;
+    //public static JFrame frame;
 
     public Controller() throws ClassNotFoundException, SQLException, IOException {
         currentUser = null;
         dbHandler = new DBHandler();
         tHandler = new TableHandler();
-        
+
         userList = new ArrayList();
         typeList = new ArrayList();
         statusList = new ArrayList();
         customerList = new ArrayList();
-        
+
         tasks = new ArrayList();
-        frame = new CustomerLookUpFrame();
+
     }
-    
+
     public void initiateController() throws SQLException, IOException {
         Connection conn = (Connection) dbHandler.initiateSystemDBConn()[0];
-        
+
         userList = dbHandler.initiateUserList(conn);
         typeList = dbHandler.initiateTypeList(conn);
         statusList = dbHandler.initiateStatusList(conn);
         customerList = dbHandler.initiateCustomerList(conn);
         tasks = dbHandler.initiateTaskList(conn);
-       
-     
+
+       // frame = new CustomerLookUpFrame();
         children = new ArrayList<>();
         setUsersOnTask();
     }
@@ -100,7 +100,7 @@ public class Controller {
             combobox.addItem(arrayList.get(i));
         }
     }
-    
+
     public static void fillList(JList list, ArrayList arrayList) throws SQLException, IOException {
         DefaultListModel model = new DefaultListModel();
         list.setModel(model);
@@ -169,6 +169,7 @@ public class Controller {
         }
         return tasks;
     }
+
     public static void fillTableWithList(JTable tableAllTask, ArrayList<Task> fillList) throws IOException, SQLException {
 
         DefaultTableModel modelTable = (DefaultTableModel) tableAllTask.getModel();
@@ -191,10 +192,11 @@ public class Controller {
 
         }
     }
+
     public static void fillTableWithCustomer(JTable tableAllTask) throws IOException, SQLException {
         DefaultTableModel modelTable = (DefaultTableModel) tableAllTask.getModel();
         modelTable.setRowCount(0);
-     
+
         for (int i = 0; i < customerList.size(); i++) {
             Object[] data = {customerList.get(i).getCustomerID(),
                 customerList.get(i).getCompanyName(),
@@ -218,6 +220,7 @@ public class Controller {
             JOptionPane.showMessageDialog(button, "Der ikke valgt nogen medarbejder", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
         }
     }
+
     public static void removeUserFromTaskList(JList listUsers, JList listUsersOnTask, JButton button) {
         int index = listUsersOnTask.getSelectedIndex();
         DefaultListModel model = (DefaultListModel) listUsers.getModel();
@@ -247,7 +250,7 @@ public class Controller {
         comboBoxType.setSelectedItem(t.getType());
         comboBoxStatus.setSelectedItem(t.getStatus());
         comboBoxCustomer.setText(t.getCustomer().getCompanyName());
-        comboBoxProjectLeader.setSelectedIndex((t.getUser().getUserID()) -1);
+        comboBoxProjectLeader.setSelectedIndex((t.getUser().getUserID()) - 1);
         textFieldTime.setText(t.getEstimatedtime() + "");
         comboBoxPriority.setSelectedItem(t.getPriority());
         textAreaDescription.setText(t.getDescription());
@@ -304,7 +307,7 @@ public class Controller {
                                 estimatedTime,
                                 priority,
                                 taskDescription);
-                      
+
                         Controller.dbHandler.createSubTask(task);
                         Controller.dbHandler.addUserToTask(listUsersOnTask);
 
@@ -327,7 +330,7 @@ public class Controller {
                             estimatedTime,
                             priority,
                             taskDescription);
-                    
+
                     Controller.dbHandler.createTask(task);
                     Controller.dbHandler.addUserToTask(listUsersOnTask);
                     // Controller.fillTableWithTask(tableAllTask);
@@ -401,6 +404,7 @@ public class Controller {
 
         }
     }
+
     public static void fillTableWithType(JTable table) {
         DefaultTableModel modelTable = (DefaultTableModel) table.getModel();
         modelTable.setRowCount(0);
@@ -411,6 +415,7 @@ public class Controller {
             modelTable.addRow(data);
         }
     }
+
     public static void fillTableWithStatus(JTable table) {
         DefaultTableModel modelTable = (DefaultTableModel) table.getModel();
         modelTable.setRowCount(0);
@@ -447,7 +452,7 @@ public class Controller {
         table.removeColumn(column);
 
         column = table.getColumnModel().getColumn(0);
-         table.removeColumn(column);
+        table.removeColumn(column);
     }
 
     public static void removeTableHeadersCustomer(JTable table) {
@@ -555,9 +560,9 @@ public class Controller {
         return customerID + "";
     }
 
-    public static void openCustomerLookUpFrame() {
-        frame.setVisible(true);
-    }
+//    public static void openCustomerLookUpFrame() {
+//        frame.setVisible(true);
+//    }
 
     public static Task getSelectedTask(int ID) {
         Task task = null;
