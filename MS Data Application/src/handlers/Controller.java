@@ -264,24 +264,29 @@ public class Controller {
     }
 
     public static void createNewTask(JTable tableAllTask, JList listUsersOnTask, JButton button, JCheckBox checkBoxSub, JTextField textFieldTaskName, JComboBox comboBoxType, JComboBox comboBoxStatus,
-            JComboBox comboBoxCustomer, JComboBox comboBoxTaskLeader, JDateChooser dateChooserExpectedStart, JDateChooser dateChooserExpectedEnd,
+            JTextField textFieldCustomer, JComboBox comboBoxTaskLeader, JDateChooser dateChooserExpectedStart, JDateChooser dateChooserExpectedEnd,
             JTextField textFieldEstimatedTime, JComboBox comboBoxPriority, JTextArea textAreaDescription) throws ParseException {
         
         DefaultTableModel modelTable = (DefaultTableModel) tableAllTask.getModel();
         Type type = (Type) comboBoxType.getSelectedItem();
         Statuss status = (Statuss) (comboBoxStatus.getSelectedItem());
-        Customer customer = (Customer) comboBoxCustomer.getSelectedItem();
+        Customer customer = null;
         User user = (User) comboBoxTaskLeader.getSelectedItem();
         String taskName = textFieldTaskName.getText();
         String taskDescription = textAreaDescription.getText();
         int taskID;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        int estimatedTime = Integer.parseInt(textFieldEstimatedTime.getText());
+        int priority = Integer.parseInt(comboBoxPriority.getSelectedItem().toString());
 
-
-
+        for (int i = 0; i < Controller.customerList.size(); i++) {
+                if (Controller.customerList.get(i).getCustomerID() == Integer.parseInt(textFieldCustomer.getText())) {
+                    customer = Controller.customerList.get(i);
+                }
+            }
+        
         try {
-            int estimatedTime = Integer.parseInt(textFieldEstimatedTime.getText());
-            int priority = Integer.parseInt(comboBoxPriority.getSelectedItem().toString());
+            
 
             //ArrayList<User> listUsersOnTask = Controller.userList;
             if (taskName.equals("") == true) {
@@ -349,48 +354,49 @@ public class Controller {
         textFieldUser.setText(currentUser.getUserID() + "");
     }
 
-    public static void SaveChangesToTask(JTable tableAllTasks, JList listUsers, JList listUsersOnTask, JButton button, JTextField textFieldTaskName,
-            JComboBox comboBoxType, JComboBox comboBoxStatus, JTextField TextFieldCustomer, JComboBox comboBoxTaskLeader, JDateChooser dateChooserExpectedStart,
-            JDateChooser dateChooserExpectedEnd, JTextField textFieldEstimatedTime, JComboBox comboBoxPriority, JTextArea textAreaDescription) {
-        DefaultTableModel modelTable = (DefaultTableModel) tableAllTasks.getModel();
-        DefaultListModel modelOnTask = (DefaultListModel) listUsersOnTask.getModel();
-        Type type = new Type(comboBoxType.getSelectedItem().toString());
-        Statuss status = new Statuss(comboBoxStatus.getSelectedItem().toString());
-        Customer customer = new Customer(TextFieldCustomer.getText());
-        // FEJL I USER
-        User user = new User(customerID, null, null, customerID);
-        ArrayList<User> userOnTask = new ArrayList<>();
-
-        for (int i = 0; i < modelOnTask.getSize(); i++) {
-            userOnTask.add((User) modelOnTask.getElementAt(i));
-        }
-
-        Task task = new Task(Integer.parseInt(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 0).toString()),
-                Integer.parseInt(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 1).toString()),
-                textFieldTaskName.getText(),
-                type,
-                status,
-                customer,
-                user,
-                dateChooserExpectedStart.getDate(),
-                dateChooserExpectedEnd.getDate(),
-                Integer.parseInt(textFieldEstimatedTime.getText()),
-                Integer.parseInt(comboBoxPriority.getSelectedItem().toString()),
-                textAreaDescription.getText(),
-                userOnTask);
-
-        try {
-            Controller.dbHandler.SPremoveAllUsersOnTask(task.getTaskID());
-            Controller.dbHandler.updateTask(task);
-            Controller.dbHandler.addUserToAlreadyMadeTask(listUsersOnTask, task.getTaskID());
-
-            Controller.fillList(listUsers, Controller.userList);
-
-            Controller.fillTableWithTask(tableAllTasks);
-        } catch (SQLException | IOException ex) {
-            Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+//    public static void SaveChangesToTask(JTable tableAllTasks, JList listUsers, JList listUsersOnTask, JButton button, JTextField textFieldTaskName,
+//            JComboBox comboBoxType, JComboBox comboBoxStatus, JTextField TextFieldCustomer, JComboBox comboBoxTaskLeader, JDateChooser dateChooserExpectedStart,
+//            JDateChooser dateChooserExpectedEnd, JTextField textFieldEstimatedTime, JComboBox comboBoxPriority, JTextArea textAreaDescription) {
+//    
+//        DefaultTableModel modelTable = (DefaultTableModel) tableAllTasks.getModel();
+//        DefaultListModel modelOnTask = (DefaultListModel) listUsersOnTask.getModel();
+//        Type type = new Type(comboBoxType.getSelectedItem().toString());
+//        Statuss status = new Statuss(comboBoxStatus.getSelectedItem().toString());
+//        Customer customer = new Customer(TextFieldCustomer.getText());
+//        // FEJL I USER
+//        User user = new User(customerID, null, null, customerID);
+//        ArrayList<User> userOnTask = new ArrayList<>();
+//
+//        for (int i = 0; i < modelOnTask.getSize(); i++) {
+//            userOnTask.add((User) modelOnTask.getElementAt(i));
+//        }
+//
+//        Task task = new Task(Integer.parseInt(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 0).toString()),
+//                Integer.parseInt(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 1).toString()),
+//                textFieldTaskName.getText(),
+//                type,
+//                status,
+//                customer,
+//                user,
+//                dateChooserExpectedStart.getDate(),
+//                dateChooserExpectedEnd.getDate(),
+//                Integer.parseInt(textFieldEstimatedTime.getText()),
+//                Integer.parseInt(comboBoxPriority.getSelectedItem().toString()),
+//                textAreaDescription.getText(),
+//                userOnTask);
+//
+//        try {
+//            Controller.dbHandler.SPremoveAllUsersOnTask(task.getTaskID());
+//            Controller.dbHandler.updateTask(task);
+//            Controller.dbHandler.addUserToAlreadyMadeTask(listUsersOnTask, task.getTaskID());
+//
+//            Controller.fillList(listUsers, Controller.userList);
+//
+//            Controller.fillTableWithTask(tableAllTasks);
+//        } catch (SQLException | IOException ex) {
+//            Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
 
     public static void fillTableWithUser(JTable table) throws IOException, SQLException {
         DefaultTableModel modelTable = (DefaultTableModel) table.getModel();

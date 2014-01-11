@@ -15,9 +15,6 @@ public class Statuss {
     private int statusID;
     private String statussName;
 
-    public Statuss(String statusName) {
-        this.statussName = statusName;
-    }
 
     public Statuss(int statusID, String statussName) {
         this.statusID = statusID;

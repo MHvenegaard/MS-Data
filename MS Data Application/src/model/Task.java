@@ -29,6 +29,7 @@ public class Task {
     private ArrayList<Task> taskList;
     private ArrayList<User> userOnTask;
 
+    //Update task
     public Task(int taskID, int parentID, String taskName, Type type, Statuss status, Customer customer, User user, Date startDate, Date endDate, int estimatedtime, int priority, String description, ArrayList<User> userOnTask) {
         this.taskID = taskID;
         this.parentID = parentID;
@@ -46,7 +47,8 @@ public class Task {
         taskList = new ArrayList<>();
         this.userOnTask = new ArrayList<>();
     }
-
+    
+    //Create new task
     public Task(String taskName, Type type, Statuss status, Customer customer, User user, Date startDate, Date endDate, int estimatedtime, int priority, String description) {
         this.taskName = taskName;
         this.type = type;
@@ -61,7 +63,8 @@ public class Task {
         commentList = new ArrayList<>();
         taskList = new ArrayList<>();
     }
-    //SubTask
+  
+  //Create SubTask  
 
     public Task(String taskName, int parentID, Type type, Statuss status, Customer customer, User user, Date startDate, Date endDate, int estimatedtime, int priority, String description) {
         this.taskName = taskName;
