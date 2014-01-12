@@ -23,6 +23,12 @@ public class TimeSpentOnTask {
         this.comment = comment;
     }
      
+     public TimeSpentOnTask(int userID){
+         this.userID = userID;
+         this.timeSpent = 0;
+         this.comment = "";
+     }
+     
      public int getTimeSpent() {
         return timeSpent;
     }

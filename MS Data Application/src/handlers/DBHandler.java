@@ -227,35 +227,47 @@ public class DBHandler {
             timeSpent = rs.getInt("timeSpent");
             comment = rs.getString("comment");
 
-            TimeSpentOnTask tsot = new TimeSpentOnTask(taskID, userID, timeSpent,comment);
+            TimeSpentOnTask tsot = new TimeSpentOnTask(taskID, userID, timeSpent, comment);
             tsotList.add(tsot);
         }
 
         return tsotList;
     }
 
-    public void createTimeSpentOnTask(TimeSpentOnTask tsot, Task task) throws SQLException, IOException{
+    public void updateTimeSpentOnTask(TimeSpentOnTask tsot, Task task) throws SQLException, IOException {
         Connection conn = (Connection) initiateSystemDBConn()[0];
-        
+
         CallableStatement cs;
-        cs = conn.prepareCall("{call createTimeSpentOnTask(?,?,?,?)}");
+        cs = conn.prepareCall("{call updateTimeSpentOnTask(?,?,?,?)}");
         cs.setInt(1, tsot.getTaskID());
         cs.setInt(2, tsot.getUserID());
         cs.setInt(3, tsot.getTimeSpent());
         cs.setString(4, tsot.getComment());
         cs.execute();
-        
+
         updateTask(task);
     }
-    
+
+    public void createTimeSpentOnTask(TimeSpentOnTask tsot) throws SQLException, IOException {
+        Connection conn = (Connection) initiateSystemDBConn()[0];
+
+        CallableStatement cs;
+        cs = conn.prepareCall("{call createTimeSpentOnTask(?,?,?)}");
+        cs.setInt(1, tsot.getUserID());
+        cs.setInt(2, tsot.getTimeSpent());
+        cs.setString(3, tsot.getComment());
+        cs.execute();
+
+    }
+
     //Taskadministration in SystemDB
     public void createTask(Task task) throws SQLException, IOException {
         Connection conn = (Connection) initiateSystemDBConn()[0];
         java.sql.Date sqlStartDate = new java.sql.Date(task.getStartDate().getTime());
         java.sql.Date sqlEndDate = new java.sql.Date(task.getEndDate().getTime());
-        
+
         System.out.println(task.getCustomer().getCompanyName());
-        
+
         CallableStatement cs;
         cs = conn.prepareCall("{call createTask(?,?,?,?,?,?,?,?,?,?,?)}");
         cs.setString(1, null);
@@ -532,9 +544,9 @@ public class DBHandler {
             Customer customer = new Customer(customerID, customerName, customerPhone, customerCVR);
             customerList.add(customer);
         }
-        
+
         return customerList;
-        
+
     }
 
     public ArrayList<Task> initiateTaskList(Connection conn) throws SQLException {
@@ -584,7 +596,7 @@ public class DBHandler {
                     u = Controller.userList.get(i);
                 }
             }
-            
+
             for (int i = 0; i < Controller.typeList.size(); i++) {
                 if (Controller.typeList.get(i).getTypeID() == rs.getInt("type")) {
                     t = Controller.typeList.get(i);

@@ -634,7 +634,7 @@ public class Controller {
         textFieldTimeSpent.setText("");
     }
 
-    public static void createNewTimeSpentOnTask(int taskID, String userName, JComboBox comboboxStatus, JTextField textfieldTimeSpent, JTextArea textAreaComment) throws SQLException, IOException {
+    public static void updateTimeSpentOnTask(int taskID, String userName, JComboBox comboboxStatus, JTextField textfieldTimeSpent, JTextArea textAreaComment) throws SQLException, IOException {
         User user = null;
         TimeSpentOnTask tsot = null;
         Task task = getSelectedTask(taskID);
@@ -659,6 +659,21 @@ public class Controller {
             tsot = new TimeSpentOnTask(taskID, user.getUserID(), Integer.parseInt(textfieldTimeSpent.getText()), textAreaComment.getText());
         }
                 System.out.println("EFTER ALT: "+ task.getStatus());
-        Controller.dbHandler.createTimeSpentOnTask(tsot, task);
+        Controller.dbHandler.updateTimeSpentOnTask(tsot, task);
+    }
+    
+    public static void createNewTimeSpentOnTask(String userName) throws SQLException, IOException{
+        User user = null;
+        TimeSpentOnTask tsot = null;
+        
+        for (int i = 0; i < Controller.userList.size(); i++) {
+            if (Controller.userList.get(i).getUserName().equals(userName)) {
+                user = Controller.userList.get(i);
+            }
+        }
+        
+        tsot = new TimeSpentOnTask(user.getUserID());
+        Controller.dbHandler.createTimeSpentOnTask(tsot);
+        
     }
 }

@@ -281,11 +281,11 @@ public class Home extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -305,9 +305,8 @@ public class Home extends javax.swing.JPanel {
             DefaultTableModel modelTable = (DefaultTableModel) tableAllSubTasks.getModel();
             
             try {
-                Controller.createNewTimeSpentOnTask(Integer.parseInt(
-                        modelTable.getValueAt(tableAllSubTasks.getSelectedRow(), 0).toString()),
-                        modelTable.getValueAt(tableAllSubTasks.getSelectedRow(), 6).toString(),
+                Controller.updateTimeSpentOnTask(Integer.parseInt(labelSubtaskID.getText()),
+                        textFieldUser.getText(),
                         comboBoxStatus,
                         textFieldMinutesSpent,
                         textAreaAddComment);
@@ -347,7 +346,7 @@ public class Home extends javax.swing.JPanel {
                   
             DefaultTableModel modelTable = (DefaultTableModel) tableAllTasks.getModel();
             try {
-                Controller.createNewTimeSpentOnTask(Integer.parseInt(
+                Controller.updateTimeSpentOnTask(Integer.parseInt(
                         modelTable.getValueAt(tableAllTasks.getSelectedRow(), 0).toString()),
                         modelTable.getValueAt(tableAllTasks.getSelectedRow(), 6).toString(),
                         comboBoxStatus,
