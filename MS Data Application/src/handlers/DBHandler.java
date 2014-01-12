@@ -210,13 +210,12 @@ public class DBHandler {
     }
 
     //Get complete lists of objects by SP
-    public ArrayList<TimeSpentOnTask> SPgetTimeSpentOnTask() throws SQLException, IOException {
+    public ArrayList<TimeSpentOnTask> initiateTimeSpentOnTaskList(Connection conn) throws SQLException, IOException {
         ArrayList<TimeSpentOnTask> tsotList = new ArrayList();
         int taskID;
         int userID;
         int timeSpent;
-
-        Connection conn = (Connection) initiateSystemDBConn()[0];
+        String comment;
 
         CallableStatement cs = null;
         cs = conn.prepareCall("{call getAllTimeSpentOnTask}");
@@ -226,14 +225,28 @@ public class DBHandler {
             taskID = rs.getInt("taskID");
             userID = rs.getInt("userID");
             timeSpent = rs.getInt("timeSpent");
+            comment = rs.getString("comment");
 
-            TimeSpentOnTask tsot = new TimeSpentOnTask(userID, taskID, timeSpent);
+            TimeSpentOnTask tsot = new TimeSpentOnTask(userID, taskID, timeSpent,comment);
             tsotList.add(tsot);
         }
 
         return tsotList;
     }
 
+    public void createTimeSpentOnTask(TimeSpentOnTask tsot) throws SQLException, IOException{
+        Connection conn = (Connection) initiateSystemDBConn()[0];
+        
+        CallableStatement cs;
+        cs = conn.prepareCall("{call createTimeSpentOnTask(?,?,?)}");
+        System.out.println("DB-UserID : " + tsot.getUserID());
+        System.out.println("DB-taskID : " + tsot.getTaskID());
+        cs.setInt(1, tsot.getTaskID());
+        cs.setInt(2, tsot.getUserID());
+        cs.setInt(3, tsot.getTimeSpent());
+        cs.execute();
+    }
+    
     //Taskadministration in SystemDB
     public void createTask(Task task) throws SQLException, IOException {
         Connection conn = (Connection) initiateSystemDBConn()[0];

@@ -13,19 +13,17 @@ public class TimeSpentOnTask {
     private int timeSpent;
     private int userID;
     private int taskID;
+    private String comment;
     
     
-     public TimeSpentOnTask(int userID,int taskID, int timeSpent){
+     public TimeSpentOnTask(int taskID,int userID, int timeSpent, String comment){
         this.timeSpent = timeSpent;
         this.userID = userID;
         this.taskID = taskID;
+        this.comment = comment;
     }
     
-    public TimeSpentOnTask(int userID,int taskID){
-        timeSpent = 0;
-        this.userID = userID;
-        this.taskID = taskID;
-    }
+
     
      public int getTimeSpent() {
         return timeSpent;
@@ -49,6 +47,14 @@ public class TimeSpentOnTask {
 
     public void setTaskID(int taskID) {
         this.taskID = taskID;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
     
     

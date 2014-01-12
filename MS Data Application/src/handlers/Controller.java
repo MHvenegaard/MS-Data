@@ -41,6 +41,7 @@ public class Controller {
     public static ArrayList<Task> tasks;
     public static ArrayList<Task> children;
     public static ArrayList<Customer> customerList;
+    public static ArrayList<TimeSpentOnTask> tsotList;
     public static int customerID;
     //public static JFrame frame;
 
@@ -48,14 +49,12 @@ public class Controller {
         currentUser = null;
         dbHandler = new DBHandler();
         tHandler = new TableHandler();
-
+        tsotList = new ArrayList();
         userList = new ArrayList();
         typeList = new ArrayList();
         statusList = new ArrayList();
         customerList = new ArrayList();
-
         tasks = new ArrayList();
-
     }
 
     public void initiateController() throws SQLException, IOException {
@@ -66,16 +65,13 @@ public class Controller {
         statusList = dbHandler.initiateStatusList(conn);
         customerList = dbHandler.initiateCustomerList(conn);
         tasks = dbHandler.initiateTaskList(conn);
-
+        tsotList = dbHandler.initiateTimeSpentOnTaskList(conn);
         // frame = new CustomerLookUpFrame();
         children = new ArrayList<>();
         setUsersOnTask();
     }
 
     public void setUsersOnTask() throws SQLException, IOException {
-
-        ArrayList<TimeSpentOnTask> tsotList = dbHandler.SPgetTimeSpentOnTask();
-        // taskList = tasks;
         for (int i = 0; i < tasks.size(); i++) {
             for (int j = 0; j < tsotList.size(); j++) {
                 if (tasks.get(i).getTaskID() == tsotList.get(j).getTaskID()) {
@@ -345,7 +341,7 @@ public class Controller {
     }
 
     public static void setCurrentUserIDToTextField(JTextField textFieldUser) {
-        textFieldUser.setText(currentUser.getUserID() + "");
+        textFieldUser.setText(currentUser.getUserName() + "");
     }
 
     public static Boolean subTaskDateChecker(Date supTaskStartDate, Date supTaskEndDate, Date parentStartDate, Date parentEndDate) {
@@ -417,9 +413,9 @@ public class Controller {
                 textAreaDescription.getText(),
                 userOnTask);
         try {
-          //  Controller.dbHandler.SPremoveAllUsersOnTask(task.getTaskID());
+            //  Controller.dbHandler.SPremoveAllUsersOnTask(task.getTaskID());
             Controller.dbHandler.updateTask(task);
-          // Controller.dbHandler.addUserToAlreadyMadeTask(listUsersOnTask, task.getTaskID());
+            // Controller.dbHandler.addUserToAlreadyMadeTask(listUsersOnTask, task.getTaskID());
             Controller.fillList(listUsers, Controller.userList);
             Controller.fillTableWithTask(tableAllTasks);
         } catch (SQLException ex) {
@@ -611,4 +607,47 @@ public class Controller {
         }
         return task;
     }
+
+    public static TimeSpentOnTask getTimeSpentOnTaskFromList(int taskID, String userID) {
+        TimeSpentOnTask tsot = null;
+        User user = null;
+        for (int i = 0; i < Controller.userList.size(); i++) {
+            if (Controller.userList.get(i).getUserName().equals(userID)) {
+                user = Controller.userList.get(i);
+            }
+        }
+        for (int i = 0; i < tsotList.size(); i++) {
+            System.out.println("tsotListSize: " + tsotList.size());
+            System.out.println(tsotList.get(i).getTaskID()+" er lige med " + taskID);
+            System.out.println(user.getUserName() + " er lig med " + userID);
+            if (tsotList.get(i).getTaskID() == taskID && user.getUserName().equals(userID)) {
+                System.out.println("Kommer ind");
+                tsot = tsotList.get(i);
+                System.out.println("comment : " + tsot.getComment());
+            }
+        }
+        return tsot;
+    }
+
+    public static void fillHomeComponets(int taskID, String userID, JTextArea textAreaComment) {
+        TimeSpentOnTask tsot = getTimeSpentOnTaskFromList(taskID, userID);
+
+        textAreaComment.setText(tsot.getComment());
+    }
+
+    public static void createNewTimeSpentOnTask(int taskID, String userID, JTextField textfieldTimeSpent, JTextArea textAreaComment) throws SQLException, IOException {
+        User user = null;
+        for (int i = 0; i < Controller.userList.size(); i++) {
+            if (Controller.userList.get(i).getUserName().equals(userID)) {
+                user = Controller.userList.get(i);
+            }
+        }
+        System.out.println("userID : " + user.getUserID());
+        System.out.println("taskID : " + taskID);
+        TimeSpentOnTask tsot = new TimeSpentOnTask(taskID, user.getUserID(), Integer.parseInt(textfieldTimeSpent.getText()), textAreaComment.getText());
+        System.out.println("Nyt tsot object");
+        Controller.dbHandler.createTimeSpentOnTask(tsot);
+
+    }
+
 }
