@@ -135,11 +135,11 @@ public class UserHandlingPanel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "Navn", "Efternavn", "Brugernavn", "Adgangsniveau", "Password"
+                "ID", "Navn", "Adgangsniveau", "Password"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -152,6 +152,10 @@ public class UserHandlingPanel extends javax.swing.JPanel {
             }
         });
         jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(10);
+        }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

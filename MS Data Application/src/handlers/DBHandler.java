@@ -291,10 +291,10 @@ public class DBHandler {
         cs = conn.prepareCall("{call updateTask(?,?,?,?,?,?,?,?,?,?,?)}");
         cs.setInt(1, task.getTaskID());
         cs.setString(2, task.getTaskName());
-        cs.setString(3, task.getType().getTypeName());
-        cs.setString(4, task.getStatus().getStatussName());
-        cs.setString(5, task.getCustomer().getCompanyName());
-        cs.setString(6, task.getUser().getUserName());
+        cs.setInt(3, task.getType().getTypeID());
+        cs.setInt(4, task.getStatus().getStatusID());
+        cs.setInt(5, task.getCustomer().getCustomerID());
+        cs.setInt(6, task.getUser().getUserID());
         cs.setDate(7, sqlStartDate);
         cs.setDate(8, sqlEndDate);
         cs.setInt(9, task.getEstimatedtime());

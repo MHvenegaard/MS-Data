@@ -427,22 +427,23 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_buttonFilterActionPerformed
 
     private void buttonSaveChangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveChangesActionPerformed
+        System.out.println("Klik på saveChanges");
+        Controller.SaveChangesToTask(tableAllTasks,
+                listUsers,
+                listUsersOnTask,
+                buttonSaveChanges,
+                textFieldTaskName,
+                comboBoxType,
+                comboBoxStatus,
+                textFieldCustomer,
+                comboBoxProjectLeader,
+                dateChooserExpectedStart,
+                dateChooserExpectedEnd,
+                textFieldTime,
+                comboBoxPriority,
+                textAreaDescription);
 
-//        Controller.SaveChangesToTask(tableAllTasks,
-//                listUsers,
-//                listUsersOnTask,
-//                buttonSaveChanges,
-//                textFieldTaskName,
-//                comboBoxType,
-//                comboBoxStatus,
-//                textFieldCustomer,
-//                comboBoxProjectLeader,
-//                dateChooserExpectedStart,
-//                dateChooserExpectedEnd,
-//                textFieldTime,
-//                comboBoxPriority,
-//                textAreaDescription);
-
+        System.out.println("ClearAll");
         Controller.clearAll(textFieldTaskName,
                 comboBoxType,
                 comboBoxStatus,
