@@ -22,9 +22,7 @@ public class TimeSpentOnTask {
         this.taskID = taskID;
         this.comment = comment;
     }
-    
-
-    
+     
      public int getTimeSpent() {
         return timeSpent;
     }

@@ -630,6 +630,9 @@ public class Controller {
     }
 
     public static void fillHomeComponets(int taskID, String userID, JTextArea textAreaComment) {
+        System.out.println("taskID: " +taskID);
+        System.out.println("userID: " +userID);
+        
         TimeSpentOnTask tsot = getTimeSpentOnTaskFromList(taskID, userID);
 
         textAreaComment.setText(tsot.getComment());
