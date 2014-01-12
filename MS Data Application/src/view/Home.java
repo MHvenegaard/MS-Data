@@ -290,7 +290,6 @@ public class Home extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       // Controller.createNewTask(null, null, jButton1, null, textFieldUser, comboBoxType, comboBoxStatus, comboBoxStatus, comboBoxType, null, null, textFieldMinutesSpent, comboBoxStatus, textAreaAddComment);
        DefaultTableModel modelTable = (DefaultTableModel) tableAllSubTasks.getModel();
   
         try {
@@ -299,9 +298,7 @@ public class Home extends javax.swing.JPanel {
                     modelTable.getValueAt(tableAllSubTasks.getSelectedRow(), 6).toString(),
                     textFieldMinutesSpent,
                     textAreaAddComment);
-        } catch (SQLException ex) {
-            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+        } catch (SQLException | IOException ex) {
             Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed

@@ -16,7 +16,7 @@ public class TimeSpentOnTask {
     private String comment;
     
     
-     public TimeSpentOnTask(int taskID,int userID, int timeSpent, String comment){
+     public TimeSpentOnTask(int taskID, int userID, int timeSpent, String comment){
         this.timeSpent = timeSpent;
         this.userID = userID;
         this.taskID = taskID;

@@ -227,7 +227,7 @@ public class DBHandler {
             timeSpent = rs.getInt("timeSpent");
             comment = rs.getString("comment");
 
-            TimeSpentOnTask tsot = new TimeSpentOnTask(userID, taskID, timeSpent,comment);
+            TimeSpentOnTask tsot = new TimeSpentOnTask(taskID, userID, timeSpent,comment);
             tsotList.add(tsot);
         }
 
@@ -238,12 +238,11 @@ public class DBHandler {
         Connection conn = (Connection) initiateSystemDBConn()[0];
         
         CallableStatement cs;
-        cs = conn.prepareCall("{call createTimeSpentOnTask(?,?,?)}");
-        System.out.println("DB-UserID : " + tsot.getUserID());
-        System.out.println("DB-taskID : " + tsot.getTaskID());
+        cs = conn.prepareCall("{call createTimeSpentOnTask(?,?,?,?)}");
         cs.setInt(1, tsot.getTaskID());
         cs.setInt(2, tsot.getUserID());
         cs.setInt(3, tsot.getTimeSpent());
+        cs.setString(4, tsot.getComment());
         cs.execute();
     }
     
