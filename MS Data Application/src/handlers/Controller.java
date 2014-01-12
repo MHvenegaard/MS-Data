@@ -2,6 +2,7 @@ package handlers;
 
 import com.mysql.jdbc.Connection;
 import com.toedter.calendar.JDateChooser;
+import java.awt.TextField;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
@@ -624,20 +625,34 @@ public class Controller {
         return tsot;
     }
 
-    public static void fillHomeComponets(int taskID, String userID, JTextArea textAreaComment) {
-        
+    public static void fillHomeComponets(int taskID, String userID, JTextArea textAreaComment,JComboBox comboboxStatus, JTextField textFieldTimeSpent) {
+
         TimeSpentOnTask tsot = getTimeSpentOnTaskFromList(taskID, userID);
+        Task t = getSelectedTask(taskID);
         textAreaComment.setText(tsot.getComment());
+        comboboxStatus.setSelectedItem(t.getStatus());
+        textFieldTimeSpent.setText("");
     }
 
-    public static void createNewTimeSpentOnTask(int taskID, String userID, JTextField textfieldTimeSpent, JTextArea textAreaComment) throws SQLException, IOException {
+    public static void createNewTimeSpentOnTask(int taskID, String userName, JTextField textfieldTimeSpent, JTextArea textAreaComment) throws SQLException, IOException {
         User user = null;
+        TimeSpentOnTask tsot = null;
         for (int i = 0; i < Controller.userList.size(); i++) {
-            if (Controller.userList.get(i).getUserName().equals(userID)) {
+            if (Controller.userList.get(i).getUserName().equals(userName)) {
                 user = Controller.userList.get(i);
             }
         }
-        TimeSpentOnTask tsot = new TimeSpentOnTask(taskID, user.getUserID(), Integer.parseInt(textfieldTimeSpent.getText()), textAreaComment.getText());
+        for (int i = 0; i < tsotList.size(); i++) {
+            if (tsotList.get(i).getTaskID() == taskID && user.getUserName().equals(userName)) {
+                tsot = tsotList.get(i);
+                int totalTimeSpent = tsot.getTimeSpent() + Integer.parseInt(textfieldTimeSpent.getText());
+                tsot.setTimeSpent(totalTimeSpent);
+                tsot.setComment(textAreaComment.getText());
+            }
+        }
+        if (tsot == null) {
+            tsot = new TimeSpentOnTask(taskID, user.getUserID(), Integer.parseInt(textfieldTimeSpent.getText()), textAreaComment.getText());
+        }
         Controller.dbHandler.createTimeSpentOnTask(tsot);
     }
 }
