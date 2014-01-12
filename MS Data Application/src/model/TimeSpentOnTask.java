@@ -15,18 +15,24 @@ public class TimeSpentOnTask {
     private int taskID;
     private String comment;
     
-    
+    //Update timeSpentOnTask
      public TimeSpentOnTask(int taskID, int userID, int timeSpent, String comment){
         this.timeSpent = timeSpent;
         this.userID = userID;
         this.taskID = taskID;
         this.comment = comment;
     }
-     
+     //Create new task
      public TimeSpentOnTask(int userID){
          this.userID = userID;
          this.timeSpent = 0;
          this.comment = "";
+     }
+     //Create new QuickTask
+     public TimeSpentOnTask(int userID, int timeSpent, String comment){
+         this.userID = userID;
+         this.timeSpent = timeSpent;
+         this.comment = comment;
      }
      
      public int getTimeSpent() {

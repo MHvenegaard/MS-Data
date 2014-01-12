@@ -285,6 +285,30 @@ public class DBHandler {
         cs.execute();
     }
 
+    public void createQuickTask(Task task) throws SQLException, IOException {
+        Connection conn = (Connection) initiateSystemDBConn()[0];
+        java.sql.Date sqlStartDate = new java.sql.Date(task.getStartDate().getTime());
+        java.sql.Date sqlEndDate = new java.sql.Date(task.getEndDate().getTime());
+
+        System.out.println(task.getCustomer().getCompanyName());
+
+        CallableStatement cs;
+        cs = conn.prepareCall("{call createTask(?,?,?,?,?,?,?,?,?,?,?)}");
+        cs.setString(1, null);
+        cs.setString(2, task.getTaskName());
+        cs.setInt(3, task.getType().getTypeID());
+        cs.setInt(4, task.getType().getTypeID());
+        cs.setInt(5, task.getCustomer().getCustomerID());
+        cs.setInt(6, task.getUser().getUserID());
+        cs.setDate(7, sqlStartDate);
+        cs.setDate(8, sqlEndDate);
+        cs.setInt(9, task.getEstimatedtime());
+        cs.setInt(10, task.getPriority());
+        cs.setString(11, task.getDescription());
+
+        cs.execute();
+    }
+    
     public void createSubTask(Task task) throws SQLException, IOException {
         Connection conn = (Connection) initiateSystemDBConn()[0];
         java.sql.Date sqlStartDate = new java.sql.Date(task.getStartDate().getTime());
