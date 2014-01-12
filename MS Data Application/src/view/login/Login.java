@@ -66,6 +66,9 @@ public class Login extends javax.swing.JFrame {
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setResizable(false);
 
+        textFieldUserName.setText("MH");
+
+        passwordFieldPassword.setText("1234");
         passwordFieldPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 passwordFieldPasswordActionPerformed(evt);
