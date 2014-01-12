@@ -297,7 +297,7 @@ public class DBHandler {
         cs.setString(1, null);
         cs.setString(2, task.getTaskName());
         cs.setInt(3, task.getType().getTypeID());
-        cs.setInt(4, task.getType().getTypeID());
+        cs.setInt(4, task.getStatus().getStatusID());
         cs.setInt(5, task.getCustomer().getCustomerID());
         cs.setInt(6, task.getUser().getUserID());
         cs.setDate(7, sqlStartDate);

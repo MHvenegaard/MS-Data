@@ -275,11 +275,15 @@ public class Controller {
             }
         }
 
-        for (int i = 0; i < Controller.statusList.size(); i++) {
-            if (Controller.statusList.get(i).getStatussName().equals("Afsluttet")) {
-                status = Controller.statusList.get(i);
-            }
-        }
+//        for (int i = 0; i < Controller.statusList.size(); i++) {
+//            if (Controller.statusList.get(i).getStatussName().equals("Afsluttet")) {
+//                status = Controller.statusList.get(i);
+//            }
+//        }
+        
+        status = Controller.statusList.get(3);
+        
+        System.out.println("Status = " + status.getStatussName());
 
         for (int i = 0; i < Controller.userList.size(); i++) {
             if (Controller.userList.get(i).getUserName().equals(textFieldTaskLeader.getText())) {
