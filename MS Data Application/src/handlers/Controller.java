@@ -16,7 +16,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -26,8 +25,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import model.*;
 import view.CreateTaskPanel;
-import view.CustomerLookUpFrame;
-import view.TaskHandlingPanel;
 
 /**
  * @author Marc
@@ -296,7 +293,7 @@ public class Controller {
                 Date ParentStartDate = sdf.parse(modelTable.getValueAt(tableAllTask.getSelectedRow(), 7).toString());
                 Date ParentEndDate = sdf.parse(modelTable.getValueAt(tableAllTask.getSelectedRow(), 8).toString());
                 Boolean taskChecker = Controller.subTaskDateChecker(taskStartDate, taskEndDate, ParentStartDate, ParentEndDate);
-                
+                System.out.println("taskChecker : " + taskChecker);
                 
                 if (tableAllTask.getSelectedRow() != -1 && taskChecker) {
                     taskID = Integer.parseInt(modelTable.getValueAt(tableAllTask.getSelectedRow(), 0).toString());
@@ -358,7 +355,8 @@ public class Controller {
         Boolean result = true;
         if (supTaskStartDate.before(parentStartDate)
                 || supTaskStartDate.after(parentEndDate)
-                || supTaskStartDate.after(supTaskEndDate)) {
+                || supTaskStartDate.after(supTaskEndDate)
+                || supTaskEndDate.after(parentEndDate)) {
             result = false;
         }
         
