@@ -617,24 +617,16 @@ public class Controller {
             }
         }
         for (int i = 0; i < tsotList.size(); i++) {
-            System.out.println("tsotListSize: " + tsotList.size());
-            System.out.println(tsotList.get(i).getTaskID()+" er lige med " + taskID);
-            System.out.println(user.getUserName() + " er lig med " + userID);
             if (tsotList.get(i).getTaskID() == taskID && user.getUserName().equals(userID)) {
-                System.out.println("Kommer ind");
                 tsot = tsotList.get(i);
-                System.out.println("comment : " + tsot.getComment());
             }
         }
         return tsot;
     }
 
     public static void fillHomeComponets(int taskID, String userID, JTextArea textAreaComment) {
-        System.out.println("taskID: " +taskID);
-        System.out.println("userID: " +userID);
         
         TimeSpentOnTask tsot = getTimeSpentOnTaskFromList(taskID, userID);
-
         textAreaComment.setText(tsot.getComment());
     }
 
@@ -645,12 +637,7 @@ public class Controller {
                 user = Controller.userList.get(i);
             }
         }
-        System.out.println("userID : " + user.getUserID());
-        System.out.println("taskID : " + taskID);
         TimeSpentOnTask tsot = new TimeSpentOnTask(taskID, user.getUserID(), Integer.parseInt(textfieldTimeSpent.getText()), textAreaComment.getText());
-        System.out.println("Nyt tsot object");
         Controller.dbHandler.createTimeSpentOnTask(tsot);
-
     }
-
 }
