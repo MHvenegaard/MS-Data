@@ -27,6 +27,9 @@ public class Login extends javax.swing.JFrame {
         loginStatus = 0;
 
         initComponents();
+        progressBar.setBackground(Color.BLUE);
+        progressBar.setForeground(Color.BLUE);
+
         try {
             control = new Controller();
 
@@ -133,7 +136,7 @@ public class Login extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(labelStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(progressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         getAccessibleContext().setAccessibleDescription("");
@@ -450,6 +453,9 @@ public class Login extends javax.swing.JFrame {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
+
+                    javax.swing.UIDefaults defaults = javax.swing.UIManager.getLookAndFeelDefaults();
+                    defaults.put("nimbusOrange", new Color(15, 110, 25));
                     break;
 
                 }
