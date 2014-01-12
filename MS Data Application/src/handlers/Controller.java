@@ -625,7 +625,7 @@ public class Controller {
         return tsot;
     }
 
-    public static void fillHomeComponets(int taskID, String userID, JTextArea textAreaComment,JComboBox comboboxStatus, JTextField textFieldTimeSpent) {
+    public static void fillHomeComponets(int taskID, String userID, JTextArea textAreaComment, JComboBox comboboxStatus, JTextField textFieldTimeSpent) {
 
         TimeSpentOnTask tsot = getTimeSpentOnTaskFromList(taskID, userID);
         Task t = getSelectedTask(taskID);
@@ -634,14 +634,19 @@ public class Controller {
         textFieldTimeSpent.setText("");
     }
 
-    public static void createNewTimeSpentOnTask(int taskID, String userName, JTextField textfieldTimeSpent, JTextArea textAreaComment) throws SQLException, IOException {
+    public static void createNewTimeSpentOnTask(int taskID, String userName, JComboBox comboboxStatus, JTextField textfieldTimeSpent, JTextArea textAreaComment) throws SQLException, IOException {
         User user = null;
         TimeSpentOnTask tsot = null;
+        Task task = getSelectedTask(taskID);
+
         for (int i = 0; i < Controller.userList.size(); i++) {
             if (Controller.userList.get(i).getUserName().equals(userName)) {
                 user = Controller.userList.get(i);
             }
         }
+        System.out.println("PRE: " + task.getStatus().getStatusID());
+        task.setStatusByID(comboboxStatus.getSelectedIndex() + 1);
+        System.out.println("IkkePRE: " + task.getStatus().getStatusID());
         for (int i = 0; i < tsotList.size(); i++) {
             if (tsotList.get(i).getTaskID() == taskID && user.getUserName().equals(userName)) {
                 tsot = tsotList.get(i);
@@ -653,6 +658,7 @@ public class Controller {
         if (tsot == null) {
             tsot = new TimeSpentOnTask(taskID, user.getUserID(), Integer.parseInt(textfieldTimeSpent.getText()), textAreaComment.getText());
         }
-        Controller.dbHandler.createTimeSpentOnTask(tsot);
+                System.out.println("EFTER ALT: "+ task.getStatus());
+        Controller.dbHandler.createTimeSpentOnTask(tsot, task);
     }
 }

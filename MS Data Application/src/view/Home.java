@@ -308,6 +308,7 @@ public class Home extends javax.swing.JPanel {
                 Controller.createNewTimeSpentOnTask(Integer.parseInt(
                         modelTable.getValueAt(tableAllSubTasks.getSelectedRow(), 0).toString()),
                         modelTable.getValueAt(tableAllSubTasks.getSelectedRow(), 6).toString(),
+                        comboBoxStatus,
                         textFieldMinutesSpent,
                         textAreaAddComment);
             } catch (SQLException | IOException ex) {
@@ -349,6 +350,7 @@ public class Home extends javax.swing.JPanel {
                 Controller.createNewTimeSpentOnTask(Integer.parseInt(
                         modelTable.getValueAt(tableAllTasks.getSelectedRow(), 0).toString()),
                         modelTable.getValueAt(tableAllTasks.getSelectedRow(), 6).toString(),
+                        comboBoxStatus,
                         textFieldMinutesSpent,
                         textAreaAddComment);
             } catch (SQLException | IOException ex) {

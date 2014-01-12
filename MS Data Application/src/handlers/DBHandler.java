@@ -234,7 +234,7 @@ public class DBHandler {
         return tsotList;
     }
 
-    public void createTimeSpentOnTask(TimeSpentOnTask tsot) throws SQLException, IOException{
+    public void createTimeSpentOnTask(TimeSpentOnTask tsot, Task task) throws SQLException, IOException{
         Connection conn = (Connection) initiateSystemDBConn()[0];
         
         CallableStatement cs;
@@ -244,6 +244,8 @@ public class DBHandler {
         cs.setInt(3, tsot.getTimeSpent());
         cs.setString(4, tsot.getComment());
         cs.execute();
+        
+        updateTask(task);
     }
     
     //Taskadministration in SystemDB
@@ -304,6 +306,7 @@ public class DBHandler {
         cs.setInt(1, task.getTaskID());
         cs.setString(2, task.getTaskName());
         cs.setInt(3, task.getType().getTypeID());
+        System.out.println("TASKSTATUSID: " + task.getStatus().getStatusID());
         cs.setInt(4, task.getStatus().getStatusID());
         cs.setInt(5, task.getCustomer().getCustomerID());
         cs.setInt(6, task.getUser().getUserID());
