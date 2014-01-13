@@ -16,12 +16,12 @@ import view.Mainframe;
 /**
  * @author Marc *
  */
-public class Login extends javax.swing.JFrame {
+public class LoginFrame extends javax.swing.JFrame {
 
     private int loginStatus;
     private Controller control;
 
-    public Login() {
+    public LoginFrame() {
 
 
         loginStatus = 0;
@@ -461,16 +461,16 @@ public class Login extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class
+            java.util.logging.Logger.getLogger(LoginFrame.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class
+            java.util.logging.Logger.getLogger(LoginFrame.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class
+            java.util.logging.Logger.getLogger(LoginFrame.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Login.class
+            java.util.logging.Logger.getLogger(LoginFrame.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
@@ -479,14 +479,14 @@ public class Login extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    Login login = new Login();
+                    LoginFrame login = new LoginFrame();
                     Image image = ImageIO.read(getClass().getResource("/ressources/ms-teknik-logo.jpg"));
                     login.setLocationRelativeTo(null);
                     login.setIconImage(image);
                     login.setVisible(true);
 
                 } catch (IOException ex) {
-                    Logger.getLogger(Login.class
+                    Logger.getLogger(LoginFrame.class
                             .getName()).log(Level.SEVERE, null, ex);
                 }
             }
