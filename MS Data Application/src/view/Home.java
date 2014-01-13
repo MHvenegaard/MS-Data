@@ -125,15 +125,20 @@ public class Home extends javax.swing.JPanel {
         });
         jScrollPane5.setViewportView(tableAllSubTasks);
         tableAllSubTasks.getColumnModel().getColumn(0).setResizable(false);
+        tableAllSubTasks.getColumnModel().getColumn(0).setPreferredWidth(25);
         tableAllSubTasks.getColumnModel().getColumn(1).setResizable(false);
+        tableAllSubTasks.getColumnModel().getColumn(1).setPreferredWidth(25);
         tableAllSubTasks.getColumnModel().getColumn(2).setResizable(false);
         tableAllSubTasks.getColumnModel().getColumn(3).setResizable(false);
         tableAllSubTasks.getColumnModel().getColumn(4).setResizable(false);
+        tableAllSubTasks.getColumnModel().getColumn(5).setResizable(false);
         tableAllSubTasks.getColumnModel().getColumn(6).setResizable(false);
+        tableAllSubTasks.getColumnModel().getColumn(6).setPreferredWidth(25);
         tableAllSubTasks.getColumnModel().getColumn(7).setResizable(false);
         tableAllSubTasks.getColumnModel().getColumn(8).setResizable(false);
         tableAllSubTasks.getColumnModel().getColumn(9).setResizable(false);
         tableAllSubTasks.getColumnModel().getColumn(10).setResizable(false);
+        tableAllSubTasks.getColumnModel().getColumn(10).setPreferredWidth(20);
         tableAllSubTasks.getColumnModel().getColumn(11).setResizable(false);
 
         tableAllTasks.setModel(new javax.swing.table.DefaultTableModel(
@@ -159,8 +164,22 @@ public class Home extends javax.swing.JPanel {
             }
         });
         jScrollPane6.setViewportView(tableAllTasks);
+        tableAllTasks.getColumnModel().getColumn(0).setResizable(false);
+        tableAllTasks.getColumnModel().getColumn(0).setPreferredWidth(25);
+        tableAllTasks.getColumnModel().getColumn(1).setResizable(false);
+        tableAllTasks.getColumnModel().getColumn(1).setPreferredWidth(25);
+        tableAllTasks.getColumnModel().getColumn(2).setResizable(false);
+        tableAllTasks.getColumnModel().getColumn(3).setResizable(false);
+        tableAllTasks.getColumnModel().getColumn(4).setResizable(false);
+        tableAllTasks.getColumnModel().getColumn(5).setResizable(false);
         tableAllTasks.getColumnModel().getColumn(6).setResizable(false);
         tableAllTasks.getColumnModel().getColumn(6).setPreferredWidth(25);
+        tableAllTasks.getColumnModel().getColumn(7).setResizable(false);
+        tableAllTasks.getColumnModel().getColumn(8).setResizable(false);
+        tableAllTasks.getColumnModel().getColumn(9).setResizable(false);
+        tableAllTasks.getColumnModel().getColumn(10).setResizable(false);
+        tableAllTasks.getColumnModel().getColumn(10).setPreferredWidth(20);
+        tableAllTasks.getColumnModel().getColumn(11).setResizable(false);
 
         jLabel3.setText("Kunde:");
 

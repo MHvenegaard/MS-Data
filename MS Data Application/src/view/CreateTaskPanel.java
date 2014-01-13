@@ -163,7 +163,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "ParentID", "TaskName", "Type", "Status", "Kunde", "User", "Start dato", "Slut dato", "Forventet tidsforbrug", "Prioritet", "Beskrivelse"
+                "ID", "ParentID", "Opgave navn", "Type", "Status", "Kunde", "Leder", "Start dato", "Slut dato", "Forventet tidsforbrug", "Prioritet", "Beskrivelse"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -181,6 +181,22 @@ public class CreateTaskPanel extends javax.swing.JPanel {
             }
         });
         jScrollPane4.setViewportView(tableAllTask);
+        tableAllTask.getColumnModel().getColumn(0).setResizable(false);
+        tableAllTask.getColumnModel().getColumn(0).setPreferredWidth(25);
+        tableAllTask.getColumnModel().getColumn(1).setResizable(false);
+        tableAllTask.getColumnModel().getColumn(1).setPreferredWidth(40);
+        tableAllTask.getColumnModel().getColumn(2).setResizable(false);
+        tableAllTask.getColumnModel().getColumn(3).setResizable(false);
+        tableAllTask.getColumnModel().getColumn(4).setResizable(false);
+        tableAllTask.getColumnModel().getColumn(5).setResizable(false);
+        tableAllTask.getColumnModel().getColumn(6).setResizable(false);
+        tableAllTask.getColumnModel().getColumn(6).setPreferredWidth(40);
+        tableAllTask.getColumnModel().getColumn(7).setResizable(false);
+        tableAllTask.getColumnModel().getColumn(8).setResizable(false);
+        tableAllTask.getColumnModel().getColumn(9).setResizable(false);
+        tableAllTask.getColumnModel().getColumn(10).setResizable(false);
+        tableAllTask.getColumnModel().getColumn(10).setPreferredWidth(20);
+        tableAllTask.getColumnModel().getColumn(11).setResizable(false);
 
         CheckBoxSub.setText("Opret opgaven som delopgave");
         CheckBoxSub.addChangeListener(new javax.swing.event.ChangeListener() {
