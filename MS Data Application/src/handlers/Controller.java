@@ -2,6 +2,7 @@ package handlers;
 
 import com.mysql.jdbc.Connection;
 import com.toedter.calendar.JDateChooser;
+import java.awt.TextField;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
@@ -251,6 +252,60 @@ public class Controller {
         dateChooserExpectedEnd.setDate(t.getEndDate());
 
         Controller.fillAndRemove(userList, userOnTaskLlist, t.getUserOnTask());
+
+    }
+
+    public static void createQuickTask(JTextField textFieldCustomer, JComboBox comboBoxType, JTextField textFieldTaskLeader, JTextField textFieldtimeSpent, JTextArea textAreaDescription) throws SQLException, IOException {
+        Customer customer = null;
+        Type type = null;
+        Statuss status = null;
+        User user = null;
+        int timeSpent = Integer.parseInt(textFieldtimeSpent.getText());
+        String comment = textAreaDescription.getText();
+
+        for (int i = 0; i < Controller.customerList.size(); i++) {
+            if (Controller.customerList.get(i).getCustomerID() == Integer.parseInt(textFieldCustomer.getText())) {
+                customer = Controller.customerList.get(i);
+            }
+        }
+
+        for (int i = 0; i < Controller.typeList.size(); i++) {
+            if (Controller.typeList.get(i).getTypeName().equals(comboBoxType.getSelectedItem().toString())) {
+                type = Controller.typeList.get(i);
+            }
+        }
+
+//        for (int i = 0; i < Controller.statusList.size(); i++) {
+//            if (Controller.statusList.get(i).getStatussName().equals("Afsluttet")) {
+//                status = Controller.statusList.get(i);
+//            }
+//        }
+        
+        status = Controller.statusList.get(3);
+        
+        System.out.println("Status = " + status.getStatussName());
+
+        for (int i = 0; i < Controller.userList.size(); i++) {
+            if (Controller.userList.get(i).getUserName().equals(textFieldTaskLeader.getText())) {
+                user = Controller.userList.get(i);
+            }
+        }
+
+        Task task = new Task(
+                type.getTypeName(),
+                type,
+                status,
+                customer,
+                user,
+                Controller.getCurrentDate(),
+                Controller.getCurrentDate(),
+                0,
+                1,
+                "");
+        System.out.println("Create QuickTask");
+        Controller.dbHandler.createQuickTask(task);
+        System.out.println("Create TimeSpentOnQuickTask");
+        Controller.createNewTimeSpentOnQuickTask(user.getUserName(), timeSpent, comment);
 
     }
 
@@ -624,20 +679,68 @@ public class Controller {
         return tsot;
     }
 
-    public static void fillHomeComponets(int taskID, String userID, JTextArea textAreaComment) {
-        
+    public static void fillHomeComponets(int taskID, String userID, JTextArea textAreaComment, JComboBox comboboxStatus, JTextField textFieldTimeSpent) {
+
         TimeSpentOnTask tsot = getTimeSpentOnTaskFromList(taskID, userID);
+        Task t = getSelectedTask(taskID);
         textAreaComment.setText(tsot.getComment());
+        comboboxStatus.setSelectedItem(t.getStatus());
+        textFieldTimeSpent.setText("");
     }
 
-    public static void createNewTimeSpentOnTask(int taskID, String userID, JTextField textfieldTimeSpent, JTextArea textAreaComment) throws SQLException, IOException {
+    public static void updateTimeSpentOnTask(int taskID, String userName, JComboBox comboboxStatus, JTextField textfieldTimeSpent, JTextArea textAreaComment) throws SQLException, IOException {
         User user = null;
+        TimeSpentOnTask tsot = null;
+        Task task = getSelectedTask(taskID);
+
         for (int i = 0; i < Controller.userList.size(); i++) {
-            if (Controller.userList.get(i).getUserName().equals(userID)) {
+            if (Controller.userList.get(i).getUserName().equals(userName)) {
                 user = Controller.userList.get(i);
             }
         }
-        TimeSpentOnTask tsot = new TimeSpentOnTask(taskID, user.getUserID(), Integer.parseInt(textfieldTimeSpent.getText()), textAreaComment.getText());
+        System.out.println("PRE: " + task.getStatus().getStatusID());
+        task.setStatusByID(comboboxStatus.getSelectedIndex() + 1);
+        System.out.println("IkkePRE: " + task.getStatus().getStatusID());
+        for (int i = 0; i < tsotList.size(); i++) {
+            if (tsotList.get(i).getTaskID() == taskID && user.getUserName().equals(userName)) {
+                tsot = tsotList.get(i);
+                int totalTimeSpent = tsot.getTimeSpent() + Integer.parseInt(textfieldTimeSpent.getText());
+                tsot.setTimeSpent(totalTimeSpent);
+                tsot.setComment(textAreaComment.getText());
+            }
+        }
+        if (tsot == null) {
+            tsot = new TimeSpentOnTask(taskID, user.getUserID(), Integer.parseInt(textfieldTimeSpent.getText()), textAreaComment.getText());
+        }
+        System.out.println("EFTER ALT: " + task.getStatus());
+        Controller.dbHandler.updateTimeSpentOnTask(tsot, task);
+    }
+
+    public static void createNewTimeSpentOnTask(String userName) throws SQLException, IOException {
+        User user = null;
+        TimeSpentOnTask tsot = null;
+
+        for (int i = 0; i < Controller.userList.size(); i++) {
+            if (Controller.userList.get(i).getUserName().equals(userName)) {
+                user = Controller.userList.get(i);
+            }
+        }
+
+        tsot = new TimeSpentOnTask(user.getUserID());
+        Controller.dbHandler.createTimeSpentOnTask(tsot);
+
+    }
+
+    public static void createNewTimeSpentOnQuickTask(String userName, int timeSpent, String comment) throws SQLException, IOException {
+        User user = null;
+        TimeSpentOnTask tsot = null;
+
+        for (int i = 0; i < Controller.userList.size(); i++) {
+            if (Controller.userList.get(i).getUserName().equals(userName)) {
+                user = Controller.userList.get(i);
+            }
+        }
+        tsot = new TimeSpentOnTask(user.getUserID(), timeSpent, comment);
         Controller.dbHandler.createTimeSpentOnTask(tsot);
     }
 }

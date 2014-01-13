@@ -107,8 +107,8 @@ public class Task {
         return status;
     }
 
-    public void setStatus(int Statuss) {
-        this.status = status;
+    public void setStatusByID(int Statuss) {
+        this.status = status.getStatusByID(Statuss);
     }
 
     public int getPriority() {
