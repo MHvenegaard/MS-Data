@@ -46,6 +46,16 @@ public class Controller {
     public static int customerID;
     //public static JFrame frame;
 
+    public static void setComboboxCurrentUser(JComboBox comboboxUser) {
+    
+        for (int i = 0; i < userList.size(); i++) {
+            if (userList.get(i).getUserID() == currentUser.getUserID()) {
+                currentUser = userList.get(i);
+            }
+        }
+        comboboxUser.setSelectedItem(currentUser);       
+    }
+
     public Controller() throws ClassNotFoundException, SQLException, IOException {
         currentUser = null;
         dbHandler = new DBHandler();
@@ -275,15 +285,7 @@ public class Controller {
             }
         }
 
-//        for (int i = 0; i < Controller.statusList.size(); i++) {
-//            if (Controller.statusList.get(i).getStatussName().equals("Afsluttet")) {
-//                status = Controller.statusList.get(i);
-//            }
-//        }
-        
         status = Controller.statusList.get(3);
-        
-        System.out.println("Status = " + status.getStatussName());
 
         for (int i = 0; i < Controller.userList.size(); i++) {
             if (Controller.userList.get(i).getUserName().equals(textFieldTaskLeader.getText())) {
@@ -302,9 +304,8 @@ public class Controller {
                 0,
                 1,
                 "");
-        System.out.println("Create QuickTask");
+     
         Controller.dbHandler.createQuickTask(task);
-        System.out.println("Create TimeSpentOnQuickTask");
         Controller.createNewTimeSpentOnQuickTask(user.getUserName(), timeSpent, comment);
 
     }
@@ -743,4 +744,15 @@ public class Controller {
         tsot = new TimeSpentOnTask(user.getUserID(), timeSpent, comment);
         Controller.dbHandler.createTimeSpentOnTask(tsot);
     }
+    
+   public static void clearHomeComponents(JTextField textFieldTimeSpent, JTextArea textAreaComment, JTextField textFieldQuickTaskCustomer, JTextField textFieldQuickTaskTimeSpent, JTextArea textAreaQuickTaskComment){
+       
+       textAreaComment.setText("");
+       textAreaQuickTaskComment.setText("");
+       textFieldQuickTaskCustomer.setText("");
+       textFieldQuickTaskTimeSpent.setText("");
+       textFieldTimeSpent.setText("");
+       
+   }
+    
 }

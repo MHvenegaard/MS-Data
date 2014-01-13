@@ -23,7 +23,6 @@ public class TableHandler {
     private JTable table;
 
     public TableHandler() {
-
     }
 
     /**
@@ -54,22 +53,22 @@ public class TableHandler {
 //        RowFilter<TableModel, Object> rf = null;
 //        rf = RowFilter.regexFilter(field.getText(), selectedIndex);
 //        sorter.setRowFilter(rf);
-        
-        
+
+
         //TEST
-        
-         ArrayList<RowFilter<Object, Object>> andFilters = new ArrayList<RowFilter<Object, Object>>();
-        
+
+        ArrayList<RowFilter<Object, Object>> andFilters = new ArrayList<RowFilter<Object, Object>>();
+
         andFilters.add(RowFilter.regexFilter(field.getText(), selectedIndex));
         andFilters.add(RowFilter.notFilter(RowFilter.regexFilter("Afsluttet", 4)));
-        
-        
+
+
         sorter.setRowFilter(RowFilter.andFilter(andFilters));
-        
-        
-        
+
+
+
     }
-    
+
     public void applyRowFilter(JTable table, String str, int selectedIndex) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
 
@@ -78,32 +77,32 @@ public class TableHandler {
 //        RowFilter<TableModel, Object> rf = null;
 //        rf = RowFilter.regexFilter(str, selectedIndex);
 //        sorter.setRowFilter(rf);
-        
-           ArrayList<RowFilter<Object, Object>> andFilters = new ArrayList<RowFilter<Object, Object>>();
-        
+
+        ArrayList<RowFilter<Object, Object>> andFilters = new ArrayList<RowFilter<Object, Object>>();
+
         andFilters.add(RowFilter.regexFilter(str, selectedIndex));
         andFilters.add(RowFilter.notFilter(RowFilter.regexFilter("Afsluttet", 4)));
-        
-        
+
+
         sorter.setRowFilter(RowFilter.andFilter(andFilters));
     }
-    
-    public void removeFinshedTaskFilter(JTable table){
+
+    public void removeFinshedTaskFilter(JTable table) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
 
         TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);
         table.setRowSorter(sorter);
-        
+
         ArrayList<RowFilter<Object, Object>> andFilters = new ArrayList<RowFilter<Object, Object>>();
-        
+
         //andFilters.add(RowFilter.regexFilter("Afsluttet", 4));
         andFilters.add(RowFilter.notFilter(RowFilter.regexFilter("Afsluttet", 4)));
-        
-        
+
+
         sorter.setRowFilter(RowFilter.andFilter(andFilters));
         //RowFilter.regexFilter("Afsluttet", 4)
         //notFilter(RowFilter.regexFilter("Afsluttet", 4))    
-        
+
     }
 
     public JTable getTable() {
@@ -113,5 +112,4 @@ public class TableHandler {
     public void setTable(JTable table) {
         this.table = table;
     }
-
 }

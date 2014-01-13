@@ -44,7 +44,6 @@ public class Home extends javax.swing.JPanel {
         jLabel11 = new javax.swing.JLabel();
         labelSubtaskID = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
         comboBoxQuickTaskType = new javax.swing.JComboBox();
         jScrollPane5 = new javax.swing.JScrollPane();
@@ -106,13 +105,6 @@ public class Home extends javax.swing.JPanel {
         labelSubtaskID.setText("              ");
 
         jLabel1.setText("Sorter efter bruger:");
-
-        jButton2.setText("Sorter");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
 
         jLabel12.setText("Type:");
 
@@ -222,10 +214,7 @@ public class Home extends javax.swing.JPanel {
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1)
-                                    .addComponent(comboboxSortTaskAfterUser, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(43, 43, 43)
-                                        .addComponent(jButton2))))
+                                    .addComponent(comboboxSortTaskAfterUser, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 1123, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -292,9 +281,7 @@ public class Home extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(comboboxSortTaskAfterUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)
-                        .addComponent(jButton2))
+                        .addComponent(comboboxSortTaskAfterUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel5)
@@ -319,9 +306,7 @@ public class Home extends javax.swing.JPanel {
                             .addComponent(jLabel6)
                             .addComponent(labelTaskID))
                         .addGap(2, 2, 2)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel11)
-                            .addComponent(labelSubtaskID)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel7)
@@ -331,7 +316,10 @@ public class Home extends javax.swing.JPanel {
                                     .addComponent(comboBoxStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(textFieldMinutesSpent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel10)
-                                    .addComponent(textFieldUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                    .addComponent(textFieldUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel11)
+                                .addComponent(labelSubtaskID)))))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(22, 22, 22)
@@ -389,16 +377,17 @@ public class Home extends javax.swing.JPanel {
             Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
         }
         DefaultTableModel modelTable = (DefaultTableModel) tableAllTasks.getModel();
-        Controller.fillHomeComponets(Integer.parseInt(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 0).toString()), modelTable.getValueAt(tableAllTasks.getSelectedRow(), 6).toString(), textAreaAddComment, comboBoxStatus, textFieldMinutesSpent);
+        Controller.fillHomeComponets(Integer.parseInt(modelTable.getValueAt(tableAllTasks.convertRowIndexToModel(tableAllTasks.getSelectedRow()), 0).toString()), modelTable.getValueAt(tableAllTasks.getSelectedRow(), 6).toString(), textAreaAddComment, comboBoxStatus, textFieldMinutesSpent);
 
     }//GEN-LAST:event_tableAllTasksMouseReleased
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        Controller.tHandler.applyRowFilter(tableAllTasks, comboboxSortTaskAfterUser.getSelectedItem().toString(), 6);
-    }//GEN-LAST:event_jButton2ActionPerformed
-
     private void comboboxSortTaskAfterUserItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboboxSortTaskAfterUserItemStateChanged
         Controller.tHandler.applyRowFilter(tableAllTasks, comboboxSortTaskAfterUser.getSelectedItem().toString(), 6);
+        DefaultTableModel modelTable = (DefaultTableModel) tableAllSubTasks.getModel();
+        modelTable.setRowCount(0);
+      
+        Controller.clearHomeComponents(textFieldMinutesSpent, textAreaAddComment, textFieldQuickTaskCustomer, textFieldQuickTaskTimeSpent, textAreaQuickTaskDescription);
+        
     }//GEN-LAST:event_comboboxSortTaskAfterUserItemStateChanged
 
     private void buttonInReportHeadtaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonInReportHeadtaskActionPerformed
@@ -434,12 +423,17 @@ public class Home extends javax.swing.JPanel {
 
     private void initiate() {
         try {
+            
             Controller.setCurrentUserIDToTextField(textFieldUser);
+           
             Controller.fillCombobox(comboBoxQuickTaskType, Controller.typeList);
             Controller.fillCombobox(comboBoxStatus, Controller.statusList);
             Controller.fillCombobox(comboboxSortTaskAfterUser, Controller.userList);
-            Controller.tHandler.removeFinshedTaskFilter(tableAllTasks);
+           
+            Controller.setComboboxCurrentUser(comboboxSortTaskAfterUser);
             Controller.fillTableWithTask(tableAllTasks);
+            //Controller.tHandler.removeFinshedTaskFilter(tableAllTasks);
+            Controller.tHandler.applyRowFilter(tableAllTasks, textFieldUser.getText(), 6);
         } catch (IOException | SQLException ex) {
             Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -454,7 +448,6 @@ public class Home extends javax.swing.JPanel {
     private javax.swing.JComboBox comboBoxQuickTaskType;
     private javax.swing.JComboBox comboBoxStatus;
     private javax.swing.JComboBox comboboxSortTaskAfterUser;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

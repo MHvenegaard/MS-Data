@@ -148,7 +148,7 @@ public class CustomerLookUpFrame extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         modelTable = (DefaultTableModel) jTable1.getModel();
                 
-        Controller.setCustomerID(Integer.parseInt(modelTable.getValueAt(jTable1.getSelectedRow(), 0).toString()));
+        Controller.setCustomerID(Integer.parseInt(modelTable.getValueAt(jTable1.convertRowIndexToModel(jTable1.getSelectedRow()), 0).toString()));
        
         this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed

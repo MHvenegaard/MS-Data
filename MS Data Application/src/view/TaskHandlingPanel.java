@@ -41,11 +41,9 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         Controller.fillCombobox(comboBoxType, Controller.typeList);
         Controller.fillCombobox(comboBoxStatus, Controller.statusList);
         Controller.fillList(listUsers, Controller.userList);
-//        Controller.fillCombobox(comboBoxCustomer, Controller.customerList);
         Controller.fillTableWithTask(tableAllTasks);
         Controller.removeTableHeadersTask(tableAllTasks);
-        // Controller.tHandler.removeFinshedTaskFilter(tableAllTasks);
-
+        Controller.tHandler.removeFinshedTaskFilter(tableAllTasks);
 
         addActionListerner();
     }
@@ -462,8 +460,10 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     private void tableAllTasksMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableAllTasksMouseReleased
         modelTable = (DefaultTableModel) tableAllTasks.getModel();
         try {
+            
+            System.out.println("TaskID : "+modelTable.getValueAt(tableAllTasks.convertRowIndexToModel(tableAllTasks.getSelectedRow()), 0).toString());
             Controller.fillComponents(
-                    Integer.parseInt(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 0).toString()),
+                    Integer.parseInt(modelTable.getValueAt(tableAllTasks.convertRowIndexToModel(tableAllTasks.getSelectedRow()), 0).toString()),
                     listUsers,
                     listUsersOnTask,
                     tableAllTasks,
