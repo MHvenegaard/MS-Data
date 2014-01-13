@@ -83,14 +83,12 @@ public class CreateTaskPanel extends javax.swing.JPanel {
         jScrollPane4 = new javax.swing.JScrollPane();
         tableAllTask = new javax.swing.JTable();
         CheckBoxSub = new javax.swing.JCheckBox();
-        jButton1 = new javax.swing.JButton();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
+        buttonUpdateTable = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         listUsersOnTask = new javax.swing.JList();
         textFieldCustomer = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
-        testbutton = new javax.swing.JButton();
+        buttonFindCustomer = new javax.swing.JButton();
+        buttonGetCustomerID = new javax.swing.JButton();
 
         jLabel1.setText("Projekt navn");
 
@@ -185,29 +183,32 @@ public class CreateTaskPanel extends javax.swing.JPanel {
         jScrollPane4.setViewportView(tableAllTask);
 
         CheckBoxSub.setText("Opret opgaven som delopgave");
-
-        jButton1.setText("Update");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+        CheckBoxSub.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                CheckBoxSubStateChanged(evt);
             }
         });
 
-        jScrollPane5.setViewportView(jList1);
+        buttonUpdateTable.setText("Update");
+        buttonUpdateTable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonUpdateTableActionPerformed(evt);
+            }
+        });
 
         jScrollPane2.setViewportView(listUsersOnTask);
 
-        jButton3.setText("Hent kunde");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        buttonFindCustomer.setText("Hent kunde");
+        buttonFindCustomer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                buttonFindCustomerActionPerformed(evt);
             }
         });
 
-        testbutton.setText("Set kundeID");
-        testbutton.addActionListener(new java.awt.event.ActionListener() {
+        buttonGetCustomerID.setText("Set kundeID");
+        buttonGetCustomerID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                testbuttonActionPerformed(evt);
+                buttonGetCustomerIDActionPerformed(evt);
             }
         });
 
@@ -249,9 +250,9 @@ public class CreateTaskPanel extends javax.swing.JPanel {
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel9)
                                             .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jButton3)
+                                                .addComponent(buttonFindCustomer)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(testbutton)
+                                                .addComponent(buttonGetCustomerID)
                                                 .addGap(18, 18, 18))))))
                             .addComponent(jLabel13)
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -264,22 +265,22 @@ public class CreateTaskPanel extends javax.swing.JPanel {
                                 .addGap(18, 18, 18)
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 753, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(buttonCreateTask)
-                                    .addComponent(CheckBoxSub, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 753, Short.MAX_VALUE)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(37, 37, 37)
-                                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addGap(33, 33, 33))
-                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(CheckBoxSub, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGap(33, 33, 33))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(buttonCreateTask, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(146, 146, 146)
                         .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)
+                        .addComponent(buttonUpdateTable)
                         .addGap(394, 394, 394))))
         );
         layout.setVerticalGroup(
@@ -304,8 +305,8 @@ public class CreateTaskPanel extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(textFieldCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton3)
-                            .addComponent(testbutton))
+                            .addComponent(buttonFindCustomer)
+                            .addComponent(buttonGetCustomerID))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
@@ -338,16 +339,11 @@ public class CreateTaskPanel extends javax.swing.JPanel {
                         .addGap(1, 1, 1)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel12)
-                            .addComponent(jButton1)))
+                            .addComponent(buttonUpdateTable)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel11)
                         .addGap(5, 5, 5)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(47, 47, 47)
-                        .addComponent(buttonCreateTask)
-                        .addGap(64, 64, 64)
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -357,8 +353,11 @@ public class CreateTaskPanel extends javax.swing.JPanel {
                                 .addComponent(buttonAddUser)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(buttonRemoveUser))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(50, Short.MAX_VALUE))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(44, 44, 44)
+                        .addComponent(buttonCreateTask, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(167, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -410,32 +409,55 @@ public class CreateTaskPanel extends javax.swing.JPanel {
     private void tableAllTaskMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableAllTaskMouseClicked
     }//GEN-LAST:event_tableAllTaskMouseClicked
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void buttonUpdateTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonUpdateTableActionPerformed
+        try {
+            Controller.updateTableWithNewTasks(tableAllTask);
+        } catch (IOException ex) {
+            Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_buttonUpdateTableActionPerformed
 
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void buttonFindCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonFindCustomerActionPerformed
         JFrame frame = new CustomerLookUpFrame();
         frame.setVisible(true);
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_buttonFindCustomerActionPerformed
 
-    private void testbuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testbuttonActionPerformed
+    private void buttonGetCustomerIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonGetCustomerIDActionPerformed
+        if (!textFieldCustomer.isEditable()) {
+            System.out.println("Du kan ikke hente kunder ud når du laver en delopgave");
+        }else{
         textFieldCustomer.setText(Controller.getCustomerIDToString());
-    }//GEN-LAST:event_testbuttonActionPerformed
+        }
+    }//GEN-LAST:event_buttonGetCustomerIDActionPerformed
+
+    private void CheckBoxSubStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_CheckBoxSubStateChanged
+        if (CheckBoxSub.isSelected()) {
+            textFieldCustomer.setEditable(false);
+        }else{
+            textFieldCustomer.setEditable(true);
+        }
+            
+                  
+            
+        
+    }//GEN-LAST:event_CheckBoxSubStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox CheckBoxSub;
     private javax.swing.JButton buttonAddUser;
     private javax.swing.JButton buttonCreateTask;
+    private javax.swing.JButton buttonFindCustomer;
+    private javax.swing.JButton buttonGetCustomerID;
     private javax.swing.JButton buttonRemoveUser;
+    private javax.swing.JButton buttonUpdateTable;
     private javax.swing.JComboBox comboBoxPriority;
     private javax.swing.JComboBox comboBoxStatus;
     private javax.swing.JComboBox comboBoxType;
     private javax.swing.JComboBox comboBoxUser;
     private com.toedter.calendar.JDateChooser dateChooserExpectedEnd;
     private com.toedter.calendar.JDateChooser dateChooserExpectedStart;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -449,16 +471,13 @@ public class CreateTaskPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JList jList1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JList listUsers;
     private javax.swing.JList listUsersOnTask;
     private javax.swing.JTable tableAllTask;
-    private javax.swing.JButton testbutton;
     private javax.swing.JTextArea textAreaBeskrivelse;
     private javax.swing.JTextField textFieldCustomer;
     private javax.swing.JTextField textFieldEstimatedTime;

@@ -56,6 +56,43 @@ public class Controller {
         comboboxUser.setSelectedItem(currentUser);       
     }
 
+    public static void lockAllComponetsInTaskHandling(JTextField textFieldTaskName, JTextArea textAreaDescription, JTextField textFieldCustomer, JTextField textFieldTime, JComboBox comboBoxPriority, JComboBox comboBoxProjectLeader, JComboBox comboBoxStatus, JComboBox comboBoxType, JDateChooser dateChooserStart, JDateChooser dateChooserEnd,JButton buttonFindCustomer, JButton buttonGetCustomerID, JButton buttonAddUserToList, JButton buttonRemoveUserFromList, JButton buttonSaveChangesToTask) {
+        textFieldTaskName.setEnabled(false);
+        textAreaDescription.setEnabled(false);
+        textFieldCustomer.setEnabled(false);
+        textFieldTime.setEnabled(false);
+        comboBoxPriority.setEnabled(false);
+        comboBoxProjectLeader.setEnabled(false);
+        comboBoxStatus.setEnabled(false);
+        comboBoxType.setEnabled(false);
+        dateChooserEnd.setEnabled(false);
+        dateChooserStart.setEnabled(false);
+        buttonAddUserToList.setEnabled(false);
+        buttonFindCustomer.setEnabled(false);
+        buttonGetCustomerID.setEnabled(false);
+        buttonRemoveUserFromList.setEnabled(false);
+        buttonSaveChangesToTask.setEnabled(false);
+        
+    }
+
+    public static void unlockAllComponetsInTaskHandling(JTextField textFieldTaskName, JTextArea textAreaDescription, JTextField textFieldCustomer, JTextField textFieldTime, JComboBox comboBoxPriority, JComboBox comboBoxProjectLeader, JComboBox comboBoxStatus, JComboBox comboBoxType, JDateChooser dateChooserExpectedStart, JDateChooser dateChooserExpectedEnd, JButton buttonFindCustomer, JButton buttonGetCustomerID, JButton buttonAddUser, JButton buttonRemoveUser, JButton buttonSaveChanges) {
+        textAreaDescription.setEnabled(true);
+        textFieldCustomer.setEnabled(true);
+        textFieldTaskName.setEnabled(true);
+        textFieldTime.setEnabled(true);
+        comboBoxPriority.setEnabled(true);
+        comboBoxProjectLeader.setEnabled(true);
+        comboBoxStatus.setEnabled(true);
+        comboBoxType.setEnabled(true);
+        dateChooserExpectedEnd.setEnabled(true);
+        dateChooserExpectedStart.setEnabled(true);
+        buttonAddUser.setEnabled(true);
+        buttonFindCustomer.setEnabled(true);
+        buttonGetCustomerID.setEnabled(true);
+        buttonRemoveUser.setEnabled(true);
+        buttonSaveChanges.setEnabled(true);
+    }
+
     public Controller() throws ClassNotFoundException, SQLException, IOException {
         currentUser = null;
         dbHandler = new DBHandler();

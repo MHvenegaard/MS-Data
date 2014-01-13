@@ -44,7 +44,8 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         Controller.fillTableWithTask(tableAllTasks);
         Controller.removeTableHeadersTask(tableAllTasks);
         Controller.tHandler.removeFinshedTaskFilter(tableAllTasks);
-
+        Controller.lockAllComponetsInTaskHandling(textFieldTaskName,textAreaDescription,textFieldCustomer,textFieldTime,comboBoxPriority,comboBoxProjectLeader,comboBoxStatus,comboBoxType,dateChooserExpectedStart,dateChooserExpectedEnd,buttonFindCustomer,buttonGetCustomerID,buttonAddUser,buttonRemoveUser,buttonSaveChanges);
+        
         addActionListerner();
     }
 
@@ -94,7 +95,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         comboboxSorting = new javax.swing.JComboBox();
         jScrollPane4 = new javax.swing.JScrollPane();
         textAreaDescription = new javax.swing.JTextArea();
-        jButton2 = new javax.swing.JButton();
+        buttonGetCustomerID = new javax.swing.JButton();
         buttonFindCustomer = new javax.swing.JButton();
         textFieldCustomer = new javax.swing.JTextField();
 
@@ -148,6 +149,11 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         jLabel8.setText("Forventet tidsforbrug");
 
         buttonEditTask.setText("Rediger opgave ");
+        buttonEditTask.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonEditTaskActionPerformed(evt);
+            }
+        });
 
         buttonSaveChanges.setText("Gem ændringer");
         buttonSaveChanges.addActionListener(new java.awt.event.ActionListener() {
@@ -212,10 +218,10 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         textAreaDescription.setRows(5);
         jScrollPane4.setViewportView(textAreaDescription);
 
-        jButton2.setText("Test");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        buttonGetCustomerID.setText("Hent kunde ID");
+        buttonGetCustomerID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                buttonGetCustomerIDActionPerformed(evt);
             }
         });
 
@@ -235,7 +241,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 572, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(698, Short.MAX_VALUE))
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel31)
@@ -294,7 +300,9 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
                                                 .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(12, 12, 12)
-                                        .addComponent(buttonFindCustomer))))
+                                        .addComponent(buttonFindCustomer)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(buttonGetCustomerID))))
                             .addComponent(jScrollPane3))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -305,13 +313,10 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(6, 6, 6)
                                         .addComponent(buttonFilter))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(88, 88, 88)
-                                .addComponent(jButton1))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton2)
-                                .addGap(385, 385, 385))))))
+                                .addComponent(jButton1)
+                                .addGap(398, 398, 398))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -326,13 +331,13 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(textFieldSorting, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(buttonFilter)
-                        .addGap(71, 71, 71)
-                        .addComponent(jButton2)))
-                .addGap(44, 44, 44)
+                        .addComponent(buttonFilter)))
+                .addGap(43, 43, 43)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(buttonFindCustomer)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(buttonFindCustomer)
+                            .addComponent(buttonGetCustomerID))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -351,7 +356,8 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
-                            .addComponent(textFieldTaskName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(textFieldTaskName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
@@ -388,8 +394,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(buttonEditTask)
-                            .addComponent(buttonSaveChanges)))
-                    .addComponent(jButton1))
+                            .addComponent(buttonSaveChanges))))
                 .addGap(85, 85, 85)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -454,6 +459,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
                 listUsers,
                 listUsersOnTask);
 
+Controller.lockAllComponetsInTaskHandling(textFieldTaskName,textAreaDescription,textFieldCustomer,textFieldTime,comboBoxPriority,comboBoxProjectLeader,comboBoxStatus,comboBoxType,dateChooserExpectedStart,dateChooserExpectedEnd,buttonFindCustomer,buttonGetCustomerID,buttonAddUser,buttonRemoveUser,buttonSaveChanges);
 
     }//GEN-LAST:event_buttonSaveChangesActionPerformed
 
@@ -483,18 +489,21 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_tableAllTasksMouseReleased
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void buttonGetCustomerIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonGetCustomerIDActionPerformed
         textFieldCustomer.setText(Controller.getCustomerIDToString());
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_buttonGetCustomerIDActionPerformed
 
     private void textFieldSortingKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldSortingKeyReleased
     }//GEN-LAST:event_textFieldSortingKeyReleased
 
     private void buttonFindCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonFindCustomerActionPerformed
-        //Controller.openCustomerLookUpFrame();
         JFrame frame = new CustomerLookUpFrame();
         frame.setVisible(true);
     }//GEN-LAST:event_buttonFindCustomerActionPerformed
+
+    private void buttonEditTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEditTaskActionPerformed
+      Controller.unlockAllComponetsInTaskHandling(textFieldTaskName,textAreaDescription,textFieldCustomer,textFieldTime,comboBoxPriority,comboBoxProjectLeader,comboBoxStatus,comboBoxType,dateChooserExpectedStart,dateChooserExpectedEnd,buttonFindCustomer,buttonGetCustomerID,buttonAddUser,buttonRemoveUser,buttonSaveChanges);
+    }//GEN-LAST:event_buttonEditTaskActionPerformed
 
     private void addActionListerner() {
         textFieldSorting.addActionListener(new ActionListener() {
@@ -509,6 +518,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     private javax.swing.JButton buttonEditTask;
     private javax.swing.JButton buttonFilter;
     private javax.swing.JButton buttonFindCustomer;
+    private javax.swing.JButton buttonGetCustomerID;
     private javax.swing.JButton buttonRemoveUser;
     private javax.swing.JButton buttonSaveChanges;
     private javax.swing.JComboBox comboBoxPriority;
@@ -519,7 +529,6 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     private com.toedter.calendar.JDateChooser dateChooserExpectedEnd;
     private com.toedter.calendar.JDateChooser dateChooserExpectedStart;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
