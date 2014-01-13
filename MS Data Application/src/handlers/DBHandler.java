@@ -342,7 +342,6 @@ public class DBHandler {
         cs.setInt(1, task.getTaskID());
         cs.setString(2, task.getTaskName());
         cs.setInt(3, task.getType().getTypeID());
-        System.out.println("TASKSTATUSID: " + task.getStatus().getStatusID());
         cs.setInt(4, task.getStatus().getStatusID());
         cs.setInt(5, task.getCustomer().getCustomerID());
         cs.setInt(6, task.getUser().getUserID());
@@ -485,7 +484,6 @@ public class DBHandler {
         cs.execute();
     }
 
-    //Note 1 - Nikolaj 
     public ArrayList<User> initiateUserList(Connection conn) throws SQLException {
         int userID;
         String userName;
@@ -633,7 +631,6 @@ public class DBHandler {
 
     }
 
-    //Skal denne virkelig bruges til noget?
     public void SPremoveAllUsersOnTask(int taskID) throws SQLException, IOException {
         Connection conn = (Connection) initiateSystemDBConn()[0];
 

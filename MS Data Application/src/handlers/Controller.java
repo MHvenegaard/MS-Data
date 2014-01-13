@@ -115,7 +115,7 @@ public class Controller {
     }
 
     //Fills JList.UserOnTaskList and removes ppl from JList.UserList
-    public static void fillAndRemove(JList uList, JList userOnTaskLlist, ArrayList<User> userOnTask) throws SQLException, IOException {
+    public static void fillAndRemoveFromUserLists(JList uList, JList userOnTaskLlist, ArrayList<User> userOnTask) throws SQLException, IOException {
 
         DefaultListModel model = (DefaultListModel) uList.getModel();
         DefaultListModel modelOnTask = (DefaultListModel) userOnTaskLlist.getModel();
@@ -261,7 +261,7 @@ public class Controller {
         dateChooserExpectedStart.setDate(t.getStartDate());
         dateChooserExpectedEnd.setDate(t.getEndDate());
 
-        Controller.fillAndRemove(userList, userOnTaskLlist, t.getUserOnTask());
+        Controller.fillAndRemoveFromUserLists(userList, userOnTaskLlist, t.getUserOnTask());
 
     }
 
@@ -385,7 +385,6 @@ public class Controller {
                     System.out.println("Customer i con : " + customer);
                     Controller.dbHandler.createTask(task);
                     Controller.dbHandler.addUserToTask(listUsersOnTask);
-                    // Controller.fillTableWithTask(tableAllTask);
                 } catch (SQLException | IOException ex) {
                     Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
 
@@ -421,8 +420,7 @@ public class Controller {
         DefaultListModel modelOnTask = (DefaultListModel) listUsersOnTask.getModel();
         Type type = null;
         Statuss status = null;
-        Customer customer = null;
-        //  FEJL I USER
+        Customer customer = null;   
         User user = null;
         System.out.println((comboBoxType.getSelectedItem().toString()));
         for (int i = 0; i < Controller.statusList.size(); i++) {
@@ -650,9 +648,6 @@ public class Controller {
         return customerID + "";
     }
 
-//    public static void openCustomerLookUpFrame() {
-//        frame.setVisible(true);
-//    }
     public static Task getSelectedTask(int ID) {
         Task task = null;
 
@@ -699,9 +694,7 @@ public class Controller {
                 user = Controller.userList.get(i);
             }
         }
-        System.out.println("PRE: " + task.getStatus().getStatusID());
         task.setStatusByID(comboboxStatus.getSelectedIndex() + 1);
-        System.out.println("IkkePRE: " + task.getStatus().getStatusID());
         for (int i = 0; i < tsotList.size(); i++) {
             if (tsotList.get(i).getTaskID() == taskID && user.getUserName().equals(userName)) {
                 tsot = tsotList.get(i);
@@ -713,7 +706,6 @@ public class Controller {
         if (tsot == null) {
             tsot = new TimeSpentOnTask(taskID, user.getUserID(), Integer.parseInt(textfieldTimeSpent.getText()), textAreaComment.getText());
         }
-        System.out.println("EFTER ALT: " + task.getStatus());
         Controller.dbHandler.updateTimeSpentOnTask(tsot, task);
     }
 
