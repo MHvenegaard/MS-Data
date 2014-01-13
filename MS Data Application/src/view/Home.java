@@ -380,7 +380,11 @@ public class Home extends javax.swing.JPanel {
     }//GEN-LAST:event_buttonInReportActionPerformed
 
     private void tableAllSubTasksMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableAllSubTasksMouseReleased
-        Controller.fillHomeComponets(Integer.parseInt(labelTaskID.getText()), textFieldUser.getText(), textAreaAddComment, comboBoxStatus, textFieldMinutesSpent);
+        DefaultTableModel modelTable = (DefaultTableModel) tableAllSubTasks.getModel();
+        labelSubtaskID.setText(modelTable.getValueAt(tableAllSubTasks.convertRowIndexToModel(tableAllSubTasks.getSelectedRow()), 0).toString());
+        Controller.fillHomeComponets(Integer.parseInt(labelSubtaskID.getText()), textFieldUser.getText(), textAreaAddComment, comboBoxStatus, textFieldMinutesSpent);
+
+
     }//GEN-LAST:event_tableAllSubTasksMouseReleased
 
     private void tableAllTasksMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableAllTasksMouseReleased
@@ -391,7 +395,8 @@ public class Home extends javax.swing.JPanel {
             Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
         }
         DefaultTableModel modelTable = (DefaultTableModel) tableAllTasks.getModel();
-        Controller.fillHomeComponets(Integer.parseInt(modelTable.getValueAt(tableAllTasks.convertRowIndexToModel(tableAllTasks.getSelectedRow()), 0).toString()), modelTable.getValueAt(tableAllTasks.getSelectedRow(), 6).toString(), textAreaAddComment, comboBoxStatus, textFieldMinutesSpent);
+        labelTaskID.setText(modelTable.getValueAt(tableAllTasks.convertRowIndexToModel(tableAllTasks.getSelectedRow()), 0).toString());
+        Controller.fillHomeComponets(Integer.parseInt(labelTaskID.getText()), modelTable.getValueAt(tableAllTasks.getSelectedRow(), 6).toString(), textAreaAddComment, comboBoxStatus, textFieldMinutesSpent);
 
     }//GEN-LAST:event_tableAllTasksMouseReleased
 
@@ -399,11 +404,11 @@ public class Home extends javax.swing.JPanel {
         Controller.tHandler.applyRowFilter(tableAllTasks, comboboxSortTaskAfterUser.getSelectedItem().toString(), 6);
         DefaultTableModel modelTable = (DefaultTableModel) tableAllSubTasks.getModel();
         modelTable.setRowCount(0);
-      
+
         Controller.clearHomeComponents(textFieldMinutesSpent, textAreaAddComment, textFieldQuickTaskCustomer, textFieldQuickTaskTimeSpent, textAreaQuickTaskDescription);
-        
+
         textFieldUser.setText(comboboxSortTaskAfterUser.getSelectedItem().toString());
-        
+
     }//GEN-LAST:event_comboboxSortTaskAfterUserItemStateChanged
 
     private void buttonInReportHeadtaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonInReportHeadtaskActionPerformed
@@ -439,13 +444,12 @@ public class Home extends javax.swing.JPanel {
 
     private void initiate() {
         try {
-            
+
             Controller.setCurrentUserIDToTextField(textFieldUser);
-           
+
             Controller.fillCombobox(comboBoxQuickTaskType, Controller.typeList);
             Controller.fillCombobox(comboBoxStatus, Controller.statusList);
             Controller.fillCombobox(comboboxSortTaskAfterUser, Controller.userList);
-           
             Controller.setComboboxCurrentUser(comboboxSortTaskAfterUser);
             Controller.fillTableWithTask(tableAllTasks);
             //Controller.tHandler.removeFinshedTaskFilter(tableAllTasks);
