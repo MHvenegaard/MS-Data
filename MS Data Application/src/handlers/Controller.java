@@ -36,6 +36,7 @@ public class Controller {
     public static User currentUser;
     public static DBHandler dbHandler;
     public static TableHandler tHandler;
+    public static FileDBHandler fileDBHandler;
     public static ArrayList<User> userList;
     public static ArrayList<Type> typeList;
     public static ArrayList<Statuss> statusList;
@@ -46,7 +47,52 @@ public class Controller {
     public static int customerID;
     //public static JFrame frame;
 
-    public static void setComboboxCurrentUser(JComboBox comboboxUser) {
+
+
+    public Controller() throws ClassNotFoundException, SQLException, IOException {
+        currentUser = null;
+        dbHandler = new DBHandler();
+        fileDBHandler = new FileDBHandler();
+        tHandler = new TableHandler();
+        tsotList = new ArrayList();
+        userList = new ArrayList();
+        typeList = new ArrayList();
+        statusList = new ArrayList();
+        customerList = new ArrayList();
+        tasks = new ArrayList();
+    }
+
+    public void initiateController() throws SQLException, IOException {
+        Connection conn = (Connection) dbHandler.initiateSystemDBConn()[0];
+
+        userList = dbHandler.initiateUserList(conn);
+        typeList = dbHandler.initiateTypeList(conn);
+        statusList = dbHandler.initiateStatusList(conn);
+        customerList = dbHandler.initiateCustomerList(conn);
+        tasks = dbHandler.initiateTaskList(conn);
+        tsotList = dbHandler.initiateTimeSpentOnTaskList(conn);
+        // frame = new CustomerLookUpFrame();
+        children = new ArrayList<>();
+        setUsersOnTask();
+    }
+
+    public void setUsersOnTask() throws SQLException, IOException {
+        for (int i = 0; i < tasks.size(); i++) {
+            for (int j = 0; j < tsotList.size(); j++) {
+                if (tasks.get(i).getTaskID() == tsotList.get(j).getTaskID()) {
+                    // Run through userList to find the userObject
+                    for (int k = 0; k < userList.size(); k++) {
+                        if (userList.get(k).getUserID() == tsotList.get(j).getUserID()) {
+                            // Add user to the userlist on task
+                            tasks.get(i).addToUserOnTask(userList.get(k));
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+        public static void setComboboxCurrentUser(JComboBox comboboxUser) {
     
         for (int i = 0; i < userList.size(); i++) {
             if (userList.get(i).getUserID() == currentUser.getUserID()) {
@@ -91,48 +137,6 @@ public class Controller {
         buttonGetCustomerID.setEnabled(true);
         buttonRemoveUser.setEnabled(true);
         buttonSaveChanges.setEnabled(true);
-    }
-
-    public Controller() throws ClassNotFoundException, SQLException, IOException {
-        currentUser = null;
-        dbHandler = new DBHandler();
-        tHandler = new TableHandler();
-        tsotList = new ArrayList();
-        userList = new ArrayList();
-        typeList = new ArrayList();
-        statusList = new ArrayList();
-        customerList = new ArrayList();
-        tasks = new ArrayList();
-    }
-
-    public void initiateController() throws SQLException, IOException {
-        Connection conn = (Connection) dbHandler.initiateSystemDBConn()[0];
-
-        userList = dbHandler.initiateUserList(conn);
-        typeList = dbHandler.initiateTypeList(conn);
-        statusList = dbHandler.initiateStatusList(conn);
-        customerList = dbHandler.initiateCustomerList(conn);
-        tasks = dbHandler.initiateTaskList(conn);
-        tsotList = dbHandler.initiateTimeSpentOnTaskList(conn);
-        // frame = new CustomerLookUpFrame();
-        children = new ArrayList<>();
-        setUsersOnTask();
-    }
-
-    public void setUsersOnTask() throws SQLException, IOException {
-        for (int i = 0; i < tasks.size(); i++) {
-            for (int j = 0; j < tsotList.size(); j++) {
-                if (tasks.get(i).getTaskID() == tsotList.get(j).getTaskID()) {
-                    // Run through userList to find the userObject
-                    for (int k = 0; k < userList.size(); k++) {
-                        if (userList.get(k).getUserID() == tsotList.get(j).getUserID()) {
-                            // Add user to the userlist on task
-                            tasks.get(i).addToUserOnTask(userList.get(k));
-                        }
-                    }
-                }
-            }
-        }
     }
 
     //Universalmetoder
@@ -570,7 +574,7 @@ public class Controller {
     }
 
     public void saveFile(String name, InputStream inputStream, int taskID) throws IOException, SQLException {
-        dbHandler.saveFile(name, inputStream, taskID);
+        fileDBHandler.saveFile(name, inputStream, taskID);
     }
 
     public static void removeTableHeadersTask(JTable table) {

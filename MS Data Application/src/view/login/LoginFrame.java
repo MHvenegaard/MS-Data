@@ -279,7 +279,7 @@ public class LoginFrame extends javax.swing.JFrame {
         updateProgressView();
         try {
 
-            Controller.dbHandler.initiateFileDBConn();
+            Controller.fileDBHandler.initiateFileDBConn();
 
         } catch (SQLException ex) {
             // A connection couldnt be established to the database
