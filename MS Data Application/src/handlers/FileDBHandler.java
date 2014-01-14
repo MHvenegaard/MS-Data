@@ -9,12 +9,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Properties;
 
 /**
@@ -34,7 +36,6 @@ public class FileDBHandler {
      * Object[0] is the Connection object
      * Object[1] is the Statement object
      */
-
     public Object[] initiateFileDBConn() throws IOException, SQLException {
         Properties prop = new Properties();
 
@@ -59,39 +60,43 @@ public class FileDBHandler {
         return returnObjects;
     }
 
-    //Get and Save Files
+    //Save Files
     public void saveFile(String name, InputStream inputStream, int taskID) throws IOException, SQLException {
 
         Connection conn = (Connection) initiateFileDBConn()[0];
 
-        String sql = "INSERT INTO File (Name, File, TaskID) values (?, ?, ?)";
-        PreparedStatement statement = conn.prepareStatement(sql);
-        statement.setString(1, name);
-        statement.setBlob(2, inputStream);
-        statement.setInt(3, taskID);
+        CallableStatement cs = null;
+        cs = conn.prepareCall("{CALL SP_SaveFile(?, ?, ?)}");
+        cs.setString(1, name);
+        cs.setBlob(2, inputStream);
+        cs.setInt(3, taskID);
 
-        int row = statement.executeUpdate();
-        if (row > 0) {
-            System.out.println("A contact was inserted with photo image.");
-        }
+        cs.execute();
     }
 
-    public File getFile(int taskID){
-        File file = null;
-        
-        
-        return file;
-    }
+    
+//    public ArrayList<File> getAllFilesAssociatedWithTaskID(int taskID){
+//        ArrayList<File> fileList = null;
+//        
+//        
+//        return fileList;
+//    }
     
     
-    public String downloadFile(int taskID) throws IOException, SQLException {
+    public ArrayList<File> downloadAllFilesAssociatedWithTaskID(int taskID) throws IOException, SQLException {
 
-        Statement stmt = (Statement) initiateFileDBConn()[1];
-        ResultSet rs = stmt.executeQuery("SELECT fileName, extension, file FROM Files");
-
-        File file = null;
-
-        if (rs.next()) {
+        ArrayList<File> fileList = new ArrayList();
+        
+        Connection conn = (Connection) initiateFileDBConn()[0];
+        CallableStatement cs = null;
+        cs = conn.prepareCall("{CALL SP_GetAllFilesUsingTaskID(?)}");
+        cs.setInt(1, taskID);
+        
+        ResultSet rs = cs.executeQuery();
+        
+        while (rs.next()) {
+            
+            File file = null;
 
             String filename = rs.getString(1);
             String extension = rs.getString(2);
@@ -107,15 +112,10 @@ public class FileDBHandler {
             while ((b = is.read()) != -1) {
                 fos.write(b);
             }
-
+            fileList.add(file);
         }
-        String result;
-        if (file != null) {
-            result = file.getCanonicalPath();
-        } else {
-            result = "";
-        }
-        return result;
+        
+        return fileList;
     }
     
     
