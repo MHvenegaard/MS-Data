@@ -19,27 +19,26 @@ import javax.swing.JFrame;
  */
 public class CreateTaskPanel extends javax.swing.JPanel {
 
-    /**
-     * Creates new form CreateTaskPanel
-     */
+    private Controller control;
 
-    public CreateTaskPanel() throws ClassNotFoundException, SQLException, IOException {
+    public CreateTaskPanel(Controller ctrl) throws ClassNotFoundException, SQLException, IOException {
         initComponents();
-
+        control = ctrl;
+        
         DefaultListModel modelOnTask = new DefaultListModel();
         listUsersOnTask.setModel(modelOnTask);
 
-        Controller.fillCombobox(comboBoxUser, Controller.userList);
-        Controller.fillCombobox(comboBoxType, Controller.typeList);
-        Controller.fillCombobox(comboBoxStatus, Controller.statusList);
-        Controller.fillList(listUsers, Controller.userList);
+        control.fillCombobox(comboBoxUser, Controller.userList);
+        control.fillCombobox(comboBoxType, Controller.typeList);
+        control.fillCombobox(comboBoxStatus, Controller.statusList);
+        control.fillList(listUsers, Controller.userList);
       //  Controller.fillCombobox(comboBoxCustomer, Controller.customerList);
-        Controller.fillTableWithTask(tableAllTask);
-        Controller.removeTableHeadersTask(tableAllTask);
-        Controller.tHandler.removeFinshedTaskFilter(tableAllTask);
+        control.fillTableWithTask(tableAllTask);
+        control.removeTableHeadersTask(tableAllTask);
+        control.tHandler.removeFinshedTaskFilter(tableAllTask);
   
-        dateChooserExpectedStart.setDate(Controller.getCurrentDate());
-        dateChooserExpectedEnd.setDate(Controller.getCurrentDate());
+        dateChooserExpectedStart.setDate(control.getCurrentDate());
+        dateChooserExpectedEnd.setDate(control.getCurrentDate());
 
     }
 
@@ -379,13 +378,13 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
     private void buttonAddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddUserActionPerformed
 
-        Controller.addUserToOnTaskList(listUsers, listUsersOnTask, buttonAddUser);
+        control.addUserToOnTaskList(listUsers, listUsersOnTask, buttonAddUser);
         
     }//GEN-LAST:event_buttonAddUserActionPerformed
 
     private void buttonCreateTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCreateTaskActionPerformed
         try {
-            Controller.createNewTask(tableAllTask,
+            control.createNewTask(tableAllTask,
                     listUsersOnTask,
                     buttonCreateTask,
                     CheckBoxSub,
@@ -400,7 +399,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
                     comboBoxPriority,
                     textAreaBeskrivelse);           
             try {
-                Controller.createNewTimeSpentOnTask(comboBoxUser.getSelectedItem().toString());
+                control.createNewTimeSpentOnTask(comboBoxUser.getSelectedItem().toString());
             } catch (SQLException ex) {
                 Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
@@ -414,7 +413,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
     private void buttonRemoveUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRemoveUserActionPerformed
 
-       Controller.removeUserFromTaskList(listUsers, listUsersOnTask, buttonRemoveUser);
+       control.removeUserFromTaskList(listUsers, listUsersOnTask, buttonRemoveUser);
 
     }//GEN-LAST:event_buttonRemoveUserActionPerformed
 
@@ -427,7 +426,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
     private void buttonUpdateTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonUpdateTableActionPerformed
         try {
-            Controller.updateTableWithNewTasks(tableAllTask);
+            control.updateTableWithNewTasks(tableAllTask);
         } catch (IOException ex) {
             Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -436,7 +435,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_buttonUpdateTableActionPerformed
 
     private void buttonFindCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonFindCustomerActionPerformed
-        JFrame frame = new CustomerLookUpFrame();
+        JFrame frame = new CustomerLookUpFrame(control);
         frame.setVisible(true);
     }//GEN-LAST:event_buttonFindCustomerActionPerformed
 
@@ -444,7 +443,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
         if (!textFieldCustomer.isEditable()) {
             System.out.println("Du kan ikke hente kunder ud når du laver en delopgave");
         }else{
-        textFieldCustomer.setText(Controller.getCustomerIDToString());
+        textFieldCustomer.setText(control.getCustomerIDToString());
         }
     }//GEN-LAST:event_buttonGetCustomerIDActionPerformed
 

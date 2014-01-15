@@ -29,22 +29,26 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     private DefaultListModel model;
     private DefaultListModel modelOnTask;
     private DefaultTableModel modelTable;
-    public int customerid;
+    public int customerid;                      // <---- DAFAUQ???
+    private Controller control;
 
-    public TaskHandlingPanel() throws ClassNotFoundException, SQLException, IOException {
+    public TaskHandlingPanel(Controller ctrl) throws ClassNotFoundException, SQLException, IOException {
+        
+        control = ctrl;
+        
         initComponents();
 
         modelOnTask = new DefaultListModel();
         listUsersOnTask.setModel(modelOnTask);
 
-        Controller.fillCombobox(comboBoxProjectLeader, Controller.userList);
-        Controller.fillCombobox(comboBoxType, Controller.typeList);
-        Controller.fillCombobox(comboBoxStatus, Controller.statusList);
-        Controller.fillList(listUsers, Controller.userList);
-        Controller.fillTableWithTask(tableAllTasks);
-        Controller.removeTableHeadersTask(tableAllTasks);
-        Controller.tHandler.removeFinshedTaskFilter(tableAllTasks);
-        Controller.lockAllComponetsInTaskHandling(textFieldTaskName,textAreaDescription,textFieldCustomer,textFieldTime,comboBoxPriority,comboBoxProjectLeader,comboBoxStatus,comboBoxType,dateChooserExpectedStart,dateChooserExpectedEnd,buttonFindCustomer,buttonGetCustomerID,buttonAddUser,buttonRemoveUser,buttonSaveChanges);
+        control.fillCombobox(comboBoxProjectLeader, Controller.userList);
+        control.fillCombobox(comboBoxType, Controller.typeList);
+        control.fillCombobox(comboBoxStatus, Controller.statusList);
+        control.fillList(listUsers, Controller.userList);
+        control.fillTableWithTask(tableAllTasks);
+        control.removeTableHeadersTask(tableAllTasks);
+        control.tHandler.removeFinshedTaskFilter(tableAllTasks);
+        control.lockAllComponetsInTaskHandling(textFieldTaskName,textAreaDescription,textFieldCustomer,textFieldTime,comboBoxPriority,comboBoxProjectLeader,comboBoxStatus,comboBoxType,dateChooserExpectedStart,dateChooserExpectedEnd,buttonFindCustomer,buttonGetCustomerID,buttonAddUser,buttonRemoveUser,buttonSaveChanges);
         
         addActionListerner();
     }
@@ -403,13 +407,13 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
 
     private void buttonAddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddUserActionPerformed
 
-        Controller.addUserToOnTaskList(listUsers, listUsersOnTask, buttonAddUser);
+        control.addUserToOnTaskList(listUsers, listUsersOnTask, buttonAddUser);
 
     }//GEN-LAST:event_buttonAddUserActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            Controller.updateTableWithNewTasks(tableAllTasks);
+            control.updateTableWithNewTasks(tableAllTasks);
             //Controller.fillTableWithTask(tableAllTasks);
         } catch (IOException | SQLException ex) {
             Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -417,7 +421,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void buttonRemoveUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRemoveUserActionPerformed
-        Controller.removeUserFromTaskList(listUsers, listUsersOnTask, buttonRemoveUser);
+        control.removeUserFromTaskList(listUsers, listUsersOnTask, buttonRemoveUser);
     }//GEN-LAST:event_buttonRemoveUserActionPerformed
 
     private void tableAllTasksMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableAllTasksMouseClicked
@@ -425,13 +429,13 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
 
     private void buttonFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonFilterActionPerformed
 
-        Controller.tHandler.applyRowFilter(tableAllTasks, textFieldSorting, comboboxSorting.getSelectedIndex());
+        control.tHandler.applyRowFilter(tableAllTasks, textFieldSorting, comboboxSorting.getSelectedIndex());
 
     }//GEN-LAST:event_buttonFilterActionPerformed
 
     private void buttonSaveChangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveChangesActionPerformed
         System.out.println("Klik på saveChanges");
-        Controller.SaveChangesToTask(tableAllTasks,
+        control.SaveChangesToTask(tableAllTasks,
                 listUsers,
                 listUsersOnTask,
                 buttonSaveChanges,
@@ -447,7 +451,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
                 textAreaDescription);
 
         System.out.println("ClearAll");
-        Controller.clearAll(textFieldTaskName,
+        control.clearAll(textFieldTaskName,
                 comboBoxType,
                 comboBoxStatus,
                 textFieldCustomer,
@@ -459,7 +463,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
                 listUsers,
                 listUsersOnTask);
 
-Controller.lockAllComponetsInTaskHandling(textFieldTaskName,textAreaDescription,textFieldCustomer,textFieldTime,comboBoxPriority,comboBoxProjectLeader,comboBoxStatus,comboBoxType,dateChooserExpectedStart,dateChooserExpectedEnd,buttonFindCustomer,buttonGetCustomerID,buttonAddUser,buttonRemoveUser,buttonSaveChanges);
+control.lockAllComponetsInTaskHandling(textFieldTaskName,textAreaDescription,textFieldCustomer,textFieldTime,comboBoxPriority,comboBoxProjectLeader,comboBoxStatus,comboBoxType,dateChooserExpectedStart,dateChooserExpectedEnd,buttonFindCustomer,buttonGetCustomerID,buttonAddUser,buttonRemoveUser,buttonSaveChanges);
 
     }//GEN-LAST:event_buttonSaveChangesActionPerformed
 
@@ -468,7 +472,7 @@ Controller.lockAllComponetsInTaskHandling(textFieldTaskName,textAreaDescription,
         try {
             
             System.out.println("TaskID : "+modelTable.getValueAt(tableAllTasks.convertRowIndexToModel(tableAllTasks.getSelectedRow()), 0).toString());
-            Controller.fillComponents(
+            control.fillComponents(
                     Integer.parseInt(modelTable.getValueAt(tableAllTasks.convertRowIndexToModel(tableAllTasks.getSelectedRow()), 0).toString()),
                     listUsers,
                     listUsersOnTask,
@@ -490,26 +494,26 @@ Controller.lockAllComponetsInTaskHandling(textFieldTaskName,textAreaDescription,
     }//GEN-LAST:event_tableAllTasksMouseReleased
 
     private void buttonGetCustomerIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonGetCustomerIDActionPerformed
-        textFieldCustomer.setText(Controller.getCustomerIDToString());
+        textFieldCustomer.setText(control.getCustomerIDToString());
     }//GEN-LAST:event_buttonGetCustomerIDActionPerformed
 
     private void textFieldSortingKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldSortingKeyReleased
     }//GEN-LAST:event_textFieldSortingKeyReleased
 
     private void buttonFindCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonFindCustomerActionPerformed
-        JFrame frame = new CustomerLookUpFrame();
+        JFrame frame = new CustomerLookUpFrame(control);
         frame.setVisible(true);
     }//GEN-LAST:event_buttonFindCustomerActionPerformed
 
     private void buttonEditTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEditTaskActionPerformed
-      Controller.unlockAllComponetsInTaskHandling(textFieldTaskName,textAreaDescription,textFieldCustomer,textFieldTime,comboBoxPriority,comboBoxProjectLeader,comboBoxStatus,comboBoxType,dateChooserExpectedStart,dateChooserExpectedEnd,buttonFindCustomer,buttonGetCustomerID,buttonAddUser,buttonRemoveUser,buttonSaveChanges);
+      control.unlockAllComponetsInTaskHandling(textFieldTaskName,textAreaDescription,textFieldCustomer,textFieldTime,comboBoxPriority,comboBoxProjectLeader,comboBoxStatus,comboBoxType,dateChooserExpectedStart,dateChooserExpectedEnd,buttonFindCustomer,buttonGetCustomerID,buttonAddUser,buttonRemoveUser,buttonSaveChanges);
     }//GEN-LAST:event_buttonEditTaskActionPerformed
 
     private void addActionListerner() {
         textFieldSorting.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Controller.tHandler.applyRowFilter(tableAllTasks, textFieldSorting, comboboxSorting.getSelectedIndex());
+                control.tHandler.applyRowFilter(tableAllTasks, textFieldSorting, comboboxSorting.getSelectedIndex());
             }
         });
     }

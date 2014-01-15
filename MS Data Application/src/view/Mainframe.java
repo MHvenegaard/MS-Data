@@ -17,25 +17,20 @@ import model.User;
  */
 public class Mainframe extends javax.swing.JFrame {
 
-    private Controller controller;
+    private Controller control;
 
     /**
      * Creates new form Mainframe
      */
-    public Mainframe(Controller control) throws ClassNotFoundException, SQLException, IOException {
-        controller = control;
+    public Mainframe(Controller ctrl) throws ClassNotFoundException, SQLException, IOException {
+        control = ctrl;
 
         initComponents();
 
         setTitle();
 
-        createGUIBasedOnAccessLevel(controller.getUser().getAccessLevel());
+        createGUIBasedOnAccessLevel(control.getUser().getAccessLevel());
 
-
-        
-        
-
-     
     }
 
     /**
@@ -83,25 +78,25 @@ public class Mainframe extends javax.swing.JFrame {
 
         // Admin
         if (accessLevel == 0) {
-            tabPane.add("Hovedside", new Home());
-            tabPane.add("Opgaveoprettelse", new CreateTaskPanel());
-            tabPane.add("Opgavehåndtering", new TaskHandlingPanel());
-            tabPane.add("Brugerhåndtering", new UserHandlingPanel());
+            tabPane.add("Hovedside", new Home(control));
+            tabPane.add("Opgaveoprettelse", new CreateTaskPanel(control));
+            tabPane.add("Opgavehåndtering", new TaskHandlingPanel(control));
+            tabPane.add("Brugerhåndtering", new UserHandlingPanel(control));
             
         }
         // User
         else{
-            tabPane.add("Hovedside", new Home());
-            tabPane.add("Opgavehåndtering", new TaskHandlingPanel());
+            tabPane.add("Hovedside", new Home(control));
+            tabPane.add("Opgavehåndtering", new TaskHandlingPanel(control));
         }
 
     }
 
     private void setTitle() {
 
-        String userName = controller.getUser().getUserName();
+        String userName = control.getUser().getUserName();
         String accessLevel;
-        if (controller.getUser().getAccessLevel() == 0) {
+        if (control.getUser().getAccessLevel() == 0) {
             accessLevel = "Administrator";
         } else {
             accessLevel = "Bruger";

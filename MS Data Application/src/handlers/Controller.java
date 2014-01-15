@@ -92,7 +92,7 @@ public class Controller {
         }
     }
     
-        public static void setComboboxCurrentUser(JComboBox comboboxUser) {
+        public void setComboboxCurrentUser(JComboBox comboboxUser) {
     
         for (int i = 0; i < userList.size(); i++) {
             if (userList.get(i).getUserID() == currentUser.getUserID()) {
@@ -102,7 +102,7 @@ public class Controller {
         comboboxUser.setSelectedItem(currentUser);       
     }
 
-    public static void lockAllComponetsInTaskHandling(JTextField textFieldTaskName, JTextArea textAreaDescription, JTextField textFieldCustomer, JTextField textFieldTime, JComboBox comboBoxPriority, JComboBox comboBoxProjectLeader, JComboBox comboBoxStatus, JComboBox comboBoxType, JDateChooser dateChooserStart, JDateChooser dateChooserEnd,JButton buttonFindCustomer, JButton buttonGetCustomerID, JButton buttonAddUserToList, JButton buttonRemoveUserFromList, JButton buttonSaveChangesToTask) {
+    public void lockAllComponetsInTaskHandling(JTextField textFieldTaskName, JTextArea textAreaDescription, JTextField textFieldCustomer, JTextField textFieldTime, JComboBox comboBoxPriority, JComboBox comboBoxProjectLeader, JComboBox comboBoxStatus, JComboBox comboBoxType, JDateChooser dateChooserStart, JDateChooser dateChooserEnd,JButton buttonFindCustomer, JButton buttonGetCustomerID, JButton buttonAddUserToList, JButton buttonRemoveUserFromList, JButton buttonSaveChangesToTask) {
         textFieldTaskName.setEnabled(false);
         textAreaDescription.setEnabled(false);
         textFieldCustomer.setEnabled(false);
@@ -121,7 +121,7 @@ public class Controller {
         
     }
 
-    public static void unlockAllComponetsInTaskHandling(JTextField textFieldTaskName, JTextArea textAreaDescription, JTextField textFieldCustomer, JTextField textFieldTime, JComboBox comboBoxPriority, JComboBox comboBoxProjectLeader, JComboBox comboBoxStatus, JComboBox comboBoxType, JDateChooser dateChooserExpectedStart, JDateChooser dateChooserExpectedEnd, JButton buttonFindCustomer, JButton buttonGetCustomerID, JButton buttonAddUser, JButton buttonRemoveUser, JButton buttonSaveChanges) {
+    public void unlockAllComponetsInTaskHandling(JTextField textFieldTaskName, JTextArea textAreaDescription, JTextField textFieldCustomer, JTextField textFieldTime, JComboBox comboBoxPriority, JComboBox comboBoxProjectLeader, JComboBox comboBoxStatus, JComboBox comboBoxType, JDateChooser dateChooserExpectedStart, JDateChooser dateChooserExpectedEnd, JButton buttonFindCustomer, JButton buttonGetCustomerID, JButton buttonAddUser, JButton buttonRemoveUser, JButton buttonSaveChanges) {
         textAreaDescription.setEnabled(true);
         textFieldCustomer.setEnabled(true);
         textFieldTaskName.setEnabled(true);
@@ -140,13 +140,13 @@ public class Controller {
     }
 
     //Universalmetoder
-    public static void fillCombobox(JComboBox combobox, ArrayList arrayList) throws SQLException, IOException {
+    public void fillCombobox(JComboBox combobox, ArrayList arrayList) throws SQLException, IOException {
         for (int i = 0; i < arrayList.size(); i++) {
             combobox.addItem(arrayList.get(i));
         }
     }
 
-    public static void fillList(JList list, ArrayList arrayList) throws SQLException, IOException {
+    public void fillList(JList list, ArrayList arrayList) throws SQLException, IOException {
         DefaultListModel model = new DefaultListModel();
         list.setModel(model);
         model.clear();
@@ -156,7 +156,7 @@ public class Controller {
     }
 
     //Fills JList.UserOnTaskList and removes ppl from JList.UserList
-    public static void fillAndRemoveFromUserLists(JList uList, JList userOnTaskLlist, ArrayList<User> userOnTask) throws SQLException, IOException {
+    public void fillAndRemoveFromUserLists(JList uList, JList userOnTaskLlist, ArrayList<User> userOnTask) throws SQLException, IOException {
 
         DefaultListModel model = (DefaultListModel) uList.getModel();
         DefaultListModel modelOnTask = (DefaultListModel) userOnTaskLlist.getModel();
@@ -179,7 +179,7 @@ public class Controller {
     }
 
     //Returns the current date
-    public static Date getCurrentDate() {
+    public Date getCurrentDate() {
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String str = sdf.format(date);
@@ -192,7 +192,7 @@ public class Controller {
 
     }
 
-    public static ArrayList<Task> fillTableWithTask(JTable tableAllTask) throws IOException, SQLException {
+    public ArrayList<Task> fillTableWithTask(JTable tableAllTask) throws IOException, SQLException {
         DefaultTableModel modelTable = (DefaultTableModel) tableAllTask.getModel();
         modelTable.setRowCount(0);
 
@@ -215,7 +215,7 @@ public class Controller {
         return tasks;
     }
 
-    public static void fillTableWithList(JTable tableAllTask, ArrayList<Task> fillList) throws IOException, SQLException {
+    public void fillTableWithList(JTable tableAllTask, ArrayList<Task> fillList) throws IOException, SQLException {
 
         DefaultTableModel modelTable = (DefaultTableModel) tableAllTask.getModel();
         modelTable.setRowCount(0);
@@ -238,7 +238,7 @@ public class Controller {
         }
     }
 
-    public static void fillTableWithCustomer(JTable tableAllTask) throws IOException, SQLException {
+    public void fillTableWithCustomer(JTable tableAllTask) throws IOException, SQLException {
         DefaultTableModel modelTable = (DefaultTableModel) tableAllTask.getModel();
         modelTable.setRowCount(0);
 
@@ -252,7 +252,7 @@ public class Controller {
     }
 
     //add and remove users in the userlists
-    public static void addUserToOnTaskList(JList listUsers, JList listUsersOnTask, JButton button) {
+    public void addUserToOnTaskList(JList listUsers, JList listUsersOnTask, JButton button) {
         int index = listUsers.getSelectedIndex();
 
         DefaultListModel model = (DefaultListModel) listUsers.getModel();
@@ -266,7 +266,7 @@ public class Controller {
         }
     }
 
-    public static void removeUserFromTaskList(JList listUsers, JList listUsersOnTask, JButton button) {
+    public void removeUserFromTaskList(JList listUsers, JList listUsersOnTask, JButton button) {
         int index = listUsersOnTask.getSelectedIndex();
         DefaultListModel model = (DefaultListModel) listUsers.getModel();
         DefaultListModel modelOnTask = (DefaultListModel) listUsersOnTask.getModel();
@@ -285,7 +285,7 @@ public class Controller {
         }
     }
 
-    public static void fillComponents(int taskID, JList userList, JList userOnTaskLlist, JTable tableAllTasks, JTextField textFieldTaskName, JComboBox comboBoxType, JComboBox comboBoxStatus,
+    public void fillComponents(int taskID, JList userList, JList userOnTaskLlist, JTable tableAllTasks, JTextField textFieldTaskName, JComboBox comboBoxType, JComboBox comboBoxStatus,
             JTextField comboBoxCustomer, JComboBox comboBoxProjectLeader, JDateChooser dateChooserExpectedStart, JDateChooser dateChooserExpectedEnd,
             JTextField textFieldTime, JComboBox comboBoxPriority, JTextArea textAreaDescription) throws SQLException, IOException {
 
@@ -302,11 +302,11 @@ public class Controller {
         dateChooserExpectedStart.setDate(t.getStartDate());
         dateChooserExpectedEnd.setDate(t.getEndDate());
 
-        Controller.fillAndRemoveFromUserLists(userList, userOnTaskLlist, t.getUserOnTask());
+        fillAndRemoveFromUserLists(userList, userOnTaskLlist, t.getUserOnTask());
 
     }
 
-    public static void createQuickTask(JTextField textFieldCustomer, JComboBox comboBoxType, JTextField textFieldTaskLeader, JTextField textFieldtimeSpent, JTextArea textAreaDescription) throws SQLException, IOException {
+    public void createQuickTask(JTextField textFieldCustomer, JComboBox comboBoxType, JTextField textFieldTaskLeader, JTextField textFieldtimeSpent, JTextArea textAreaDescription) throws SQLException, IOException {
         Customer customer = null;
         Type type = null;
         Statuss status = null;
@@ -340,18 +340,18 @@ public class Controller {
                 status,
                 customer,
                 user,
-                Controller.getCurrentDate(),
-                Controller.getCurrentDate(),
+                getCurrentDate(),
+                getCurrentDate(),
                 0,
                 1,
                 "");
      
-        Controller.dbHandler.createQuickTask(task);
-        Controller.createNewTimeSpentOnQuickTask(user.getUserName(), timeSpent, comment);
+        dbHandler.createQuickTask(task);
+        createNewTimeSpentOnQuickTask(user.getUserName(), timeSpent, comment);
 
     }
 
-    public static void createNewTask(JTable tableAllTask, JList listUsersOnTask, JButton button, JCheckBox checkBoxSub, JTextField textFieldTaskName, JComboBox comboBoxType, JComboBox comboBoxStatus,
+    public void createNewTask(JTable tableAllTask, JList listUsersOnTask, JButton button, JCheckBox checkBoxSub, JTextField textFieldTaskName, JComboBox comboBoxType, JComboBox comboBoxStatus,
             JTextField textFieldCustomer, JComboBox comboBoxTaskLeader, JDateChooser dateChooserExpectedStart, JDateChooser dateChooserExpectedEnd,
             JTextField textFieldEstimatedTime, JComboBox comboBoxPriority, JTextArea textAreaDescription) throws ParseException {
 
@@ -382,7 +382,7 @@ public class Controller {
             } else if (checkBoxSub.isSelected()) {
                 Date ParentStartDate = sdf.parse(modelTable.getValueAt(tableAllTask.getSelectedRow(), 7).toString());
                 Date ParentEndDate = sdf.parse(modelTable.getValueAt(tableAllTask.getSelectedRow(), 8).toString());
-                Boolean taskChecker = Controller.subTaskDateChecker(taskStartDate, taskEndDate, ParentStartDate, ParentEndDate);
+                Boolean taskChecker = subTaskDateChecker(taskStartDate, taskEndDate, ParentStartDate, ParentEndDate);
                 System.out.println("taskChecker : " + taskChecker);
 
                 if (tableAllTask.getSelectedRow() != -1 && taskChecker) {
@@ -436,11 +436,11 @@ public class Controller {
         }
     }
 
-    public static void setCurrentUserIDToTextField(JTextField textFieldUser) {
+    public void setCurrentUserIDToTextField(JTextField textFieldUser) {
         textFieldUser.setText(currentUser.getUserName() + "");
     }
 
-    public static Boolean subTaskDateChecker(Date supTaskStartDate, Date supTaskEndDate, Date parentStartDate, Date parentEndDate) {
+    public Boolean subTaskDateChecker(Date supTaskStartDate, Date supTaskEndDate, Date parentStartDate, Date parentEndDate) {
         Boolean result = true;
         if (supTaskStartDate.before(parentStartDate)
                 || supTaskStartDate.after(parentEndDate)
@@ -452,7 +452,7 @@ public class Controller {
         return result;
     }
 
-    public static void SaveChangesToTask(JTable tableAllTasks, JList listUsers, JList listUsersOnTask, JButton button, JTextField textFieldTaskName,
+    public void SaveChangesToTask(JTable tableAllTasks, JList listUsers, JList listUsersOnTask, JButton button, JTextField textFieldTaskName,
             JComboBox comboBoxType, JComboBox comboBoxStatus, JTextField textFieldCustomer, JComboBox comboBoxTaskLeader, JDateChooser dateChooserExpectedStart,
             JDateChooser dateChooserExpectedEnd, JTextField textFieldEstimatedTime, JComboBox comboBoxPriority, JTextArea textAreaDescription) {
 
@@ -511,8 +511,8 @@ public class Controller {
             //  Controller.dbHandler.SPremoveAllUsersOnTask(task.getTaskID());
             Controller.dbHandler.updateTask(task);
             // Controller.dbHandler.addUserToAlreadyMadeTask(listUsersOnTask, task.getTaskID());
-            Controller.fillList(listUsers, Controller.userList);
-            Controller.fillTableWithTask(tableAllTasks);
+            fillList(listUsers, Controller.userList);
+            fillTableWithTask(tableAllTasks);
         } catch (SQLException ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -521,7 +521,7 @@ public class Controller {
 
     }
 
-    public static void fillTableWithUser(JTable table) throws IOException, SQLException {
+    public void fillTableWithUser(JTable table) throws IOException, SQLException {
         DefaultTableModel modelTable = (DefaultTableModel) table.getModel();
         modelTable.setRowCount(0);
 
@@ -535,7 +535,7 @@ public class Controller {
         }
     }
 
-    public static void fillTableWithType(JTable table) {
+    public void fillTableWithType(JTable table) {
         DefaultTableModel modelTable = (DefaultTableModel) table.getModel();
         modelTable.setRowCount(0);
 
@@ -546,7 +546,7 @@ public class Controller {
         }
     }
 
-    public static void fillTableWithStatus(JTable table) {
+    public void fillTableWithStatus(JTable table) {
         DefaultTableModel modelTable = (DefaultTableModel) table.getModel();
         modelTable.setRowCount(0);
 
@@ -558,7 +558,7 @@ public class Controller {
         }
     }
 
-    public static void fillComboBoxModelWithAllUsers(JComboBox cb) {
+    public void fillComboBoxModelWithAllUsers(JComboBox cb) {
 
         int currentUserIndex = 0;
 
@@ -577,7 +577,7 @@ public class Controller {
         fileDBHandler.saveFile(name, inputStream, taskID);
     }
 
-    public static void removeTableHeadersTask(JTable table) {
+    public void removeTableHeadersTask(JTable table) {
         TableColumn column = table.getColumnModel().getColumn(0);
         table.removeColumn(column);
 
@@ -585,12 +585,12 @@ public class Controller {
         table.removeColumn(column);
     }
 
-    public static void removeTableHeadersCustomer(JTable table) {
+    public void removeTableHeadersCustomer(JTable table) {
         TableColumn column = table.getColumnModel().getColumn(0);
         table.removeColumn(column);
     }
 
-    public static ArrayList<Task> updateTableWithNewTasks(JTable tableAllTask) throws IOException, SQLException {
+    public ArrayList<Task> updateTableWithNewTasks(JTable tableAllTask) throws IOException, SQLException {
         Connection conn = (Connection) dbHandler.initiateSystemDBConn()[0];
         tasks = dbHandler.initiateTaskList(conn);
 
@@ -616,7 +616,7 @@ public class Controller {
         return tasks;
     }
 
-    public static void clearAll(JTextField taskName, JComboBox type, JComboBox status, JTextField customer, JComboBox taskManager,
+    public void clearAll(JTextField taskName, JComboBox type, JComboBox status, JTextField customer, JComboBox taskManager,
             JDateChooser expStart, JDateChooser expEnd, JTextField expTimeUsed, JComboBox priority, JList Listuser, JList ListUsersOnTask) {
 
         DefaultListModel model = (DefaultListModel) Listuser.getModel();
@@ -627,15 +627,15 @@ public class Controller {
         status.setSelectedIndex(0);
         customer.setText("");
         taskManager.setSelectedIndex(0);
-        expStart.setDate(Controller.getCurrentDate());
-        expEnd.setDate(Controller.getCurrentDate());
+        expStart.setDate(getCurrentDate());
+        expEnd.setDate(getCurrentDate());
         expTimeUsed.setText("");
         priority.setSelectedIndex(0);
 
         model.clear();
         modelOnTask.clear();
         try {
-            Controller.fillList(Listuser, Controller.userList);
+            fillList(Listuser, Controller.userList);
         } catch (SQLException ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -660,7 +660,7 @@ public class Controller {
         return tHandler;
     }
 
-    public static ArrayList<Task> getAllChildrenById(int Id) {
+    public ArrayList<Task> getAllChildrenById(int Id) {
         for (int i = 0; i < tasks.size(); i++) {
             if (tasks.get(i).getParentID() == Id && tasks.get(i).getTaskID() != Id) {
                 children.add(tasks.get(i));
@@ -670,26 +670,26 @@ public class Controller {
         return children;
     }
 
-    public static int getSelectedTaskId(JTable mainTaskTable) {
+    public int getSelectedTaskId(JTable mainTaskTable) {
         children.clear();
         DefaultTableModel modelTable = (DefaultTableModel) mainTaskTable.getModel();
         int taskID = Integer.parseInt(modelTable.getValueAt(mainTaskTable.convertRowIndexToModel(mainTaskTable.getSelectedRow()), 0).toString());
         return taskID;
     }
 
-    public static int getCustomerID() {
+    public int getCustomerID() {
         return customerID;
     }
 
-    public static void setCustomerID(int customerID) {
+    public void setCustomerID(int customerID) {
         Controller.customerID = customerID;
     }
 
-    public static String getCustomerIDToString() {
+    public String getCustomerIDToString() {
         return customerID + "";
     }
 
-    public static Task getSelectedTask(int ID) {
+    public Task getSelectedTask(int ID) {
         Task task = null;
 
         for (int i = 0; i < tasks.size(); i++) {
@@ -700,7 +700,7 @@ public class Controller {
         return task;
     }
 
-    public static TimeSpentOnTask getTimeSpentOnTaskFromList(int taskID, String userID) {
+    public TimeSpentOnTask getTimeSpentOnTaskFromList(int taskID, String userID) {
         TimeSpentOnTask tsot = null;
         User user = null;
         for (int i = 0; i < Controller.userList.size(); i++) {
@@ -716,7 +716,7 @@ public class Controller {
         return tsot;
     }
 
-    public static void fillHomeComponets(int taskID, String userID, JTextArea textAreaComment, JComboBox comboboxStatus, JTextField textFieldTimeSpent) {
+    public void fillHomeComponets(int taskID, String userID, JTextArea textAreaComment, JComboBox comboboxStatus, JTextField textFieldTimeSpent) {
 
         TimeSpentOnTask tsot = getTimeSpentOnTaskFromList(taskID, userID);
         Task t = getSelectedTask(taskID);
@@ -725,7 +725,7 @@ public class Controller {
         textFieldTimeSpent.setText("");
     }
 
-    public static void updateTimeSpentOnTask(int taskID, String userName, JComboBox comboboxStatus, JTextField textfieldTimeSpent, JTextArea textAreaComment) throws SQLException, IOException {
+    public void updateTimeSpentOnTask(int taskID, String userName, JComboBox comboboxStatus, JTextField textfieldTimeSpent, JTextArea textAreaComment) throws SQLException, IOException {
         User user = null;
         TimeSpentOnTask tsot = null;
         Task task = getSelectedTask(taskID);
@@ -750,7 +750,7 @@ public class Controller {
         Controller.dbHandler.updateTimeSpentOnTask(tsot, task);
     }
 
-    public static void createNewTimeSpentOnTask(String userName) throws SQLException, IOException {
+    public void createNewTimeSpentOnTask(String userName) throws SQLException, IOException {
         User user = null;
         TimeSpentOnTask tsot = null;
 
@@ -765,7 +765,7 @@ public class Controller {
 
     }
 
-    public static void createNewTimeSpentOnQuickTask(String userName, int timeSpent, String comment) throws SQLException, IOException {
+    public void createNewTimeSpentOnQuickTask(String userName, int timeSpent, String comment) throws SQLException, IOException {
         User user = null;
         TimeSpentOnTask tsot = null;
 
@@ -778,7 +778,7 @@ public class Controller {
         Controller.dbHandler.createTimeSpentOnTask(tsot);
     }
     
-   public static void clearHomeComponents(JTextField textFieldTimeSpent, JTextArea textAreaComment, JTextField textFieldQuickTaskCustomer, JTextField textFieldQuickTaskTimeSpent, JTextArea textAreaQuickTaskComment){
+   public void clearHomeComponents(JTextField textFieldTimeSpent, JTextArea textAreaComment, JTextField textFieldQuickTaskCustomer, JTextField textFieldQuickTaskTimeSpent, JTextArea textAreaQuickTaskComment){
        
        textAreaComment.setText("");
        textAreaQuickTaskComment.setText("");

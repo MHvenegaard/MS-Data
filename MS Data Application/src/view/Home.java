@@ -10,7 +10,12 @@ import javax.swing.table.DefaultTableModel;
 
 public class Home extends javax.swing.JPanel {
 
-    public Home() {
+    private Controller control;
+    
+    public Home(Controller ctrl) {
+        
+        control = ctrl;
+        
         initComponents();
         initiate();
 
@@ -372,7 +377,7 @@ public class Home extends javax.swing.JPanel {
 
     private void buttonInReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonInReportActionPerformed
         try {
-            Controller.updateTimeSpentOnTask(Integer.parseInt(labelSubtaskID.getText()),
+            control.updateTimeSpentOnTask(Integer.parseInt(labelSubtaskID.getText()),
                     textFieldUser.getText(),
                     comboBoxStatus,
                     textFieldMinutesSpent,
@@ -386,21 +391,21 @@ public class Home extends javax.swing.JPanel {
     private void tableAllSubTasksMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableAllSubTasksMouseReleased
         DefaultTableModel modelTable = (DefaultTableModel) tableAllSubTasks.getModel();
         labelSubtaskID.setText(modelTable.getValueAt(tableAllSubTasks.convertRowIndexToModel(tableAllSubTasks.getSelectedRow()), 0).toString());
-        Controller.fillHomeComponets(Integer.parseInt(labelSubtaskID.getText()), textFieldUser.getText(), textAreaAddComment, comboBoxStatus, textFieldMinutesSpent);
+        control.fillHomeComponets(Integer.parseInt(labelSubtaskID.getText()), textFieldUser.getText(), textAreaAddComment, comboBoxStatus, textFieldMinutesSpent);
 
 
     }//GEN-LAST:event_tableAllSubTasksMouseReleased
 
     private void tableAllTasksMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableAllTasksMouseReleased
         try {
-            Controller.fillTableWithList(tableAllSubTasks, Controller.getAllChildrenById(Controller.getSelectedTaskId(tableAllTasks)));
+            control.fillTableWithList(tableAllSubTasks, control.getAllChildrenById(control.getSelectedTaskId(tableAllTasks)));
 
         } catch (IOException | SQLException ex) {
             Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
         }
         DefaultTableModel modelTable = (DefaultTableModel) tableAllTasks.getModel();
         labelTaskID.setText(modelTable.getValueAt(tableAllTasks.convertRowIndexToModel(tableAllTasks.getSelectedRow()), 0).toString());
-        Controller.fillHomeComponets(Integer.parseInt(labelTaskID.getText()), modelTable.getValueAt(tableAllTasks.getSelectedRow(), 6).toString(), textAreaAddComment, comboBoxStatus, textFieldMinutesSpent);
+        control.fillHomeComponets(Integer.parseInt(labelTaskID.getText()), modelTable.getValueAt(tableAllTasks.getSelectedRow(), 6).toString(), textAreaAddComment, comboBoxStatus, textFieldMinutesSpent);
 
     }//GEN-LAST:event_tableAllTasksMouseReleased
 
@@ -409,7 +414,7 @@ public class Home extends javax.swing.JPanel {
         DefaultTableModel modelTable = (DefaultTableModel) tableAllSubTasks.getModel();
         modelTable.setRowCount(0);
 
-        Controller.clearHomeComponents(textFieldMinutesSpent, textAreaAddComment, textFieldQuickTaskCustomer, textFieldQuickTaskTimeSpent, textAreaQuickTaskDescription);
+        control.clearHomeComponents(textFieldMinutesSpent, textAreaAddComment, textFieldQuickTaskCustomer, textFieldQuickTaskTimeSpent, textAreaQuickTaskDescription);
 
         textFieldUser.setText(comboboxSortTaskAfterUser.getSelectedItem().toString());
 
@@ -417,7 +422,7 @@ public class Home extends javax.swing.JPanel {
 
     private void buttonInReportHeadtaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonInReportHeadtaskActionPerformed
         try {
-            Controller.updateTimeSpentOnTask(Integer.parseInt(labelTaskID.getText()),
+            control.updateTimeSpentOnTask(Integer.parseInt(labelTaskID.getText()),
                     textFieldUser.getText(),
                     comboBoxStatus,
                     textFieldMinutesSpent,
@@ -428,17 +433,17 @@ public class Home extends javax.swing.JPanel {
     }//GEN-LAST:event_buttonInReportHeadtaskActionPerformed
 
     private void buttonFindCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonFindCustomerActionPerformed
-        JFrame frame = new CustomerLookUpFrame();
+        JFrame frame = new CustomerLookUpFrame(control);
         frame.setVisible(true);
     }//GEN-LAST:event_buttonFindCustomerActionPerformed
 
     private void buttonGetCustomerIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonGetCustomerIDActionPerformed
-        textFieldQuickTaskCustomer.setText(Controller.getCustomerIDToString());
+        textFieldQuickTaskCustomer.setText(control.getCustomerIDToString());
     }//GEN-LAST:event_buttonGetCustomerIDActionPerformed
 
     private void buttonCreateQuickTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCreateQuickTaskActionPerformed
         try {
-            Controller.createQuickTask(textFieldQuickTaskCustomer, comboBoxQuickTaskType, textFieldUser, textFieldQuickTaskTimeSpent, textAreaQuickTaskDescription);
+            control.createQuickTask(textFieldQuickTaskCustomer, comboBoxQuickTaskType, textFieldUser, textFieldQuickTaskTimeSpent, textAreaQuickTaskDescription);
         } catch (SQLException ex) {
             Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -449,13 +454,13 @@ public class Home extends javax.swing.JPanel {
     private void initiate() {
         try {
 
-            Controller.setCurrentUserIDToTextField(textFieldUser);
+            control.setCurrentUserIDToTextField(textFieldUser);
 
-            Controller.fillCombobox(comboBoxQuickTaskType, Controller.typeList);
-            Controller.fillCombobox(comboBoxStatus, Controller.statusList);
-            Controller.fillCombobox(comboboxSortTaskAfterUser, Controller.userList);
-            Controller.setComboboxCurrentUser(comboboxSortTaskAfterUser);
-            Controller.fillTableWithTask(tableAllTasks);
+            control.fillCombobox(comboBoxQuickTaskType, Controller.typeList);
+            control.fillCombobox(comboBoxStatus, Controller.statusList);
+            control.fillCombobox(comboboxSortTaskAfterUser, Controller.userList);
+            control.setComboboxCurrentUser(comboboxSortTaskAfterUser);
+            control.fillTableWithTask(tableAllTasks);
             //Controller.tHandler.removeFinshedTaskFilter(tableAllTasks);
             Controller.tHandler.applyRowFilter(tableAllTasks, textFieldUser.getText(), 6);
         } catch (IOException | SQLException ex) {

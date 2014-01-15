@@ -24,14 +24,18 @@ public class UserHandlingPanel extends javax.swing.JPanel {
     /**
      * Creates new form UserHandlingPanel
      */
-    private ArrayList<User> userList;
-
-    public UserHandlingPanel() throws SQLException, IOException {
+    private ArrayList<User> userList;               // ?? Hvorfor er der en userlist her, når den gemmes i controlleren???
+    private Controller control;
+    
+    public UserHandlingPanel(Controller ctrl) throws SQLException, IOException {
+        
+        control = ctrl;
+        
         initComponents();
         userList = Controller.userList;
-        Controller.fillTableWithUser(jTable1);
+        control.fillTableWithUser(jTable1);
       
-        Controller.fillCombobox(comboBoxDeleteUserList, userList);
+        control.fillCombobox(comboBoxDeleteUserList, userList);
     }
 
      /**
@@ -286,8 +290,8 @@ public class UserHandlingPanel extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            Controller.dbHandler.createUserInUserDB(null, textFieldFirstName.getText(), textFieldLastName.getText(), textFieldShortName.getText(), textFieldPassword.getText(), Integer.parseInt(comboBoxAccessLevel.getSelectedItem().toString()));
-            Controller.fillTableWithUser(jTable1);
+            control.dbHandler.createUserInUserDB(null, textFieldFirstName.getText(), textFieldLastName.getText(), textFieldShortName.getText(), textFieldPassword.getText(), Integer.parseInt(comboBoxAccessLevel.getSelectedItem().toString()));
+            control.fillTableWithUser(jTable1);
         } catch (SQLException ex) {
             Logger.getLogger(UserHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -306,7 +310,7 @@ public class UserHandlingPanel extends javax.swing.JPanel {
                     textFieldPassword2.getText(),
                     Integer.parseInt(modelTable.getValueAt(jTable1.getSelectedRow(), 4).toString()),
                     Integer.parseInt(modelTable.getValueAt(jTable1.getSelectedRow(), 0).toString()));
-            Controller.fillTableWithUser(jTable1);
+            control.fillTableWithUser(jTable1);
         } catch (SQLException ex) {
             Logger.getLogger(UserHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -330,8 +334,8 @@ public class UserHandlingPanel extends javax.swing.JPanel {
             int dialogButton = JOptionPane.YES_NO_OPTION;
             int dialogResult = JOptionPane.showConfirmDialog(null, "Sikker på du vil fjerne " + modelTable.getValueAt(jTable1.getSelectedRow(), 3).toString(), "Warning", dialogButton);
             if (dialogResult == JOptionPane.YES_OPTION) {
-                Controller.dbHandler.deleteUserInUserDB(Integer.parseInt(modelTable.getValueAt(jTable1.getSelectedRow(), 0).toString()));
-                Controller.fillTableWithUser(jTable1);
+                control.dbHandler.deleteUserInUserDB(Integer.parseInt(modelTable.getValueAt(jTable1.getSelectedRow(), 0).toString()));
+                control.fillTableWithUser(jTable1);
             }
         } catch (SQLException ex) {
             Logger.getLogger(UserHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
