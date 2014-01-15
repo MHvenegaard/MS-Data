@@ -31,6 +31,8 @@ public class Mainframe extends javax.swing.JFrame {
 
         createGUIBasedOnAccessLevel(control.getUser().getAccessLevel());
 
+       // initiateAutoUpdates();
+
     }
 
     /**
@@ -82,10 +84,9 @@ public class Mainframe extends javax.swing.JFrame {
             tabPane.add("Opgaveoprettelse", new CreateTaskPanel(control));
             tabPane.add("Opgavehåndtering", new TaskHandlingPanel(control));
             tabPane.add("Brugerhåndtering", new UserHandlingPanel(control));
-            
-        }
-        // User
-        else{
+
+        } // User
+        else {
             tabPane.add("Hovedside", new Home(control));
             tabPane.add("Opgaveoprettelse", new CreateTaskPanel(control));
             tabPane.add("Opgavehåndtering", new TaskHandlingPanel(control));
@@ -103,8 +104,34 @@ public class Mainframe extends javax.swing.JFrame {
             accessLevel = "Bruger";
         }
         this.setTitle(userName + " - " + accessLevel);
+
     }
 
+    private void initiateAutoUpdates() {
+
+        final Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    try {
+                        System.out.println("Starting auto update - " + System.currentTimeMillis());
+                        control.updateAllContents();
+                        System.out.println("Auto update finished - " + System.currentTimeMillis());
+                        Thread.sleep(60000); // Sleep one minute
+
+                    } catch (SQLException ex) {
+                        System.out.println(ex);
+                    } catch (IOException ex) {
+                        System.out.println(ex);
+                    } catch (InterruptedException ex) {
+                        System.out.println(ex);
+                    }
+                }
+            }
+        });
+        t.setDaemon(true); // Setting daemon will make it close along with the JVM
+        t.start();
+    }
 //    /**
 //     *
 //     * @param args the command line arguments

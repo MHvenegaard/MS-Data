@@ -47,8 +47,6 @@ public class Controller {
     public static int customerID;
     //public static JFrame frame;
 
-
-
     public Controller() throws ClassNotFoundException, SQLException, IOException {
         currentUser = null;
         dbHandler = new DBHandler();
@@ -92,17 +90,21 @@ public class Controller {
         }
     }
     
-        public void setComboboxCurrentUser(JComboBox comboboxUser) {
     
+   
+    
+
+    public void setComboboxCurrentUser(JComboBox comboboxUser) {
+
         for (int i = 0; i < userList.size(); i++) {
             if (userList.get(i).getUserID() == currentUser.getUserID()) {
                 currentUser = userList.get(i);
             }
         }
-        comboboxUser.setSelectedItem(currentUser);       
+        comboboxUser.setSelectedItem(currentUser);
     }
 
-    public void lockAllComponetsInTaskHandling(JTextField textFieldTaskName, JTextArea textAreaDescription, JTextField textFieldCustomer, JTextField textFieldTime, JComboBox comboBoxPriority, JComboBox comboBoxProjectLeader, JComboBox comboBoxStatus, JComboBox comboBoxType, JDateChooser dateChooserStart, JDateChooser dateChooserEnd,JButton buttonFindCustomer, JButton buttonGetCustomerID, JButton buttonAddUserToList, JButton buttonRemoveUserFromList, JButton buttonSaveChangesToTask) {
+    public void lockAllComponetsInTaskHandling(JTextField textFieldTaskName, JTextArea textAreaDescription, JTextField textFieldCustomer, JTextField textFieldTime, JComboBox comboBoxPriority, JComboBox comboBoxProjectLeader, JComboBox comboBoxStatus, JComboBox comboBoxType, JDateChooser dateChooserStart, JDateChooser dateChooserEnd, JButton buttonFindCustomer, JButton buttonGetCustomerID, JButton buttonAddUserToList, JButton buttonRemoveUserFromList, JButton buttonSaveChangesToTask) {
         textFieldTaskName.setEnabled(false);
         textAreaDescription.setEnabled(false);
         textFieldCustomer.setEnabled(false);
@@ -118,7 +120,7 @@ public class Controller {
         buttonGetCustomerID.setEnabled(false);
         buttonRemoveUserFromList.setEnabled(false);
         buttonSaveChangesToTask.setEnabled(false);
-        
+
     }
 
     public void unlockAllComponetsInTaskHandling(JTextField textFieldTaskName, JTextArea textAreaDescription, JTextField textFieldCustomer, JTextField textFieldTime, JComboBox comboBoxPriority, JComboBox comboBoxProjectLeader, JComboBox comboBoxStatus, JComboBox comboBoxType, JDateChooser dateChooserExpectedStart, JDateChooser dateChooserExpectedEnd, JButton buttonFindCustomer, JButton buttonGetCustomerID, JButton buttonAddUser, JButton buttonRemoveUser, JButton buttonSaveChanges) {
@@ -345,7 +347,7 @@ public class Controller {
                 0,
                 1,
                 "");
-     
+
         dbHandler.createQuickTask(task);
         createNewTimeSpentOnQuickTask(user.getUserName(), timeSpent, comment);
 
@@ -461,7 +463,7 @@ public class Controller {
         DefaultListModel modelOnTask = (DefaultListModel) listUsersOnTask.getModel();
         Type type = null;
         Statuss status = null;
-        Customer customer = null;   
+        Customer customer = null;
         User user = null;
         System.out.println((comboBoxType.getSelectedItem().toString()));
         for (int i = 0; i < Controller.statusList.size(); i++) {
@@ -777,15 +779,44 @@ public class Controller {
         tsot = new TimeSpentOnTask(user.getUserID(), timeSpent, comment);
         Controller.dbHandler.createTimeSpentOnTask(tsot);
     }
+
+    public void clearHomeComponents(JTextField textFieldTimeSpent, JTextArea textAreaComment, JTextField textFieldQuickTaskCustomer, JTextField textFieldQuickTaskTimeSpent, JTextArea textAreaQuickTaskComment) {
+
+        textAreaComment.setText("");
+        textAreaQuickTaskComment.setText("");
+        textFieldQuickTaskCustomer.setText("");
+        textFieldQuickTaskTimeSpent.setText("");
+        textFieldTimeSpent.setText("");
+
+    }
     
-   public void clearHomeComponents(JTextField textFieldTimeSpent, JTextArea textAreaComment, JTextField textFieldQuickTaskCustomer, JTextField textFieldQuickTaskTimeSpent, JTextArea textAreaQuickTaskComment){
-       
-       textAreaComment.setText("");
-       textAreaQuickTaskComment.setText("");
-       textFieldQuickTaskCustomer.setText("");
-       textFieldQuickTaskTimeSpent.setText("");
-       textFieldTimeSpent.setText("");
-       
-   }
     
+     /* Updates TimeSpentOnTask and Task list in Controller 
+     * MAY ONLY BE USED WITH THE MAINFRAMES UPDATE THREAD!
+     * 
+     */
+    public void updateAllContents() throws SQLException, IOException{
+        Connection conn = (Connection) dbHandler.initiateSystemDBConn()[0];
+        
+        ArrayList<Task> tasklisttemp = dbHandler.initiateTaskList(conn);
+        ArrayList<TimeSpentOnTask> tsotListtemp = dbHandler.initiateTimeSpentOnTaskList(conn);
+        
+        for (int i = 0; i < tasklisttemp.size(); i++) {
+            for (int j = 0; j < tsotListtemp.size(); j++) {
+                if (tasks.get(i).getTaskID() == tsotListtemp.get(j).getTaskID()) {
+                    // Run through userList to find the userObject
+                    for (int k = 0; k < userList.size(); k++) {
+                        if (userList.get(k).getUserID() == tsotListtemp.get(j).getUserID()) {
+                            // Add user to the userlist on task
+                            tasklisttemp.get(i).addToUserOnTask(userList.get(k));
+                        }
+                    }
+                }
+            }
+        }
+        
+        // Overwrite current lists with new data.
+        tsotList = tsotListtemp;
+        tasks = tasklisttemp;
+    }
 }
