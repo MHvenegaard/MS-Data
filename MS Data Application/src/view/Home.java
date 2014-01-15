@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 
 public class Home extends javax.swing.JPanel {
@@ -18,7 +17,6 @@ public class Home extends javax.swing.JPanel {
         
         initComponents();
         initiate();
-
     }
 
     /**
@@ -378,7 +376,7 @@ public class Home extends javax.swing.JPanel {
     private void buttonInReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonInReportActionPerformed
         try {
             control.updateTimeSpentOnTask(Integer.parseInt(labelSubtaskID.getText()),
-                    textFieldUser.getText(),
+                    comboboxSortTaskAfterUser,
                     comboBoxStatus,
                     textFieldMinutesSpent,
                     textAreaAddComment);
@@ -392,8 +390,6 @@ public class Home extends javax.swing.JPanel {
         DefaultTableModel modelTable = (DefaultTableModel) tableAllSubTasks.getModel();
         labelSubtaskID.setText(modelTable.getValueAt(tableAllSubTasks.convertRowIndexToModel(tableAllSubTasks.getSelectedRow()), 0).toString());
         control.fillHomeComponets(Integer.parseInt(labelSubtaskID.getText()), textFieldUser.getText(), textAreaAddComment, comboBoxStatus, textFieldMinutesSpent);
-
-
     }//GEN-LAST:event_tableAllSubTasksMouseReleased
 
     private void tableAllTasksMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableAllTasksMouseReleased
@@ -406,7 +402,6 @@ public class Home extends javax.swing.JPanel {
         DefaultTableModel modelTable = (DefaultTableModel) tableAllTasks.getModel();
         labelTaskID.setText(modelTable.getValueAt(tableAllTasks.convertRowIndexToModel(tableAllTasks.getSelectedRow()), 0).toString());
         control.fillHomeComponets(Integer.parseInt(labelTaskID.getText()), modelTable.getValueAt(tableAllTasks.getSelectedRow(), 6).toString(), textAreaAddComment, comboBoxStatus, textFieldMinutesSpent);
-
     }//GEN-LAST:event_tableAllTasksMouseReleased
 
     private void comboboxSortTaskAfterUserItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboboxSortTaskAfterUserItemStateChanged
@@ -423,7 +418,7 @@ public class Home extends javax.swing.JPanel {
     private void buttonInReportHeadtaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonInReportHeadtaskActionPerformed
         try {
             control.updateTimeSpentOnTask(Integer.parseInt(labelTaskID.getText()),
-                    textFieldUser.getText(),
+                    comboboxSortTaskAfterUser,
                     comboBoxStatus,
                     textFieldMinutesSpent,
                     textAreaAddComment);
@@ -433,8 +428,7 @@ public class Home extends javax.swing.JPanel {
     }//GEN-LAST:event_buttonInReportHeadtaskActionPerformed
 
     private void buttonFindCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonFindCustomerActionPerformed
-        JFrame frame = new CustomerLookUpFrame(control);
-        frame.setVisible(true);
+        control.openCustomerLookUpFrame();
     }//GEN-LAST:event_buttonFindCustomerActionPerformed
 
     private void buttonGetCustomerIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonGetCustomerIDActionPerformed
@@ -443,7 +437,7 @@ public class Home extends javax.swing.JPanel {
 
     private void buttonCreateQuickTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCreateQuickTaskActionPerformed
         try {
-            control.createQuickTask(textFieldQuickTaskCustomer, comboBoxQuickTaskType, textFieldUser, textFieldQuickTaskTimeSpent, textAreaQuickTaskDescription);
+            control.createQuickTask(textFieldQuickTaskCustomer, comboBoxQuickTaskType, comboboxSortTaskAfterUser, textFieldQuickTaskTimeSpent, textAreaQuickTaskDescription);
         } catch (SQLException ex) {
             Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -453,9 +447,7 @@ public class Home extends javax.swing.JPanel {
 
     private void initiate() {
         try {
-
             control.setCurrentUserIDToTextField(textFieldUser);
-
             control.fillCombobox(comboBoxQuickTaskType, Controller.typeList);
             control.fillCombobox(comboBoxStatus, Controller.statusList);
             control.fillCombobox(comboboxSortTaskAfterUser, Controller.userList);

@@ -9,8 +9,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -30,8 +28,8 @@ public class CustomerLookUpFrame extends javax.swing.JFrame {
         control = ctrl;
 
         try {
-            control.removeTableHeadersCustomer(jTable1);
-            control.fillTableWithCustomer(jTable1);
+            control.removeTableHeadersCustomer(tableCustomers);
+            control.fillTableWithCustomer(tableCustomers);
 
         } catch (IOException ex) {
             Logger.getLogger(CustomerLookUpFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -52,7 +50,7 @@ public class CustomerLookUpFrame extends javax.swing.JFrame {
 
         comboBoxSortingItem = new javax.swing.JComboBox();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tableCustomers = new javax.swing.JTable();
         buttonSorting = new javax.swing.JButton();
         textFieldSorting = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
@@ -61,7 +59,7 @@ public class CustomerLookUpFrame extends javax.swing.JFrame {
 
         comboBoxSortingItem.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Kundenavn", "Telefon nr.", "CVR" }));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableCustomers.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -87,9 +85,9 @@ public class CustomerLookUpFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setColumnSelectionAllowed(true);
-        jTable1.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(jTable1);
+        tableCustomers.setColumnSelectionAllowed(true);
+        tableCustomers.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(tableCustomers);
 
         buttonSorting.setText("Sorter");
         buttonSorting.addActionListener(new java.awt.event.ActionListener() {
@@ -144,15 +142,11 @@ public class CustomerLookUpFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonSortingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSortingActionPerformed
-        control.tHandler.applyRowFilter(jTable1, textFieldSorting, comboBoxSortingItem.getSelectedIndex() + 1);
+        control.tHandler.applyRowFilter(tableCustomers, textFieldSorting, comboBoxSortingItem.getSelectedIndex() + 1);
     }//GEN-LAST:event_buttonSortingActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        modelTable = (DefaultTableModel) jTable1.getModel();
-                
-        control.setCustomerID(Integer.parseInt(modelTable.getValueAt(jTable1.convertRowIndexToModel(jTable1.getSelectedRow()), 0).toString()));
-       
-        this.setVisible(false);
+        control.setCustomerID(tableCustomers);
     }//GEN-LAST:event_jButton1ActionPerformed
 
 //    /**
@@ -194,7 +188,7 @@ public class CustomerLookUpFrame extends javax.swing.JFrame {
     private javax.swing.JComboBox comboBoxSortingItem;
     private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tableCustomers;
     private javax.swing.JTextField textFieldSorting;
     // End of variables declaration//GEN-END:variables
 }

@@ -9,13 +9,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
-import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
-import model.Task;
 
 /**
  *
@@ -33,9 +30,9 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     private Controller control;
 
     public TaskHandlingPanel(Controller ctrl) throws ClassNotFoundException, SQLException, IOException {
-        
+
         control = ctrl;
-        
+
         initComponents();
 
         modelOnTask = new DefaultListModel();
@@ -48,8 +45,8 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         control.fillTableWithTask(tableAllTasks);
         control.removeTableHeadersTask(tableAllTasks);
         control.tHandler.removeFinshedTaskFilter(tableAllTasks);
-        control.lockAllComponetsInTaskHandling(textFieldTaskName,textAreaDescription,textFieldCustomer,textFieldTime,comboBoxPriority,comboBoxProjectLeader,comboBoxStatus,comboBoxType,dateChooserExpectedStart,dateChooserExpectedEnd,buttonFindCustomer,buttonGetCustomerID,buttonAddUser,buttonRemoveUser,buttonSaveChanges);
-        
+        control.lockAllComponetsInTaskHandling(textFieldTaskName, textAreaDescription, textFieldCustomer, textFieldTime, comboBoxPriority, comboBoxProjectLeader, comboBoxStatus, comboBoxType, dateChooserExpectedStart, dateChooserExpectedEnd, buttonFindCustomer, buttonGetCustomerID, buttonAddUser, buttonRemoveUser, buttonSaveChanges);
+
         addActionListerner();
     }
 
@@ -463,15 +460,15 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
                 listUsers,
                 listUsersOnTask);
 
-control.lockAllComponetsInTaskHandling(textFieldTaskName,textAreaDescription,textFieldCustomer,textFieldTime,comboBoxPriority,comboBoxProjectLeader,comboBoxStatus,comboBoxType,dateChooserExpectedStart,dateChooserExpectedEnd,buttonFindCustomer,buttonGetCustomerID,buttonAddUser,buttonRemoveUser,buttonSaveChanges);
+        control.lockAllComponetsInTaskHandling(textFieldTaskName, textAreaDescription, textFieldCustomer, textFieldTime, comboBoxPriority, comboBoxProjectLeader, comboBoxStatus, comboBoxType, dateChooserExpectedStart, dateChooserExpectedEnd, buttonFindCustomer, buttonGetCustomerID, buttonAddUser, buttonRemoveUser, buttonSaveChanges);
 
     }//GEN-LAST:event_buttonSaveChangesActionPerformed
 
     private void tableAllTasksMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableAllTasksMouseReleased
         modelTable = (DefaultTableModel) tableAllTasks.getModel();
         try {
-            
-            System.out.println("TaskID : "+modelTable.getValueAt(tableAllTasks.convertRowIndexToModel(tableAllTasks.getSelectedRow()), 0).toString());
+
+            System.out.println("TaskID : " + modelTable.getValueAt(tableAllTasks.convertRowIndexToModel(tableAllTasks.getSelectedRow()), 0).toString());
             control.fillComponents(
                     Integer.parseInt(modelTable.getValueAt(tableAllTasks.convertRowIndexToModel(tableAllTasks.getSelectedRow()), 0).toString()),
                     listUsers,
@@ -501,12 +498,11 @@ control.lockAllComponetsInTaskHandling(textFieldTaskName,textAreaDescription,tex
     }//GEN-LAST:event_textFieldSortingKeyReleased
 
     private void buttonFindCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonFindCustomerActionPerformed
-        JFrame frame = new CustomerLookUpFrame(control);
-        frame.setVisible(true);
+        control.openCustomerLookUpFrame();
     }//GEN-LAST:event_buttonFindCustomerActionPerformed
 
     private void buttonEditTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEditTaskActionPerformed
-      control.unlockAllComponetsInTaskHandling(textFieldTaskName,textAreaDescription,textFieldCustomer,textFieldTime,comboBoxPriority,comboBoxProjectLeader,comboBoxStatus,comboBoxType,dateChooserExpectedStart,dateChooserExpectedEnd,buttonFindCustomer,buttonGetCustomerID,buttonAddUser,buttonRemoveUser,buttonSaveChanges);
+        control.unlockAllComponetsInTaskHandling(textFieldTaskName, textAreaDescription, textFieldCustomer, textFieldTime, comboBoxPriority, comboBoxProjectLeader, comboBoxStatus, comboBoxType, dateChooserExpectedStart, dateChooserExpectedEnd, buttonFindCustomer, buttonGetCustomerID, buttonAddUser, buttonRemoveUser, buttonSaveChanges);
     }//GEN-LAST:event_buttonEditTaskActionPerformed
 
     private void addActionListerner() {

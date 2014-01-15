@@ -2,7 +2,6 @@ package handlers;
 
 import com.mysql.jdbc.Connection;
 import com.toedter.calendar.JDateChooser;
-import java.awt.TextField;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
@@ -17,6 +16,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -26,6 +26,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import model.*;
 import view.CreateTaskPanel;
+import view.CustomerLookUpFrame;
 
 /**
  * @author Marc
@@ -45,7 +46,18 @@ public class Controller {
     public static ArrayList<Customer> customerList;
     public static ArrayList<TimeSpentOnTask> tsotList;
     public static int customerID;
-    //public static JFrame frame;
+    //TEST
+    public static JFrame frame;
+
+    private static User getUserByUserName(JComboBox userName) {
+        User user = null;
+        for (int i = 0; i < Controller.userList.size(); i++) {
+            if (Controller.userList.get(i).getUserName().equals(userName)) {
+                user = Controller.userList.get(i);
+            }
+        }
+        return user;
+    }
 
     public Controller() throws ClassNotFoundException, SQLException, IOException {
         currentUser = null;
@@ -69,7 +81,7 @@ public class Controller {
         customerList = dbHandler.initiateCustomerList(conn);
         tasks = dbHandler.initiateTaskList(conn);
         tsotList = dbHandler.initiateTimeSpentOnTaskList(conn);
-        // frame = new CustomerLookUpFrame();
+        frame = new CustomerLookUpFrame(this);
         children = new ArrayList<>();
         setUsersOnTask();
     }
@@ -89,10 +101,6 @@ public class Controller {
             }
         }
     }
-    
-    
-   
-    
 
     public void setComboboxCurrentUser(JComboBox comboboxUser) {
 
@@ -308,7 +316,7 @@ public class Controller {
 
     }
 
-    public void createQuickTask(JTextField textFieldCustomer, JComboBox comboBoxType, JTextField textFieldTaskLeader, JTextField textFieldtimeSpent, JTextArea textAreaDescription) throws SQLException, IOException {
+    public void createQuickTask(JTextField textFieldCustomer, JComboBox comboBoxType, JComboBox comboBoxTaskLeader, JTextField textFieldtimeSpent, JTextArea textAreaDescription) throws SQLException, IOException {
         Customer customer = null;
         Type type = null;
         Statuss status = null;
@@ -330,11 +338,7 @@ public class Controller {
 
         status = Controller.statusList.get(3);
 
-        for (int i = 0; i < Controller.userList.size(); i++) {
-            if (Controller.userList.get(i).getUserName().equals(textFieldTaskLeader.getText())) {
-                user = Controller.userList.get(i);
-            }
-        }
+        user = Controller.getUserByUserName(comboBoxTaskLeader);
 
         Task task = new Task(
                 type.getTypeName(),
@@ -349,7 +353,7 @@ public class Controller {
                 "");
 
         dbHandler.createQuickTask(task);
-        createNewTimeSpentOnQuickTask(user.getUserName(), timeSpent, comment);
+        createNewTimeSpentOnQuickTask(comboBoxTaskLeader, timeSpent, comment);
 
     }
 
@@ -683,8 +687,19 @@ public class Controller {
         return customerID;
     }
 
-    public void setCustomerID(int customerID) {
-        Controller.customerID = customerID;
+    public void setCustomerID(JTable table) {
+        DefaultTableModel modelTable = (DefaultTableModel) table.getModel();
+
+        if (table.getSelectedRowCount() != 0) {
+            Controller.customerID = Integer.parseInt(modelTable.getValueAt(table.convertRowIndexToModel(table.getSelectedRow()), 0).toString());
+            frame.setVisible(false);
+        } else {
+            JOptionPane.showMessageDialog(frame, "Der skal vælges en kunde", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    public void openCustomerLookUpFrame() {
+        frame.setVisible(true);
     }
 
     public String getCustomerIDToString() {
@@ -705,6 +720,7 @@ public class Controller {
     public TimeSpentOnTask getTimeSpentOnTaskFromList(int taskID, String userID) {
         TimeSpentOnTask tsot = null;
         User user = null;
+       // user = Controller.getUserByUserName(userName);
         for (int i = 0; i < Controller.userList.size(); i++) {
             if (Controller.userList.get(i).getUserName().equals(userID)) {
                 user = Controller.userList.get(i);
@@ -727,17 +743,18 @@ public class Controller {
         textFieldTimeSpent.setText("");
     }
 
-    public void updateTimeSpentOnTask(int taskID, String userName, JComboBox comboboxStatus, JTextField textfieldTimeSpent, JTextArea textAreaComment) throws SQLException, IOException {
+    public void updateTimeSpentOnTask(int taskID, JComboBox userName, JComboBox comboboxStatus, JTextField textfieldTimeSpent, JTextArea textAreaComment) throws SQLException, IOException {
         User user = null;
         TimeSpentOnTask tsot = null;
         Task task = getSelectedTask(taskID);
 
-        for (int i = 0; i < Controller.userList.size(); i++) {
-            if (Controller.userList.get(i).getUserName().equals(userName)) {
-                user = Controller.userList.get(i);
-            }
-        }
+        if (textfieldTimeSpent.getText() == "" || textAreaComment.getText() == "") {
+            JOptionPane.showMessageDialog(null, "Der skal anføres tid brugt og en kommentar", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
+        }else{
+        
+        user = Controller.getUserByUserName(userName);
         task.setStatusByID(comboboxStatus.getSelectedIndex() + 1);
+        
         for (int i = 0; i < tsotList.size(); i++) {
             if (tsotList.get(i).getTaskID() == taskID && user.getUserName().equals(userName)) {
                 tsot = tsotList.get(i);
@@ -750,32 +767,25 @@ public class Controller {
             tsot = new TimeSpentOnTask(taskID, user.getUserID(), Integer.parseInt(textfieldTimeSpent.getText()), textAreaComment.getText());
         }
         Controller.dbHandler.updateTimeSpentOnTask(tsot, task);
+        }
     }
 
-    public void createNewTimeSpentOnTask(String userName) throws SQLException, IOException {
+    public void createNewTimeSpentOnTask(JComboBox userName) throws SQLException, IOException {
         User user = null;
         TimeSpentOnTask tsot = null;
 
-        for (int i = 0; i < Controller.userList.size(); i++) {
-            if (Controller.userList.get(i).getUserName().equals(userName)) {
-                user = Controller.userList.get(i);
-            }
-        }
+        user = Controller.getUserByUserName(userName);
 
         tsot = new TimeSpentOnTask(user.getUserID());
         Controller.dbHandler.createTimeSpentOnTask(tsot);
 
     }
 
-    public void createNewTimeSpentOnQuickTask(String userName, int timeSpent, String comment) throws SQLException, IOException {
+    public void createNewTimeSpentOnQuickTask(JComboBox userName, int timeSpent, String comment) throws SQLException, IOException {
         User user = null;
         TimeSpentOnTask tsot = null;
 
-        for (int i = 0; i < Controller.userList.size(); i++) {
-            if (Controller.userList.get(i).getUserName().equals(userName)) {
-                user = Controller.userList.get(i);
-            }
-        }
+        user = Controller.getUserByUserName(userName);
         tsot = new TimeSpentOnTask(user.getUserID(), timeSpent, comment);
         Controller.dbHandler.createTimeSpentOnTask(tsot);
     }
@@ -789,18 +799,17 @@ public class Controller {
         textFieldTimeSpent.setText("");
 
     }
-    
-    
-     /* Updates TimeSpentOnTask and Task list in Controller 
+
+    /* Updates TimeSpentOnTask and Task list in Controller 
      * MAY ONLY BE USED WITH THE MAINFRAMES UPDATE THREAD!
      * 
      */
-    public void updateAllContents() throws SQLException, IOException{
+    public void updateAllContents() throws SQLException, IOException {
         Connection conn = (Connection) dbHandler.initiateSystemDBConn()[0];
-        
+
         ArrayList<Task> tasklisttemp = dbHandler.initiateTaskList(conn);
         ArrayList<TimeSpentOnTask> tsotListtemp = dbHandler.initiateTimeSpentOnTaskList(conn);
-        
+
         for (int i = 0; i < tasklisttemp.size(); i++) {
             for (int j = 0; j < tsotListtemp.size(); j++) {
                 if (tasks.get(i).getTaskID() == tsotListtemp.get(j).getTaskID()) {
@@ -814,7 +823,7 @@ public class Controller {
                 }
             }
         }
-        
+
         // Overwrite current lists with new data.
         tsotList = tsotListtemp;
         tasks = tasklisttemp;

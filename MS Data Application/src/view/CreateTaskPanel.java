@@ -11,7 +11,6 @@ import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
-import javax.swing.JFrame;
 
 /**
  *
@@ -399,7 +398,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
                     comboBoxPriority,
                     textAreaBeskrivelse);           
             try {
-                control.createNewTimeSpentOnTask(comboBoxUser.getSelectedItem().toString());
+                control.createNewTimeSpentOnTask(comboBoxUser);
             } catch (SQLException ex) {
                 Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
@@ -435,8 +434,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_buttonUpdateTableActionPerformed
 
     private void buttonFindCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonFindCustomerActionPerformed
-        JFrame frame = new CustomerLookUpFrame(control);
-        frame.setVisible(true);
+        control.openCustomerLookUpFrame();
     }//GEN-LAST:event_buttonFindCustomerActionPerformed
 
     private void buttonGetCustomerIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonGetCustomerIDActionPerformed
