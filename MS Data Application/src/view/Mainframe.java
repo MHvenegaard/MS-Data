@@ -87,6 +87,7 @@ public class Mainframe extends javax.swing.JFrame {
         // User
         else{
             tabPane.add("Hovedside", new Home(control));
+            tabPane.add("Opgaveoprettelse", new CreateTaskPanel(control));
             tabPane.add("Opgavehåndtering", new TaskHandlingPanel(control));
         }
 
