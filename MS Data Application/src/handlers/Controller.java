@@ -248,6 +248,7 @@ public class Controller {
         }
     }
 
+    //Fill table with Customers and their information
     public void fillTableWithCustomer(JTable tableAllTask) throws IOException, SQLException {
         DefaultTableModel modelTable = (DefaultTableModel) tableAllTask.getModel();
         modelTable.setRowCount(0);
@@ -256,7 +257,7 @@ public class Controller {
             Object[] data = {customerList.get(i).getCustomerID(),
                 customerList.get(i).getCompanyName(),
                 customerList.get(i).getPhone(),
-                customerList.get(i).getPhone()};
+                customerList.get(i).getCVR()};
             modelTable.addRow(data);
         }
     }
@@ -324,6 +325,10 @@ public class Controller {
         int timeSpent = Integer.parseInt(textFieldtimeSpent.getText());
         String comment = textAreaDescription.getText();
 
+        if (textFieldCustomer.getText() == "" || textFieldtimeSpent.getText() == "" || textAreaDescription.getText() == "") {
+            JOptionPane.showMessageDialog(null, "Der skal angives en kunde, brugt tid samt en kommentar", "Fejlrapport", JOptionPane.WARNING_MESSAGE);   
+        }else{
+        
         for (int i = 0; i < Controller.customerList.size(); i++) {
             if (Controller.customerList.get(i).getCustomerID() == Integer.parseInt(textFieldCustomer.getText())) {
                 customer = Controller.customerList.get(i);
@@ -354,7 +359,7 @@ public class Controller {
 
         dbHandler.createQuickTask(task);
         createNewTimeSpentOnQuickTask(comboBoxTaskLeader, timeSpent, comment);
-
+        }
     }
 
     public void createNewTask(JTable tableAllTask, JList listUsersOnTask, JButton button, JCheckBox checkBoxSub, JTextField textFieldTaskName, JComboBox comboBoxType, JComboBox comboBoxStatus,
@@ -469,7 +474,14 @@ public class Controller {
         Statuss status = null;
         Customer customer = null;
         User user = null;
-        System.out.println((comboBoxType.getSelectedItem().toString()));
+        
+        if (textFieldTaskName.getText() == "" || textFieldCustomer.getText() == "" || textFieldEstimatedTime.getText() == "") {
+            JOptionPane.showMessageDialog(button, "Der skal angives et opgave navn, kunde og en estimering af tid der skal bruges", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
+        }else{
+        ArrayList<User> userOnTask = new ArrayList<>();
+        
+        user = Controller.getUserByUserName(comboBoxTaskLeader);
+        
         for (int i = 0; i < Controller.statusList.size(); i++) {
             if (Controller.statusList.get(i).getStatussName().equals(comboBoxStatus.getSelectedItem().toString())) {
                 status = Controller.statusList.get(i);
@@ -481,25 +493,20 @@ public class Controller {
                 customer = Controller.customerList.get(i);
             }
         }
-
-        for (int i = 0; i < Controller.userList.size(); i++) {
-            if (Controller.userList.get(i).getUserName().equals(comboBoxTaskLeader.getSelectedItem().toString())) {
-                user = Controller.userList.get(i);
-            }
-        }
-
+      
+        
         for (int i = 0; i < Controller.typeList.size(); i++) {
             if (Controller.typeList.get(i).getTypeName().equals(comboBoxType.getSelectedItem().toString())) {
                 type = Controller.typeList.get(i);
             }
         }
 
-        ArrayList<User> userOnTask = new ArrayList<>();
-
+       
         for (int i = 0; i < modelOnTask.getSize(); i++) {
             userOnTask.add((User) modelOnTask.getElementAt(i));
         }
-
+       
+        //Create new task object
         Task task = new Task(Integer.parseInt(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 0).toString()),
                 Integer.parseInt(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 1).toString()),
                 textFieldTaskName.getText(),
@@ -514,7 +521,6 @@ public class Controller {
                 textAreaDescription.getText(),
                 userOnTask);
         try {
-            //  Controller.dbHandler.SPremoveAllUsersOnTask(task.getTaskID());
             Controller.dbHandler.updateTask(task);
             // Controller.dbHandler.addUserToAlreadyMadeTask(listUsersOnTask, task.getTaskID());
             fillList(listUsers, Controller.userList);
@@ -524,7 +530,7 @@ public class Controller {
         } catch (IOException ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        }
     }
 
     public void fillTableWithUser(JTable table) throws IOException, SQLException {
