@@ -19,11 +19,11 @@ import model.User;
  */
 public class DBHandler {
 
+    /**
+     * @throws ClassNotFoundException
+     */
     public DBHandler() throws ClassNotFoundException {
-
-        //Driveren loades - kræver at MySQL JDBC Driver er tilføjet under Libraries
         Class.forName("com.mysql.jdbc.Driver");
-
     }
 
     /**
@@ -35,14 +35,15 @@ public class DBHandler {
      * eventuelt result sæt Do stuff Luk det eventuelle RS kald stmt.close(); på
      * Statement objektet kald conn.close(); på Connection objektet returner
      * eventuelt objekt/data/whatever metoden nu skulle gøre
-     * *********************************************************************** *
-     * /
-     *
-     * /
-     *
+     * *****************************************************************************
+     */
+    
+    /**
      * @return Object[] returns an object array containing a created Connection-
      * and Statement object for the Customer database. Object[0] is the
      * Connection object Object[1] is the Statement object
+     * @throws java.io.IOException
+     * @throws java.sql.SQLException
      */
     public Object[] initiateCustomerDBConn() throws IOException, SQLException {
         Properties prop = new Properties();
@@ -67,12 +68,14 @@ public class DBHandler {
 
         return returnObjects;
     }
-    /*
+    
+    /**
      * @return Object[] returns an object array containing a created Connection- and Statement object for the Employee database.
      * Object[0] is the Connection object
      * Object[1] is the Statement object
+     * @throws java.sql.SQLException
+     * @throws java.io.IOException
      */
-
     public Object[] initiateEmployeeDBConn() throws SQLException, IOException {
         Properties prop = new Properties();
 
@@ -96,12 +99,14 @@ public class DBHandler {
 
         return returnObjects;
     }
-    /*
+    
+    /**
      * @return Object[] returns an object array containing a created Connection- and Statement object for the System database.
      * Object[0] is the Connection object
      * Object[1] is the Statement object
+     * @throws java.sql.SQLException
+     * @throws java.io.IOException
      */
-
     public Object[] initiateSystemDBConn() throws SQLException, IOException {
         Properties prop = new Properties();
 
@@ -125,9 +130,13 @@ public class DBHandler {
 
         return objects;
     }
-    
 
-    //Get complete lists of objects by SP
+    /**
+     * @param conn 
+     * @return
+     * @throws SQLException
+     * @throws IOException 
+     */
     public ArrayList<TimeSpentOnTask> initiateTimeSpentOnTaskList(Connection conn) throws SQLException, IOException {
         ArrayList<TimeSpentOnTask> tsotList = new ArrayList();
         int taskID;
@@ -226,7 +235,7 @@ public class DBHandler {
 
         cs.execute();
     }
-    
+
     public void createSubTask(Task task) throws SQLException, IOException {
         Connection conn = (Connection) initiateSystemDBConn()[0];
         java.sql.Date sqlStartDate = new java.sql.Date(task.getStartDate().getTime());
