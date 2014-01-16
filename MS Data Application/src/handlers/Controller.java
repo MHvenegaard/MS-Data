@@ -52,10 +52,11 @@ public class Controller {
     private static User getUserByUserName(JComboBox userName) {
         User user = null;
         for (int i = 0; i < Controller.userList.size(); i++) {
-            if (Controller.userList.get(i).getUserName().equals(userName)) {
+            if (Controller.userList.get(i).getUserName().equals(userName.getSelectedItem().toString())) {
                 user = Controller.userList.get(i);
             }
         }
+        System.out.println(user.getUserID());
         return user;
     }
 
@@ -305,7 +306,7 @@ public class Controller {
         textFieldTaskName.setText(t.getTaskName());
         comboBoxType.setSelectedItem(t.getType());
         comboBoxStatus.setSelectedItem(t.getStatus());
-        comboBoxCustomer.setText(t.getCustomer().getCompanyName());
+        comboBoxCustomer.setText(t.getCustomer().getCustomerID() + "");
         comboBoxProjectLeader.setSelectedIndex((t.getUser().getUserID()) - 1);
         textFieldTime.setText(t.getEstimatedtime() + "");
         comboBoxPriority.setSelectedItem(t.getPriority());
@@ -322,10 +323,10 @@ public class Controller {
         Type type = null;
         Statuss status = null;
         User user = null;
-        
+
         System.out.println("Area : " + textAreaDescription.getText() + "time : " + textFieldtimeSpent.getText() + "customer : " + textFieldCustomer.getText());
-       
-        if (textFieldCustomer.getText().isEmpty() || textFieldtimeSpent.getText().isEmpty()|| textAreaDescription.getText().isEmpty()) {
+
+        if (textFieldCustomer.getText().isEmpty() || textFieldtimeSpent.getText().isEmpty() || textAreaDescription.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Der skal angives en kunde, brugt tid samt en kommentar", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
         } else {
             String comment = textAreaDescription.getText();
@@ -390,8 +391,8 @@ public class Controller {
         }
 
         try {
-            if (taskName.equals("") == true) {
-                System.out.println("Der er opstået en fejl ! Er alle felter med stjerne udfyldt? Og er den valgte slut dato efter start dato?");
+            if (taskName.isEmpty()) {
+                JOptionPane.showMessageDialog(button, "Der er opstået en fejl ! Er alle felter med stjerne udfyldt? Og er den valgte slut dato efter start dato?", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
             } else if (checkBoxSub.isSelected()) {
                 Date ParentStartDate = sdf.parse(modelTable.getValueAt(tableAllTask.getSelectedRow(), 7).toString());
                 Date ParentEndDate = sdf.parse(modelTable.getValueAt(tableAllTask.getSelectedRow(), 8).toString());
@@ -436,7 +437,6 @@ public class Controller {
                             estimatedTime,
                             priority,
                             taskDescription);
-                    System.out.println("Customer i con : " + customer);
                     Controller.dbHandler.createTask(task);
                     Controller.dbHandler.addUserToTask(listUsersOnTask);
                 } catch (SQLException | IOException ex) {
@@ -484,6 +484,8 @@ public class Controller {
 
             user = Controller.getUserByUserName(comboBoxTaskLeader);
 
+            System.out.println(user.getUserID());
+
             for (int i = 0; i < Controller.statusList.size(); i++) {
                 if (Controller.statusList.get(i).getStatussName().equals(comboBoxStatus.getSelectedItem().toString())) {
                     status = Controller.statusList.get(i);
@@ -491,7 +493,7 @@ public class Controller {
             }
 
             for (int i = 0; i < Controller.customerList.size(); i++) {
-                if (Controller.customerList.get(i).getCompanyName().equals(textFieldCustomer.getText())) {
+                if (Controller.customerList.get(i).getCustomerID() == Integer.parseInt(textFieldCustomer.getText())) {
                     customer = Controller.customerList.get(i);
                 }
             }
@@ -521,6 +523,7 @@ public class Controller {
                     textAreaDescription.getText(),
                     userOnTask);
             try {
+                System.out.println("Task userID : " + user.getUserID());
                 Controller.dbHandler.updateTask(task);
                 // Controller.dbHandler.addUserToAlreadyMadeTask(listUsersOnTask, task.getTaskID());
                 fillList(listUsers, Controller.userList);
@@ -754,7 +757,7 @@ public class Controller {
         User user = null;
         TimeSpentOnTask tsot = null;
 
-        if (textfieldTimeSpent.getText().isEmpty()|| textAreaComment.getText().isEmpty() || table.getSelectedRowCount() == 0) {
+        if (textfieldTimeSpent.getText().isEmpty() || textAreaComment.getText().isEmpty() || table.getSelectedRowCount() == 0) {
             JOptionPane.showMessageDialog(null, "Der skal angives hvilken opgave der skal indrapportes samt tid brugt og en kommentar", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
         } else {
             int taskID = Integer.parseInt(tablemodel.getValueAt(table.getSelectedRow(), 0).toString());
