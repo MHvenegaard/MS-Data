@@ -375,7 +375,7 @@ public class Home extends javax.swing.JPanel {
 
     private void buttonInReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonInReportActionPerformed
         try {
-            control.updateTimeSpentOnTask(Integer.parseInt(labelSubtaskID.getText()),
+            control.updateTimeSpentOnTask(tableAllSubTasks,
                     comboboxSortTaskAfterUser,
                     comboBoxStatus,
                     textFieldMinutesSpent,
@@ -417,7 +417,7 @@ public class Home extends javax.swing.JPanel {
 
     private void buttonInReportHeadtaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonInReportHeadtaskActionPerformed
         try {
-            control.updateTimeSpentOnTask(Integer.parseInt(labelTaskID.getText()),
+            control.updateTimeSpentOnTask(tableAllTasks,
                     comboboxSortTaskAfterUser,
                     comboBoxStatus,
                     textFieldMinutesSpent,
@@ -437,7 +437,11 @@ public class Home extends javax.swing.JPanel {
 
     private void buttonCreateQuickTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCreateQuickTaskActionPerformed
         try {
-            control.createQuickTask(textFieldQuickTaskCustomer, comboBoxQuickTaskType, comboboxSortTaskAfterUser, textFieldQuickTaskTimeSpent, textAreaQuickTaskDescription);
+            control.createQuickTask(textFieldQuickTaskCustomer,
+                    comboBoxQuickTaskType,
+                    comboboxSortTaskAfterUser,
+                    textFieldQuickTaskTimeSpent,
+                    textAreaQuickTaskDescription);
         } catch (SQLException ex) {
             Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {

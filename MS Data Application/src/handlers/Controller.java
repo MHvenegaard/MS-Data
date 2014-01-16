@@ -322,43 +322,45 @@ public class Controller {
         Type type = null;
         Statuss status = null;
         User user = null;
-        int timeSpent = Integer.parseInt(textFieldtimeSpent.getText());
-        String comment = textAreaDescription.getText();
-
-        if (textFieldCustomer.getText() == "" || textFieldtimeSpent.getText() == "" || textAreaDescription.getText() == "") {
-            JOptionPane.showMessageDialog(null, "Der skal angives en kunde, brugt tid samt en kommentar", "Fejlrapport", JOptionPane.WARNING_MESSAGE);   
-        }else{
         
-        for (int i = 0; i < Controller.customerList.size(); i++) {
-            if (Controller.customerList.get(i).getCustomerID() == Integer.parseInt(textFieldCustomer.getText())) {
-                customer = Controller.customerList.get(i);
+        System.out.println("Area : " + textAreaDescription.getText() + "time : " + textFieldtimeSpent.getText() + "customer : " + textFieldCustomer.getText());
+       
+        if (textFieldCustomer.getText().isEmpty() || textFieldtimeSpent.getText().isEmpty()|| textAreaDescription.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Der skal angives en kunde, brugt tid samt en kommentar", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
+        } else {
+            String comment = textAreaDescription.getText();
+            int timeSpent = Integer.parseInt(textFieldtimeSpent.getText());
+
+            for (int i = 0; i < Controller.customerList.size(); i++) {
+                if (Controller.customerList.get(i).getCustomerID() == Integer.parseInt(textFieldCustomer.getText())) {
+                    customer = Controller.customerList.get(i);
+                }
             }
-        }
 
-        for (int i = 0; i < Controller.typeList.size(); i++) {
-            if (Controller.typeList.get(i).getTypeName().equals(comboBoxType.getSelectedItem().toString())) {
-                type = Controller.typeList.get(i);
+            for (int i = 0; i < Controller.typeList.size(); i++) {
+                if (Controller.typeList.get(i).getTypeName().equals(comboBoxType.getSelectedItem().toString())) {
+                    type = Controller.typeList.get(i);
+                }
             }
-        }
 
-        status = Controller.statusList.get(3);
+            status = Controller.statusList.get(3);
 
-        user = Controller.getUserByUserName(comboBoxTaskLeader);
+            user = Controller.getUserByUserName(comboBoxTaskLeader);
 
-        Task task = new Task(
-                type.getTypeName(),
-                type,
-                status,
-                customer,
-                user,
-                getCurrentDate(),
-                getCurrentDate(),
-                0,
-                1,
-                "");
+            Task task = new Task(
+                    type.getTypeName(),
+                    type,
+                    status,
+                    customer,
+                    user,
+                    getCurrentDate(),
+                    getCurrentDate(),
+                    0,
+                    1,
+                    "");
 
-        dbHandler.createQuickTask(task);
-        createNewTimeSpentOnQuickTask(comboBoxTaskLeader, timeSpent, comment);
+            dbHandler.createQuickTask(task);
+            createNewTimeSpentOnQuickTask(comboBoxTaskLeader, timeSpent, comment);
         }
     }
 
@@ -474,62 +476,60 @@ public class Controller {
         Statuss status = null;
         Customer customer = null;
         User user = null;
-        
+
         if (textFieldTaskName.getText() == "" || textFieldCustomer.getText() == "" || textFieldEstimatedTime.getText() == "") {
             JOptionPane.showMessageDialog(button, "Der skal angives et opgave navn, kunde og en estimering af tid der skal bruges", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
-        }else{
-        ArrayList<User> userOnTask = new ArrayList<>();
-        
-        user = Controller.getUserByUserName(comboBoxTaskLeader);
-        
-        for (int i = 0; i < Controller.statusList.size(); i++) {
-            if (Controller.statusList.get(i).getStatussName().equals(comboBoxStatus.getSelectedItem().toString())) {
-                status = Controller.statusList.get(i);
-            }
-        }
+        } else {
+            ArrayList<User> userOnTask = new ArrayList<>();
 
-        for (int i = 0; i < Controller.customerList.size(); i++) {
-            if (Controller.customerList.get(i).getCompanyName().equals(textFieldCustomer.getText())) {
-                customer = Controller.customerList.get(i);
-            }
-        }
-      
-        
-        for (int i = 0; i < Controller.typeList.size(); i++) {
-            if (Controller.typeList.get(i).getTypeName().equals(comboBoxType.getSelectedItem().toString())) {
-                type = Controller.typeList.get(i);
-            }
-        }
+            user = Controller.getUserByUserName(comboBoxTaskLeader);
 
-       
-        for (int i = 0; i < modelOnTask.getSize(); i++) {
-            userOnTask.add((User) modelOnTask.getElementAt(i));
-        }
-       
-        //Create new task object
-        Task task = new Task(Integer.parseInt(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 0).toString()),
-                Integer.parseInt(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 1).toString()),
-                textFieldTaskName.getText(),
-                type,
-                status,
-                customer,
-                user,
-                dateChooserExpectedStart.getDate(),
-                dateChooserExpectedEnd.getDate(),
-                Integer.parseInt(textFieldEstimatedTime.getText()),
-                Integer.parseInt(comboBoxPriority.getSelectedItem().toString()),
-                textAreaDescription.getText(),
-                userOnTask);
-        try {
-            Controller.dbHandler.updateTask(task);
-            // Controller.dbHandler.addUserToAlreadyMadeTask(listUsersOnTask, task.getTaskID());
-            fillList(listUsers, Controller.userList);
-            fillTableWithTask(tableAllTasks);
-        } catch (SQLException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            for (int i = 0; i < Controller.statusList.size(); i++) {
+                if (Controller.statusList.get(i).getStatussName().equals(comboBoxStatus.getSelectedItem().toString())) {
+                    status = Controller.statusList.get(i);
+                }
+            }
+
+            for (int i = 0; i < Controller.customerList.size(); i++) {
+                if (Controller.customerList.get(i).getCompanyName().equals(textFieldCustomer.getText())) {
+                    customer = Controller.customerList.get(i);
+                }
+            }
+
+            for (int i = 0; i < Controller.typeList.size(); i++) {
+                if (Controller.typeList.get(i).getTypeName().equals(comboBoxType.getSelectedItem().toString())) {
+                    type = Controller.typeList.get(i);
+                }
+            }
+
+            for (int i = 0; i < modelOnTask.getSize(); i++) {
+                userOnTask.add((User) modelOnTask.getElementAt(i));
+            }
+
+            //Create new task object
+            Task task = new Task(Integer.parseInt(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 0).toString()),
+                    Integer.parseInt(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 1).toString()),
+                    textFieldTaskName.getText(),
+                    type,
+                    status,
+                    customer,
+                    user,
+                    dateChooserExpectedStart.getDate(),
+                    dateChooserExpectedEnd.getDate(),
+                    Integer.parseInt(textFieldEstimatedTime.getText()),
+                    Integer.parseInt(comboBoxPriority.getSelectedItem().toString()),
+                    textAreaDescription.getText(),
+                    userOnTask);
+            try {
+                Controller.dbHandler.updateTask(task);
+                // Controller.dbHandler.addUserToAlreadyMadeTask(listUsersOnTask, task.getTaskID());
+                fillList(listUsers, Controller.userList);
+                fillTableWithTask(tableAllTasks);
+            } catch (SQLException ex) {
+                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -726,7 +726,7 @@ public class Controller {
     public TimeSpentOnTask getTimeSpentOnTaskFromList(int taskID, String userID) {
         TimeSpentOnTask tsot = null;
         User user = null;
-       // user = Controller.getUserByUserName(userName);
+        // user = Controller.getUserByUserName(userName);
         for (int i = 0; i < Controller.userList.size(); i++) {
             if (Controller.userList.get(i).getUserName().equals(userID)) {
                 user = Controller.userList.get(i);
@@ -749,30 +749,32 @@ public class Controller {
         textFieldTimeSpent.setText("");
     }
 
-    public void updateTimeSpentOnTask(int taskID, JComboBox userName, JComboBox comboboxStatus, JTextField textfieldTimeSpent, JTextArea textAreaComment) throws SQLException, IOException {
+    public void updateTimeSpentOnTask(JTable table, JComboBox userName, JComboBox comboboxStatus, JTextField textfieldTimeSpent, JTextArea textAreaComment) throws SQLException, IOException {
+        DefaultTableModel tablemodel = (DefaultTableModel) table.getModel();
         User user = null;
         TimeSpentOnTask tsot = null;
-        Task task = getSelectedTask(taskID);
 
-        if (textfieldTimeSpent.getText() == "" || textAreaComment.getText() == "") {
-            JOptionPane.showMessageDialog(null, "Der skal anføres tid brugt og en kommentar", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
-        }else{
-        
-        user = Controller.getUserByUserName(userName);
-        task.setStatusByID(comboboxStatus.getSelectedIndex() + 1);
-        
-        for (int i = 0; i < tsotList.size(); i++) {
-            if (tsotList.get(i).getTaskID() == taskID && user.getUserName().equals(userName)) {
-                tsot = tsotList.get(i);
-                int totalTimeSpent = tsot.getTimeSpent() + Integer.parseInt(textfieldTimeSpent.getText());
-                tsot.setTimeSpent(totalTimeSpent);
-                tsot.setComment(textAreaComment.getText());
+        if (textfieldTimeSpent.getText().isEmpty()|| textAreaComment.getText().isEmpty() || table.getSelectedRowCount() == 0) {
+            JOptionPane.showMessageDialog(null, "Der skal angives hvilken opgave der skal indrapportes samt tid brugt og en kommentar", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
+        } else {
+            int taskID = Integer.parseInt(tablemodel.getValueAt(table.getSelectedRow(), 0).toString());
+            Task task = getSelectedTask(taskID);
+
+            user = Controller.getUserByUserName(userName);
+            task.setStatusByID(comboboxStatus.getSelectedIndex() + 1);
+
+            for (int i = 0; i < tsotList.size(); i++) {
+                if (tsotList.get(i).getTaskID() == taskID && user.getUserName().equals(userName)) {
+                    tsot = tsotList.get(i);
+                    int totalTimeSpent = tsot.getTimeSpent() + Integer.parseInt(textfieldTimeSpent.getText());
+                    tsot.setTimeSpent(totalTimeSpent);
+                    tsot.setComment(textAreaComment.getText());
+                }
             }
-        }
-        if (tsot == null) {
-            tsot = new TimeSpentOnTask(taskID, user.getUserID(), Integer.parseInt(textfieldTimeSpent.getText()), textAreaComment.getText());
-        }
-        Controller.dbHandler.updateTimeSpentOnTask(tsot, task);
+            if (tsot == null) {
+                tsot = new TimeSpentOnTask(taskID, user.getUserID(), Integer.parseInt(textfieldTimeSpent.getText()), textAreaComment.getText());
+            }
+            Controller.dbHandler.updateTimeSpentOnTask(tsot, task);
         }
     }
 
