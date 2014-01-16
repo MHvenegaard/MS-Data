@@ -1,12 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
 /**
- *
- * @author Marc
+ * @author Marc Hvenegaard, Mikkel Bloch & Nikolaj Nielsen
+ * @version 1.4
  */
 public class Customer {
 
@@ -14,12 +10,14 @@ public class Customer {
     private int phone;
     private String companyName;
     private String CVR;
-   
-    
-    public Customer(String companyName) {
-        this.companyName = companyName;
-    }
 
+/**
+ * Creates an objekt of Customer
+ * @param idCustomer
+ * @param companyName
+ * @param phone
+ * @param CVR 
+ */
     public Customer(int idCustomer, String companyName, int phone, String CVR) {
         this.customerID = idCustomer;
         this.companyName = companyName;
@@ -27,41 +25,58 @@ public class Customer {
         this.CVR = CVR;
     }
     
-    
-
-    @Override
-    public String toString() {
-        return companyName;
-    }
-
+    /**
+     * @return - customerID
+     */
     public int getCustomerID() {
         return customerID;
     }
 
+    /**
+     * @param idCustomer 
+     */
     public void setIdCustomer(int idCustomer) {
         this.customerID = idCustomer;
     }
 
+    /**
+     * @return - companyName
+     */
     public String getCompanyName() {
         return companyName;
     }
 
+    /**
+     * @param companyName 
+     */
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
     }
 
+    /**
+     * @return - phone
+     */
     public int getPhone() {
         return phone;
     }
 
+    /**
+     * @param phone 
+     */
     public void setPhone(int phone) {
         this.phone = phone;
     }
 
+    /**
+     * @return - CVR
+     */
     public String getCVR() {
         return CVR;
     }
 
+    /**
+     * @param CVR 
+     */
     public void setCVR(String CVR) {
         this.CVR = CVR;
     }
