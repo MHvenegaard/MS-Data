@@ -12,7 +12,7 @@ public class User {
     private int accessLevel;
 
 /**
- * Creates an objekt of User
+ * Creates an object of User
  * @param userID
  * @param userName
  * @param password

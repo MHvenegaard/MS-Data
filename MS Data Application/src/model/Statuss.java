@@ -12,7 +12,7 @@ public class Statuss {
     private String statussName;
 
     /**
-     * Creates an objekt of Statuss
+     * Creates an object of Statuss
      * @param statusID
      * @param statussName 
      */

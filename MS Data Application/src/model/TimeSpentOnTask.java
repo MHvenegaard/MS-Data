@@ -12,7 +12,7 @@ public class TimeSpentOnTask {
     private String comment;
 
     /**
-     * Creates an objekt of TimeSpentOnTask
+     * Creates an object of TimeSpentOnTask
      * @param taskID
      * @param userID
      * @param timeSpent
@@ -26,7 +26,7 @@ public class TimeSpentOnTask {
     }
 
     /**
-     * Creates an objekt of TimeSpentOnTask
+     * Creates an object of TimeSpentOnTask
      * @param userID
      */
     public TimeSpentOnTask(int userID) {
@@ -36,7 +36,7 @@ public class TimeSpentOnTask {
     }
 
     /**
-     * Creates an objekt of TimeSpentOnTask
+     * Creates an object of TimeSpentOnTask
      * @param userID
      * @param timeSpent
      * @param comment 

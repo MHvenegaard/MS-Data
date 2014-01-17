@@ -12,7 +12,7 @@ public class Customer {
     private String CVR;
 
 /**
- * Creates an objekt of Customer
+ * Creates an object of Customer
  * @param idCustomer
  * @param companyName
  * @param phone

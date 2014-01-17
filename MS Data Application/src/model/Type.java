@@ -10,7 +10,7 @@ public class Type {
     private String typeName;
 
 /**
- * Creates an objekt of Type
+ * Creates an object of Type
  * @param typeID
  * @param typeName 
  */

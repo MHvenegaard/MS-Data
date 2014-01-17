@@ -20,8 +20,6 @@ import javax.swing.table.TableRowSorter;
  */
 public class TableHandler {
 
-    private JTable table;
-
     public TableHandler() {
     }
 
@@ -39,6 +37,8 @@ public class TableHandler {
      * valgt i combox
      */
     /**
+     * Filters the table to show only task with inserted field and filters tasks with
+     * status "Afsluttet" away
      * @param table The targeted jTable
      * @param field The jTextField where the text that is going to filtered by
      * @param combobox It is important that the items in the combobox is in the
@@ -50,33 +50,29 @@ public class TableHandler {
 
         TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);
         table.setRowSorter(sorter);
-//        RowFilter<TableModel, Object> rf = null;
-//        rf = RowFilter.regexFilter(field.getText(), selectedIndex);
-//        sorter.setRowFilter(rf);
-
-
-        //TEST
 
         ArrayList<RowFilter<Object, Object>> andFilters = new ArrayList<RowFilter<Object, Object>>();
 
         andFilters.add(RowFilter.regexFilter(field.getText(), selectedIndex));
         andFilters.add(RowFilter.notFilter(RowFilter.regexFilter("Afsluttet", 4)));
 
-
         sorter.setRowFilter(RowFilter.andFilter(andFilters));
-
-
-
     }
 
+    /**
+     * Filters the table to show only task with inserted String str and filters tasks with
+     * status "Afsluttet" away
+     * @param table The targeted jTable
+     * @param str The String str is the text that is going to filtered by
+     * @param int It is important that the items in the combobox is in the
+     * same order as in the table. If the table contains ID, Name, Surname,
+     * then the comboboxs items must be in the same order!
+     */
     public void applyRowFilter(JTable table, String str, int selectedIndex) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
 
         TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);
         table.setRowSorter(sorter);
-//        RowFilter<TableModel, Object> rf = null;
-//        rf = RowFilter.regexFilter(str, selectedIndex);
-//        sorter.setRowFilter(rf);
 
         ArrayList<RowFilter<Object, Object>> andFilters = new ArrayList<RowFilter<Object, Object>>();
 
@@ -87,6 +83,10 @@ public class TableHandler {
         sorter.setRowFilter(RowFilter.andFilter(andFilters));
     }
 
+    /**
+     * Filters all tasks that have the status "Afsluttet" away
+     * @param table The targeted jTable
+     */
     public void removeFinshedTaskFilter(JTable table) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
 
@@ -95,21 +95,9 @@ public class TableHandler {
 
         ArrayList<RowFilter<Object, Object>> andFilters = new ArrayList<RowFilter<Object, Object>>();
 
-        //andFilters.add(RowFilter.regexFilter("Afsluttet", 4));
         andFilters.add(RowFilter.notFilter(RowFilter.regexFilter("Afsluttet", 4)));
 
-
         sorter.setRowFilter(RowFilter.andFilter(andFilters));
-        //RowFilter.regexFilter("Afsluttet", 4)
-        //notFilter(RowFilter.regexFilter("Afsluttet", 4))    
+     }
 
-    }
-
-    public JTable getTable() {
-        return table;
-    }
-
-    public void setTable(JTable table) {
-        this.table = table;
-    }
 }
