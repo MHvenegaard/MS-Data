@@ -13,8 +13,9 @@ public class Statuss {
 
     /**
      * Creates an object of Statuss
+     *
      * @param statusID
-     * @param statussName 
+     * @param statussName
      */
     public Statuss(int statusID, String statussName) {
         this.statusID = statusID;
@@ -29,7 +30,7 @@ public class Statuss {
     }
 
     /**
-     * @param statusID 
+     * @param statusID
      */
     public void setStatusID(int statusID) {
         this.statusID = statusID;
@@ -43,14 +44,16 @@ public class Statuss {
     }
 
     /**
-     * @param statussName 
+     * @param statussName
      */
     public void setStatussName(String statussName) {
         this.statussName = statussName;
     }
 
     /**
-     * Returns Statuss s, found in the complete list of Status' with the given ID
+     * Returns Statuss s, found in the complete list of Status' with the given
+     * ID
+     *
      * @param ID
      * @return - Statuss s
      */
@@ -63,4 +66,13 @@ public class Statuss {
         }
         return s;
     }
+
+    /**
+     * @return - statussName
+     */
+    @Override
+    public String toString() {
+        return statussName;
+    }
+
 }

@@ -11,13 +11,14 @@ public class User {
     private String password;
     private int accessLevel;
 
-/**
- * Creates an object of User
- * @param userID
- * @param userName
- * @param password
- * @param accessLevel 
- */
+    /**
+     * Creates an object of User
+     *
+     * @param userID
+     * @param userName
+     * @param password
+     * @param accessLevel
+     */
     public User(int userID, String userName, String password, int accessLevel) {
         this.userID = userID;
         this.userName = userName;
@@ -33,12 +34,12 @@ public class User {
     }
 
     /**
-     * @param userID 
+     * @param userID
      */
     public void setUserID(int userID) {
         this.userID = userID;
     }
-    
+
     /**
      * @return - userName
      */
@@ -47,7 +48,7 @@ public class User {
     }
 
     /**
-     * @param userName 
+     * @param userName
      */
     public void setUserName(String userName) {
         this.userName = userName;
@@ -61,7 +62,7 @@ public class User {
     }
 
     /**
-     * @param password 
+     * @param password
      */
     public void setPassword(String password) {
         this.password = password;
@@ -75,9 +76,17 @@ public class User {
     }
 
     /**
-     * @param accessLevel 
+     * @param accessLevel
      */
     public void setAccessLevel(int accessLevel) {
         this.accessLevel = accessLevel;
+    }
+
+    /**
+     * @return - userName
+     */
+    @Override
+    public String toString() {
+        return userName;
     }
 }

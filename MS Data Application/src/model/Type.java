@@ -9,21 +9,22 @@ public class Type {
     private int typeID;
     private String typeName;
 
-/**
- * Creates an object of Type
- * @param typeID
- * @param typeName 
- */
+    /**
+     * Creates an object of Type
+     *
+     * @param typeID
+     * @param typeName
+     */
     public Type(int typeID, String typeName) {
         this.typeID = typeID;
         this.typeName = typeName;
     }
 
     /**
-     * @param typeName 
+     * @param typeName
      */
     public Type(String typeName) {
-       this.typeName = typeName;
+        this.typeName = typeName;
     }
 
     /**
@@ -34,7 +35,7 @@ public class Type {
     }
 
     /**
-     * @param typeID 
+     * @param typeID
      */
     public void setTypeID(int typeID) {
         this.typeID = typeID;
@@ -48,10 +49,18 @@ public class Type {
     }
 
     /**
-     * @param typeName 
+     * @param typeName
      */
     public void setTypeName(String typeName) {
         this.typeName = typeName;
     }
-    
+
+    /**
+     * @return - typeName
+     */
+    @Override
+    public String toString() {
+        return typeName;
+    }
+
 }

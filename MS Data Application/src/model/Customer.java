@@ -11,20 +11,21 @@ public class Customer {
     private String companyName;
     private String CVR;
 
-/**
- * Creates an object of Customer
- * @param idCustomer
- * @param companyName
- * @param phone
- * @param CVR 
- */
+    /**
+     * Creates an object of Customer
+     *
+     * @param idCustomer
+     * @param companyName
+     * @param phone
+     * @param CVR
+     */
     public Customer(int idCustomer, String companyName, int phone, String CVR) {
         this.customerID = idCustomer;
         this.companyName = companyName;
         this.phone = phone;
         this.CVR = CVR;
     }
-    
+
     /**
      * @return - customerID
      */
@@ -33,7 +34,7 @@ public class Customer {
     }
 
     /**
-     * @param idCustomer 
+     * @param idCustomer
      */
     public void setIdCustomer(int idCustomer) {
         this.customerID = idCustomer;
@@ -47,7 +48,7 @@ public class Customer {
     }
 
     /**
-     * @param companyName 
+     * @param companyName
      */
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
@@ -61,7 +62,7 @@ public class Customer {
     }
 
     /**
-     * @param phone 
+     * @param phone
      */
     public void setPhone(int phone) {
         this.phone = phone;
@@ -75,16 +76,17 @@ public class Customer {
     }
 
     /**
-     * @param CVR 
+     * @param CVR
      */
     public void setCVR(String CVR) {
         this.CVR = CVR;
     }
 
-
-
-   
-    
-    
-    
+    /**
+     * @return - companyName
+     */
+    @Override
+    public String toString() {
+        return companyName;
+    }
 }

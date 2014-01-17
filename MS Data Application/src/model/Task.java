@@ -139,7 +139,7 @@ public class Task {
     }
 
     /**
-     * @param estimatedtime 
+     * @param estimatedtime
      */
     public void setEstimatedtime(int estimatedtime) {
         this.estimatedtime = estimatedtime;
@@ -153,7 +153,7 @@ public class Task {
     }
 
     /**
-     * @param Statuss 
+     * @param Statuss
      */
     public void setStatusByID(int Statuss) {
         this.status = status.getStatusByID(Statuss);
@@ -167,7 +167,7 @@ public class Task {
     }
 
     /**
-     * @param priority 
+     * @param priority
      */
     public void setPriority(int priority) {
         this.priority = priority;
@@ -181,7 +181,7 @@ public class Task {
     }
 
     /**
-     * @param type 
+     * @param type
      */
     public void setType(Type type) {
         this.type = type;
@@ -195,7 +195,7 @@ public class Task {
     }
 
     /**
-     * @param description 
+     * @param description
      */
     public void setDescription(String description) {
         this.description = description;
@@ -209,7 +209,7 @@ public class Task {
     }
 
     /**
-     * @param startDate 
+     * @param startDate
      */
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
@@ -223,7 +223,7 @@ public class Task {
     }
 
     /**
-     * @param endDate 
+     * @param endDate
      */
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
@@ -237,7 +237,7 @@ public class Task {
     }
 
     /**
-     * @param customer 
+     * @param customer
      */
     public void setCustomer(Customer customer) {
         this.customer = customer;
@@ -251,7 +251,7 @@ public class Task {
     }
 
     /**
-     * @param user 
+     * @param user
      */
     public void setUser(User user) {
         this.user = user;
@@ -265,7 +265,7 @@ public class Task {
     }
 
     /**
-     * @param taskName 
+     * @param taskName
      */
     public void setTaskName(String taskName) {
         this.taskName = taskName;
@@ -279,7 +279,7 @@ public class Task {
     }
 
     /**
-     * @param taskList 
+     * @param taskList
      */
     public void setTaskList(ArrayList<Task> taskList) {
         this.taskList = taskList;
@@ -293,7 +293,7 @@ public class Task {
     }
 
     /**
-     * @param parentID 
+     * @param parentID
      */
     public void setParentID(int parentID) {
         this.parentID = parentID;
@@ -307,7 +307,7 @@ public class Task {
     }
 
     /**
-     * @param userOnTask 
+     * @param userOnTask
      */
     public void setUserOnTask(ArrayList<User> userOnTask) {
         this.userOnTask = userOnTask;
@@ -315,6 +315,7 @@ public class Task {
 
     /**
      * Adds user to task
+     *
      * @param user
      */
     public void addToUserOnTask(User user) {
@@ -323,9 +324,19 @@ public class Task {
 
     /**
      * Removes user from task
-     * @param user 
+     *
+     * @param user
      */
     public void removeUserOnTask(User user) {
         userOnTask.remove(user);
     }
+
+    /**
+     * @return - taskID
+     */
+    @Override
+    public String toString() {
+        return "" + taskID;
+    }
+
 }
