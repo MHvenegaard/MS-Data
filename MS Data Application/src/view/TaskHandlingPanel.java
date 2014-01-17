@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package view;
 
 import handlers.Controller;
@@ -15,18 +11,15 @@ import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
- *
- * @author Mikkel
+ * @author Marc Hvenegaard, Mikkel Bloch & Nikolaj Nielsen
+ * @version 1.4
  */
 public class TaskHandlingPanel extends javax.swing.JPanel {
 
-    /**
-     * Creates new form TaskHandlingPanel
-     */
     private DefaultListModel model;
     private DefaultListModel modelOnTask;
     private DefaultTableModel modelTable;
-    public int customerid;                      // <---- DAFAUQ???
+    public int customerid;                    
     private Controller control;
 
     public TaskHandlingPanel(Controller ctrl) throws ClassNotFoundException, SQLException, IOException {
@@ -42,7 +35,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         control.fillCombobox(comboBoxType, Controller.typeList);
         control.fillCombobox(comboBoxStatus, Controller.statusList);
         control.fillList(listUsers, Controller.userList);
-        control.fillTableWithTask(tableAllTasks);
+        control.fillTableUsingTaskList(tableAllTasks);
         control.removeTableHeadersTask(tableAllTasks);
         control.tHandler.removeFinshedTaskFilter(tableAllTasks);
         control.lockAllComponetsInTaskHandling(textFieldTaskName, textAreaDescription, textFieldCustomer, textFieldTime, comboBoxPriority, comboBoxProjectLeader, comboBoxStatus, comboBoxType, dateChooserExpectedStart, dateChooserExpectedEnd, buttonFindCustomer, buttonGetCustomerID, buttonAddUser, buttonRemoveUser, buttonSaveChanges);
@@ -404,14 +397,14 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
 
     private void buttonAddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddUserActionPerformed
 
-        control.addUserToOnTaskList(listUsers, listUsersOnTask, buttonAddUser);
+        control.addUserToOnTaskList(listUsers, listUsersOnTask);
 
     }//GEN-LAST:event_buttonAddUserActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             control.updateTableWithNewTasks(tableAllTasks);
-            //Controller.fillTableWithTask(tableAllTasks);
+           
         } catch (IOException | SQLException ex) {
             Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -431,36 +424,38 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_buttonFilterActionPerformed
 
     private void buttonSaveChangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveChangesActionPerformed
-        System.out.println("Klik på saveChanges");
-        control.SaveChangesToTask(tableAllTasks,
-                listUsers,
-                listUsersOnTask,
-                buttonSaveChanges,
-                textFieldTaskName,
-                comboBoxType,
-                comboBoxStatus,
-                textFieldCustomer,
-                comboBoxProjectLeader,
-                dateChooserExpectedStart,
-                dateChooserExpectedEnd,
-                textFieldTime,
-                comboBoxPriority,
-                textAreaDescription);
+        try {
+            control.SaveChangesToTask(tableAllTasks,
+                    listUsers,
+                    listUsersOnTask,
+                    buttonSaveChanges,
+                    textFieldTaskName,
+                    comboBoxType,
+                    comboBoxStatus,
+                    textFieldCustomer,
+                    comboBoxProjectLeader,
+                    dateChooserExpectedStart,
+                    dateChooserExpectedEnd,
+                    textFieldTime,
+                    comboBoxPriority,
+                    textAreaDescription);
 
-        System.out.println("ClearAll");
-        control.clearAll(textFieldTaskName,
-                comboBoxType,
-                comboBoxStatus,
-                textFieldCustomer,
-                comboBoxProjectLeader,
-                dateChooserExpectedStart,
-                dateChooserExpectedEnd,
-                textFieldTime,
-                comboBoxPriority,
-                listUsers,
-                listUsersOnTask);
+            control.clearAll(textFieldTaskName,
+                    comboBoxType,
+                    comboBoxStatus,
+                    textFieldCustomer,
+                    comboBoxProjectLeader,
+                    dateChooserExpectedStart,
+                    dateChooserExpectedEnd,
+                    textFieldTime,
+                    comboBoxPriority,
+                    listUsers,
+                    listUsersOnTask);
 
-        control.lockAllComponetsInTaskHandling(textFieldTaskName, textAreaDescription, textFieldCustomer, textFieldTime, comboBoxPriority, comboBoxProjectLeader, comboBoxStatus, comboBoxType, dateChooserExpectedStart, dateChooserExpectedEnd, buttonFindCustomer, buttonGetCustomerID, buttonAddUser, buttonRemoveUser, buttonSaveChanges);
+            control.lockAllComponetsInTaskHandling(textFieldTaskName, textAreaDescription, textFieldCustomer, textFieldTime, comboBoxPriority, comboBoxProjectLeader, comboBoxStatus, comboBoxType, dateChooserExpectedStart, dateChooserExpectedEnd, buttonFindCustomer, buttonGetCustomerID, buttonAddUser, buttonRemoveUser, buttonSaveChanges);
+        } catch (SQLException ex) {
+        } catch (IOException ex) {
+        }
 
     }//GEN-LAST:event_buttonSaveChangesActionPerformed
 

@@ -1,37 +1,25 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package view;
 
 import handlers.*;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import model.User;
 
 /**
- *
- * @author Marc
+ * @author Marc Hvenegaard, Mikkel Bloch & Nikolaj Nielsen
+ * @version 1.4
  */
 public class Mainframe extends javax.swing.JFrame {
 
     private Controller control;
 
-    /**
-     * Creates new form Mainframe
-     */
     public Mainframe(Controller ctrl) throws ClassNotFoundException, SQLException, IOException {
         control = ctrl;
 
         initComponents();
 
-        setTitle();
-
-        createGUIBasedOnAccessLevel(control.getUser().getAccessLevel());
-
-       // initiateAutoUpdates();
+        control.setTitle(this);
+        control.createGUIBasedOnAccessLevel(control.getUser().getAccessLevel(), tabPane, control);
+        //control.initiateAutoUpdates(this); // This method is not fully developed yet
 
     }
 
@@ -75,111 +63,6 @@ public class Mainframe extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void createGUIBasedOnAccessLevel(int accessLevel) throws SQLException, IOException, ClassNotFoundException {
-
-        // Admin
-        if (accessLevel == 0) {
-            tabPane.add("Hovedside", new Home(control));
-            tabPane.add("Opgaveoprettelse", new CreateTaskPanel(control));
-            tabPane.add("Opgavehåndtering", new TaskHandlingPanel(control));
-            tabPane.add("Brugerhåndtering", new UserHandlingPanel(control));
-
-        } // User
-        else {
-            tabPane.add("Hovedside", new Home(control));
-            tabPane.add("Opgaveoprettelse", new CreateTaskPanel(control));
-            tabPane.add("Opgavehåndtering", new TaskHandlingPanel(control));
-        }
-
-    }
-
-    private void setTitle() {
-
-        String userName = control.getUser().getUserName();
-        String accessLevel;
-        if (control.getUser().getAccessLevel() == 0) {
-            accessLevel = "Administrator";
-        } else {
-            accessLevel = "Bruger";
-        }
-        this.setTitle(userName + " - " + accessLevel);
-
-    }
-
-    private void initiateAutoUpdates() {
-
-        final Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    try {
-                        System.out.println("Starting auto update - " + System.currentTimeMillis());
-                        control.updateAllContents();
-                        System.out.println("Auto update finished - " + System.currentTimeMillis());
-                        Thread.sleep(60000); // Sleep one minute
-
-                    } catch (SQLException ex) {
-                        System.out.println(ex);
-                    } catch (IOException ex) {
-                        System.out.println(ex);
-                    } catch (InterruptedException ex) {
-                        System.out.println(ex);
-                    }
-                }
-            }
-        });
-        t.setDaemon(true); // Setting daemon will make it close along with the JVM
-        t.start();
-    }
-//    /**
-//     *
-//     * @param args the command line arguments
-//     */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(Mainframe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(Mainframe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(Mainframe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(Mainframe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                try {
-//
-//                    Controller ctrl = new Controller();
-//                    User us = new User(1337, "User", "admin", 0);
-//                    ctrl.setUser(us);
-//                    new Mainframe(ctrl).setVisible(true);
-//
-//                } catch (ClassNotFoundException ex) {
-//                    Logger.getLogger(Mainframe.class.getName()).log(Level.SEVERE, null, ex);
-//                } catch (SQLException ex) {
-//                    Logger.getLogger(Mainframe.class.getName()).log(Level.SEVERE, null, ex);
-//                } catch (IOException ex) {
-//                    Logger.getLogger(Mainframe.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//            }
-//        });
-//    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;

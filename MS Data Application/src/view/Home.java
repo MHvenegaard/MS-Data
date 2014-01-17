@@ -7,14 +7,18 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
+/**
+ * @author Marc Hvenegaard, Mikkel Bloch & Nikolaj Nielsen
+ * @version 1.4
+ */
 public class Home extends javax.swing.JPanel {
 
     private Controller control;
-    
+
     public Home(Controller ctrl) {
-        
+
         control = ctrl;
-        
+
         initComponents();
         initiate();
     }
@@ -389,7 +393,7 @@ public class Home extends javax.swing.JPanel {
     private void tableAllSubTasksMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableAllSubTasksMouseReleased
         DefaultTableModel modelTable = (DefaultTableModel) tableAllSubTasks.getModel();
         labelSubtaskID.setText(modelTable.getValueAt(tableAllSubTasks.convertRowIndexToModel(tableAllSubTasks.getSelectedRow()), 0).toString());
-        control.fillHomeComponets(Integer.parseInt(labelSubtaskID.getText()), textFieldUser.getText(), textAreaAddComment, comboBoxStatus, textFieldMinutesSpent);
+        control.fillHomeComponents(Integer.parseInt(labelSubtaskID.getText()), textFieldUser.getText(), textAreaAddComment, comboBoxStatus, textFieldMinutesSpent);
     }//GEN-LAST:event_tableAllSubTasksMouseReleased
 
     private void tableAllTasksMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableAllTasksMouseReleased
@@ -401,7 +405,7 @@ public class Home extends javax.swing.JPanel {
         }
         DefaultTableModel modelTable = (DefaultTableModel) tableAllTasks.getModel();
         labelTaskID.setText(modelTable.getValueAt(tableAllTasks.convertRowIndexToModel(tableAllTasks.getSelectedRow()), 0).toString());
-        control.fillHomeComponets(Integer.parseInt(labelTaskID.getText()), modelTable.getValueAt(tableAllTasks.getSelectedRow(), 6).toString(), textAreaAddComment, comboBoxStatus, textFieldMinutesSpent);
+        control.fillHomeComponents(Integer.parseInt(labelTaskID.getText()), modelTable.getValueAt(tableAllTasks.getSelectedRow(), 6).toString(), textAreaAddComment, comboBoxStatus, textFieldMinutesSpent);
     }//GEN-LAST:event_tableAllTasksMouseReleased
 
     private void comboboxSortTaskAfterUserItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboboxSortTaskAfterUserItemStateChanged
@@ -456,7 +460,7 @@ public class Home extends javax.swing.JPanel {
             control.fillCombobox(comboBoxStatus, Controller.statusList);
             control.fillCombobox(comboboxSortTaskAfterUser, Controller.userList);
             control.setComboboxCurrentUser(comboboxSortTaskAfterUser);
-            control.fillTableWithTask(tableAllTasks);
+            control.fillTableUsingTaskList(tableAllTasks);
             //Controller.tHandler.removeFinshedTaskFilter(tableAllTasks);
             Controller.tHandler.applyRowFilter(tableAllTasks, textFieldUser.getText(), 6);
         } catch (IOException | SQLException ex) {

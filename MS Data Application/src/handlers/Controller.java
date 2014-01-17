@@ -2,6 +2,7 @@ package handlers;
 
 import com.mysql.jdbc.Connection;
 import com.toedter.calendar.JDateChooser;
+import java.awt.Component;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
@@ -19,6 +20,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -27,13 +29,16 @@ import javax.swing.table.TableColumn;
 import model.*;
 import view.CreateTaskPanel;
 import view.CustomerLookUpFrame;
+import view.Home;
+import view.Mainframe;
+import view.TaskHandlingPanel;
 
 /**
- * @author Marc
+ * @author Marc Hvenegaard, Mikkel Bloch & Nikolaj Nielsen
+ * @version 1.4
  */
 public class Controller {
 
-    public final static int VERSION_NUMBER = 1;
     public static User currentUser;
     public static DBHandler dbHandler;
     public static TableHandler tHandler;
@@ -45,21 +50,18 @@ public class Controller {
     public static ArrayList<Task> children;
     public static ArrayList<Customer> customerList;
     public static ArrayList<TimeSpentOnTask> tsotList;
+    // Belongs to the CustomerLookUpFrame
     public static int customerID;
-    //TEST
     public static JFrame frame;
 
-    private static User getUserByUserName(JComboBox userName) {
-        User user = null;
-        for (int i = 0; i < Controller.userList.size(); i++) {
-            if (Controller.userList.get(i).getUserName().equals(userName.getSelectedItem().toString())) {
-                user = Controller.userList.get(i);
-            }
-        }
-        System.out.println(user.getUserID());
-        return user;
-    }
-
+    /**
+     * The FileDBHandler class Constructor. The Constructor loads the JDBC
+     * Driver
+     *
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     * @throws IOException
+     */
     public Controller() throws ClassNotFoundException, SQLException, IOException {
         currentUser = null;
         dbHandler = new DBHandler();
@@ -71,8 +73,19 @@ public class Controller {
         statusList = new ArrayList();
         customerList = new ArrayList();
         tasks = new ArrayList();
+        customerID = -1;
+
     }
 
+    /**
+     * Initiates the controllers variables with relevant data from the database.
+     * WARNING: This method may only be used from the LoginFrame intialization
+     * proces.
+     *
+     * @throws SQLException The queried data could not be retrieved from the
+     * database
+     * @throws IOException A connection to the server could not be established
+     */
     public void initiateController() throws SQLException, IOException {
         Connection conn = (Connection) dbHandler.initiateSystemDBConn()[0];
 
@@ -85,9 +98,49 @@ public class Controller {
         frame = new CustomerLookUpFrame(this);
         children = new ArrayList<>();
         setUsersOnTask();
+
     }
 
-    public void setUsersOnTask() throws SQLException, IOException {
+    /**
+     * Updates the data in the controllers lists by retrieving all data from the
+     * database.
+     *
+     * @throws SQLException The queried data could not be retrieved from the
+     * database
+     * @throws IOException A connection to the server could not be established
+     */
+    public void updateControllerData() throws SQLException, IOException {
+        initiateController();
+    }
+
+    /**
+     * Retrieves the user from the list containing all users, identified by
+     * their username.
+     *
+     * @param userName The combobox from which the username is extracted and
+     * used to locate the user object.
+     * @return user - The User object containing the name parameter.
+     */
+    private User getUserByUserName(JComboBox userName) {
+        User user = null;
+        for (int i = 0; i < Controller.userList.size(); i++) {
+            if (Controller.userList.get(i).getUserName().equals(userName.getSelectedItem().toString())) {
+                user = Controller.userList.get(i);
+            }
+        }
+        return user;
+    }
+
+    /**
+     * Runs through all tasks in the controllers taskList and add's user to a
+     * task through the TimeSpentOnTask reference. This proces is completed
+     * using the controllers locally stored lists. Upon use of this method, make
+     * sure all lists have been updated.
+     *
+     * @see #updateControllerData()
+     *
+     */
+    public void setUsersOnTask() {
         for (int i = 0; i < tasks.size(); i++) {
             for (int j = 0; j < tsotList.size(); j++) {
                 if (tasks.get(i).getTaskID() == tsotList.get(j).getTaskID()) {
@@ -103,6 +156,13 @@ public class Controller {
         }
     }
 
+    /**
+     * Sets the selected item on the combobox based on the user using the
+     * system.
+     *
+     * @see #currentUser
+     * @param comboboxUser
+     */
     public void setComboboxCurrentUser(JComboBox comboboxUser) {
 
         for (int i = 0; i < userList.size(); i++) {
@@ -113,6 +173,25 @@ public class Controller {
         comboboxUser.setSelectedItem(currentUser);
     }
 
+    /**
+     * Locks all the components from being edited, in the taskhandling panel.
+     *
+     * @param textFieldTaskName
+     * @param textAreaDescription
+     * @param textFieldCustomer
+     * @param textFieldTime
+     * @param comboBoxPriority
+     * @param comboBoxProjectLeader
+     * @param comboBoxStatus
+     * @param comboBoxType
+     * @param dateChooserStart
+     * @param dateChooserEnd
+     * @param buttonFindCustomer
+     * @param buttonGetCustomerID
+     * @param buttonAddUserToList
+     * @param buttonRemoveUserFromList
+     * @param buttonSaveChangesToTask
+     */
     public void lockAllComponetsInTaskHandling(JTextField textFieldTaskName, JTextArea textAreaDescription, JTextField textFieldCustomer, JTextField textFieldTime, JComboBox comboBoxPriority, JComboBox comboBoxProjectLeader, JComboBox comboBoxStatus, JComboBox comboBoxType, JDateChooser dateChooserStart, JDateChooser dateChooserEnd, JButton buttonFindCustomer, JButton buttonGetCustomerID, JButton buttonAddUserToList, JButton buttonRemoveUserFromList, JButton buttonSaveChangesToTask) {
         textFieldTaskName.setEnabled(false);
         textAreaDescription.setEnabled(false);
@@ -132,6 +211,25 @@ public class Controller {
 
     }
 
+    /**
+     * Unlocks all the components in the taskhandling panel, renabling editing.
+     *
+     * @param textFieldTaskName
+     * @param textAreaDescription
+     * @param textFieldCustomer
+     * @param textFieldTime
+     * @param comboBoxPriority
+     * @param comboBoxProjectLeader
+     * @param comboBoxStatus
+     * @param comboBoxType
+     * @param dateChooserExpectedStart
+     * @param dateChooserExpectedEnd
+     * @param buttonFindCustomer
+     * @param buttonGetCustomerID
+     * @param buttonAddUser
+     * @param buttonRemoveUser
+     * @param buttonSaveChanges
+     */
     public void unlockAllComponetsInTaskHandling(JTextField textFieldTaskName, JTextArea textAreaDescription, JTextField textFieldCustomer, JTextField textFieldTime, JComboBox comboBoxPriority, JComboBox comboBoxProjectLeader, JComboBox comboBoxStatus, JComboBox comboBoxType, JDateChooser dateChooserExpectedStart, JDateChooser dateChooserExpectedEnd, JButton buttonFindCustomer, JButton buttonGetCustomerID, JButton buttonAddUser, JButton buttonRemoveUser, JButton buttonSaveChanges) {
         textAreaDescription.setEnabled(true);
         textFieldCustomer.setEnabled(true);
@@ -150,13 +248,30 @@ public class Controller {
         buttonSaveChanges.setEnabled(true);
     }
 
-    //Universalmetoder
+    /**
+     *
+     * @param combobox The combobox to be filled with objects.
+     * @param arrayList The arraylists containing the objects used to fill the
+     * combobox.
+     * @throws SQLException The queried data could not be retrieved from the
+     * database.
+     * @throws IOException A connection to the server could not be established.
+     */
     public void fillCombobox(JComboBox combobox, ArrayList arrayList) throws SQLException, IOException {
         for (int i = 0; i < arrayList.size(); i++) {
             combobox.addItem(arrayList.get(i));
         }
     }
 
+    /**
+     *
+     * @param list The list to be filled with objects.
+     * @param arrayList The arraylists containing the objects used to fill the
+     * list
+     * @throws SQLException The queried data could not be retrieved from the
+     * database
+     * @throws IOException A connection to the server could not be established
+     */
     public void fillList(JList list, ArrayList arrayList) throws SQLException, IOException {
         DefaultListModel model = new DefaultListModel();
         list.setModel(model);
@@ -167,6 +282,18 @@ public class Controller {
     }
 
     //Fills JList.UserOnTaskList and removes ppl from JList.UserList
+    /**
+     *
+     * @param uList The complete list of users who are not associated with the
+     * task.
+     * @param userOnTaskLlist The list of users currently associated with the
+     * task
+     * @param userOnTask The list containing the users associated with the
+     * selected task.
+     * @throws SQLException The queried data could not be retrieved from the
+     * database.
+     * @throws IOException A connection to the server could not be established.
+     */
     public void fillAndRemoveFromUserLists(JList uList, JList userOnTaskLlist, ArrayList<User> userOnTask) throws SQLException, IOException {
 
         DefaultListModel model = (DefaultListModel) uList.getModel();
@@ -189,7 +316,11 @@ public class Controller {
         }
     }
 
-    //Returns the current date
+    /**
+     * Returns the current date formatted as DD/MM/YYYY.
+     *
+     * @return date - The Date object containing the formated date.
+     */
     public Date getCurrentDate() {
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -203,7 +334,17 @@ public class Controller {
 
     }
 
-    public ArrayList<Task> fillTableWithTask(JTable tableAllTask) throws IOException, SQLException {
+    /**
+     * Formats the tables model and fills it with all tasks from the controllers
+     * task list.
+     *
+     * @see #tasks
+     * @param tableAllTask The Table to be formatted and filled with data
+     * @throws SQLException The queried data could not be retrieved from the
+     * database.
+     * @throws IOException A connection to the server could not be established.
+     */
+    public void fillTableUsingTaskList(JTable tableAllTask) throws IOException, SQLException {
         DefaultTableModel modelTable = (DefaultTableModel) tableAllTask.getModel();
         modelTable.setRowCount(0);
 
@@ -223,9 +364,18 @@ public class Controller {
             modelTable.addRow(data);
 
         }
-        return tasks;
     }
 
+    /**
+     * Formats the tables model and fills it with all objects from the list send
+     * along.
+     *
+     * @param tableAllTask The table to be formated
+     * @param fillList The list containing the objects used to fill the table
+     * @throws SQLException The queried data could not be retrieved from the
+     * database.
+     * @throws IOException A connection to the server could not be established.
+     */
     public void fillTableWithList(JTable tableAllTask, ArrayList<Task> fillList) throws IOException, SQLException {
 
         DefaultTableModel modelTable = (DefaultTableModel) tableAllTask.getModel();
@@ -249,7 +399,14 @@ public class Controller {
         }
     }
 
-    //Fill table with Customers and their information
+    /**
+     * Formats the table using the controllers customer list.
+     *
+     * @param tableAllTask The table to be formated and filled with data.
+     * @throws SQLException The queried data could not be retrieved from the
+     * database.
+     * @throws IOException A connection to the server could not be established.
+     */
     public void fillTableWithCustomer(JTable tableAllTask) throws IOException, SQLException {
         DefaultTableModel modelTable = (DefaultTableModel) tableAllTask.getModel();
         modelTable.setRowCount(0);
@@ -263,8 +420,13 @@ public class Controller {
         }
     }
 
-    //add and remove users in the userlists
-    public void addUserToOnTaskList(JList listUsers, JList listUsersOnTask, JButton button) {
+    /**
+     * Removes users from the first list, and adds them to the second list.
+     *
+     * @param listUsers The list from which users will be removed.
+     * @param listUsersOnTask The list to which users will be added.
+     */
+    public void addUserToOnTaskList(JList listUsers, JList listUsersOnTask) {
         int index = listUsers.getSelectedIndex();
 
         DefaultListModel model = (DefaultListModel) listUsers.getModel();
@@ -274,10 +436,16 @@ public class Controller {
             modelOnTask.addElement(listUsers.getSelectedValue());
             model.removeElement(listUsers.getSelectedValue());
         } else {
-            JOptionPane.showMessageDialog(button, "Der ikke valgt nogen medarbejder", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(listUsers, "Der ikke valgt nogen medarbejder", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
         }
     }
 
+    /**
+     *
+     * @param listUsers
+     * @param listUsersOnTask
+     * @param button
+     */
     public void removeUserFromTaskList(JList listUsers, JList listUsersOnTask, JButton button) {
         int index = listUsersOnTask.getSelectedIndex();
         DefaultListModel model = (DefaultListModel) listUsers.getModel();
@@ -346,7 +514,7 @@ public class Controller {
 
             status = Controller.statusList.get(3);
 
-            user = Controller.getUserByUserName(comboBoxTaskLeader);
+            user = getUserByUserName(comboBoxTaskLeader);
 
             Task task = new Task(
                     type.getTypeName(),
@@ -415,8 +583,8 @@ public class Controller {
                                 priority,
                                 taskDescription);
 
-                        Controller.dbHandler.createSubTask(task);
-                        Controller.dbHandler.addUserToTask(listUsersOnTask);
+                        dbHandler.createSubTask(task);
+                        dbHandler.addUserToTask(listUsersOnTask);
 
                     } catch (SQLException | IOException ex) {
                         Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -449,10 +617,27 @@ public class Controller {
         }
     }
 
+    /**
+     * Changes the textfields text to the current users username and ID.
+     *
+     * @param textFieldUser The textfield which text is to be edited.
+     */
     public void setCurrentUserIDToTextField(JTextField textFieldUser) {
         textFieldUser.setText(currentUser.getUserName() + "");
     }
 
+    /**
+     * Checks wether the subtasks start- and end date is valid. The date is
+     * rendered valid if the start and end date is within the parent task's
+     * start and enddate.
+     *
+     * @param supTaskStartDate The startdate parameter of the subtask
+     * @param supTaskEndDate The enddate parameter of the subtask
+     * @param parentStartDate The startdate of the parent task
+     * @param parentEndDate The enddate of the parent task
+     * @return result - The result indicates wether the subtask dates are valid
+     * or not. True means the dates are valid, false means they are invalid.
+     */
     public Boolean subTaskDateChecker(Date supTaskStartDate, Date supTaskEndDate, Date parentStartDate, Date parentEndDate) {
         Boolean result = true;
         if (supTaskStartDate.before(parentStartDate)
@@ -461,10 +646,16 @@ public class Controller {
                 || supTaskEndDate.after(parentEndDate)) {
             result = false;
         }
-
         return result;
     }
 
+    /**
+     * ***************************************************************************
+     */
+// FIX ME!!!
+    /**
+     * ***************************************************************************
+     */
     public void SaveChangesToTask(JTable tableAllTasks, JList listUsers, JList listUsersOnTask, JButton button, JTextField textFieldTaskName,
             JComboBox comboBoxType, JComboBox comboBoxStatus, JTextField textFieldCustomer, JComboBox comboBoxTaskLeader, JDateChooser dateChooserExpectedStart,
             JDateChooser dateChooserExpectedEnd, JTextField textFieldEstimatedTime, JComboBox comboBoxPriority, JTextArea textAreaDescription) {
@@ -482,7 +673,7 @@ public class Controller {
         } else {
             ArrayList<User> userOnTask = new ArrayList<>();
 
-            user = Controller.getUserByUserName(comboBoxTaskLeader);
+            user = getUserByUserName(comboBoxTaskLeader);
 
             System.out.println(user.getUserID());
 
@@ -527,7 +718,7 @@ public class Controller {
                 Controller.dbHandler.updateTask(task);
                 // Controller.dbHandler.addUserToAlreadyMadeTask(listUsersOnTask, task.getTaskID());
                 fillList(listUsers, Controller.userList);
-                fillTableWithTask(tableAllTasks);
+                fillTableUsingTaskList(tableAllTasks);
             } catch (SQLException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
@@ -536,6 +727,15 @@ public class Controller {
         }
     }
 
+    /**
+     * Fills the table with all users based on the Controller stored userList.
+     *
+     * @param table The table to be formated and filled with data.
+     * @throws SQLException The queried data could not be retrieved from the
+     * database.
+     * @throws IOException A connection to the server could not be established.
+     * @see #userList
+     */
     public void fillTableWithUser(JTable table) throws IOException, SQLException {
         DefaultTableModel modelTable = (DefaultTableModel) table.getModel();
         modelTable.setRowCount(0);
@@ -550,6 +750,12 @@ public class Controller {
         }
     }
 
+    /**
+     * Fills the table with all types based on the Controller stored typelist.
+     *
+     * @param table The table to be formated and filled with data.
+     * @see #typeList
+     */
     public void fillTableWithType(JTable table) {
         DefaultTableModel modelTable = (DefaultTableModel) table.getModel();
         modelTable.setRowCount(0);
@@ -561,6 +767,13 @@ public class Controller {
         }
     }
 
+    /**
+     * Fills the table with all Status possibilities based on the Controller
+     * stored statuslist.
+     *
+     * @param table The table to be formated and filled with data.
+     * @see #statusList
+     */
     public void fillTableWithStatus(JTable table) {
         DefaultTableModel modelTable = (DefaultTableModel) table.getModel();
         modelTable.setRowCount(0);
@@ -573,6 +786,13 @@ public class Controller {
         }
     }
 
+    /**
+     * Fills the combobox with all users based on the controller stored
+     * userlist.
+     *
+     * @param cb The Combobox to be filled with all users.
+     * @see #userList
+     */
     public void fillComboBoxModelWithAllUsers(JComboBox cb) {
 
         int currentUserIndex = 0;
@@ -588,10 +808,25 @@ public class Controller {
         cb.setSelectedIndex(currentUserIndex);
     }
 
+    /**
+     * Saves a file to the database.
+     *
+     * @param name The name of the file to be stored.
+     * @param inputStream The inputStream containing the file.
+     * @param taskID The ID of the task the file is attached to.
+     * @throws SQLException The queried data could not be retrieved from the
+     * database.
+     * @throws IOException A connection to the server could not be established.
+     */
     public void saveFile(String name, InputStream inputStream, int taskID) throws IOException, SQLException {
         fileDBHandler.saveFile(name, inputStream, taskID);
     }
 
+    /**
+     * Removes the task headers from the table.
+     *
+     * @param table The table to have its headers removed.
+     */
     public void removeTableHeadersTask(JTable table) {
         TableColumn column = table.getColumnModel().getColumn(0);
         table.removeColumn(column);
@@ -600,12 +835,25 @@ public class Controller {
         table.removeColumn(column);
     }
 
+    /**
+     * Removes the customer headers from the table.
+     *
+     * @param table The table to have its headers removed.
+     */
     public void removeTableHeadersCustomer(JTable table) {
         TableColumn column = table.getColumnModel().getColumn(0);
         table.removeColumn(column);
     }
 
-    public ArrayList<Task> updateTableWithNewTasks(JTable tableAllTask) throws IOException, SQLException {
+    /**
+     * Retrieves all tasks from the database and places them in the table.
+     *
+     * @param tableAllTask The table to be formated with the task data.
+     * @throws SQLException The queried data could not be retrieved from the
+     * database.
+     * @throws IOException A connection to the server could not be established.
+     */
+    public void updateTableWithNewTasks(JTable tableAllTask) throws IOException, SQLException {
         Connection conn = (Connection) dbHandler.initiateSystemDBConn()[0];
         tasks = dbHandler.initiateTaskList(conn);
 
@@ -628,11 +876,28 @@ public class Controller {
             modelTable.addRow(data);
 
         }
-        return tasks;
     }
 
+    /**
+     * Clears all currently stored data in the components
+     *
+     * @param taskName
+     * @param type
+     * @param status
+     * @param customer
+     * @param taskManager
+     * @param expStart
+     * @param expEnd
+     * @param expTimeUsed
+     * @param priority
+     * @param Listuser
+     * @param ListUsersOnTask
+     * @throws SQLException The queried data could not be retrieved from the
+     * database.
+     * @throws IOException A connection to the server could not be established.
+     */
     public void clearAll(JTextField taskName, JComboBox type, JComboBox status, JTextField customer, JComboBox taskManager,
-            JDateChooser expStart, JDateChooser expEnd, JTextField expTimeUsed, JComboBox priority, JList Listuser, JList ListUsersOnTask) {
+            JDateChooser expStart, JDateChooser expEnd, JTextField expTimeUsed, JComboBox priority, JList Listuser, JList ListUsersOnTask) throws SQLException, IOException {
 
         DefaultListModel model = (DefaultListModel) Listuser.getModel();
         DefaultListModel modelOnTask = (DefaultListModel) ListUsersOnTask.getModel();
@@ -649,32 +914,60 @@ public class Controller {
 
         model.clear();
         modelOnTask.clear();
-        try {
-            fillList(Listuser, Controller.userList);
-        } catch (SQLException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
+        fillList(Listuser, userList);
 
     }
 
+    /**
+     * Sets the user based on the login credentials
+     *
+     * @param user The user to be stored as the current user.
+     * @see #currentUser
+     */
     public void setUser(User user) {
         currentUser = user;
     }
 
+    /**
+     * Returns the current user.
+     *
+     * @return currentUser The current user based on who logged in.
+     * @see #currentUser
+     */
     public User getUser() {
         return currentUser;
     }
 
+    /**
+     * Returns the DB Handler object stored by the Controller.
+     *
+     * @return The DBHandler object.
+     * @see #dbHandler
+     */
     public DBHandler getDBHandler() {
         return dbHandler;
     }
 
+    /**
+     * Returns the TableHandler object stored by the Controller.
+     *
+     * @return The TableHandler object.
+     * @see #tHandler
+     */
     public TableHandler getTableHandler() {
         return tHandler;
     }
 
+    /**
+     * Iterates through each tasks subtasks using recursion. Each subtask to the
+     * parent task is added to the children list. Each subtask og a parent
+     * subtask is also added, and so forth.
+     *
+     * @param Id The ID of the parent task.
+     * @return children - An ArrayList containing all tasks that are a child of
+     * the parent or a child to a subtask of a parent.
+     */
     public ArrayList<Task> getAllChildrenById(int Id) {
         for (int i = 0; i < tasks.size(); i++) {
             if (tasks.get(i).getParentID() == Id && tasks.get(i).getTaskID() != Id) {
@@ -685,6 +978,13 @@ public class Controller {
         return children;
     }
 
+    /**
+     * Get the ID of the task selected on the table.
+     *
+     * @param mainTaskTable The table from which the selected taskID is to be
+     * retrieved from.
+     * @return taskID - The ID of the selected task.
+     */
     public int getSelectedTaskId(JTable mainTaskTable) {
         children.clear();
         DefaultTableModel modelTable = (DefaultTableModel) mainTaskTable.getModel();
@@ -692,29 +992,65 @@ public class Controller {
         return taskID;
     }
 
+    /**
+     * Retrieves the customerID selected using the CustomerLookUpFrame.
+     *
+     * @return CustomerID
+     * @see #customerID
+     * @see CustomerLookUpFrame
+     */
     public int getCustomerID() {
         return customerID;
     }
 
+    /**
+     * Sets the customerID using the CustomerLookupFrame.
+     *
+     * @param table The table used for chosing the customerID
+     * @see #customerID
+     * @see CustomerLookUpFrame
+     */
     public void setCustomerID(JTable table) {
         DefaultTableModel modelTable = (DefaultTableModel) table.getModel();
 
         if (table.getSelectedRowCount() != 0) {
-            Controller.customerID = Integer.parseInt(modelTable.getValueAt(table.convertRowIndexToModel(table.getSelectedRow()), 0).toString());
+            customerID = Integer.parseInt(modelTable.getValueAt(table.convertRowIndexToModel(table.getSelectedRow()), 0).toString());
             frame.setVisible(false);
         } else {
             JOptionPane.showMessageDialog(frame, "Der skal vælges en kunde", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
         }
     }
 
+    /**
+     * Opens the CustomerLookUpFrame from which a customer can be selected. The
+     * CustomerLookUpFrame allows the user to search through all customers using
+     * several differendt search criterias.
+     *
+     * @see CustomerLookUpFrame
+     */
     public void openCustomerLookUpFrame() {
         frame.setVisible(true);
     }
 
+    /**
+     * Returns the customerID stored in the Controller as a String
+     *
+     * @return customerID - The CustomerID converted to a String
+     * @see #customerID
+     */
     public String getCustomerIDToString() {
         return customerID + "";
     }
 
+    /**
+     * Returns the selected task based on taskID. The taskID is used to search
+     * through the Controller stored tasks list.
+     *
+     * @param ID The ID from which the task is identified.
+     * @return task - Returns a Task object if the task if found in the list. If
+     * the taskID didnt result in a match, null is returned.
+     * @see #tasks
+     */
     public Task getSelectedTask(int ID) {
         Task task = null;
 
@@ -726,10 +1062,18 @@ public class Controller {
         return task;
     }
 
+    /**
+     * Retrieves the TimeSpentOnTask object connecting the specified user to the
+     * specified task.
+     *
+     * @param taskID The ID of the task object.
+     * @param userID The ID of the user associated with the task.
+     * @return tsot - TimeSpentOnTask object connecting the user to the task.
+     */
     public TimeSpentOnTask getTimeSpentOnTaskFromList(int taskID, String userID) {
         TimeSpentOnTask tsot = null;
         User user = null;
-        // user = Controller.getUserByUserName(userName);
+
         for (int i = 0; i < Controller.userList.size(); i++) {
             if (Controller.userList.get(i).getUserName().equals(userID)) {
                 user = Controller.userList.get(i);
@@ -743,7 +1087,16 @@ public class Controller {
         return tsot;
     }
 
-    public void fillHomeComponets(int taskID, String userID, JTextArea textAreaComment, JComboBox comboboxStatus, JTextField textFieldTimeSpent) {
+    /**
+     * Fills the components on the homepage, based on the taskID and userID.
+     *
+     * @param taskID
+     * @param userID
+     * @param textAreaComment
+     * @param comboboxStatus
+     * @param textFieldTimeSpent
+     */
+    public void fillHomeComponents(int taskID, String userID, JTextArea textAreaComment, JComboBox comboboxStatus, JTextField textFieldTimeSpent) {
 
         TimeSpentOnTask tsot = getTimeSpentOnTaskFromList(taskID, userID);
         Task t = getSelectedTask(taskID);
@@ -752,6 +1105,20 @@ public class Controller {
         textFieldTimeSpent.setText("");
     }
 
+    /**
+     * Updates the TimeSpentOnTask object between a user and a task.
+     *
+     * @param table The table from which a task has been chosen.
+     * @param userName The userName of the user.
+     * @param comboboxStatus The combobox from which a status has been chosen.
+     * @param textfieldTimeSpent The textfield into which the user has entered
+     * total time spent.
+     * @param textAreaComment The textarea where the user can attach a comment
+     * to the TimeSpentOnTask object.
+     * @throws SQLException The queried data could not be retrieved from the
+     * database.
+     * @throws IOException A connection to the server could not be established.
+     */
     public void updateTimeSpentOnTask(JTable table, JComboBox userName, JComboBox comboboxStatus, JTextField textfieldTimeSpent, JTextArea textAreaComment) throws SQLException, IOException {
         DefaultTableModel tablemodel = (DefaultTableModel) table.getModel();
         User user = null;
@@ -763,7 +1130,7 @@ public class Controller {
             int taskID = Integer.parseInt(tablemodel.getValueAt(table.getSelectedRow(), 0).toString());
             Task task = getSelectedTask(taskID);
 
-            user = Controller.getUserByUserName(userName);
+            user = getUserByUserName(userName);
             task.setStatusByID(comboboxStatus.getSelectedIndex() + 1);
 
             for (int i = 0; i < tsotList.size(); i++) {
@@ -777,30 +1144,56 @@ public class Controller {
             if (tsot == null) {
                 tsot = new TimeSpentOnTask(taskID, user.getUserID(), Integer.parseInt(textfieldTimeSpent.getText()), textAreaComment.getText());
             }
-            Controller.dbHandler.updateTimeSpentOnTask(tsot, task);
+            dbHandler.updateTimeSpentOnTask(tsot, task);
         }
     }
 
+    /**
+     * Creates a new TimeSpentOnTask object, based on the user
+     *
+     * @param userName
+     * @throws SQLException
+     * @throws IOException
+     */
     public void createNewTimeSpentOnTask(JComboBox userName) throws SQLException, IOException {
         User user = null;
         TimeSpentOnTask tsot = null;
 
-        user = Controller.getUserByUserName(userName);
+        user = getUserByUserName(userName);
 
         tsot = new TimeSpentOnTask(user.getUserID());
-        Controller.dbHandler.createTimeSpentOnTask(tsot);
+        dbHandler.createTimeSpentOnTask(tsot);
 
     }
 
+    /**
+     * Creates a new TimeSpentOnTask object based on a quick task. A quick task
+     * is a task created with status finished as soon as it is created.
+     *
+     * @param userName
+     * @param timeSpent
+     * @param comment
+     * @throws SQLException
+     * @throws IOException
+     */
     public void createNewTimeSpentOnQuickTask(JComboBox userName, int timeSpent, String comment) throws SQLException, IOException {
         User user = null;
         TimeSpentOnTask tsot = null;
 
-        user = Controller.getUserByUserName(userName);
+        user = getUserByUserName(userName);
         tsot = new TimeSpentOnTask(user.getUserID(), timeSpent, comment);
-        Controller.dbHandler.createTimeSpentOnTask(tsot);
+        dbHandler.createTimeSpentOnTask(tsot);
     }
 
+    /**
+     * Clears the components
+     *
+     * @param textFieldTimeSpent
+     * @param textAreaComment
+     * @param textFieldQuickTaskCustomer
+     * @param textFieldQuickTaskTimeSpent
+     * @param textAreaQuickTaskComment
+     */
     public void clearHomeComponents(JTextField textFieldTimeSpent, JTextArea textAreaComment, JTextField textFieldQuickTaskCustomer, JTextField textFieldQuickTaskTimeSpent, JTextArea textAreaQuickTaskComment) {
 
         textAreaComment.setText("");
@@ -811,9 +1204,17 @@ public class Controller {
 
     }
 
-    /* Updates TimeSpentOnTask and Task list in Controller 
-     * MAY ONLY BE USED WITH THE MAINFRAMES UPDATE THREAD!
-     * 
+    /**
+     * This method updates the TimeSpentOnTask list and Task list in the
+     * Controller. The method retrieves all data from the database, handles the
+     * data and saves the new data lists in the controller overwriting the old
+     * ones. WARNING: This method is only ment to be used with the Automatic
+     * Update Thread method in the mainframe!
+     *
+     * @throws SQLException The queried data could not be retrieved from the
+     * database.
+     * @throws IOException A connection to the server could not be established.
+     * @see Mainframe#
      */
     public void updateAllContents() throws SQLException, IOException {
         Connection conn = (Connection) dbHandler.initiateSystemDBConn()[0];
@@ -839,4 +1240,72 @@ public class Controller {
         tsotList = tsotListtemp;
         tasks = tasklisttemp;
     }
+
+    public void createGUIBasedOnAccessLevel(int accessLevel, JTabbedPane tabbedPane, Controller control) throws SQLException, IOException, ClassNotFoundException {
+
+        // Admin
+        if (accessLevel == 0) {
+            tabbedPane.add("Hovedside", new Home(control));
+            tabbedPane.add("Opgaveoprettelse", new CreateTaskPanel(control));
+            tabbedPane.add("Opgavehåndtering", new TaskHandlingPanel(control));
+        } // User
+        else {
+            tabbedPane.add("Hovedside", new Home(control));
+            tabbedPane.add("Opgaveoprettelse", new CreateTaskPanel(control));
+            tabbedPane.add("Opgavehåndtering", new TaskHandlingPanel(control));
+        }
+
+    }
+
+    public void setTitle(JFrame frame) {
+
+        String userName = currentUser.getUserName();
+        String accessLevel;
+        if (currentUser.getAccessLevel() == 0) {
+            accessLevel = "Administrator";
+        } else {
+            accessLevel = "Bruger";
+        }
+        frame.setTitle(userName + " - " + accessLevel);
+
+    }
+    /*
+     * The following methods have not yet been fully developed.
+     * They are work in progress, and will be finished during the next iteration.
+     * This choice has been made by the customer, to make room for other functionalities
+     * to be finished first
+     */
+    /*
+     public void initiateAutoUpdates(Mainframe mf) {
+
+     final Thread t = new Thread(new Runnable() {
+     @Override
+     public void run() {
+     while (true) {
+     try {
+     updateAllContents();
+     updateTableWithNewTasks(tableAllTask); // 
+     Thread.sleep(60000); // Sleep one minute
+                        
+                        
+     } catch (SQLException ex) {
+     System.out.println(ex);
+     } catch (IOException ex) {
+     System.out.println(ex);
+     } catch (InterruptedException ex) {
+     System.out.println(ex);
+     }
+     }
+     }
+     });
+     t.setDaemon(true); // Setting daemon will make it close along with the JVM
+     t.start();
+     }
+    
+    
+     public void createWarningMessage(Component c, String msg){
+        
+     JOptionPane.showMessageDialog(n, "Der er opstået en fejl!", msg, customerID, c);
+     }
+     */
 }

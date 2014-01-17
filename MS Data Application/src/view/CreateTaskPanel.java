@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package view;
 
 import handlers.Controller;
@@ -13,8 +9,8 @@ import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 
 /**
- *
- * @author Nikolaj Nielsen
+ * @author Marc Hvenegaard, Mikkel Bloch & Nikolaj Nielsen
+ * @version 1.4
  */
 public class CreateTaskPanel extends javax.swing.JPanel {
 
@@ -23,7 +19,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
     public CreateTaskPanel(Controller ctrl) throws ClassNotFoundException, SQLException, IOException {
         initComponents();
         control = ctrl;
-        
+
         DefaultListModel modelOnTask = new DefaultListModel();
         listUsersOnTask.setModel(modelOnTask);
 
@@ -31,11 +27,11 @@ public class CreateTaskPanel extends javax.swing.JPanel {
         control.fillCombobox(comboBoxType, Controller.typeList);
         control.fillCombobox(comboBoxStatus, Controller.statusList);
         control.fillList(listUsers, Controller.userList);
-      //  Controller.fillCombobox(comboBoxCustomer, Controller.customerList);
-        control.fillTableWithTask(tableAllTask);
+        //  Controller.fillCombobox(comboBoxCustomer, Controller.customerList);
+        control.fillTableUsingTaskList(tableAllTask);
         control.removeTableHeadersTask(tableAllTask);
         control.tHandler.removeFinshedTaskFilter(tableAllTask);
-  
+
         dateChooserExpectedStart.setDate(control.getCurrentDate());
         dateChooserExpectedEnd.setDate(control.getCurrentDate());
 
@@ -377,8 +373,8 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
     private void buttonAddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddUserActionPerformed
 
-        control.addUserToOnTaskList(listUsers, listUsersOnTask, buttonAddUser);
-        
+        control.addUserToOnTaskList(listUsers, listUsersOnTask);
+
     }//GEN-LAST:event_buttonAddUserActionPerformed
 
     private void buttonCreateTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCreateTaskActionPerformed
@@ -396,7 +392,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
                     dateChooserExpectedEnd,
                     textFieldEstimatedTime,
                     comboBoxPriority,
-                    textAreaBeskrivelse);           
+                    textAreaBeskrivelse);
             try {
                 control.createNewTimeSpentOnTask(comboBoxUser);
             } catch (SQLException ex) {
@@ -404,7 +400,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
             } catch (IOException ex) {
                 Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
             }
-              } catch (ParseException ex) {
+        } catch (ParseException ex) {
             Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -412,7 +408,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
     private void buttonRemoveUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRemoveUserActionPerformed
 
-       control.removeUserFromTaskList(listUsers, listUsersOnTask, buttonRemoveUser);
+        control.removeUserFromTaskList(listUsers, listUsersOnTask, buttonRemoveUser);
 
     }//GEN-LAST:event_buttonRemoveUserActionPerformed
 
@@ -440,23 +436,22 @@ public class CreateTaskPanel extends javax.swing.JPanel {
     private void buttonGetCustomerIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonGetCustomerIDActionPerformed
         if (!textFieldCustomer.isEditable()) {
             System.out.println("Du kan ikke hente kunder ud når du laver en delopgave");
-        }else{
-        textFieldCustomer.setText(control.getCustomerIDToString());
+        } else {
+            textFieldCustomer.setText(control.getCustomerIDToString());
         }
     }//GEN-LAST:event_buttonGetCustomerIDActionPerformed
 
     private void CheckBoxSubStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_CheckBoxSubStateChanged
         if (CheckBoxSub.isSelected()) {
             textFieldCustomer.setEditable(false);
-        }else{
+        } else {
             textFieldCustomer.setEditable(true);
         }
-            
-                  
-            
-        
-    }//GEN-LAST:event_CheckBoxSubStateChanged
 
+
+
+
+    }//GEN-LAST:event_CheckBoxSubStateChanged
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox CheckBoxSub;
     private javax.swing.JButton buttonAddUser;
@@ -496,5 +491,4 @@ public class CreateTaskPanel extends javax.swing.JPanel {
     private javax.swing.JTextField textFieldEstimatedTime;
     private javax.swing.JTextField textFieldTaskName;
     // End of variables declaration//GEN-END:variables
-
 }

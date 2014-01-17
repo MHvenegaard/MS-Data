@@ -20,21 +20,33 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 /**
- *
- * @author Marc
+ * @author Marc Hvenegaard, Mikkel Bloch & Nikolaj Nielsen
+ * @version 1.4
  */
 public class FileDBHandler {
-    
-    public FileDBHandler() throws ClassNotFoundException{
-        
+
+    /*
+     * The FileDBHandler class Constructor. 
+     * The Constructor loads the JDBC Driver
+     */
+    public FileDBHandler() throws ClassNotFoundException {
+
         //Driveren loades - kræver at MySQL JDBC Driver er tilføjet under Libraries
         Class.forName("com.mysql.jdbc.Driver");
     }
-    
+
     /*
-     * @return Object[] returns an object array containing a created Connection- and Statement object for the File database.
-     * Object[0] is the Connection object
-     * Object[1] is the Statement object
+
+     */
+    /**
+     * Initiates a connection to the file database.
+     *
+     * @return Object[] returns an object array containing a created Connection-
+     * and Statement object for the File database. Object[0] is the Connection
+     * object Object[1] is the Statement object
+     * @throws SQLException The queried data could not be retrieved from the
+     * database.
+     * @throws IOException A connection to the server could not be established.
      */
     public Object[] initiateFileDBConn() throws IOException, SQLException {
         Properties prop = new Properties();
@@ -60,7 +72,13 @@ public class FileDBHandler {
         return returnObjects;
     }
 
-    //Save Files
+    /**
+     * Saves an input stream as a file object in the file database.
+     *
+     * @param name The name of the File
+     * @param inputStream The inputstream from which the file is created
+     * @param taskID The ID of the task to which the file is attached
+     */
     public void saveFile(String name, InputStream inputStream, int taskID) throws IOException, SQLException {
 
         Connection conn = (Connection) initiateFileDBConn()[0];
@@ -74,28 +92,27 @@ public class FileDBHandler {
         cs.execute();
     }
 
-    
-//    public ArrayList<File> getAllFilesAssociatedWithTaskID(int taskID){
-//        ArrayList<File> fileList = null;
-//        
-//        
-//        return fileList;
-//    }
-    
-    
+    /**
+     * Downloads all files associated with the taskID. All files are saved to the operating systems temporary folder.
+     * @param taskID Used to identify files attached to the Task.
+     * @return fileList - An ArrayList containing all the 
+     * @throws SQLException The queried data could not be retrieved from the
+     * database.
+     * @throws IOException A connection to the server could not be established.
+     */
     public ArrayList<File> downloadAllFilesAssociatedWithTaskID(int taskID) throws IOException, SQLException {
 
         ArrayList<File> fileList = new ArrayList();
-        
+
         Connection conn = (Connection) initiateFileDBConn()[0];
         CallableStatement cs = null;
         cs = conn.prepareCall("{CALL SP_GetAllFilesUsingTaskID(?)}");
         cs.setInt(1, taskID);
-        
+
         ResultSet rs = cs.executeQuery();
-        
+
         while (rs.next()) {
-            
+
             File file = null;
 
             String filename = rs.getString(1);
@@ -114,11 +131,7 @@ public class FileDBHandler {
             }
             fileList.add(file);
         }
-        
+
         return fileList;
     }
-    
-    
-    
-    
 }

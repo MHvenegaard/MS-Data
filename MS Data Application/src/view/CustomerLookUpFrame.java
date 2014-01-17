@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package view;
 
 import handlers.Controller;
@@ -12,14 +8,11 @@ import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /**
- *
- * @author Mikkel
+ * @author Marc Hvenegaard, Mikkel Bloch & Nikolaj Nielsen
+ * @version 1.4
  */
 public class CustomerLookUpFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form CustomerLookUpFrame
-     */
     private DefaultTableModel modelTable;
     private Controller control;
 
@@ -148,7 +141,6 @@ public class CustomerLookUpFrame extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         control.setCustomerID(tableCustomers);
     }//GEN-LAST:event_jButton1ActionPerformed
-
 //    /**
 //     * @param args the command line arguments
 //     */

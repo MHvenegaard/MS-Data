@@ -14,11 +14,15 @@ import model.Type;
 import model.User;
 
 /**
- *
- * @author Marc
+ * @author Marc Hvenegaard, Mikkel Bloch & Nikolaj Nielsen
+ * @version 1.4
  */
 public class DBHandler {
 
+    /*
+     * The DBHandler class Constructor. 
+     * The Constructor loads the JDBC Driver
+     */
     public DBHandler() throws ClassNotFoundException {
 
         //Driveren loades - kræver at MySQL JDBC Driver er tilføjet under Libraries
@@ -27,22 +31,14 @@ public class DBHandler {
     }
 
     /**
-     * *****************************************************************************
-     * NÅR DER SKAL OPRETTES ET NYT DB KALD GØR FØLGENDE: Opret nyt metodekald
-     * Kald initiate DB Conn metoden til den DB der skal benyttes Der returneres
-     * et array med et Connection og Statement object Lav nu et standard SQL
-     * kald og benyt Statement objektet til at udføre denne med. Benyt et
-     * eventuelt result sæt Do stuff Luk det eventuelle RS kald stmt.close(); på
-     * Statement objektet kald conn.close(); på Connection objektet returner
-     * eventuelt objekt/data/whatever metoden nu skulle gøre
-     * *********************************************************************** *
-     * /
-     *
-     * /
+     * Initiates a connection to the customer database.
      *
      * @return Object[] returns an object array containing a created Connection-
      * and Statement object for the Customer database. Object[0] is the
-     * Connection object Object[1] is the Statement object
+     * Connection object, Object[1] is the Statement object.
+     * @throws SQLException The queried data could not be retrieved from the
+     * database.
+     * @throws IOException A connection to the server could not be established.
      */
     public Object[] initiateCustomerDBConn() throws IOException, SQLException {
         Properties prop = new Properties();
@@ -67,12 +63,17 @@ public class DBHandler {
 
         return returnObjects;
     }
-    /*
-     * @return Object[] returns an object array containing a created Connection- and Statement object for the Employee database.
-     * Object[0] is the Connection object
-     * Object[1] is the Statement object
-     */
 
+    /**
+     * Initiates a connection to the employee database.
+     *
+     * @return Object[] returns an object array containing a created Connection-
+     * and Statement object for the Customer database. Object[0] is the
+     * Connection object, Object[1] is the Statement object.
+     * @throws SQLException The queried data could not be retrieved from the
+     * database.
+     * @throws IOException A connection to the server could not be established.
+     */
     public Object[] initiateEmployeeDBConn() throws SQLException, IOException {
         Properties prop = new Properties();
 
@@ -96,12 +97,17 @@ public class DBHandler {
 
         return returnObjects;
     }
-    /*
-     * @return Object[] returns an object array containing a created Connection- and Statement object for the System database.
-     * Object[0] is the Connection object
-     * Object[1] is the Statement object
-     */
 
+    /**
+     * Initiates a connection to the system database.
+     *
+     * @return Object[] returns an object array containing a created Connection-
+     * and Statement object for the Customer database. Object[0] is the
+     * Connection object, Object[1] is the Statement object.
+     * @throws SQLException The queried data could not be retrieved from the
+     * database.
+     * @throws IOException A connection to the server could not be established.
+     */
     public Object[] initiateSystemDBConn() throws SQLException, IOException {
         Properties prop = new Properties();
 
@@ -125,9 +131,16 @@ public class DBHandler {
 
         return objects;
     }
-    
 
-    //Get complete lists of objects by SP
+    /**
+     * Retrieves all TimeSpentOnTask objects from the database
+     *
+     * @param conn The connection object used to send statements
+     * @return tsotList - An ArrayList containing all TimeSpentOnTask objects
+     * @throws SQLException The queried data could not be retrieved from the
+     * database.
+     * @throws IOException A connection to the server could not be established.
+     */
     public ArrayList<TimeSpentOnTask> initiateTimeSpentOnTaskList(Connection conn) throws SQLException, IOException {
         ArrayList<TimeSpentOnTask> tsotList = new ArrayList();
         int taskID;
@@ -152,6 +165,16 @@ public class DBHandler {
         return tsotList;
     }
 
+    /**
+     * Updates a TimeSpentOnTask object in the database
+     *
+     * @param tsot The TimeSpentOnTask object to be saved
+     * @param task The Task the TimeSpentOnTask object is associated with
+     * @throws SQLException The queried data could not be retrieved from the
+     * database.
+     * @throws IOException A connection to the server could not be established.
+     * *
+     */
     public void updateTimeSpentOnTask(TimeSpentOnTask tsot, Task task) throws SQLException, IOException {
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
@@ -166,6 +189,14 @@ public class DBHandler {
         updateTask(task);
     }
 
+    /**
+     * Save a new TimeSpentOnTask object to the database
+     *
+     * @param tsot The TimeSpentOnTask object to be saved
+     * @throws SQLException The queried data could not be retrieved from the
+     * database.
+     * @throws IOException A connection to the server could not be established.
+     */
     public void createTimeSpentOnTask(TimeSpentOnTask tsot) throws SQLException, IOException {
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
@@ -178,7 +209,14 @@ public class DBHandler {
 
     }
 
-    //Taskadministration in SystemDB
+    /**
+     * Save a new Task object to the database
+     *
+     * @param task The task to be saved
+     * @throws SQLException The queried data could not be retrieved from the
+     * database.
+     * @throws IOException A connection to the server could not be established.
+     */
     public void createTask(Task task) throws SQLException, IOException {
         Connection conn = (Connection) initiateSystemDBConn()[0];
         java.sql.Date sqlStartDate = new java.sql.Date(task.getStartDate().getTime());
@@ -203,6 +241,15 @@ public class DBHandler {
         cs.execute();
     }
 
+    /**
+     * Save a new task object to the database. This task object has already been
+     * set to a state of finished.
+     *
+     * @param task
+     * @throws SQLException The queried data could not be retrieved from the
+     * database.
+     * @throws IOException A connection to the server could not be established.
+     */
     public void createQuickTask(Task task) throws SQLException, IOException {
         Connection conn = (Connection) initiateSystemDBConn()[0];
         java.sql.Date sqlStartDate = new java.sql.Date(task.getStartDate().getTime());
@@ -226,7 +273,15 @@ public class DBHandler {
 
         cs.execute();
     }
-    
+
+    /**
+     * Saves a subtask to the database.
+     *
+     * @param task The task object to be saved.
+     * @throws SQLException The queried data could not be retrieved from the
+     * database.
+     * @throws IOException A connection to the server could not be established.
+     */
     public void createSubTask(Task task) throws SQLException, IOException {
         Connection conn = (Connection) initiateSystemDBConn()[0];
         java.sql.Date sqlStartDate = new java.sql.Date(task.getStartDate().getTime());
@@ -250,6 +305,14 @@ public class DBHandler {
         cs.execute();
     }
 
+    /**
+     * Updates a Task object in the database.
+     *
+     * @param task The Task object to be updated in the database.
+     * @throws SQLException The queried data could not be retrieved from the
+     * database.
+     * @throws IOException A connection to the server could not be established.
+     */
     public void updateTask(Task task) throws SQLException, IOException {
         Connection conn = (Connection) initiateSystemDBConn()[0];
         java.sql.Date sqlStartDate = new java.sql.Date(task.getStartDate().getTime());
@@ -271,7 +334,16 @@ public class DBHandler {
         cs.execute();
     }
 
-    //Typeadministration in SystemDB
+    /**
+     * Saves a new task Type
+     *
+     * @param name The name of the type to be saved.
+     * @param description A description of the type to be saved.
+     * @throws SQLException The queried data could not be retrieved from the
+     * database.
+     * @throws IOException A connection to the server could not be established.
+     *
+     */
     public void createType(String name, String description) throws SQLException, IOException {
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
@@ -281,6 +353,16 @@ public class DBHandler {
         cs.execute();
     }
 
+    /**
+     * Updates a type in the database.
+     *
+     * @param typeID The ID for the type object.
+     * @param name The name of the type.
+     * @param description The description of the type.
+     * @throws SQLException The queried data could not be retrieved from the
+     * database.
+     * @throws IOException A connection to the server could not be established.
+     */
     public void updateType(int typeID, String name, String description) throws SQLException, IOException {
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
@@ -291,6 +373,14 @@ public class DBHandler {
         cs.execute();
     }
 
+    /**
+     * Deletes a type from the database
+     *
+     * @param typeID The ID of the type to be deleted
+     * @throws SQLException The queried data could not be retrieved from the
+     * database.
+     * @throws IOException A connection to the server could not be established.
+     */
     public void deleteType(int typeID) throws SQLException, IOException {
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
@@ -300,7 +390,15 @@ public class DBHandler {
         cs.execute();
     }
 
-    //Statusadministration in SystemDB
+    /**
+     * Saves a new Status object to the database
+     *
+     * @param name The name of the Status.
+     * @param description The description of the Status.
+     * @throws SQLException The queried data could not be retrieved from the
+     * database.
+     * @throws IOException A connection to the server could not be established.
+     */
     public void createStatus(String name, String description) throws SQLException, IOException {
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
@@ -310,6 +408,16 @@ public class DBHandler {
         cs.execute();
     }
 
+    /**
+     * Updates a Status object in the database.
+     *
+     * @param statusID The Status object ID
+     * @param name The Status objects name
+     * @param description The Status objects description
+     * @throws SQLException The queried data could not be retrieved from the
+     * database.
+     * @throws IOException A connection to the server could not be established.
+     */
     public void updateStatus(int statusID, String name, String description) throws SQLException, IOException {
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
@@ -320,6 +428,13 @@ public class DBHandler {
         cs.execute();
     }
 
+    /**
+     *
+     * @param statusID
+     * @throws SQLException The queried data could not be retrieved from the
+     * database.
+     * @throws IOException A connection to the server could not be established.
+     */
     public void deleteStatus(int statusID) throws SQLException, IOException {
         Connection conn = (Connection) initiateSystemDBConn()[0];
 
@@ -329,7 +444,16 @@ public class DBHandler {
         cs.execute();
     }
 
-    //Add users to tasks
+    /**
+     * Adds all users from the list to a task.
+     *
+     * @param list The JList containing all the user objects to be added to the
+     * task.
+     * @throws SQLException The queried data could not be retrieved from the
+     * database.
+     * @throws IOException A connection to the server could not be established.
+     * @see DBHandler#createNewTask()
+     */
     public void addUserToTask(JList list) throws SQLException, IOException {
         ArrayList<User> userList = new ArrayList<>();
         Connection conn = (Connection) initiateSystemDBConn()[0];
@@ -347,6 +471,17 @@ public class DBHandler {
         }
     }
 
+    /**
+     * Adds a user to a task that has already been created.
+     *
+     * @param list The JList containing all the user objects to be added to the
+     * task.
+     * @param taskID The taskID of the task object the users will be attached
+     * to.
+     * @throws SQLException The queried data could not be retrieved from the
+     * database.
+     * @throws IOException A connection to the server could not be established.
+     */
     public void addUserToAlreadyMadeTask(JList list, int taskID) throws SQLException, IOException {
         ArrayList<User> userList = new ArrayList<>();
         Connection conn = (Connection) initiateSystemDBConn()[0];
@@ -365,43 +500,14 @@ public class DBHandler {
         }
     }
 
-    //Useradministration in UserDB
-    public void createUserInUserDB(String userID, String userName, String firstName, String lastName, String password, int accessLevel) throws SQLException, IOException {
-        Connection conn = (Connection) initiateEmployeeDBConn()[0];
-
-        CallableStatement cs = null;
-        cs = conn.prepareCall("{call createUser(?,?,?,?,?,?)}");
-        cs.setString(1, null);
-        cs.setString(2, userName);
-        cs.setString(3, firstName);
-        cs.setString(4, lastName);
-        cs.setString(5, password);
-        cs.setInt(6, accessLevel);
-        cs.execute();
-    }
-
-    public void updateUserInUserDB(String userName, String firstName, String lastName, String password, int accessLevel, int userID) throws SQLException, IOException {
-        Connection conn = (Connection) initiateEmployeeDBConn()[0];
-
-        CallableStatement cs = null;
-        cs = conn.prepareCall("{call updateUser(?,?,?,?,?,?)}");
-        cs.setString(1, userName);
-        cs.setString(2, firstName);
-        cs.setString(3, lastName);
-        cs.setString(4, password);
-        cs.setInt(5, accessLevel);
-        cs.setInt(6, userID);
-        cs.execute();
-    }
-
-    public void deleteUserInUserDB(int userID) throws SQLException, IOException {
-        Connection conn = (Connection) initiateEmployeeDBConn()[0];
-        CallableStatement cs = null;
-        cs = conn.prepareCall("{call deleteUser(?)}");
-        cs.setInt(1, userID);
-        cs.execute();
-    }
-
+    /**
+     * Retrieves all User objects from the database and adds them to a list.
+     *
+     * @param conn The connection to be used for the query
+     * @return userList - An ArrayList containing all User objects.
+     * @throws SQLException The queried data could not be retrieved from the
+     * database.
+     */
     public ArrayList<User> initiateUserList(Connection conn) throws SQLException {
         int userID;
         String userName;
@@ -425,6 +531,14 @@ public class DBHandler {
         return userList;
     }
 
+    /**
+     * Retrieves all Type objects from the database and adds them to a list.
+     *
+     * @param conn The connection to be used for the query
+     * @return typeList - An ArrayList containing all Type objects.
+     * @throws SQLException The queried data could not be retrieved from the
+     * database.
+     */
     public ArrayList<Type> initiateTypeList(Connection conn) throws SQLException {
         int typeID;
         String typeName;
@@ -445,6 +559,14 @@ public class DBHandler {
         return typeList;
     }
 
+    /**
+     * Retrieves all Status objects from the database and adds them to a list.
+     *
+     * @param conn The connection to be used for the query
+     * @return statusList - An ArrayList containing all Status objects.
+     * @throws SQLException The queried data could not be retrieved from the
+     * database.
+     */
     public ArrayList<Statuss> initiateStatusList(Connection conn) throws SQLException {
         String statusName;
         int statusID;
@@ -464,6 +586,14 @@ public class DBHandler {
         return statusList;
     }
 
+    /**
+     * Retrieves all Customer objects from the database and adds them to a list.
+     *
+     * @param conn The connection to be used for the query
+     * @return customerList - An ArrayList containing all Customer objects.
+     * @throws SQLException The queried data could not be retrieved from the
+     * database.
+     */
     public ArrayList<Customer> initiateCustomerList(Connection conn) throws SQLException, IOException {
         int customerID;
         int customerPhone;
@@ -489,6 +619,14 @@ public class DBHandler {
 
     }
 
+    /**
+     * Retrieves all Task objects from the database and adds them to a list.
+     *
+     * @param conn The connection to be used for the query
+     * @return tasks - An ArrayList containing all Task objects.
+     * @throws SQLException The queried data could not be retrieved from the
+     * database.
+     */
     public ArrayList<Task> initiateTaskList(Connection conn) throws SQLException {
         ArrayList<Task> tasks = new ArrayList<>();
         int taskID;
@@ -549,6 +687,14 @@ public class DBHandler {
 
     }
 
+    /**
+     * Removes all users associated with a task.
+     *
+     * @param taskID The ID of the task from which all users shall be removed.
+     * @throws SQLException The queried data could not be retrieved from the
+     * database.
+     * @throws IOException A connection to the server could not be established.
+     */
     public void SPremoveAllUsersOnTask(int taskID) throws SQLException, IOException {
         Connection conn = (Connection) initiateSystemDBConn()[0];
 

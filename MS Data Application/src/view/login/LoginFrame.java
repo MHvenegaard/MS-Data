@@ -14,7 +14,8 @@ import model.User;
 import view.Mainframe;
 
 /**
- * @author Marc *
+ * @author Marc Hvenegaard, Mikkel Bloch & Nikolaj Nielsen
+ * @version 1.4
  */
 public class LoginFrame extends javax.swing.JFrame {
 
@@ -195,7 +196,7 @@ public class LoginFrame extends javax.swing.JFrame {
         updateProgressView();
         try {
 
-            control.initiateController();
+            control.updateControllerData();
 
 
 
@@ -217,7 +218,7 @@ public class LoginFrame extends javax.swing.JFrame {
 
         try {
 
-            Controller.dbHandler.initiateSystemDBConn();
+            control.dbHandler.initiateSystemDBConn();
 
         } catch (SQLException ex) {
             // A connection couldnt be established to the database
@@ -238,7 +239,7 @@ public class LoginFrame extends javax.swing.JFrame {
 
         try {
 
-            Controller.dbHandler.initiateEmployeeDBConn();
+            control.dbHandler.initiateEmployeeDBConn();
 
         } catch (SQLException ex) {
             // A connection couldnt be established to the database
@@ -259,7 +260,7 @@ public class LoginFrame extends javax.swing.JFrame {
 
         try {
 
-            Controller.dbHandler.initiateCustomerDBConn();
+            control.dbHandler.initiateCustomerDBConn();
 
         } catch (SQLException ex) {
             // A connection couldnt be established to the database
@@ -278,8 +279,8 @@ public class LoginFrame extends javax.swing.JFrame {
         loginStatus = 4;
         updateProgressView();
         try {
-
-            Controller.fileDBHandler.initiateFileDBConn();
+            
+            control.fileDBHandler.initiateFileDBConn();
 
         } catch (SQLException ex) {
             // A connection couldnt be established to the database
