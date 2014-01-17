@@ -21,13 +21,6 @@ public class Type {
     }
 
     /**
-     * @param typeName
-     */
-    public Type(String typeName) {
-        this.typeName = typeName;
-    }
-
-    /**
      * @return - typeID
      */
     public int getTypeID() {
