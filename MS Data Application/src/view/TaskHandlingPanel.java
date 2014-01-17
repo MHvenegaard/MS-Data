@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -406,8 +407,10 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         try {
             control.updateTableWithNewTasks(tableAllTasks);
            
-        } catch (IOException | SQLException ex) {
-            Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Der er opstået en fejl ! Kunne ikke skabe forbindelse til serveren", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Der er opstået en fejl ! Der kunne ikke hentes data fra databasen?", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -453,10 +456,13 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
                     listUsersOnTask);
 
             control.lockAllComponetsInTaskHandling(textFieldTaskName, textAreaDescription, textFieldCustomer, textFieldTime, comboBoxPriority, comboBoxProjectLeader, comboBoxStatus, comboBoxType, dateChooserExpectedStart, dateChooserExpectedEnd, buttonFindCustomer, buttonGetCustomerID, buttonAddUser, buttonRemoveUser, buttonSaveChanges);
-        } catch (SQLException ex) {
-        } catch (IOException ex) {
-        } catch (ParseException ex) {
-            Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex1) {
+            JOptionPane.showMessageDialog(null, "Der er opstået en fejl ! Der kunne ikke hentes data fra databasen?", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
+        } catch (IOException ex2) {
+            JOptionPane.showMessageDialog(null, "Der er opstået en fejl ! Kunne ikke skabe forbindelse til serveren", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
+        } catch (ParseException ex3) {
+            JOptionPane.showMessageDialog(null, "Der er opstået en fejl ! Det er ikke muligt at omforme "+ex3, "Fejlrapport", JOptionPane.WARNING_MESSAGE);
+            
         }
 
     }//GEN-LAST:event_buttonSaveChangesActionPerformed
@@ -481,8 +487,10 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
                     comboBoxPriority,
                     textAreaDescription);
 
-        } catch (SQLException | IOException ex) {
-            Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Der er opstået en fejl ! Der kunne ikke hentes data fra databasen?", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Der er opstået en fejl ! Kunne ikke skabe forbindelse til serveren", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_tableAllTasksMouseReleased
 

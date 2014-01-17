@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 /**
  * @author Marc Hvenegaard, Mikkel Bloch & Nikolaj Nielsen
@@ -27,7 +28,6 @@ public class CreateTaskPanel extends javax.swing.JPanel {
         control.fillCombobox(comboBoxType, Controller.typeList);
         control.fillCombobox(comboBoxStatus, Controller.statusList);
         control.fillList(listUsers, Controller.userList);
-        //  Controller.fillCombobox(comboBoxCustomer, Controller.customerList);
         control.fillTableUsingTaskList(tableAllTask);
         control.removeTableHeadersTask(tableAllTask);
         control.tHandler.removeFinshedTaskFilter(tableAllTask);
@@ -400,11 +400,11 @@ public class CreateTaskPanel extends javax.swing.JPanel {
             control.createNewTimeSpentOnTask(comboBoxUser);
 
         } catch (ParseException ex) {
-            Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Der er opstået en fejl ! Det er ikke muligt at omforme "+ex, "Fejlrapport", JOptionPane.WARNING_MESSAGE);
         } catch (SQLException ex) {
-            Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Der er opstået en fejl ! Der kunne ikke hentes data fra databasen?", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
         } catch (IOException ex) {
-            Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Der er opstået en fejl ! Kunne ikke skabe forbindelse til serveren", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
         }
 
     }//GEN-LAST:event_buttonCreateTaskActionPerformed
@@ -425,10 +425,10 @@ public class CreateTaskPanel extends javax.swing.JPanel {
     private void buttonUpdateTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonUpdateTableActionPerformed
         try {
             control.updateTableWithNewTasks(tableAllTask);
+       } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Der er opstået en fejl ! Der kunne ikke hentes data fra databasen?", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
         } catch (IOException ex) {
-            Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Der er opstået en fejl ! Kunne ikke skabe forbindelse til serveren", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_buttonUpdateTableActionPerformed
 

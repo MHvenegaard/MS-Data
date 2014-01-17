@@ -3,8 +3,10 @@ package view;
 import handlers.Controller;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -24,10 +26,10 @@ public class CustomerLookUpFrame extends javax.swing.JFrame {
             control.removeTableHeadersCustomer(tableCustomers);
             control.fillTableWithCustomer(tableCustomers);
 
-        } catch (IOException ex) {
-            Logger.getLogger(CustomerLookUpFrame.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(CustomerLookUpFrame.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Der er opstået en fejl ! Der kunne ikke hentes data fra databasen?", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Der er opstået en fejl ! Kunne ikke skabe forbindelse til serveren", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
         }
 
     }

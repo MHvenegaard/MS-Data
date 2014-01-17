@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -385,8 +386,10 @@ public class Home extends javax.swing.JPanel {
                     comboBoxStatus,
                     textFieldMinutesSpent,
                     textAreaAddComment);
-        } catch (SQLException | IOException ex) {
-            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Der er opstået en fejl ! Der kunne ikke hentes data fra databasen?", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Der er opstået en fejl ! Kunne ikke skabe forbindelse til serveren", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
         }
 
     }//GEN-LAST:event_buttonInReportActionPerformed
@@ -401,8 +404,10 @@ public class Home extends javax.swing.JPanel {
         try {
             control.fillTableWithList(tableAllSubTasks, control.getAllChildrenById(control.getSelectedTaskId(tableAllTasks)));
 
-        } catch (IOException | SQLException ex) {
-            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Der er opstået en fejl ! Der kunne ikke hentes data fra databasen?", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Der er opstået en fejl ! Kunne ikke skabe forbindelse til serveren", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
         }
         DefaultTableModel modelTable = (DefaultTableModel) tableAllTasks.getModel();
         labelTaskID.setText(modelTable.getValueAt(tableAllTasks.convertRowIndexToModel(tableAllTasks.getSelectedRow()), 0).toString());
@@ -427,8 +432,10 @@ public class Home extends javax.swing.JPanel {
                     comboBoxStatus,
                     textFieldMinutesSpent,
                     textAreaAddComment);
-        } catch (SQLException | IOException ex) {
-            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Der er opstået en fejl ! Der kunne ikke hentes data fra databasen?", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Der er opstået en fejl ! Kunne ikke skabe forbindelse til serveren", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_buttonInReportHeadtaskActionPerformed
 
@@ -447,12 +454,12 @@ public class Home extends javax.swing.JPanel {
                     comboboxSortTaskAfterUser,
                     textFieldQuickTaskTimeSpent,
                     textAreaQuickTaskDescription);
-        } catch (SQLException ex) {
-            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParseException ex) {
-            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Der er opstået en fejl ! Det er ikke muligt at omforme "+ex, "Fejlrapport", JOptionPane.WARNING_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Der er opstået en fejl ! Der kunne ikke hentes data fra databasen?", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Der er opstået en fejl ! Kunne ikke skabe forbindelse til serveren", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_buttonCreateQuickTaskActionPerformed
 
@@ -466,8 +473,10 @@ public class Home extends javax.swing.JPanel {
             control.fillTableUsingTaskList(tableAllTasks);
             //Controller.tHandler.removeFinshedTaskFilter(tableAllTasks);
             Controller.tHandler.applyRowFilter(tableAllTasks, textFieldUser.getText(), 6);
-        } catch (IOException | SQLException ex) {
-            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Der er opstået en fejl ! Der kunne ikke hentes data fra databasen?", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Der er opstået en fejl ! Kunne ikke skabe forbindelse til serveren", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
         }
 
     }
