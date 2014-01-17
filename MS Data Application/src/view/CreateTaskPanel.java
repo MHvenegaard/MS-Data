@@ -37,7 +37,6 @@ public class CreateTaskPanel extends javax.swing.JPanel {
         } catch (ParseException ex) {
             Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
 
     }
 
@@ -400,13 +399,14 @@ public class CreateTaskPanel extends javax.swing.JPanel {
             control.createNewTimeSpentOnTask(comboBoxUser);
 
         } catch (ParseException ex) {
-            JOptionPane.showMessageDialog(null, "Der er opstået en fejl ! Det er ikke muligt at omforme "+ex, "Fejlrapport", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Der er opstået en fejl ! Det er ikke muligt at omforme " + ex, "Fejlrapport", JOptionPane.WARNING_MESSAGE);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Der er opstået en fejl ! Der kunne ikke hentes data fra databasen?", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "Der er opstået en fejl ! Kunne ikke skabe forbindelse til serveren", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(null, "Der må kun benyttes tal i forventet tidsforbrug og kunde felterne", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
         }
-
     }//GEN-LAST:event_buttonCreateTaskActionPerformed
 
     private void buttonRemoveUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRemoveUserActionPerformed
@@ -425,7 +425,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
     private void buttonUpdateTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonUpdateTableActionPerformed
         try {
             control.updateTableWithNewTasks(tableAllTask);
-       } catch (SQLException ex) {
+        } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Der er opstået en fejl ! Der kunne ikke hentes data fra databasen?", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "Der er opstået en fejl ! Kunne ikke skabe forbindelse til serveren", "Fejlrapport", JOptionPane.WARNING_MESSAGE);

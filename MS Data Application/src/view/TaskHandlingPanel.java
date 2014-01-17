@@ -21,7 +21,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     private DefaultListModel model;
     private DefaultListModel modelOnTask;
     private DefaultTableModel modelTable;
-    public int customerid;                    
+    public int customerid;
     private Controller control;
 
     public TaskHandlingPanel(Controller ctrl) throws ClassNotFoundException, SQLException, IOException {
@@ -406,7 +406,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             control.updateTableWithNewTasks(tableAllTasks);
-           
+
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "Der er opstået en fejl ! Kunne ikke skabe forbindelse til serveren", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
         } catch (SQLException ex) {
@@ -461,8 +461,9 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         } catch (IOException ex2) {
             JOptionPane.showMessageDialog(null, "Der er opstået en fejl ! Kunne ikke skabe forbindelse til serveren", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
         } catch (ParseException ex3) {
-            JOptionPane.showMessageDialog(null, "Der er opstået en fejl ! Det er ikke muligt at omforme "+ex3, "Fejlrapport", JOptionPane.WARNING_MESSAGE);
-            
+            JOptionPane.showMessageDialog(null, "Der er opstået en fejl ! Det er ikke muligt at omforme " + ex3, "Fejlrapport", JOptionPane.WARNING_MESSAGE);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(null, "Der må kun benyttes tal i kunde, forventet start, forventet slut og forventet tidsforbrugs felterne", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
         }
 
     }//GEN-LAST:event_buttonSaveChangesActionPerformed
