@@ -65,7 +65,7 @@ public class FileDBHandler {
         Connection conn = DriverManager.getConnection(connectString, dbuser, dbpassword);
         Statement stmt = conn.createStatement();
 
-        Object[] returnObjects = new Object[2];
+        Object[] returnObjects = new Object[2];  
         returnObjects[0] = conn;
         returnObjects[1] = stmt;
 

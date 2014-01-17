@@ -460,6 +460,8 @@ public class Home extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Der er opstået en fejl ! Der kunne ikke hentes data fra databasen?", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "Der er opstået en fejl ! Kunne ikke skabe forbindelse til serveren", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
+        } catch (NumberFormatException ex){
+            JOptionPane.showMessageDialog(null, "Der må kun benyttes tal i kunde og tid brugt felterne", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_buttonCreateQuickTaskActionPerformed
 
