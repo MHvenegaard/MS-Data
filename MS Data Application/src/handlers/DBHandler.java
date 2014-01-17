@@ -693,20 +693,4 @@ public class DBHandler {
 
     }
 
-    /**
-     * Removes all users associated with a task.
-     *
-     * @param taskID The ID of the task from which all users shall be removed.
-     * @throws SQLException The queried data could not be retrieved from the
-     * database.
-     * @throws IOException A connection to the server could not be established.
-     */
-    public void SPremoveAllUsersOnTask(int taskID) throws SQLException, IOException {
-        Connection conn = (Connection) initiateSystemDBConn()[0];
-
-        CallableStatement cs = null;
-        cs = conn.prepareCall("{call deleteAllUserOnTask(?)}");
-        cs.setInt(1, taskID);
-        cs.executeQuery();
-    }
 }

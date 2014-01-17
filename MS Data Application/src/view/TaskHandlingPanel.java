@@ -39,7 +39,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         control.fillList(listUsers, Controller.userList);
         control.fillTableUsingTaskList(tableAllTasks);
         control.removeTableHeadersTask(tableAllTasks);
-        control.tHandler.removeFinshedTaskFilter(tableAllTasks);
+        control.removeFinshedTaskFilter(tableAllTasks);
         control.lockAllComponetsInTaskHandling(textFieldTaskName, textAreaDescription, textFieldCustomer, textFieldTime, comboBoxPriority, comboBoxProjectLeader, comboBoxStatus, comboBoxType, dateChooserExpectedStart, dateChooserExpectedEnd, buttonFindCustomer, buttonGetCustomerID, buttonAddUser, buttonRemoveUser, buttonSaveChanges);
 
         addActionListerner();
@@ -423,7 +423,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
 
     private void buttonFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonFilterActionPerformed
 
-        control.tHandler.applyRowFilter(tableAllTasks, textFieldSorting, comboboxSorting.getSelectedIndex());
+        control.applyRowFilter(tableAllTasks, textFieldSorting, comboboxSorting.getSelectedIndex());
 
     }//GEN-LAST:event_buttonFilterActionPerformed
 
@@ -513,7 +513,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         textFieldSorting.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                control.tHandler.applyRowFilter(tableAllTasks, textFieldSorting, comboboxSorting.getSelectedIndex());
+                control.applyRowFilter(tableAllTasks, textFieldSorting, comboboxSorting.getSelectedIndex());
             }
         });
     }

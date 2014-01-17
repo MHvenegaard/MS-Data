@@ -137,7 +137,7 @@ public class CustomerLookUpFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonSortingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSortingActionPerformed
-        control.tHandler.applyRowFilter(tableCustomers, textFieldSorting, comboBoxSortingItem.getSelectedIndex() + 1);
+        control.applyRowFilter(tableCustomers, textFieldSorting, comboBoxSortingItem.getSelectedIndex() + 1);
     }//GEN-LAST:event_buttonSortingActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

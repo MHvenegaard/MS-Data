@@ -415,7 +415,7 @@ public class Home extends javax.swing.JPanel {
     }//GEN-LAST:event_tableAllTasksMouseReleased
 
     private void comboboxSortTaskAfterUserItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboboxSortTaskAfterUserItemStateChanged
-        Controller.tHandler.applyRowFilter(tableAllTasks, comboboxSortTaskAfterUser.getSelectedItem().toString(), 6);
+        control.applyRowFilter(tableAllTasks, comboboxSortTaskAfterUser.getSelectedItem().toString(), 6);
         DefaultTableModel modelTable = (DefaultTableModel) tableAllSubTasks.getModel();
         modelTable.setRowCount(0);
 
@@ -472,7 +472,7 @@ public class Home extends javax.swing.JPanel {
             control.setComboboxCurrentUser(comboboxSortTaskAfterUser);
             control.fillTableUsingTaskList(tableAllTasks);
             //Controller.tHandler.removeFinshedTaskFilter(tableAllTasks);
-            Controller.tHandler.applyRowFilter(tableAllTasks, textFieldUser.getText(), 6);
+            control.applyRowFilter(tableAllTasks, textFieldUser.getText(), 6);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Der er opstået en fejl ! Der kunne ikke hentes data fra databasen?", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
         } catch (IOException ex) {
