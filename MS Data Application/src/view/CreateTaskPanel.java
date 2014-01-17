@@ -381,7 +381,6 @@ public class CreateTaskPanel extends javax.swing.JPanel {
         try {
             control.createNewTask(tableAllTask,
                     listUsersOnTask,
-                    buttonCreateTask,
                     CheckBoxSub,
                     textFieldTaskName,
                     comboBoxType,
@@ -393,14 +392,14 @@ public class CreateTaskPanel extends javax.swing.JPanel {
                     textFieldEstimatedTime,
                     comboBoxPriority,
                     textAreaBeskrivelse);
-            try {
-                control.createNewTimeSpentOnTask(comboBoxUser);
-            } catch (SQLException ex) {
-                Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
-            }
+
+            control.createNewTimeSpentOnTask(comboBoxUser);
+
         } catch (ParseException ex) {
+            Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
             Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -408,7 +407,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
     private void buttonRemoveUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRemoveUserActionPerformed
 
-        control.removeUserFromTaskList(listUsers, listUsersOnTask, buttonRemoveUser);
+        control.removeUserFromTaskList(listUsers, listUsersOnTask);
 
     }//GEN-LAST:event_buttonRemoveUserActionPerformed
 
@@ -447,8 +446,6 @@ public class CreateTaskPanel extends javax.swing.JPanel {
         } else {
             textFieldCustomer.setEditable(true);
         }
-
-
 
 
     }//GEN-LAST:event_CheckBoxSubStateChanged

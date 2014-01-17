@@ -411,7 +411,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void buttonRemoveUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRemoveUserActionPerformed
-        control.removeUserFromTaskList(listUsers, listUsersOnTask, buttonRemoveUser);
+        control.removeUserFromTaskList(listUsers, listUsersOnTask);
     }//GEN-LAST:event_buttonRemoveUserActionPerformed
 
     private void tableAllTasksMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableAllTasksMouseClicked
@@ -428,7 +428,6 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
             control.SaveChangesToTask(tableAllTasks,
                     listUsers,
                     listUsersOnTask,
-                    buttonSaveChanges,
                     textFieldTaskName,
                     comboBoxType,
                     comboBoxStatus,
@@ -468,7 +467,6 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
                     Integer.parseInt(modelTable.getValueAt(tableAllTasks.convertRowIndexToModel(tableAllTasks.getSelectedRow()), 0).toString()),
                     listUsers,
                     listUsersOnTask,
-                    tableAllTasks,
                     textFieldTaskName,
                     comboBoxType,
                     comboBoxStatus,

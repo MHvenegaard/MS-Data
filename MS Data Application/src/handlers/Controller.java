@@ -2,7 +2,6 @@ package handlers;
 
 import com.mysql.jdbc.Connection;
 import com.toedter.calendar.JDateChooser;
-import java.awt.Component;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
@@ -321,15 +320,11 @@ public class Controller {
      *
      * @return date - The Date object containing the formated date.
      */
-    public Date getCurrentDate() {
+    public Date getCurrentDate() throws ParseException {
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String str = sdf.format(date);
-        try {
-            date = new SimpleDateFormat("dd/MM/yyyy").parse(str);
-        } catch (ParseException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        date = new SimpleDateFormat("dd/MM/yyyy").parse(str);
         return date;
 
     }
@@ -441,12 +436,14 @@ public class Controller {
     }
 
     /**
+     * Removes the targeted user from the list with all users and add's the user
+     * to the list with users on task
      *
-     * @param listUsers
-     * @param listUsersOnTask
+     * @param listUsers The JList of users
+     * @param listUsersOnTask The JList of users on task
      * @param button
      */
-    public void removeUserFromTaskList(JList listUsers, JList listUsersOnTask, JButton button) {
+    public void removeUserFromTaskList(JList listUsers, JList listUsersOnTask) {
         int index = listUsersOnTask.getSelectedIndex();
         DefaultListModel model = (DefaultListModel) listUsers.getModel();
         DefaultListModel modelOnTask = (DefaultListModel) listUsersOnTask.getModel();
@@ -461,12 +458,38 @@ public class Controller {
             modelOnTask.removeElement(listUsersOnTask.getSelectedValue());
 
         } else {
-            JOptionPane.showMessageDialog(button, "Der ikke valgt nogen medarbejder", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Der ikke valgt nogen medarbejder", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
         }
     }
 
-    public void fillComponents(int taskID, JList userList, JList userOnTaskLlist, JTable tableAllTasks, JTextField textFieldTaskName, JComboBox comboBoxType, JComboBox comboBoxStatus,
-            JTextField comboBoxCustomer, JComboBox comboBoxProjectLeader, JDateChooser dateChooserExpectedStart, JDateChooser dateChooserExpectedEnd,
+    /**
+     * Creates a new quick task
+     *
+     * @param taskID The task ID
+     * @param userList The JList that contains a list of users
+     * @param userOnTaskLlist The JList that contains the list of users on the
+     * task
+     * @param textFieldTaskName The JTextField that contains the task name
+     * @param comboBoxType The JComboBox that contains the type
+     * @param comboBoxStatus The JComboBox that contains the status
+     * @param comboBoxCustomer The JComboBox that contains the customer
+     * @param comboBoxTaskLeader The JComboBox that contains the task leader
+     * @param textAreaDescription The JTextArea that contains the description
+     * @param textFieldTime The JTextField that contains the time spent on the
+     * task
+     * @param comboBoxPriority The JComboBox that contains the priority
+     * @param dateChooserExpectedStart The JDateChooser that contains the
+     * expected start
+     * @param dateChooserExpectedEnd The JDateChooser that contains the expected
+     * end
+     * @throws SQLException The queried data could not be retrieved from the
+     * database.
+     * @throws IOException A connection to the server could not be established.
+     *
+     *
+     */
+    public void fillComponents(int taskID, JList userList, JList userOnTaskLlist, JTextField textFieldTaskName, JComboBox comboBoxType, JComboBox comboBoxStatus,
+            JTextField comboBoxCustomer, JComboBox comboBoxTaskLeader, JDateChooser dateChooserExpectedStart, JDateChooser dateChooserExpectedEnd,
             JTextField textFieldTime, JComboBox comboBoxPriority, JTextArea textAreaDescription) throws SQLException, IOException {
 
         Task t = getSelectedTask(taskID);
@@ -475,7 +498,7 @@ public class Controller {
         comboBoxType.setSelectedItem(t.getType());
         comboBoxStatus.setSelectedItem(t.getStatus());
         comboBoxCustomer.setText(t.getCustomer().getCustomerID() + "");
-        comboBoxProjectLeader.setSelectedIndex((t.getUser().getUserID()) - 1);
+        comboBoxTaskLeader.setSelectedIndex((t.getUser().getUserID()) - 1);
         textFieldTime.setText(t.getEstimatedtime() + "");
         comboBoxPriority.setSelectedItem(t.getPriority());
         textAreaDescription.setText(t.getDescription());
@@ -483,16 +506,28 @@ public class Controller {
         dateChooserExpectedEnd.setDate(t.getEndDate());
 
         fillAndRemoveFromUserLists(userList, userOnTaskLlist, t.getUserOnTask());
-
     }
 
-    public void createQuickTask(JTextField textFieldCustomer, JComboBox comboBoxType, JComboBox comboBoxTaskLeader, JTextField textFieldtimeSpent, JTextArea textAreaDescription) throws SQLException, IOException {
+    /**
+     * Creates a new quick task
+     *
+     * @param comboBoxType The JComboBox that contains type
+     * @param textFieldCustomer The JTextField that contains the customer
+     * @param comboBoxTaskLeader The JComboBox that contains the task leader
+     * @param textFieldtimeSpent The JTextField that contains the time spent on
+     * the task
+     * @param textAreaDescription The JTextArea that contains the description
+     * @throws SQLException The queried data could not be retrieved from the
+     * database.
+     * @throws IOException A connection to the server could not be established.
+     *
+     *
+     */
+    public void createQuickTask(JTextField textFieldCustomer, JComboBox comboBoxType, JComboBox comboBoxTaskLeader, JTextField textFieldtimeSpent, JTextArea textAreaDescription) throws SQLException, IOException, ParseException {
         Customer customer = null;
         Type type = null;
         Statuss status = null;
         User user = null;
-
-        System.out.println("Area : " + textAreaDescription.getText() + "time : " + textFieldtimeSpent.getText() + "customer : " + textFieldCustomer.getText());
 
         if (textFieldCustomer.getText().isEmpty() || textFieldtimeSpent.getText().isEmpty() || textAreaDescription.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Der skal angives en kunde, brugt tid samt en kommentar", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
@@ -533,9 +568,34 @@ public class Controller {
         }
     }
 
-    public void createNewTask(JTable tableAllTask, JList listUsersOnTask, JButton button, JCheckBox checkBoxSub, JTextField textFieldTaskName, JComboBox comboBoxType, JComboBox comboBoxStatus,
+    /**
+     * Creates a new task
+     *
+     * @param tableAllTask The table with tasks
+     * @param checkBoxSub The JCheckBox that marks if it is task or part task
+     * @param listUsersOnTask The JList that contains all users on the task
+     * @param textFieldTaskName The JTextField that contains the task name
+     * @param comboBoxType The JComboBox that contains type
+     * @param comboBoxStatus The JComboBox that contains status
+     * @param textFieldCustomer The JTextField that contains the customer
+     * @param comboBoxTaskLeader The JComboBox that contains the task leader
+     * @param dateChooserExpectedStart The JDateChooser that contains the start
+     * date
+     * @param dateChooserExpectedEnd The JDateChooser that contains the end date
+     * @param textFieldEstimatedTime The JTextField that contains the estimated
+     * time
+     * @param comboBoxPriority The JComboBox that contains the priority
+     * @param textAreaDescription The JTextArea that contains the description
+     * @throws ParseException The data could not be parsed to wanted type
+     * @throws SQLException The queried data could not be retrieved from the
+     * database.
+     * @throws IOException A connection to the server could not be established.
+     *
+     *
+     */
+    public void createNewTask(JTable tableAllTask, JList listUsersOnTask, JCheckBox checkBoxSub, JTextField textFieldTaskName, JComboBox comboBoxType, JComboBox comboBoxStatus,
             JTextField textFieldCustomer, JComboBox comboBoxTaskLeader, JDateChooser dateChooserExpectedStart, JDateChooser dateChooserExpectedEnd,
-            JTextField textFieldEstimatedTime, JComboBox comboBoxPriority, JTextArea textAreaDescription) throws ParseException {
+            JTextField textFieldEstimatedTime, JComboBox comboBoxPriority, JTextArea textAreaDescription) throws ParseException, SQLException, IOException {
 
         DefaultTableModel modelTable = (DefaultTableModel) tableAllTask.getModel();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -558,63 +618,50 @@ public class Controller {
             }
         }
 
-        try {
-            if (taskName.isEmpty()) {
-                JOptionPane.showMessageDialog(button, "Der er opstået en fejl ! Er alle felter med stjerne udfyldt? Og er den valgte slut dato efter start dato?", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
-            } else if (checkBoxSub.isSelected()) {
-                Date ParentStartDate = sdf.parse(modelTable.getValueAt(tableAllTask.getSelectedRow(), 7).toString());
-                Date ParentEndDate = sdf.parse(modelTable.getValueAt(tableAllTask.getSelectedRow(), 8).toString());
-                Boolean taskChecker = subTaskDateChecker(taskStartDate, taskEndDate, ParentStartDate, ParentEndDate);
-                System.out.println("taskChecker : " + taskChecker);
+        if (taskName.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Der er opstået en fejl ! Er alle felter med stjerne udfyldt? Og er den valgte slut dato efter start dato?", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
+        } else if (checkBoxSub.isSelected()) {
+            Date ParentStartDate = sdf.parse(modelTable.getValueAt(tableAllTask.getSelectedRow(), 7).toString());
+            Date ParentEndDate = sdf.parse(modelTable.getValueAt(tableAllTask.getSelectedRow(), 8).toString());
+            Boolean taskChecker = subTaskDateChecker(taskStartDate, taskEndDate, ParentStartDate, ParentEndDate);
 
-                if (tableAllTask.getSelectedRow() != -1 && taskChecker) {
-                    taskID = Integer.parseInt(modelTable.getValueAt(tableAllTask.getSelectedRow(), 0).toString());
+            if (tableAllTask.getSelectedRow() != -1 && taskChecker) {
+                taskID = Integer.parseInt(modelTable.getValueAt(tableAllTask.getSelectedRow(), 0).toString());
 
-                    try {
-                        Task task = new Task(taskName,
-                                taskID,
-                                type,
-                                status,
-                                customer,
-                                user,
-                                taskStartDate,
-                                taskEndDate,
-                                estimatedTime,
-                                priority,
-                                taskDescription);
+                Task task = new Task(taskName,
+                        taskID,
+                        type,
+                        status,
+                        customer,
+                        user,
+                        taskStartDate,
+                        taskEndDate,
+                        estimatedTime,
+                        priority,
+                        taskDescription);
 
-                        dbHandler.createSubTask(task);
-                        dbHandler.addUserToTask(listUsersOnTask);
+                dbHandler.createSubTask(task);
+                dbHandler.addUserToTask(listUsersOnTask);
 
-                    } catch (SQLException | IOException ex) {
-                        Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-
-                } else {
-                    JOptionPane.showMessageDialog(button, "Der ikke valgt nogen opgave at lav delopgave til eller den valgte dato ikke er inde for opgaven", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
-                }
-            } else if (!checkBoxSub.isSelected()) {
-                try {
-                    Task task = new Task(taskName,
-                            type,
-                            status,
-                            customer,
-                            user,
-                            taskStartDate,
-                            taskEndDate,
-                            estimatedTime,
-                            priority,
-                            taskDescription);
-                    Controller.dbHandler.createTask(task);
-                    Controller.dbHandler.addUserToTask(listUsersOnTask);
-                } catch (SQLException | IOException ex) {
-                    Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
-
-                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Der ikke valgt nogen opgave at lav delopgave til eller den valgte dato ikke er inde for opgaven", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
             }
-        } catch (NumberFormatException ne) {
-            System.out.println("Forventet tidsforbrug skal være et tal");
+        } else if (!checkBoxSub.isSelected()) {
+
+            Task task = new Task(taskName,
+                    type,
+                    status,
+                    customer,
+                    user,
+                    taskStartDate,
+                    taskEndDate,
+                    estimatedTime,
+                    priority,
+                    taskDescription);
+            Controller.dbHandler.createTask(task);
+            Controller.dbHandler.addUserToTask(listUsersOnTask);
         }
+
     }
 
     /**
@@ -650,15 +697,32 @@ public class Controller {
     }
 
     /**
-     * ***************************************************************************
+     * Saves changes to the given ask
+     *
+     * @param tableAllTasks The table with tasks
+     * @param listUsers The JList that refills
+     * @param listUsersOnTask The JList that contains all users on the task
+     * @param textFieldTaskName The JTextField that contains the task name
+     * @param comboBoxType The JComboBox that contains type
+     * @param comboBoxStatus The JComboBox that contains status
+     * @param textFieldCustomer The JTextField that contains the customer
+     * @param comboBoxTaskLeader The JComboBox that contains the task leader
+     * @param dateChooserExpectedStart The JDateChooser that contains the start
+     * date
+     * @param dateChooserExpectedEnd The JDateChooser that contains the end date
+     * @param textFieldEstimatedTime The JTextField that contains the estimated
+     * time
+     * @param comboBoxPriority The JComboBox that contains the priority
+     * @param textAreaDescription The JTextArea that contains the description
+     * @throws SQLException The queried data could not be retrieved from the
+     * database.
+     * @throws IOException A connection to the server could not be established.
+     *
+     *
      */
-// FIX ME!!!
-    /**
-     * ***************************************************************************
-     */
-    public void SaveChangesToTask(JTable tableAllTasks, JList listUsers, JList listUsersOnTask, JButton button, JTextField textFieldTaskName,
+    public void SaveChangesToTask(JTable tableAllTasks, JList listUsers, JList listUsersOnTask, JTextField textFieldTaskName,
             JComboBox comboBoxType, JComboBox comboBoxStatus, JTextField textFieldCustomer, JComboBox comboBoxTaskLeader, JDateChooser dateChooserExpectedStart,
-            JDateChooser dateChooserExpectedEnd, JTextField textFieldEstimatedTime, JComboBox comboBoxPriority, JTextArea textAreaDescription) {
+            JDateChooser dateChooserExpectedEnd, JTextField textFieldEstimatedTime, JComboBox comboBoxPriority, JTextArea textAreaDescription) throws SQLException, IOException {
 
         System.out.println("Start saveChangesToTask");
         DefaultTableModel modelTable = (DefaultTableModel) tableAllTasks.getModel();
@@ -669,7 +733,7 @@ public class Controller {
         User user = null;
 
         if (textFieldTaskName.getText() == "" || textFieldCustomer.getText() == "" || textFieldEstimatedTime.getText() == "") {
-            JOptionPane.showMessageDialog(button, "Der skal angives et opgave navn, kunde og en estimering af tid der skal bruges", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Der skal angives et opgave navn, kunde og en estimering af tid der skal bruges", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
         } else {
             ArrayList<User> userOnTask = new ArrayList<>();
 
@@ -713,17 +777,11 @@ public class Controller {
                     Integer.parseInt(comboBoxPriority.getSelectedItem().toString()),
                     textAreaDescription.getText(),
                     userOnTask);
-            try {
-                System.out.println("Task userID : " + user.getUserID());
-                Controller.dbHandler.updateTask(task);
-                // Controller.dbHandler.addUserToAlreadyMadeTask(listUsersOnTask, task.getTaskID());
-                fillList(listUsers, Controller.userList);
-                fillTableUsingTaskList(tableAllTasks);
-            } catch (SQLException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-            }
+
+            Controller.dbHandler.updateTask(task);
+            // Controller.dbHandler.addUserToAlreadyMadeTask(listUsersOnTask, task.getTaskID());
+            fillList(listUsers, Controller.userList);
+            fillTableUsingTaskList(tableAllTasks);
         }
     }
 
@@ -897,7 +955,7 @@ public class Controller {
      * @throws IOException A connection to the server could not be established.
      */
     public void clearAll(JTextField taskName, JComboBox type, JComboBox status, JTextField customer, JComboBox taskManager,
-            JDateChooser expStart, JDateChooser expEnd, JTextField expTimeUsed, JComboBox priority, JList Listuser, JList ListUsersOnTask) throws SQLException, IOException {
+            JDateChooser expStart, JDateChooser expEnd, JTextField expTimeUsed, JComboBox priority, JList Listuser, JList ListUsersOnTask) throws SQLException, IOException, ParseException {
 
         DefaultListModel model = (DefaultListModel) Listuser.getModel();
         DefaultListModel modelOnTask = (DefaultListModel) ListUsersOnTask.getModel();
@@ -1006,7 +1064,7 @@ public class Controller {
     /**
      * Sets the customerID using the CustomerLookupFrame.
      *
-     * @param table The table used for chosing the customerID
+     * @param table The table used for choosing the customerID
      * @see #customerID
      * @see CustomerLookUpFrame
      */
@@ -1024,7 +1082,7 @@ public class Controller {
     /**
      * Opens the CustomerLookUpFrame from which a customer can be selected. The
      * CustomerLookUpFrame allows the user to search through all customers using
-     * several differendt search criterias.
+     * several different search criteria.
      *
      * @see CustomerLookUpFrame
      */
@@ -1097,12 +1155,10 @@ public class Controller {
      * @param textFieldTimeSpent
      */
     public void fillHomeComponents(int taskID, String userID, JTextArea textAreaComment, JComboBox comboboxStatus, JTextField textFieldTimeSpent) {
-
         TimeSpentOnTask tsot = getTimeSpentOnTaskFromList(taskID, userID);
         Task t = getSelectedTask(taskID);
         textAreaComment.setText(tsot.getComment());
         comboboxStatus.setSelectedItem(t.getStatus());
-        textFieldTimeSpent.setText("");
     }
 
     /**
@@ -1163,7 +1219,6 @@ public class Controller {
 
         tsot = new TimeSpentOnTask(user.getUserID());
         dbHandler.createTimeSpentOnTask(tsot);
-
     }
 
     /**
