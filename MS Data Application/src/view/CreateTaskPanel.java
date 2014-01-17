@@ -31,9 +31,13 @@ public class CreateTaskPanel extends javax.swing.JPanel {
         control.fillTableUsingTaskList(tableAllTask);
         control.removeTableHeadersTask(tableAllTask);
         control.tHandler.removeFinshedTaskFilter(tableAllTask);
-
-        dateChooserExpectedStart.setDate(control.getCurrentDate());
-        dateChooserExpectedEnd.setDate(control.getCurrentDate());
+        try {
+            dateChooserExpectedStart.setDate(control.getCurrentDate());
+            dateChooserExpectedEnd.setDate(control.getCurrentDate());
+        } catch (ParseException ex) {
+            Logger.getLogger(CreateTaskPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
 
     }
 

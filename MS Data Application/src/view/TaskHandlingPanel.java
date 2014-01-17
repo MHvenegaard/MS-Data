@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -454,6 +455,8 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
             control.lockAllComponetsInTaskHandling(textFieldTaskName, textAreaDescription, textFieldCustomer, textFieldTime, comboBoxPriority, comboBoxProjectLeader, comboBoxStatus, comboBoxType, dateChooserExpectedStart, dateChooserExpectedEnd, buttonFindCustomer, buttonGetCustomerID, buttonAddUser, buttonRemoveUser, buttonSaveChanges);
         } catch (SQLException ex) {
         } catch (IOException ex) {
+        } catch (ParseException ex) {
+            Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_buttonSaveChangesActionPerformed
