@@ -19,18 +19,21 @@ import model.User;
  */
 public class DBHandler {
 
+<<<<<<< HEAD
     /*
      * The DBHandler class Constructor. 
      * The Constructor loads the JDBC Driver
+=======
+    /**
+     * @throws ClassNotFoundException
+>>>>>>> d35f0a3fc87e82ca65cba00388e34b11a87f06ba
      */
     public DBHandler() throws ClassNotFoundException {
-
-        //Driveren loades - kræver at MySQL JDBC Driver er tilføjet under Libraries
         Class.forName("com.mysql.jdbc.Driver");
-
     }
 
     /**
+<<<<<<< HEAD
      * Initiates a connection to the customer database.
      *
      * @return Object[] returns an object array containing a created Connection-
@@ -39,6 +42,25 @@ public class DBHandler {
      * @throws SQLException The queried data could not be retrieved from the
      * database.
      * @throws IOException A connection to the server could not be established.
+=======
+     * *****************************************************************************
+     * NÅR DER SKAL OPRETTES ET NYT DB KALD GØR FØLGENDE: Opret nyt metodekald
+     * Kald initiate DB Conn metoden til den DB der skal benyttes Der returneres
+     * et array med et Connection og Statement object Lav nu et standard SQL
+     * kald og benyt Statement objektet til at udføre denne med. Benyt et
+     * eventuelt result sæt Do stuff Luk det eventuelle RS kald stmt.close(); på
+     * Statement objektet kald conn.close(); på Connection objektet returner
+     * eventuelt objekt/data/whatever metoden nu skulle gøre
+     * *****************************************************************************
+     */
+    
+    /**
+     * @return Object[] returns an object array containing a created Connection-
+     * and Statement object for the Customer database. Object[0] is the
+     * Connection object Object[1] is the Statement object
+     * @throws java.io.IOException
+     * @throws java.sql.SQLException
+>>>>>>> d35f0a3fc87e82ca65cba00388e34b11a87f06ba
      */
     public Object[] initiateCustomerDBConn() throws IOException, SQLException {
         Properties prop = new Properties();
@@ -63,6 +85,7 @@ public class DBHandler {
 
         return returnObjects;
     }
+<<<<<<< HEAD
 
     /**
      * Initiates a connection to the employee database.
@@ -73,6 +96,15 @@ public class DBHandler {
      * @throws SQLException The queried data could not be retrieved from the
      * database.
      * @throws IOException A connection to the server could not be established.
+=======
+    
+    /**
+     * @return Object[] returns an object array containing a created Connection- and Statement object for the Employee database.
+     * Object[0] is the Connection object
+     * Object[1] is the Statement object
+     * @throws java.sql.SQLException
+     * @throws java.io.IOException
+>>>>>>> d35f0a3fc87e82ca65cba00388e34b11a87f06ba
      */
     public Object[] initiateEmployeeDBConn() throws SQLException, IOException {
         Properties prop = new Properties();
@@ -97,6 +129,7 @@ public class DBHandler {
 
         return returnObjects;
     }
+<<<<<<< HEAD
 
     /**
      * Initiates a connection to the system database.
@@ -107,6 +140,15 @@ public class DBHandler {
      * @throws SQLException The queried data could not be retrieved from the
      * database.
      * @throws IOException A connection to the server could not be established.
+=======
+    
+    /**
+     * @return Object[] returns an object array containing a created Connection- and Statement object for the System database.
+     * Object[0] is the Connection object
+     * Object[1] is the Statement object
+     * @throws java.sql.SQLException
+     * @throws java.io.IOException
+>>>>>>> d35f0a3fc87e82ca65cba00388e34b11a87f06ba
      */
     public Object[] initiateSystemDBConn() throws SQLException, IOException {
         Properties prop = new Properties();
@@ -133,6 +175,7 @@ public class DBHandler {
     }
 
     /**
+<<<<<<< HEAD
      * Retrieves all TimeSpentOnTask objects from the database
      *
      * @param conn The connection object used to send statements
@@ -140,6 +183,12 @@ public class DBHandler {
      * @throws SQLException The queried data could not be retrieved from the
      * database.
      * @throws IOException A connection to the server could not be established.
+=======
+     * @param conn 
+     * @return
+     * @throws SQLException
+     * @throws IOException 
+>>>>>>> d35f0a3fc87e82ca65cba00388e34b11a87f06ba
      */
     public ArrayList<TimeSpentOnTask> initiateTimeSpentOnTaskList(Connection conn) throws SQLException, IOException {
         ArrayList<TimeSpentOnTask> tsotList = new ArrayList();
@@ -274,6 +323,7 @@ public class DBHandler {
         cs.execute();
     }
 
+<<<<<<< HEAD
     /**
      * Saves a subtask to the database.
      *
@@ -282,6 +332,8 @@ public class DBHandler {
      * database.
      * @throws IOException A connection to the server could not be established.
      */
+=======
+>>>>>>> d35f0a3fc87e82ca65cba00388e34b11a87f06ba
     public void createSubTask(Task task) throws SQLException, IOException {
         Connection conn = (Connection) initiateSystemDBConn()[0];
         java.sql.Date sqlStartDate = new java.sql.Date(task.getStartDate().getTime());
