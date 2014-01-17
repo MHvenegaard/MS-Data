@@ -520,6 +520,7 @@ public class Controller {
      * @throws SQLException The queried data could not be retrieved from the
      * database.
      * @throws IOException A connection to the server could not be established.
+     * @throws ParseException Can not parse the String to Integer
      *
      *
      */
@@ -723,8 +724,6 @@ public class Controller {
     public void SaveChangesToTask(JTable tableAllTasks, JList listUsers, JList listUsersOnTask, JTextField textFieldTaskName,
             JComboBox comboBoxType, JComboBox comboBoxStatus, JTextField textFieldCustomer, JComboBox comboBoxTaskLeader, JDateChooser dateChooserExpectedStart,
             JDateChooser dateChooserExpectedEnd, JTextField textFieldEstimatedTime, JComboBox comboBoxPriority, JTextArea textAreaDescription) throws SQLException, IOException {
-
-        System.out.println("Start saveChangesToTask");
         DefaultTableModel modelTable = (DefaultTableModel) tableAllTasks.getModel();
         DefaultListModel modelOnTask = (DefaultListModel) listUsersOnTask.getModel();
         Type type = null;
@@ -738,8 +737,6 @@ public class Controller {
             ArrayList<User> userOnTask = new ArrayList<>();
 
             user = getUserByUserName(comboBoxTaskLeader);
-
-            System.out.println(user.getUserID());
 
             for (int i = 0; i < Controller.statusList.size(); i++) {
                 if (Controller.statusList.get(i).getStatussName().equals(comboBoxStatus.getSelectedItem().toString())) {
@@ -764,7 +761,7 @@ public class Controller {
             }
 
             //Create new task object
-            Task task = new Task(Integer.parseInt(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 0).toString()),
+            Task task = new Task(Integer.parseInt(modelTable.getValueAt(tableAllTasks.convertRowIndexToModel(tableAllTasks.getSelectedRow()), 0).toString()),
                     Integer.parseInt(modelTable.getValueAt(tableAllTasks.getSelectedRow(), 1).toString()),
                     textFieldTaskName.getText(),
                     type,
@@ -1183,16 +1180,19 @@ public class Controller {
         if (textfieldTimeSpent.getText().isEmpty() || textAreaComment.getText().isEmpty() || table.getSelectedRowCount() == 0) {
             JOptionPane.showMessageDialog(null, "Der skal angives hvilken opgave der skal indrapportes samt tid brugt og en kommentar", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
         } else {
-            int taskID = Integer.parseInt(tablemodel.getValueAt(table.getSelectedRow(), 0).toString());
+            int taskID = Integer.parseInt(tablemodel.getValueAt(table.convertRowIndexToModel(table.getSelectedRow()), 0).toString());
             Task task = getSelectedTask(taskID);
 
             user = getUserByUserName(userName);
             task.setStatusByID(comboboxStatus.getSelectedIndex() + 1);
 
             for (int i = 0; i < tsotList.size(); i++) {
-                if (tsotList.get(i).getTaskID() == taskID && user.getUserName().equals(userName)) {
+                if (tsotList.get(i).getTaskID() == taskID && user.getUserName().equals(userName.getSelectedItem().toString())) {
                     tsot = tsotList.get(i);
-                    int totalTimeSpent = tsot.getTimeSpent() + Integer.parseInt(textfieldTimeSpent.getText());
+                    int totalTimeSpent = tsot.getTimeSpent();
+                    System.out.println("Før tid sammenlægning: " + totalTimeSpent);
+                    totalTimeSpent = totalTimeSpent + Integer.parseInt(textfieldTimeSpent.getText());
+                    System.out.println("EFTER : " + totalTimeSpent);
                     tsot.setTimeSpent(totalTimeSpent);
                     tsot.setComment(textAreaComment.getText());
                 }

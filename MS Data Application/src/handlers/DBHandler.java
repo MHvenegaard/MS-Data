@@ -325,6 +325,7 @@ public class DBHandler {
 
         CallableStatement cs;
         cs = conn.prepareCall("{call updateTask(?,?,?,?,?,?,?,?,?,?,?)}");
+        System.out.println("db TaskID: " + task.getTaskID());
         cs.setInt(1, task.getTaskID());
         cs.setString(2, task.getTaskName());
         cs.setInt(3, task.getType().getTypeID());
