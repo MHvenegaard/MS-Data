@@ -661,7 +661,8 @@ public class Controller {
                     priority,
                     taskDescription);
             Controller.dbHandler.createTask(task);
-            Controller.dbHandler.addUserToTask(listUsersOnTask);
+            createNewTimeSpentOnTaskWithUserOnTaskList(listUsersOnTask);
+           // Controller.dbHandler.addUserToTask(listUsersOnTask);
         }
 
     }
@@ -1212,6 +1213,32 @@ public class Controller {
         dbHandler.createTimeSpentOnTask(tsot);
     }
 
+    /**
+     * Creates a new TimeSpentOnTask object, based on the user
+     *
+     * @param userOnTaskList
+     * @throws SQLException
+     * @throws IOException
+     */
+    public void createNewTimeSpentOnTaskWithUserOnTaskList(JList userOnTaskList) throws SQLException, IOException {
+        DefaultListModel model = (DefaultListModel) userOnTaskList.getModel();
+        User user = null;
+        
+        TimeSpentOnTask tsot = null;
+        System.out.println("modelSize"+ model.size());
+        for (int i = 0; i < model.size(); i++) {
+            
+            user = (User) model.get(i);
+            tsot = new TimeSpentOnTask(user.getUserID());
+            dbHandler.createTimeSpentOnTask(tsot);
+            System.out.println("opret timeSpentOnTask");
+        }
+
+       // user = getUserByUserName(userName);
+
+        
+    }
+    
     /**
      * Creates a new TimeSpentOnTask object based on a quick task. A quick task
      * is a task created with status finished as soon as it is created.

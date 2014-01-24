@@ -382,6 +382,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
     private void buttonCreateTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCreateTaskActionPerformed
         try {
+            
             control.createNewTask(tableAllTask,
                     listUsersOnTask,
                     CheckBoxSub,
@@ -397,6 +398,8 @@ public class CreateTaskPanel extends javax.swing.JPanel {
                     textAreaBeskrivelse);
 
             control.createNewTimeSpentOnTask(comboBoxUser);
+            
+          
 
         } catch (ParseException ex) {
             JOptionPane.showMessageDialog(null, "Der er opstået en fejl ! Det er ikke muligt at omforme " + ex, "Fejlrapport", JOptionPane.WARNING_MESSAGE);
