@@ -441,7 +441,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
     private void buttonGetCustomerIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonGetCustomerIDActionPerformed
         if (!textFieldCustomer.isEditable()) {
-            System.out.println("Du kan ikke hente kunder ud når du laver en delopgave");
+             JOptionPane.showMessageDialog(null, "Du kan ikke hente kunder ud når du laver en delopgave", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
         } else {
             textFieldCustomer.setText(control.getCustomerIDToString());
         }
