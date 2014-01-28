@@ -68,8 +68,8 @@
                               <Component id="jScrollPane1" min="-2" pref="104" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="buttonRemoveUser" max="32767" attributes="0"/>
                                   <Component id="buttonAddUser" max="32767" attributes="0"/>
-                                  <Component id="buttonRemoveUser" min="-2" pref="132" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="jScrollPane2" min="-2" pref="104" max="-2" attributes="0"/>
@@ -78,7 +78,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jScrollPane4" pref="753" max="32767" attributes="0"/>
+                                  <Component id="jScrollPane4" pref="733" max="32767" attributes="0"/>
                                   <Group type="102" attributes="0">
                                       <Component id="CheckBoxSub" min="-2" pref="198" max="-2" attributes="0"/>
                                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -198,7 +198,7 @@
                       <Component id="buttonCreateTask" min="-2" pref="56" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="167" max="32767" attributes="0"/>
+              <EmptySpace pref="163" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -233,6 +233,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="buttonRemoveUser">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/ressources/Back16.gif"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Fjern medarbejder"/>
       </Properties>
       <Events>
@@ -360,6 +363,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="buttonAddUser">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/ressources/Forward16.gif"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Tilf&#xf8;j medarbejder"/>
       </Properties>
       <Events>
@@ -368,6 +374,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="buttonCreateTask">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/ressources/Save24.gif"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Opret opgave"/>
       </Properties>
       <Events>
@@ -490,6 +499,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="buttonUpdateTable">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/ressources/Refresh16.gif"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Update"/>
       </Properties>
       <Events>
@@ -524,6 +536,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="buttonGetCustomerID">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/ressources/Save16.gif"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Set kundeID"/>
       </Properties>
       <Events>

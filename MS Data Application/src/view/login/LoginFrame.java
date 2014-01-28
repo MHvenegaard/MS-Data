@@ -22,9 +22,10 @@ public class LoginFrame extends javax.swing.JFrame {
     private int loginStatus;
     private Controller control;
 
-    public LoginFrame() {
+    public LoginFrame() throws IOException {
 
-
+        Image image = ImageIO.read(getClass().getResource("/ressources/ms-teknik-logo.jpg"));
+        setIconImage(image);
         loginStatus = 0;
 
         initComponents();
@@ -380,6 +381,9 @@ public class LoginFrame extends javax.swing.JFrame {
             Image image = ImageIO.read(getClass().getResource("/ressources/ms-teknik-logo.jpg"));
             mf.setIconImage(image);
             mf.setVisible(true);
+            
+            this.setVisible(false);
+            this.dispose();
 
         } catch (ClassNotFoundException ex) {
             setWarningMessage("Brugergrænsefladen kunne ikke initialiseres.. Prøv igen");
@@ -480,11 +484,8 @@ public class LoginFrame extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    LoginFrame login = new LoginFrame();
-                    Image image = ImageIO.read(getClass().getResource("/ressources/ms-teknik-logo.jpg"));
-                    login.setLocationRelativeTo(null);
-                    login.setIconImage(image);
-                    login.setVisible(true);
+                    Controller.createLoginScreen();
+                    
 
                 } catch (IOException ex) {
                     Logger.getLogger(LoginFrame.class

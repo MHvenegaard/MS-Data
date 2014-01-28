@@ -84,13 +84,15 @@ public class CustomerLookUpFrame extends javax.swing.JFrame {
         tableCustomers.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tableCustomers);
 
-        buttonSorting.setText("Sorter");
+        buttonSorting.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ressources/Find16.gif"))); // NOI18N
+        buttonSorting.setText("Find");
         buttonSorting.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonSortingActionPerformed(evt);
             }
         });
 
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ressources/Import16.gif"))); // NOI18N
         jButton1.setText("Hent kunde");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -109,8 +111,10 @@ public class CustomerLookUpFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(comboBoxSortingItem, 0, 113, Short.MAX_VALUE)
-                        .addComponent(buttonSorting)
-                        .addComponent(textFieldSorting))
+                        .addComponent(textFieldSorting)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(10, 10, 10)
+                            .addComponent(buttonSorting)))
                     .addComponent(jButton1))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -126,9 +130,9 @@ public class CustomerLookUpFrame extends javax.swing.JFrame {
                         .addComponent(comboBoxSortingItem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(textFieldSorting, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(8, 8, 8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(buttonSorting)
-                        .addGap(121, 121, 121)
+                        .addGap(123, 123, 123)
                         .addComponent(jButton1)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );

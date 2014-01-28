@@ -2,6 +2,7 @@ package handlers;
 
 import com.mysql.jdbc.Connection;
 import com.toedter.calendar.JDateChooser;
+import java.awt.Image;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
@@ -11,8 +12,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -34,6 +38,7 @@ import view.CustomerLookUpFrame;
 import view.Home;
 import view.Mainframe;
 import view.TaskHandlingPanel;
+import view.login.LoginFrame;
 
 /**
  * @author Marc Hvenegaard, Mikkel Bloch & Nikolaj Nielsen
@@ -662,7 +667,7 @@ public class Controller {
                     taskDescription);
             Controller.dbHandler.createTask(task);
             createNewTimeSpentOnTaskWithUserOnTaskList(listUsersOnTask);
-           // Controller.dbHandler.addUserToTask(listUsersOnTask);
+            // Controller.dbHandler.addUserToTask(listUsersOnTask);
         }
 
     }
@@ -1223,22 +1228,22 @@ public class Controller {
     public void createNewTimeSpentOnTaskWithUserOnTaskList(JList userOnTaskList) throws SQLException, IOException {
         DefaultListModel model = (DefaultListModel) userOnTaskList.getModel();
         User user = null;
-        
+
         TimeSpentOnTask tsot = null;
-        System.out.println("modelSize"+ model.size());
+        System.out.println("modelSize" + model.size());
         for (int i = 0; i < model.size(); i++) {
-            
+
             user = (User) model.get(i);
             tsot = new TimeSpentOnTask(user.getUserID());
             dbHandler.createTimeSpentOnTask(tsot);
             System.out.println("opret timeSpentOnTask");
         }
 
-       // user = getUserByUserName(userName);
+        // user = getUserByUserName(userName);
 
-        
+
     }
-    
+
     /**
      * Creates a new TimeSpentOnTask object based on a quick task. A quick task
      * is a task created with status finished as soon as it is created.
@@ -1277,7 +1282,7 @@ public class Controller {
 
     }
 
-     /**
+    /**
      * NÅR DER SKAL GØRES BRUG AF APPLYROWFILTER: table sættes til den ønsket
      * tablet der skal filteres. field sættes til textFieldet hvor teksten der
      * skal filteres efter skrives. VIGTIGT - Det er vigtigt at itemsne i
@@ -1291,8 +1296,9 @@ public class Controller {
      * valgt i combox
      */
     /**
-     * Filters the table to show only task with inserted field and filters tasks with
-     * status "Afsluttet" away
+     * Filters the table to show only task with inserted field and filters tasks
+     * with status "Afsluttet" away
+     *
      * @param table The targeted jTable
      * @param field The jTextField where the text that is going to filtered by
      * @param combobox It is important that the items in the combobox is in the
@@ -1314,13 +1320,14 @@ public class Controller {
     }
 
     /**
-     * Filters the table to show only task with inserted String str and filters tasks with
-     * status "Afsluttet" away
+     * Filters the table to show only task with inserted String str and filters
+     * tasks with status "Afsluttet" away
+     *
      * @param table The targeted jTable
      * @param str The String str is the text that is going to filtered by
-     * @param int It is important that the items in the combobox is in the
-     * same order as in the table. If the table contains ID, Name, Surname,
-     * then the comboboxs items must be in the same order!
+     * @param int It is important that the items in the combobox is in the same
+     * order as in the table. If the table contains ID, Name, Surname, then the
+     * comboboxs items must be in the same order!
      */
     public void applyRowFilter(JTable table, String str, int selectedIndex) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
@@ -1339,6 +1346,7 @@ public class Controller {
 
     /**
      * Filters all tasks that have the status "Afsluttet" away
+     *
      * @param table The targeted jTable
      */
     public void removeFinshedTaskFilter(JTable table) {
@@ -1352,10 +1360,8 @@ public class Controller {
         andFilters.add(RowFilter.notFilter(RowFilter.regexFilter("Afsluttet", 4)));
 
         sorter.setRowFilter(RowFilter.andFilter(andFilters));
-     }
+    }
 
-    
-    
     /**
      * This method updates the TimeSpentOnTask list and Task list in the
      * Controller. The method retrieves all data from the database, handles the
@@ -1400,6 +1406,7 @@ public class Controller {
             tabbedPane.add("Hovedside", new Home(control));
             tabbedPane.add("Opgaveoprettelse", new CreateTaskPanel(control));
             tabbedPane.add("Opgavehåndtering", new TaskHandlingPanel(control));
+            tabbedPane.setIconAt(0, new ImageIcon("Home16.gif"));
         } // User
         else {
             tabbedPane.add("Hovedside", new Home(control));
@@ -1460,4 +1467,10 @@ public class Controller {
      JOptionPane.showMessageDialog(n, "Der er opstået en fejl!", msg, customerID, c);
      }
      */
+
+    public static void createLoginScreen() throws IOException {
+        LoginFrame login = new LoginFrame();
+        login.setLocationRelativeTo(null);
+        login.setVisible(true);
+    }
 }

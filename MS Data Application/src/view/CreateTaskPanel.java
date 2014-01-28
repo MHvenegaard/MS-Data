@@ -95,6 +95,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
         jLabel4.setText("Kunde");
 
+        buttonRemoveUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ressources/Back16.gif"))); // NOI18N
         buttonRemoveUser.setText("Fjern medarbejder");
         buttonRemoveUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -141,6 +142,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
         listUsers.setFocusTraversalPolicyProvider(true);
         jScrollPane1.setViewportView(listUsers);
 
+        buttonAddUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ressources/Forward16.gif"))); // NOI18N
         buttonAddUser.setText("Tilføj medarbejder");
         buttonAddUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -148,6 +150,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
             }
         });
 
+        buttonCreateTask.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ressources/Save24.gif"))); // NOI18N
         buttonCreateTask.setText("Opret opgave");
         buttonCreateTask.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -202,6 +205,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
             }
         });
 
+        buttonUpdateTable.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ressources/Refresh16.gif"))); // NOI18N
         buttonUpdateTable.setText("Update");
         buttonUpdateTable.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -218,6 +222,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
             }
         });
 
+        buttonGetCustomerID.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ressources/Save16.gif"))); // NOI18N
         buttonGetCustomerID.setText("Set kundeID");
         buttonGetCustomerID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -273,14 +278,14 @@ public class CreateTaskPanel extends javax.swing.JPanel {
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(buttonAddUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(buttonRemoveUser, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(buttonRemoveUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(buttonAddUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(18, 18, 18)
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 753, Short.MAX_VALUE)
+                                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 733, Short.MAX_VALUE)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(CheckBoxSub, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -370,7 +375,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(44, 44, 44)
                         .addComponent(buttonCreateTask, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(167, Short.MAX_VALUE))
+                .addContainerGap(163, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

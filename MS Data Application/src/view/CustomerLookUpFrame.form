@@ -30,8 +30,11 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
                       <Component id="comboBoxSortingItem" alignment="0" pref="113" max="32767" attributes="0"/>
-                      <Component id="buttonSorting" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="textFieldSorting" alignment="0" max="32767" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+                          <Component id="buttonSorting" min="-2" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
                   <Component id="jButton1" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -52,9 +55,9 @@
                       <Component id="comboBoxSortingItem" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="textFieldSorting" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="buttonSorting" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="121" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="123" max="-2" attributes="0"/>
                       <Component id="jButton1" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -102,7 +105,10 @@
     </Container>
     <Component class="javax.swing.JButton" name="buttonSorting">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Sorter"/>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/ressources/Find16.gif"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Find"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonSortingActionPerformed"/>
@@ -112,6 +118,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton1">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/ressources/Import16.gif"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Hent kunde"/>
       </Properties>
       <Events>
