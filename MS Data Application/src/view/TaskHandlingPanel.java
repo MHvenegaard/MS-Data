@@ -3,6 +3,7 @@ package view;
 import handlers.Controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -12,6 +13,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import model.MyFile;
 
 /**
  * @author Marc Hvenegaard, Mikkel Bloch & Nikolaj Nielsen
@@ -102,7 +104,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
         labelFileWarnings = new javax.swing.JLabel();
         buttonChooseFile = new javax.swing.JButton();
         jLabel14 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        textFieldFilePath = new javax.swing.JTextField();
         buttonSaveFile = new javax.swing.JButton();
 
         setMinimumSize(new java.awt.Dimension(1280, 775));
@@ -261,11 +263,21 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
 
         buttonChooseFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ressources/Open16.gif"))); // NOI18N
         buttonChooseFile.setText("Vælg fil");
+        buttonChooseFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonChooseFileActionPerformed(evt);
+            }
+        });
 
         jLabel14.setText("Tilknyt ny fil til opgaven");
 
         buttonSaveFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ressources/Export16.gif"))); // NOI18N
         buttonSaveFile.setText("Upload fil");
+        buttonSaveFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonSaveFileActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -359,7 +371,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(buttonChooseFile, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(textFieldFilePath, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(buttonSaveFile))
                                     .addGroup(layout.createSequentialGroup()
@@ -415,7 +427,6 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(comboBoxType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -475,7 +486,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(buttonChooseFile)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textFieldFilePath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(buttonSaveFile))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -594,36 +605,44 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_buttonEditTaskActionPerformed
 
     private void fileButtonsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileButtonsActionPerformed
+        int index = listFilesAttached.getSelectedIndex();
+        MyFile file = (MyFile) listFilesAttached.getModel().getElementAt(index);
+        int fileID = file.getId();
         
+        //download file using fileID
         
-        
-//        //Handle open button action.
-//        if (evt.getSource() == buttonGetFile) {
-//            int returnVal = fc.showOpenDialog();
-//
-//            if (returnVal == JFileChooser.APPROVE_OPTION) {
-//                File file = fc.getSelectedFile();
-//                //This is where a real application would open the file.
-//                //log.append("Opening: " + file.getName() + "." + newline);
-//            } else {
-//                //log.append("Open command cancelled by user." + newline);
-//            }
-//            
-//
-//        //Handle save button action.
-//        } else if (evt.getSource() == buttonDownloadFile) {
-//            int returnVal = fc.showSaveDialog();
-//            if (returnVal == JFileChooser.APPROVE_OPTION) {
-//                File file = fc.getSelectedFile();
-//                //This is where a real application would save the file.
-//                log.append("Saving: " + file.getName() + "." + newline);
-//            } else {
-//                log.append("Save command cancelled by user." + newline);
-//            }
-//            log.setCaretPosition(log.getDocument().getLength());
-//        }
-//        
+
     }//GEN-LAST:event_fileButtonsActionPerformed
+
+    private void buttonChooseFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonChooseFileActionPerformed
+                
+        final JFileChooser fc = new JFileChooser();
+        int returnval = fc.showOpenDialog(null);
+
+        if(returnval == JFileChooser.APPROVE_OPTION){
+            try {
+                String filepath = fc.getSelectedFile().getCanonicalPath();
+                textFieldFilePath.setText(filepath);
+            } catch (IOException ex) {
+                Logger.getLogger(TaskHandlingPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        
+    }//GEN-LAST:event_buttonChooseFileActionPerformed
+
+    private void buttonSaveFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveFileActionPerformed
+        
+        File file = new File(textFieldFilePath.getText());
+        String name = file.getName();
+//        File Myfile = new MyFile(null, name, null, file);
+        //controller.createFile();
+        // Save in database
+        // retrieve
+        // create object
+        // update list
+        
+    }//GEN-LAST:event_buttonSaveFileActionPerformed
 
     
     private void addActionListerner() {
@@ -673,7 +692,6 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel labelFileWarnings;
     private javax.swing.JList listFilesAttached;
     private javax.swing.JList listUsers;
@@ -681,6 +699,7 @@ public class TaskHandlingPanel extends javax.swing.JPanel {
     private javax.swing.JTable tableAllTasks;
     private javax.swing.JTextArea textAreaDescription;
     private javax.swing.JTextField textFieldCustomer;
+    private javax.swing.JTextField textFieldFilePath;
     private javax.swing.JTextField textFieldSorting;
     private javax.swing.JTextField textFieldTaskName;
     private javax.swing.JTextField textFieldTime;
