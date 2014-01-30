@@ -1031,6 +1031,33 @@ public class Controller {
     }
 
     /**
+     * Iterates through each tasks subtasks using recursion. Each subtask to the
+     * parent task is added to the children list. Each subtask og a parent
+     * subtask is also added, and so forth.
+     *
+     * @param Id The ID of the parent task.
+     * @return children - An ArrayList containing all tasks that are a child of
+     * the parent or a child to a subtask of a parent.
+     */
+    public Boolean checkIfAllChildrenIsFinished(int Id) {
+        boolean result = false;
+        for (int i = 0; i < tasks.size(); i++) {
+            if (tasks.get(i).getParentID() == Id && tasks.get(i).getTaskID() != Id) {
+                System.out.println("statusID : "+ tasks.get(i).getStatus().getStatusID());
+                if (tasks.get(i).getStatus().getStatusID() == 4) {
+                    result = true;
+                    System.out.println("Er afsluttet!");
+                    getAllChildrenById(tasks.get(i).getTaskID());
+                } else {
+                    result = false;
+                    JOptionPane.showMessageDialog(frame, "Alle delopgaver skal være afsluttet", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
      * Get the ID of the task selected on the table.
      *
      * @param mainTaskTable The table from which the selected taskID is to be
@@ -1184,7 +1211,7 @@ public class Controller {
             task.setStatusByID(comboboxStatus.getSelectedIndex() + 1);
 
             for (int i = 0; i < tsotList.size(); i++) {
-                if (tsotList.get(i).getTaskID() == taskID && user.getUserName().equals(userName.getSelectedItem().toString())) {
+                if (tsotList.get(i).getTaskID() == taskID && user.getUserName().equals(userName.getSelectedItem().toString()) && checkIfAllChildrenIsFinished(taskID)) {
                     tsot = tsotList.get(i);
                     int totalTimeSpent = tsot.getTimeSpent();
                     System.out.println("Før tid sammenlægning: " + totalTimeSpent);
