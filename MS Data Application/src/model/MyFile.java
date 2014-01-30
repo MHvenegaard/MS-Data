@@ -10,18 +10,22 @@ public class MyFile {
     private String name;
     private Date creationDate;
     private File file;
+    private int taskID;
     
-    public MyFile(int id, String name, Date creationDate, File file) {
+    public MyFile(int id, String name, Date creationDate, File file, int taskID) {
         this.id = id;
         this.name = name;
         this.creationDate = creationDate;
         this.file = file;
+        this.taskID = taskID;
     }
 
-    public MyFile(int id, String name, Date creationDate) {
+    public MyFile(int id, String name, Date creationDate, int taskID) {
         this.id = id;
         this.name = name;
         this.creationDate = creationDate;
+        this.taskID = taskID;
+        file = null;
     }
 
     public int getId() {
@@ -54,6 +58,19 @@ public class MyFile {
 
     public void setFile(File file) {
         this.file = file;
+    }
+
+    public int getTaskID() {
+        return taskID;
+    }
+
+    public void setTaskID(int taskID) {
+        this.taskID = taskID;
+    }
+    
+    @Override
+    public String toString(){
+        return name;
     }
     
     

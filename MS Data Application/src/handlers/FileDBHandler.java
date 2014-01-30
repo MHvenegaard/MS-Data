@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,6 +19,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Properties;
+import model.MyFile;
 
 /**
  * @author Marc Hvenegaard, Mikkel Bloch & Nikolaj Nielsen
@@ -65,7 +67,7 @@ public class FileDBHandler {
         Connection conn = DriverManager.getConnection(connectString, dbuser, dbpassword);
         Statement stmt = conn.createStatement();
 
-        Object[] returnObjects = new Object[2];  
+        Object[] returnObjects = new Object[2];
         returnObjects[0] = conn;
         returnObjects[1] = stmt;
 
@@ -93,43 +95,107 @@ public class FileDBHandler {
     }
 
     /**
-     * Downloads all files associated with the taskID. All files are saved to the operating systems temporary folder.
+     * Downloads the specified file using the fileID
+     *
      * @param taskID Used to identify files attached to the Task.
-     * @return fileList - An ArrayList containing all the 
+     * @return MyFile - The specified File
      * @throws SQLException The queried data could not be retrieved from the
      * database.
      * @throws IOException A connection to the server could not be established.
      */
-    public ArrayList<File> downloadAllFilesAssociatedWithTaskID(int taskID) throws IOException, SQLException {
-
-        ArrayList<File> fileList = new ArrayList();
+    public MyFile downloadFileFromFileID(int fileID) throws IOException, SQLException {
 
         Connection conn = (Connection) initiateFileDBConn()[0];
         CallableStatement cs = null;
-        cs = conn.prepareCall("{CALL SP_GetAllFilesUsingTaskID(?)}");
-        cs.setInt(1, taskID);
+        cs = conn.prepareCall("{CALL SP_GetFileUsingFileID(?)}");
+        cs.setInt(1, fileID);
+
+        ResultSet rs = cs.executeQuery();
+
+        rs.next();
+
+        MyFile mf = null;
+
+        int id = rs.getInt(1);
+        String filename = rs.getString(2);
+        Date creationDate = rs.getDate(3);
+        Blob blob = rs.getBlob(4);
+        int taskID = rs.getInt(5);
+        InputStream is = blob.getBinaryStream();
+
+        // Creates a new file in the temp folder
+        String suffix = "";
+        String prefix = "";
+
+        String[] tokens = filename.split("\\.(?=[^\\.]+$)");
+        // SOURCE:  http://stackoverflow.com/questions/4545937/java-splitting-the-filename-into-a-base-and-extension
+        // SOURCE: http://stackoverflow.com/questions/4416425/how-to-split-string-with-some-seperator-but-without-removing-that-seperator-in-j/4416576#4416576
+
+        prefix = tokens[0];
+        suffix = tokens[1];
+
+//        System.out.println(prefix);
+//        System.out.println(suffix);
+//        System.out.println(tmpfolder);
+        
+        String tmpfolder = System.getProperty("java.io.tmpdir");
+        File f = new File(tmpfolder+prefix+"."+suffix);
+
+       // Write file to the temp folder
+        FileOutputStream fos = new FileOutputStream(f);
+        int b = 0;
+        while ((b = is.read()) != -1) {
+            fos.write(b);
+        }
+        fos.close();
+
+        mf = new MyFile(id, filename, creationDate, f, taskID);
+
+        return mf;
+    }
+
+    public MyFile retrieveFileInfoUsingFileID(int fileID) throws SQLException, IOException {
+
+        MyFile mf = null;
+
+        Connection conn = (Connection) initiateFileDBConn()[0];
+        CallableStatement cs = null;
+        cs = conn.prepareCall("{CALL SP_GetFileUsingFileID(?)}");
+        cs.setInt(1, fileID);
+
+        ResultSet rs = cs.executeQuery();
+        int id = rs.getInt("ID");
+        String filename = rs.getString("Filename");
+        Date creationDate = rs.getDate("CreationDate");
+        int taskID = rs.getInt("TaskID");
+
+        mf = new MyFile(id, filename, creationDate, taskID);
+
+        return mf;
+    }
+
+    public ArrayList<MyFile> retrieveAllFilesInfoAttachedToTaskID(int taskIDParam) throws SQLException, IOException {
+
+        ArrayList<MyFile> fileList = new ArrayList();
+
+        Connection conn = (Connection) initiateFileDBConn()[0];
+        CallableStatement cs = null;
+        cs = conn.prepareCall("{CALL SP_GetAllFileInfosFromTaskID(?)}");
+        cs.setInt(1, taskIDParam);
 
         ResultSet rs = cs.executeQuery();
 
         while (rs.next()) {
 
-            File file = null;
+            MyFile mf = null;
 
-            String filename = rs.getString(1);
-            String extension = rs.getString(2);
-            Blob blob = rs.getBlob(3);
-            InputStream is = blob.getBinaryStream();
-            // Find the temporary folder
-            String tmpfolder = System.getProperty("java.io.tmpdir");
+            int ID = rs.getInt(1);
+            String filename = rs.getString(2);
+            Date date = rs.getDate(3);
+            int taskID = rs.getInt(4);
 
-            file = File.createTempFile(filename, extension, new File(tmpfolder));
-            FileOutputStream fos = new FileOutputStream(file);
-
-            int b = 0;
-            while ((b = is.read()) != -1) {
-                fos.write(b);
-            }
-            fileList.add(file);
+            mf = new MyFile(ID, filename, date, taskID);
+            fileList.add(mf);
         }
 
         return fileList;

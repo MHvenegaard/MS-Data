@@ -2,7 +2,12 @@ package handlers;
 
 import com.mysql.jdbc.Connection;
 import com.toedter.calendar.JDateChooser;
+import java.awt.Desktop;
 import java.awt.Image;
+import static java.awt.image.ImageObserver.WIDTH;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
@@ -27,6 +32,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ListModel;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -880,8 +886,71 @@ public class Controller {
      * database.
      * @throws IOException A connection to the server could not be established.
      */
-    public void saveFile(String name, InputStream inputStream, int taskID) throws IOException, SQLException {
-        fileDBHandler.saveFile(name, inputStream, taskID);
+    public void saveFile(JTextField txtfield, JTable tableAllTasks) throws IOException, SQLException {
+
+        //, String name, InputStream inputStream, int taskID
+
+        FileInputStream fis = null;
+        fis = new FileInputStream(txtfield.getText());
+
+        File f = new File(txtfield.getText());
+
+        int selectionID = getSelectedTaskId(tableAllTasks);
+        Task t = getSelectedTask(selectionID);
+
+        File file = new File(txtfield.getText());
+        String name = file.getName();
+
+        fileDBHandler.saveFile(f.getName(), fis, t.getTaskID());
+
+    }
+
+    // Retrieves all file infos from files associated with the taskID retrieved from the selected task from the table
+    // And fills the list using the file infos
+    public void updateFileList(JList list, JTable tableAllTasks) throws SQLException, IOException {
+        int selectionID = getSelectedTaskId(tableAllTasks);
+        Task t = getSelectedTask(selectionID);
+        ArrayList<MyFile> mfList = retrieveAllFilesInfoAttachedToTaskID(t.getTaskID());
+        fillListWithFileInfoFromFileInfoList(list, mfList);
+    }
+
+    // Retrieves the file info for a single file.
+    public MyFile retrieveFileInfoUsingFileID(int fileID) throws SQLException, IOException {
+        MyFile mf = null;
+
+        mf = fileDBHandler.retrieveFileInfoUsingFileID(fileID);
+
+        return mf;
+    }
+
+    // Retrieves all file infos from files associated with the taskID
+    public ArrayList<MyFile> retrieveAllFilesInfoAttachedToTaskID(int taskID) throws SQLException, IOException {
+        ArrayList<MyFile> mfList = new ArrayList();
+
+        mfList = fileDBHandler.retrieveAllFilesInfoAttachedToTaskID(taskID);
+
+        return mfList;
+    }
+
+    public void fillListWithFileInfoFromFileInfoList(JList list, ArrayList<MyFile> mfList) {
+        DefaultListModel dlm = new DefaultListModel();
+        for (int i = 0; i < mfList.size(); i++) {
+            dlm.addElement(mfList.get(i));
+        }
+        list.setModel(dlm);
+    }
+
+    public void downloadAndOpenFile(int fileID) throws IOException, SQLException {
+        MyFile mf = fileDBHandler.downloadFileFromFileID(fileID);
+
+        Desktop.getDesktop().open(mf.getFile());
+
+        System.out.println("is D " + Desktop.isDesktopSupported());
+        System.out.println(mf.getFile().getCanonicalPath());
+        System.out.println(mf.getFile().getName());
+        //String directory = mf.getFile().getCanonicalPath()
+//        File f = new File("C:\\");
+//        Desktop.getDesktop().open(f);
     }
 
     /**
@@ -1043,7 +1112,7 @@ public class Controller {
         boolean result = false;
         for (int i = 0; i < tasks.size(); i++) {
             if (tasks.get(i).getParentID() == Id && tasks.get(i).getTaskID() != Id) {
-                System.out.println("statusID : "+ tasks.get(i).getStatus().getStatusID());
+                System.out.println("statusID : " + tasks.get(i).getStatus().getStatusID());
                 if (tasks.get(i).getStatus().getStatusID() == 4) {
                     result = true;
                     System.out.println("Er afsluttet!");
