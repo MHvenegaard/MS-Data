@@ -215,15 +215,15 @@ public class CreateTaskPanel extends javax.swing.JPanel {
 
         jScrollPane2.setViewportView(listUsersOnTask);
 
-        buttonFindCustomer.setText("Hent kunde");
+        buttonFindCustomer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ressources/Search16.gif"))); // NOI18N
+        buttonFindCustomer.setText("Find kunde");
         buttonFindCustomer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonFindCustomerActionPerformed(evt);
             }
         });
 
-        buttonGetCustomerID.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ressources/Save16.gif"))); // NOI18N
-        buttonGetCustomerID.setText("Set kundeID");
+        buttonGetCustomerID.setText("Overfør kunde ID");
         buttonGetCustomerID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonGetCustomerIDActionPerformed(evt);
@@ -285,7 +285,7 @@ public class CreateTaskPanel extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 733, Short.MAX_VALUE)
+                                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 709, Short.MAX_VALUE)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(CheckBoxSub, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -445,6 +445,8 @@ public class CreateTaskPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_buttonFindCustomerActionPerformed
 
     private void buttonGetCustomerIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonGetCustomerIDActionPerformed
+
+        textFieldCustomer.setText(control.getCustomerIDToString());
         if (!textFieldCustomer.isEditable()) {
              JOptionPane.showMessageDialog(null, "Du kan ikke hente kunder ud når du laver en delopgave", "Fejlrapport", JOptionPane.WARNING_MESSAGE);
         } else {

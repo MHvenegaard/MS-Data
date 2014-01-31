@@ -78,7 +78,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jScrollPane4" pref="733" max="32767" attributes="0"/>
+                                  <Component id="jScrollPane4" pref="709" max="32767" attributes="0"/>
                                   <Group type="102" attributes="0">
                                       <Component id="CheckBoxSub" min="-2" pref="198" max="-2" attributes="0"/>
                                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -528,7 +528,10 @@
     </Component>
     <Component class="javax.swing.JButton" name="buttonFindCustomer">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Hent kunde"/>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/ressources/Search16.gif"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Find kunde"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonFindCustomerActionPerformed"/>
@@ -536,10 +539,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="buttonGetCustomerID">
       <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/ressources/Save16.gif"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Set kundeID"/>
+        <Property name="text" type="java.lang.String" value="Overf&#xf8;r kunde ID"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonGetCustomerIDActionPerformed"/>
